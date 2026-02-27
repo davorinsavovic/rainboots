@@ -1,0 +1,23 @@
+.blob {
+  position: absolute;
+  mix-blend-mode: multiply;
+  filter: blur(40px);
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.blob-1 {
+  width: 600px;
+  height: 600px;
+  background: var(--primary);
+  top: -200px;
+  right: -200px;
+}
+
+.blob-2 {
+  width: 500px;
+  height: 500px;
+  background: var(--accent);
+  bottom: -150px;
+  left: -150px;
+}

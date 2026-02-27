@@ -1,0 +1,90 @@
+.opening-animation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8f9fa;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+.main-circle {
+  width: 250px;
+  height: 250px;
+  background: #212d51;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 10;
+}
+
+.word {
+  font-family: 'Manrope', sans-serif;
+  font-size: 3rem;
+  font-weight: 700;
+  color: #f7d50f;
+  font-style: italic;
+  position: absolute;
+}
+
+/* Outline triangles behind main circle */
+.outline-triangle {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border: 3px solid #212d51;
+  background: transparent;
+  z-index: 1;
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+.triangle-1 {
+  width: 180px;
+  height: 180px;
+  transform: translate(-20px, -20px);
+}
+
+.triangle-2 {
+  width: 220px;
+  height: 220px;
+  transform: translate(30px, 30px);
+}
+
+.triangle-3 {
+  width: 250px;
+  height: 250px;
+  transform: translate(-40px, 40px);
+}
+
+/* Floating bubbles */
+.floating-bubble {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(247, 213, 15, 0.6),
+    rgba(33, 45, 81, 0.4)
+  );
+  border: 1px solid rgba(33, 45, 81, 0.3);
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* Add subtle glow to bubbles */
+.floating-bubble::after {
+  content: '';
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  width: 40%;
+  height: 40%;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  filter: blur(5px);
+}
