@@ -101,7 +101,7 @@ const Services = () => {
           >
             Our Services
           </motion.span>
-          <h1>Everything you need to grow</h1>
+          <h1>Everything you need to grow your business</h1>
           <p>
             Comprehensive marketing solutions designed to help businesses of all
             sizes achieve their goals and drive sustainable growth.

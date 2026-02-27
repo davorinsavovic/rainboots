@@ -9,37 +9,37 @@ const servicesData = [
     icon: '/images/i_outbound.png',
     title: 'Outbound Marketing',
     description:
-      'Launch or optimize email, SMS, and push notification programs with exceptional deliverability and intelligent automation.',
+      'Email, SMS, and push notifications. Launch or optimize your programs to reach more customers, drive revenue, and keep them coming back.',
   },
   {
     icon: '/images/i_webDesign.png',
     title: 'Web Development',
     description:
-      'Build digital experiences that captivate audiences and drive measurable business results.',
+      "Custom design, development, and SEO. Whether you're building a new site or optimizing an existing one, we create fast, beautiful, search-friendly websites that represent your brand and convert visitors into customers.",
   },
   {
     icon: '/images/i_acquisition.png',
     title: 'Customer Acquisition',
     description:
-      'Grow your business with targeted campaigns that deliver positive ROI and lasting brand awareness.',
+      'Grow your business with new customers. From Google Search ads to targeted display advertising, we help you reach the right people at the right time and turn clicks into customers.',
   },
   {
     icon: '/images/i_lifecycle.png',
     title: 'Lifecycle Strategy',
     description:
-      'Create journeys that engage, convert, retain, and re-engage at exactly the right moment.',
+      "The right message at the right moment. We create personalized customer experiences that activate new customers, drive engagement, build loyalty, and win back those who've drifted away.",
   },
   {
     icon: '/images/i_social.png',
     title: 'Social Media Marketing',
     description:
-      'Acquire new customers and strengthen existing relationships through strategic social advertising and engaging content.',
+      "Meet your customers where they spend their time. Whether you're looking to attract new customers or deepen relationships with existing ones, we help you show up consistently and make an impact on social media.",
   },
   {
     icon: '/images/i_branding.png',
     title: 'Brand Identity',
     description:
-      'Stand out from competitors with authentic brand stories that resonate with your audience.',
+      'Make a lasting first impression. From logo design and brand identity to visual assets and messaging, we help you define who you are, stand out from competitors, and connect with your audience.',
   },
 ];
 
@@ -109,7 +109,7 @@ const Home = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
           >
-            Full-Stack Marketing Solutions
+            Marketing Solutions for your Business
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -117,8 +117,8 @@ const Home = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
           >
-            From email to acquisition, branding to retention—we handle it all so
-            you can focus on what matters most.
+            From email to acquisition, branding to retention, we handle it all
+            so you can focus on what matters most.
           </motion.p>
         </div>
 

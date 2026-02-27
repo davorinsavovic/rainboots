@@ -310,3 +310,7 @@
     grid-template-columns: 1fr;
   }
 }
+
+.description {
+  font-size: 1rem;
+}
