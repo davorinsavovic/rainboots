@@ -7,7 +7,7 @@ const servicesData = [
     icon: '/images/i_outbound.png',
     title: 'Outbound Marketing',
     description:
-      'Build high-performing outbound programs across email, SMS, and push notifications. We handle everything from launch to optimization, ensuring exceptional deliverability and program health through intelligent automation.',
+      'Build high-performing outbound programs across email, SMS, and push notifications. We can handle everything from launch to optimization, ensuring a smooth customer experience that drives resuls for your business.',
     features: [
       'Email Marketing & Campaign Strategy',
       'SMS & Push Notification Programs',
