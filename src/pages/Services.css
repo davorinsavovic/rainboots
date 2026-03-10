@@ -158,8 +158,8 @@
 }
 
 .service-icon img.glass-icon {
-  width: 70px;
-  height: 70px;
+  width: 120px;
+  height: 120px;
   object-fit: contain;
   filter: drop-shadow(0 4px 12px rgba(43, 92, 230, 0.4));
 }

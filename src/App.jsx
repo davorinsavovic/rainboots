@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import SplashScreen from './components/SplashScreen';
@@ -11,18 +11,42 @@ import Contact from './pages/Contact';
 function App() {
   const [showSplash, setShowSplash] = useState(true);
   const [animationState, setAnimationState] = useState(null);
+  const [hasAnimationPlayed, setHasAnimationPlayed] = useState(false);
+
+  useEffect(() => {
+    // Check if splash has been shown in this session
+    const splashShown = sessionStorage.getItem('splashShown');
+    const animationPlayed = sessionStorage.getItem('animationPlayed');
+
+    if (splashShown) {
+      // Skip splash if already shown in this session
+      setShowSplash(false);
+    }
+
+    if (animationPlayed) {
+      // Animation has already played in this session
+      setHasAnimationPlayed(true);
+    }
+  }, []);
 
   const handleSplashClose = (savedState) => {
-    console.log('Splash closing with state:', savedState);
     setShowSplash(false);
+    // Mark splash as shown in this session
+    sessionStorage.setItem('splashShown', 'true');
+
     if (savedState) {
       setAnimationState(savedState);
     }
   };
 
+  const handleAnimationPlayed = () => {
+    setHasAnimationPlayed(true);
+    sessionStorage.setItem('animationPlayed', 'true');
+  };
+
   return (
     <Router>
-      {/* Splash Screen - shows first */}
+      {/* Splash Screen - only shows if not shown in this session */}
       {showSplash && <SplashScreen onClose={handleSplashClose} />}
 
       {/* Main Content - shown after splash closes */}
@@ -32,7 +56,13 @@ function App() {
           <Routes>
             <Route
               path='/'
-              element={<Home initialAnimationState={animationState} />}
+              element={
+                <Home
+                  initialAnimationState={animationState}
+                  hasAnimationPlayed={hasAnimationPlayed}
+                  onAnimationPlayed={handleAnimationPlayed}
+                />
+              }
             />
             <Route path='/services' element={<Services />} />
             <Route path='/about' element={<About />} />

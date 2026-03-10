@@ -1,18 +1,128 @@
 .water-drops {
-  position: fixed;
-  top: 0;
+  position: absolute;
+  top: -20px !important;
   left: 0;
   width: 100%;
   height: 100%;
   pointer-events: none;
-  z-index: 0;
-  opacity: 0.15;
+  z-index: 15;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.drop-container {
+  position: absolute;
+  top: 0;
+  width: 0;
+  height: 100%;
+  pointer-events: none;
 }
 
 .drop {
   position: absolute;
-  width: 4px;
-  height: 40px;
-  background: linear-gradient(to bottom, transparent, var(--splash));
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    var(--splash) 70%,
+    rgba(226, 222, 201, 0.9) 100%
+  );
+  border-radius: 20% 20% 40% 40%;
+  filter: blur(0.5px);
+  box-shadow: 0 0 5px rgba(247, 213, 15, 0.2);
+  transform: rotate(2deg);
+  will-change: transform, opacity;
+}
+
+.splash {
+  position: absolute;
+  background: radial-gradient(
+    circle,
+    rgba(247, 213, 15, 0.6) 0%,
+    rgba(43, 92, 230, 0.4) 50%,
+    transparent 80%
+  );
   border-radius: 50%;
+  filter: blur(2px);
+  transform-origin: center;
+  will-change: transform, opacity;
+  left: -50%; /* Center relative to drop */
+}
+
+/* Create variation in drops */
+.drop-container:nth-child(5n) .drop {
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    var(--primary) 70%,
+    rgba(43, 92, 230, 0.8) 100%
+  );
+  transform: rotate(1deg);
+}
+
+.drop-container:nth-child(5n) .splash {
+  background: radial-gradient(
+    circle,
+    rgba(43, 92, 230, 0.6) 0%,
+    rgba(247, 213, 15, 0.3) 50%,
+    transparent 80%
+  );
+}
+
+.drop-container:nth-child(5n + 1) .drop {
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    #f7d50f 70%,
+    rgba(247, 213, 15, 1) 100%
+  );
+  transform: rotate(3deg);
+}
+
+.drop-container:nth-child(5n + 1) .splash {
+  background: radial-gradient(
+    circle,
+    rgba(247, 213, 15, 0.7) 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 80%
+  );
+}
+
+.drop-container:nth-child(5n + 2) .drop {
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    var(--splash) 60%,
+    #4bb3d4 100%
+  );
+  transform: rotate(2deg);
+}
+
+.drop-container:nth-child(5n + 3) .drop {
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    var(--primary) 50%,
+    rgba(43, 92, 230, 0.7) 100%
+  );
+  transform: rotate(1.5deg);
+}
+
+/* Add a subtle highlight to drops */
+.drop::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 10%;
+  width: 80%;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  filter: blur(0.5px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .splash {
+    filter: blur(1.5px);
+  }
 }

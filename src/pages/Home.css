@@ -25,6 +25,10 @@
   font-size: 3.5rem;
 }
 
+h1 .highlight {
+  color: var(--secondary);
+}
+
 @keyframes highlight {
   from {
     width: 0;
@@ -133,6 +137,7 @@
   align-items: center;
   justify-content: center;
   z-index: 10;
+  pointer-events: none;
 }
 
 .hero-image {
@@ -142,6 +147,8 @@
   height: auto;
   object-fit: contain;
   filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
+  position: relative;
+  z-index: 10;
 }
 
 .animation-responsive-container {

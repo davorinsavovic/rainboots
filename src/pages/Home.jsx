@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import ServiceCard from '../components/ServiceCard';
 import HeroAnimation from '../components/HeroAnimation';
+import WaterDrops from '../components/WaterDrops';
 import './Home.css';
 
 const servicesData = [
@@ -51,16 +52,29 @@ const statsData = [
   { value: '$10M+', label: 'Revenue Generated' },
 ];
 
-const Home = ({ initialAnimationState }) => {
+const Home = ({
+  initialAnimationState,
+  hasAnimationPlayed,
+  onAnimationPlayed,
+}) => {
   const [isAnimationComplete, setIsAnimationComplete] = useState(false);
   const [showHeroImage, setShowHeroImage] = useState(false);
 
   useEffect(() => {
+    // If animation has already played in this session, show hero image immediately
+    if (hasAnimationPlayed) {
+      console.log(
+        'Animation already played in this session, showing hero image',
+      );
+      setIsAnimationComplete(true);
+      setShowHeroImage(true);
+      return;
+    }
+
+    // Otherwise, check if we received a completed animation state
     if (initialAnimationState) {
       console.log('Home received animation state:', initialAnimationState);
 
-      // If the animation is already complete when we receive the state,
-      // show the hero image immediately and hide the animation
       if (
         initialAnimationState.isAnimating === false ||
         initialAnimationState.stage === 'scene5-done'
@@ -70,15 +84,20 @@ const Home = ({ initialAnimationState }) => {
         );
         setIsAnimationComplete(true);
         setShowHeroImage(true);
+        onAnimationPlayed(); // Notify App that animation has played
       }
     }
-  }, [initialAnimationState]);
+  }, [initialAnimationState, hasAnimationPlayed, onAnimationPlayed]);
 
   const handleAnimationComplete = () => {
     console.log('Animation completed in Home component');
     setIsAnimationComplete(true);
     setShowHeroImage(true);
+    onAnimationPlayed(); // Notify App that animation has played
   };
+
+  // Determine if we should show the animation
+  const shouldShowAnimation = !hasAnimationPlayed && !isAnimationComplete;
 
   return (
     <div className='home'>
@@ -91,7 +110,7 @@ const Home = ({ initialAnimationState }) => {
           transition={{ duration: 0.8, delay: 0.3 }}
         >
           <h1>
-            Marketing made <span className='highlight'>easy</span>
+            Marketing Made <span className='highlight'>Easy</span>
           </h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -119,8 +138,8 @@ const Home = ({ initialAnimationState }) => {
 
         {/* Animation and Hero Image Container */}
         <div className='hero-visual-container'>
-          {/* Animation with responsive container - only show if not complete */}
-          {!isAnimationComplete && (
+          {/* Animation with responsive container - only show if animation should play */}
+          {shouldShowAnimation && (
             <div className='hero-animation-wrapper'>
               <div className='animation-responsive-container'>
                 <HeroAnimation
@@ -132,8 +151,8 @@ const Home = ({ initialAnimationState }) => {
             </div>
           )}
 
-          {/* Hero Image that appears after animation completes */}
-          {showHeroImage && (
+          {/* Hero Image that appears after animation completes or if animation already played */}
+          {(showHeroImage || hasAnimationPlayed) && (
             <motion.div
               className='hero-image-container'
               initial={{ opacity: 0, scale: 0.8 }}
@@ -150,6 +169,7 @@ const Home = ({ initialAnimationState }) => {
                 }}
                 onLoad={() => console.log('Hero image loaded successfully')}
               />
+              <WaterDrops />
             </motion.div>
           )}
         </div>

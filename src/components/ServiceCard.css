@@ -64,6 +64,6 @@
 
 .service-card:hover img.glass-icon {
   filter: drop-shadow(0 6px 16px rgba(43, 92, 230, 0.6));
-  transform: scale(1.05);
+  transform: scale(0.05);
   transition: all 0.3s ease;
 }
