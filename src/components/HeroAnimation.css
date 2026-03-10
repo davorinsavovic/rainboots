@@ -1,3 +1,58 @@
+/* HeroAnimation.css */
+.hero-animation-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-animation-scale-wrapper {
+  position: relative;
+  width: 1500px;
+  height: 500px;
+  transform-origin: center center;
+}
+
+/* Scale the entire animation based on viewport */
+@media (max-width: 1400px) {
+  .hero-animation-scale-wrapper {
+    transform: scale(0.9);
+  }
+}
+
+@media (max-width: 1200px) {
+  .hero-animation-scale-wrapper {
+    transform: scale(0.8);
+  }
+}
+
+@media (max-width: 992px) {
+  .hero-animation-scale-wrapper {
+    transform: scale(0.7);
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-animation-scale-wrapper {
+    transform: scale(0.6);
+  }
+}
+
+@media (max-width: 576px) {
+  .hero-animation-scale-wrapper {
+    transform: scale(0.5);
+  }
+}
+
+@media (max-width: 400px) {
+  .hero-animation-scale-wrapper {
+    transform: scale(0.4);
+  }
+}
+
+/* Original animation styles - keep exactly as they were */
 .hero-animation {
   position: absolute;
   top: 55%;
@@ -413,24 +468,30 @@
   line-height: 1;
 }
 
+/* Remove previous responsive styles and add simple scaling */
 @media (max-width: 1024px) {
-  .hero-animation {
-    right: 5%;
-    width: 400px;
-    height: 400px;
-  }
-  .main-circle {
-    width: 200px;
-    height: 200px;
-  }
-  .word {
-    font-size: 2rem;
+  .hero-animation-scale-wrapper {
+    transform: scale(0.8);
   }
 }
 
 @media (max-width: 768px) {
-  .hero-animation {
-    opacity: 0.3;
-    right: -5%;
+  .hero-animation-scale-wrapper {
+    transform: scale(0.6);
+  }
+
+  /* Optionally hide some elements on very small screens */
+  .left-circle,
+  .top-circle,
+  .bottom-circle,
+  .right-words,
+  .online-presence-label {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-animation-scale-wrapper {
+    transform: scale(0.5);
   }
 }

@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import ServiceCard from '../components/ServiceCard';
 import HeroAnimation from '../components/HeroAnimation';
 import './Home.css';
@@ -50,7 +51,35 @@ const statsData = [
   { value: '$10M+', label: 'Revenue Generated' },
 ];
 
-const Home = () => {
+const Home = ({ initialAnimationState }) => {
+  const [isAnimationComplete, setIsAnimationComplete] = useState(false);
+  const [showHeroImage, setShowHeroImage] = useState(false);
+
+  useEffect(() => {
+    if (initialAnimationState) {
+      console.log('Home received animation state:', initialAnimationState);
+
+      // If the animation is already complete when we receive the state,
+      // show the hero image immediately and hide the animation
+      if (
+        initialAnimationState.isAnimating === false ||
+        initialAnimationState.stage === 'scene5-done'
+      ) {
+        console.log(
+          'Animation already complete, showing hero image immediately',
+        );
+        setIsAnimationComplete(true);
+        setShowHeroImage(true);
+      }
+    }
+  }, [initialAnimationState]);
+
+  const handleAnimationComplete = () => {
+    console.log('Animation completed in Home component');
+    setIsAnimationComplete(true);
+    setShowHeroImage(true);
+  };
+
   return (
     <div className='home'>
       {/* Hero Section */}
@@ -88,8 +117,42 @@ const Home = () => {
           </motion.div>
         </motion.div>
 
-        {/* Add the animation here */}
-        <HeroAnimation />
+        {/* Animation and Hero Image Container */}
+        <div className='hero-visual-container'>
+          {/* Animation with responsive container - only show if not complete */}
+          {!isAnimationComplete && (
+            <div className='hero-animation-wrapper'>
+              <div className='animation-responsive-container'>
+                <HeroAnimation
+                  onAnimationComplete={handleAnimationComplete}
+                  initialStage={initialAnimationState}
+                  isInSplash={false}
+                />
+              </div>
+            </div>
+          )}
+
+          {/* Hero Image that appears after animation completes */}
+          {showHeroImage && (
+            <motion.div
+              className='hero-image-container'
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, ease: 'easeOut' }}
+            >
+              <img
+                src='../images/heros.png'
+                alt='Hero Illustration'
+                className='hero-image'
+                onError={(e) => {
+                  console.error('Failed to load image:', e.target.src);
+                  e.target.style.display = 'none';
+                }}
+                onLoad={() => console.log('Hero image loaded successfully')}
+              />
+            </motion.div>
+          )}
+        </div>
       </section>
 
       {/* Services Section */}
