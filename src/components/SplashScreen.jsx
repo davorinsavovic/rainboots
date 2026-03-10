@@ -9,6 +9,7 @@ const SplashScreen = ({ onClose }) => {
   const [startLogoTransition, setStartLogoTransition] = useState(false);
   const animationStateRef = useRef(null);
   const splashLogoRef = useRef(null);
+  const closeButtonRef = useRef(null);
 
   // Auto-close after animation completes (safety net)
   useEffect(() => {
@@ -17,7 +18,7 @@ const SplashScreen = ({ onClose }) => {
     const timer = setTimeout(() => {
       console.log('Safety timer triggered');
       if (showSplash && !isClosing) {
-        handleClose();
+        closeSplash();
       }
     }, totalAnimationTime);
 
@@ -26,22 +27,21 @@ const SplashScreen = ({ onClose }) => {
 
   const handleAnimationStateChange = (state) => {
     animationStateRef.current = state;
-    console.log('Animation state updated:', state?.stage);
   };
 
   const handleAnimationComplete = (finalState) => {
-    console.log('Animation completed naturally with state:', finalState);
+    console.log('Animation completed naturally');
     animationStateRef.current = finalState;
     setStartLogoTransition(true);
-
-    // Close the splash screen
     setTimeout(() => {
-      handleClose();
+      closeSplash();
     }, 500);
   };
 
-  const handleClose = () => {
-    console.log('Closing splash with state:', animationStateRef.current);
+  const closeSplash = () => {
+    if (isClosing || !showSplash) return;
+
+    console.log('Closing splash screen');
     setIsClosing(true);
     setStartLogoTransition(true);
 
@@ -55,16 +55,24 @@ const SplashScreen = ({ onClose }) => {
     }, 500);
   };
 
+  // Handle ESC key
   useEffect(() => {
     const handleEscKey = (event) => {
       if (event.key === 'Escape' && showSplash && !isClosing) {
-        handleClose();
+        console.log('ESC pressed - closing splash');
+        closeSplash();
       }
     };
 
     window.addEventListener('keydown', handleEscKey);
     return () => window.removeEventListener('keydown', handleEscKey);
   }, [showSplash, isClosing]);
+
+  // Log mount/unmount
+  useEffect(() => {
+    console.log('SplashScreen mounted');
+    return () => console.log('SplashScreen unmounted');
+  }, []);
 
   return (
     <AnimatePresence mode='wait'>
@@ -75,6 +83,13 @@ const SplashScreen = ({ onClose }) => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}
+          onClick={(e) => {
+            // Only close if clicking the overlay itself, not its children
+            if (e.target === e.currentTarget) {
+              console.log('Overlay clicked');
+              closeSplash();
+            }
+          }}
         >
           {/* Splash Screen Logo */}
           <motion.div
@@ -102,16 +117,15 @@ const SplashScreen = ({ onClose }) => {
           </motion.div>
 
           {/* Prominent Close Button */}
-          <motion.button
+          <button
+            ref={closeButtonRef}
             className='splash-close-btn'
-            onClick={handleClose}
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0, opacity: 0 }}
-            transition={{ delay: 1, duration: 0.3 }}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-            aria-label='Skip animation'
+            onClick={(e) => {
+              e.stopPropagation();
+              console.log('Close button clicked');
+              closeSplash();
+            }}
+            disabled={isClosing}
           >
             <svg
               width='24'
@@ -129,25 +143,20 @@ const SplashScreen = ({ onClose }) => {
               />
             </svg>
             <span>Skip</span>
-          </motion.button>
+          </button>
 
           {/* Progress Bar */}
-          <motion.div
-            className='splash-progress'
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ duration: 38, ease: 'linear' }}
-          />
+          <div className='splash-progress'>
+            <motion.div
+              className='splash-progress-bar'
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ duration: 38, ease: 'linear' }}
+            />
+          </div>
 
           {/* Skip Hint */}
-          <motion.div
-            className='splash-hint'
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 0.7, y: 0 }}
-            transition={{ delay: 3, duration: 0.5 }}
-          >
-            Click the X to skip
-          </motion.div>
+          <div className='splash-hint'>Press ESC to skip</div>
 
           {/* The Animation */}
           <div className='splash-content'>
