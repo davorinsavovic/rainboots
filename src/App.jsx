@@ -4,6 +4,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import Blobs from './components/Blobs';
 import OpeningAnimation from './components/OpeningAnimation';
+import SplashScreen from './components/SplashScreen';
 import Home from './pages/Home';
 import Services from './pages/Services';
 import About from './pages/About';
@@ -40,19 +41,21 @@ function App() {
 
   return (
     <Router>
-      {showAnimation && <OpeningAnimation />}
+      {/* {showAnimation && <OpeningAnimation />} */}
 
       {showContent && (
         <>
           {/* <Blobs /> */}
           <Header />
-          <Routes>
-            <Route path='/' element={<Home />} />
-            <Route path='/services' element={<Services />} />
-            <Route path='/about' element={<About />} />
-            <Route path='/contact' element={<Contact />} />
-          </Routes>
-          <Footer />
+          <SplashScreen>
+            <Routes>
+              <Route path='/' element={<Home />} />
+              <Route path='/services' element={<Services />} />
+              <Route path='/about' element={<About />} />
+              <Route path='/contact' element={<Contact />} />
+            </Routes>
+            <Footer />
+          </SplashScreen>
         </>
       )}
     </Router>

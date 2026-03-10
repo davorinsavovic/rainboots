@@ -303,12 +303,18 @@ const SCENE5_STAGES = [
 // COMPONENT
 // ─────────────────────────────────────────────────────────────
 
-const HeroAnimation = () => {
+const HeroAnimation = ({ onAnimationComplete }) => {
   // ── STAGE STATE ──────────────────────────────────────────────
   // Master state machine value. Every visual element checks `stage`
   // to decide whether to render, what animation target to use, etc.
   // Change a stage name here AND in the STAGE CONTROLLER effect to rename it.
   const [stage, setStage] = useState('circle-growing');
+
+  // ── ANIMATION CONTROL ────────────────────────────────────────
+  // Controls whether the animation is running or stopped
+  const [isAnimating, setIsAnimating] = useState(true);
+  // Tracks if we're in the final pause before stopping
+  const [isFinalPause, setIsFinalPause] = useState(false);
 
   // ── SCENE 1 STATE ─────────────────────────────────────────────
   // currentWord: index of word currently shown (0=none, 1=THIS, 2=IS, 3=WHAT)
@@ -405,11 +411,15 @@ const HeroAnimation = () => {
   // Initial delay before the animation begins (ms).
   // Increase this to add a pause before anything appears.
   useEffect(() => {
+    if (!isAnimating) return;
+
     const timer = setTimeout(() => setStage('showing-words'), 500); // ← 500ms boot delay
     return () => clearTimeout(timer);
-  }, []);
+  }, [isAnimating]);
 
   useEffect(() => {
+    if (!isAnimating) return;
+
     // ── SCENE 1: THIS / IS / WHAT ──────────────────────────────  [REF:word-flash]
     if (stage === 'showing-words') {
       if (currentWord < words.length) {
@@ -748,12 +758,33 @@ const HeroAnimation = () => {
 
     if (stage === 'scene5-together') {
       // 1500ms — how long the final "LET'S WORK / TOGETHER" layout is held
-      const t1 = setTimeout(() => setStage('scene5-done'), 1500);
+      const t1 = setTimeout(() => {
+        setStage('scene5-done');
+        setIsFinalPause(true); // Enter final pause state
+      }, 1500);
       return () => clearTimeout(t1);
     }
 
-    // scene5-done: animation sequence complete. Nothing advances from here.
-  }, [stage, currentWord, showFinalBubbles]);
+    // scene5-done: animation sequence complete. Pause for 1 second then stop.
+    if (stage === 'scene5-done' && isFinalPause) {
+      const t1 = setTimeout(() => {
+        setIsAnimating(false);
+        setIsFinalPause(false);
+        // Call the onAnimationComplete callback if provided
+        if (onAnimationComplete) {
+          onAnimationComplete();
+        }
+      }, 1000); // ← 1 second pause after last event
+      return () => clearTimeout(t1);
+    }
+  }, [
+    stage,
+    currentWord,
+    showFinalBubbles,
+    isAnimating,
+    isFinalPause,
+    onAnimationComplete,
+  ]);
 
   // ─────────────────────────────────────────────────────────────
   // AUXILIARY EFFECTS
@@ -767,11 +798,13 @@ const HeroAnimation = () => {
    * the hold stage begins.
    */
   useEffect(() => {
+    if (!isAnimating) return;
+
     if (showScene3Elements && stage === 'scene3-move-shrink') {
       const timer = setTimeout(() => setStage('scene3-elements-shown'), 800);
       return () => clearTimeout(timer);
     }
-  }, [showScene3Elements, stage]);
+  }, [showScene3Elements, stage, isAnimating]);
 
   /**
    * When the left icon circle finishes its entry animation (leftCircleDone = true)
@@ -785,6 +818,8 @@ const HeroAnimation = () => {
    *   top/bottom circles and connecting dotted lines animate in.
    */
   useEffect(() => {
+    if (!isAnimating) return;
+
     if (
       leftCircleDone &&
       stage !== 'collapse' &&
@@ -803,7 +838,7 @@ const HeroAnimation = () => {
       const timer = setTimeout(() => setShowVerticalLines(true), 600); // ← delay after left-circle
       return () => clearTimeout(timer);
     }
-  }, [leftCircleDone, stage]);
+  }, [leftCircleDone, stage, isAnimating]);
 
   // ─────────────────────────────────────────────────────────────
   // PARTICLE / BUBBLE DATA  (all stable across re-renders via useMemo)
@@ -1028,6 +1063,11 @@ const HeroAnimation = () => {
   const inFragmentStage = FRAGMENT_STAGES.includes(stage);
   const inScene4Stage = SCENE4_STAGES.includes(stage);
   const inScene5Stage = SCENE5_STAGES.includes(stage);
+
+  // If animation is not running, don't render anything
+  if (!isAnimating) {
+    return null;
+  }
 
   // ─────────────────────────────────────────────────────────────
   // RENDER
@@ -2456,11 +2496,15 @@ const HeroAnimation = () => {
           <motion.div
             key='scene5-flash'
             className='expanding-circle'
-            style={{ border: '2px solid #212d51', zIndex: 15 }}
+            style={{
+              border: '2px solid #212d51',
+              zIndex: 15,
+              top: 'calc(50% - 100px)',
+            }}
             initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: [0, 3, 0], opacity: [0, 1, 0] }}
+            animate={{ scale: [0, 10, 0], opacity: [0, 1, 0] }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.28, times: [0, 0.5, 1], ease: 'easeOut' }}
+            transition={{ duration: 0.58, times: [0, 0.5, 1], ease: 'easeOut' }}
           />
         )}
       </AnimatePresence>
@@ -2481,7 +2525,7 @@ const HeroAnimation = () => {
               style={{
                 position: 'absolute',
                 left: 'calc(50% - 180px)',
-                top: 'calc(50% + 83px)',
+                top: 'calc(50% + 8px)',
                 height: '4px',
                 background: '#212d51',
                 borderRadius: '0 2px 2px 0',
@@ -2516,7 +2560,7 @@ const HeroAnimation = () => {
               style={{
                 position: 'absolute',
                 right: 'calc(50% - 180px)',
-                top: 'calc(50% + 150px)',
+                top: 'calc(50% + 83px)',
                 height: '4px',
                 background: '#212d51',
                 borderRadius: '2px 0 0 2px',
@@ -2550,7 +2594,7 @@ const HeroAnimation = () => {
               style={{
                 position: 'absolute',
                 left: 'calc(50% - 190px)',
-                top: 'calc(50% - 10px)',
+                top: 'calc(50% - 80px)',
                 transform: 'translate(-50%, -50%)',
                 zIndex: 22,
                 marginTop: '98px', // ← distance below circle center
@@ -2589,7 +2633,11 @@ const HeroAnimation = () => {
           <motion.div
             key='scene5-circle'
             className='main-circle'
-            style={{ zIndex: 20 }}
+            style={{
+              zIndex: 20,
+              top: 'calc(50% - 320px)',
+              transform: 'translate(-50%, -50%)',
+            }}
             initial={{ scale: 0.7, opacity: 0, filter: 'blur(18px)', y: 600 }}
             animate={{
               scale:

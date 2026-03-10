@@ -1,0 +1,185 @@
+/* SplashScreen.css */
+.splash-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #ffffff;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.splash-content {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Ensure the animation container is centered */
+.splash-content .hero-animation {
+  position: relative;
+  top: auto;
+  left: auto;
+  right: auto;
+  transform: none;
+  margin: 0 auto;
+}
+
+/* Prominent Close Button - repositioned to viewport edges */
+.splash-close-btn {
+  position: fixed;
+  top: 2rem;
+  right: 2rem;
+  z-index: 10000;
+  background: #212d51;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+}
+
+.splash-close-btn:hover {
+  background: #e63e3e;
+  transform: rotate(90deg) scale(1.1);
+  border-color: white;
+  box-shadow: 0 15px 40px rgba(230, 62, 62, 0.4);
+}
+
+.splash-close-btn svg {
+  width: 28px;
+  height: 28px;
+  transition: transform 0.3s ease;
+}
+
+.splash-close-btn:hover svg {
+  transform: scale(0.9);
+}
+
+.splash-close-btn span {
+  font-size: 0.8rem;
+  opacity: 0.9;
+}
+
+/* Progress bar at the top */
+.splash-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #212d51, #f7d50f, #212d51);
+  transform-origin: left;
+  z-index: 10001;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Hint text */
+.splash-hint {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.9rem;
+  color: #666;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 0.5rem 1.5rem;
+  border-radius: 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  z-index: 10000;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(33, 45, 81, 0.1);
+  pointer-events: none;
+  animation: pulse 2s infinite;
+}
+
+/* Alternative skip button */
+.splash-skip-early {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: white;
+  color: #212d51;
+  border: 2px solid #212d51;
+  padding: 0.8rem 1.5rem;
+  border-radius: 40px;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  z-index: 10000;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.splash-skip-early:hover {
+  background: #212d51;
+  color: white;
+  transform: translateX(-5px);
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .splash-close-btn {
+    width: 60px;
+    height: 60px;
+    top: 1rem;
+    right: 1rem;
+  }
+
+  .splash-close-btn svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .splash-close-btn span {
+    display: none;
+  }
+
+  .splash-hint {
+    display: none;
+  }
+
+  .splash-skip-early {
+    bottom: 1rem;
+    right: 1rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Main content fade in */
+.main-content {
+  min-height: 100vh;
+  background: #f8f9fa;
+}
