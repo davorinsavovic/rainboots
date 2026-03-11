@@ -7,6 +7,10 @@ import Home from './pages/Home';
 import Services from './pages/Services';
 import About from './pages/About';
 import Contact from './pages/Contact';
+import Outbound from './pages/Outbound';
+import WebDevelopment from './pages/WebDevelopment';
+import CustomerAcquisition from './pages/CustomerAcquisition';
+import LifecycleStrategy from './pages/LifecycleStrategy';
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
@@ -67,6 +71,10 @@ function App() {
             <Route path='/services' element={<Services />} />
             <Route path='/about' element={<About />} />
             <Route path='/contact' element={<Contact />} />
+            <Route path='/outbound' element={<Outbound />} />
+            <Route path='/web-development' element={<WebDevelopment />} />
+            <Route path='/acquisition' element={<CustomerAcquisition />} />
+            <Route path='/lifecycle' element={<LifecycleStrategy />} />
           </Routes>
           <Footer />
         </>
