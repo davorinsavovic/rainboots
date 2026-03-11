@@ -179,7 +179,7 @@
 
 .team-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4 columns max */
+  grid-template-columns: repeat(2, 1fr); /* 4 columns max */
   gap: 2rem;
   max-width: 1200px;
   margin: 0 auto;

@@ -2,11 +2,15 @@ import { motion } from 'framer-motion';
 import './About.css';
 
 const teamMembers = [
-  { name: 'Steven Utt', role: 'Co-founder, Principal Marketer', emoji: '👔' },
+  {
+    name: 'Steven Utt',
+    role: 'Co-founder, Principal Marketer',
+    icon: '/images/i_steven.png',
+  },
   {
     name: 'Davorin Savovic',
     role: 'Co-founder, Sr. Marketing Specialist, Software Engineer, Designer',
-    emoji: '💻',
+    icon: '/images/i_davorin.png',
   },
   // {
   //   name: 'Joey Atkins',
@@ -163,7 +167,9 @@ const About = () => {
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
             >
-              <div className='team-emoji'>{member.emoji}</div>
+              <div className='team-emoji'>
+                <img src={member.icon} alt={member.name} className='' />
+              </div>
               <h3>{member.name}</h3>
               <p>{member.role}</p>
             </motion.div>
