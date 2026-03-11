@@ -19,7 +19,7 @@ const servicesData = [
     title: 'Web Development',
     description:
       "Custom design, development, and SEO. Whether you're building a new site or optimizing an existing one, we create fast, beautiful, search-friendly websites that represent your brand and convert visitors into customers.",
-    link: '/web-development', // Add other links as you create them
+    link: '/web-development',
   },
   {
     icon: '/images/i_acquisition.png',

@@ -27,22 +27,22 @@ const Footer = () => {
           <h4>Services</h4>
           <ul>
             <li>
-              <Link to='/services#outbound'>Outbound Marketing</Link>
+              <Link to='/outbound'>Outbound Marketing</Link>
             </li>
             <li>
-              <Link to='/services#web'>Web Design & Development</Link>
+              <Link to='/web-development'>Web Design & Development</Link>
             </li>
             <li>
-              <Link to='/services#acquisition'>Customer Acquisition</Link>
+              <Link to='/acquisition'>Customer Acquisition</Link>
             </li>
             <li>
-              <Link to='/services#lifecycle'>Lifecycle Optimization</Link>
+              <Link to='/lifecycle'>Lifecycle Optimization</Link>
             </li>
             <li>
-              <Link to='/services#social'>Social Media Marketing</Link>
+              <Link to='/social'>Social Media Marketing</Link>
             </li>
             <li>
-              <Link to='/services#branding'>Branding & Design</Link>
+              <Link to='/branding'>Branding & Design</Link>
             </li>
           </ul>
         </div>
