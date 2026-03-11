@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom'; // Add this import
 import ServiceCard from '../components/ServiceCard';
 import './Services.css';
 
@@ -15,6 +16,7 @@ const servicesData = [
       'Deliverability & Sender Reputation',
       'Program Health & Performance Analytics',
     ],
+    link: '/outbound',
   },
   {
     icon: '/images/i_webDesign.png',
@@ -28,6 +30,7 @@ const servicesData = [
       'Conversion Rate Optimization (CRO)',
       'Mobile-Responsive Development',
     ],
+    link: '/web-development',
   },
   {
     icon: '/images/i_acquisition.png',
@@ -41,6 +44,7 @@ const servicesData = [
       'Audience Segmentation & Targeting',
       'Performance Tracking & Optimization',
     ],
+    link: '/acquisition',
   },
   {
     icon: '/images/i_lifecycle.png',
@@ -54,6 +58,7 @@ const servicesData = [
       'Win-back & Re-engagement',
       'Journey Analytics & Insights',
     ],
+    link: '/lifecycle',
   },
   {
     icon: '/images/i_social.png',
@@ -67,6 +72,7 @@ const servicesData = [
       'Audience Growth & Targeting',
       'Performance Tracking & Analytics',
     ],
+    link: '/social',
   },
   {
     icon: '/images/i_branding.png',
@@ -80,6 +86,7 @@ const servicesData = [
       'Marketing Collateral & Assets',
       'Brand Guidelines & Templates',
     ],
+    link: '/branding',
   },
 ];
 
@@ -112,36 +119,46 @@ const Services = () => {
       <section className='services-list'>
         <div className='services-grid-detailed'>
           {servicesData.map((service, index) => (
-            <motion.div
+            <Link
+              to={service.link}
               key={index}
-              className='service-card-detailed'
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
+              style={{ textDecoration: 'none' }}
+              className='service-card-link'
             >
-              <div className='service-card-header'>
-                <div className='service-icon-large-wrapper'>
-                  <img
-                    src={service.icon}
-                    alt={service.title}
-                    className='glass-icon-large'
-                  />
+              <motion.div
+                className='service-card-detailed'
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                whileHover={{
+                  y: -8,
+                  transition: { duration: 0.2 },
+                }}
+              >
+                <div className='service-card-header'>
+                  <div className='service-icon-large-wrapper'>
+                    <img
+                      src={service.icon}
+                      alt={service.title}
+                      className='glass-icon-large'
+                    />
+                  </div>
+                  <div>
+                    <h3>{service.title}</h3>
+                    <p className='service-description'>{service.description}</p>
+                  </div>
                 </div>
-                <div>
-                  <h3>{service.title}</h3>
-                  <p className='service-description'>{service.description}</p>
-                </div>
-              </div>
-              <ul className='service-features'>
-                {service.features.map((feature, i) => (
-                  <li key={i}>
-                    <span className='checkmark'>✓</span>
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
+                <ul className='service-features'>
+                  {service.features.map((feature, i) => (
+                    <li key={i}>
+                      <span className='checkmark'>✓</span>
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            </Link>
           ))}
         </div>
       </section>
@@ -155,9 +172,9 @@ const Services = () => {
         >
           <h2>Ready to get started?</h2>
           <p>Let's discuss which services are right for your business</p>
-          <a href='/contact' className='btn-primary'>
+          <Link to='/contact' className='btn-primary'>
             Schedule a Consultation
-          </a>
+          </Link>
         </motion.div>
       </section>
     </div>
