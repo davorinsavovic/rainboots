@@ -81,19 +81,41 @@
 
 .values-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2.5rem;
-  max-width: 1200px;
+  grid-template-columns: repeat(2, 1fr); /* 4 columns max */
+  gap: 2rem;
+  max-width: 1400px;
   margin: 0 auto;
+  justify-content: center; /* Center the grid horizontally */
+}
+
+/* When there are fewer than 4 items, center them */
+.values-grid:has(:nth-last-child(1 of .value-card):first-child),
+.values-grid:has(:nth-last-child(2 of .value-card):first-child),
+.values-grid:has(:nth-last-child(3 of .value-card):first-child) {
+  grid-template-columns: repeat(3, 1fr); /* Switch to 3 columns for centering */
+  max-width: 1100px;
+}
+
+.values-grid:has(:nth-last-child(2 of .value-card):first-child) {
+  grid-template-columns: repeat(2, 1fr); /* 2 columns for 2 items */
+  max-width: 700px;
+}
+
+.values-grid:has(:nth-last-child(1 of .value-card):first-child) {
+  grid-template-columns: repeat(1, 1fr); /* 1 column for 1 item */
+  max-width: 500px;
 }
 
 .value-card {
   background: white;
-  padding: 3rem 2rem;
+  padding: 2.5rem 1.5rem;
   border-radius: 20px;
   text-align: center;
   transition: all 0.3s ease;
   border: 2px solid transparent;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .value-card:hover {
@@ -102,22 +124,32 @@
   box-shadow: 0 20px 50px rgba(43, 92, 230, 0.15);
 }
 
-.value-icon {
-  font-size: 3.5rem;
-  display: block;
-  margin-bottom: 1.5rem;
+.glass-icon-large {
+  width: 140px;
+  height: 140px;
+  object-fit: contain;
+  margin: 0 auto 1.5rem;
+  filter: drop-shadow(0 4px 12px rgba(43, 92, 230, 0.3));
+}
+
+.value-card:hover .glass-icon-large {
+  filter: drop-shadow(0 6px 16px rgba(43, 92, 230, 0.5));
+  transform: scale(1.05);
+  transition: all 0.3s ease;
 }
 
 .value-card h3 {
   font-size: 1.5rem;
   color: var(--dark);
   margin-bottom: 1rem;
+  font-weight: 600;
 }
 
 .value-card p {
   color: var(--text);
   line-height: 1.7;
   font-weight: 300;
+  flex-grow: 1;
 }
 
 .team-section {
@@ -147,19 +179,41 @@
 
 .team-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(4, 1fr); /* 4 columns max */
   gap: 2rem;
   max-width: 1200px;
   margin: 0 auto;
+  justify-content: center;
+}
+
+/* Center team cards when fewer than 4 */
+.team-grid:has(:nth-last-child(1 of .team-card):first-child),
+.team-grid:has(:nth-last-child(2 of .team-card):first-child),
+.team-grid:has(:nth-last-child(3 of .team-card):first-child) {
+  grid-template-columns: repeat(3, 1fr);
+  max-width: 900px;
+}
+
+.team-grid:has(:nth-last-child(2 of .team-card):first-child) {
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 600px;
+}
+
+.team-grid:has(:nth-last-child(1 of .team-card):first-child) {
+  grid-template-columns: repeat(1, 1fr);
+  max-width: 400px;
 }
 
 .team-card {
   background: var(--light);
-  padding: 2.5rem 2rem;
+  padding: 2rem 1.5rem;
   border-radius: 20px;
   text-align: center;
   transition: all 0.3s ease;
   border: 2px solid transparent;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .team-card:hover {
@@ -170,7 +224,8 @@
 
 .team-emoji {
   font-size: 4rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
 }
 
 .team-card h3 {
@@ -185,9 +240,43 @@
   font-size: 0.95rem;
   line-height: 1.5;
   font-weight: 300;
+  flex-grow: 1;
 }
 
-@media (max-width: 768px) {
+/* Responsive breakpoints */
+@media (max-width: 1200px) {
+  .values-grid,
+  .team-grid {
+    grid-template-columns: repeat(3, 1fr); /* 3 columns on medium screens */
+    max-width: 1000px;
+  }
+}
+
+@media (max-width: 900px) {
+  .values-grid,
+  .team-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns on tablets */
+    max-width: 700px;
+  }
+
+  .values-grid:has(:nth-last-child(1 of .value-card):first-child) {
+    grid-template-columns: repeat(1, 1fr);
+    max-width: 400px;
+  }
+
+  .team-grid:has(:nth-last-child(1 of .team-card):first-child) {
+    grid-template-columns: repeat(1, 1fr);
+    max-width: 350px;
+  }
+}
+
+@media (max-width: 600px) {
+  .values-grid,
+  .team-grid {
+    grid-template-columns: 1fr; /* 1 column on mobile */
+    max-width: 400px;
+  }
+
   .about-hero h1 {
     font-size: 2.5rem;
   }
@@ -199,5 +288,13 @@
 
   .mission-content h2 {
     font-size: 2rem;
+  }
+
+  .value-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .team-card {
+    padding: 1.5rem;
   }
 }
