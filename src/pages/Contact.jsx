@@ -35,7 +35,6 @@ const Contact = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Form submitted:', formData);
-    // Add your form submission logic here
     alert("Thank you for your inquiry! We'll get back to you soon.");
   };
 
@@ -71,6 +70,7 @@ const Contact = () => {
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
           >
             <h2>Contact Information</h2>
             <p>
@@ -78,39 +78,181 @@ const Contact = () => {
               online presence or a larger organization seeking to enhance your
               marketing strategy, Rainboots is here to&nbsp;help.
             </p>
-            <img
-              src='/images/hero.png'
-              alt='Rainboots Marketing'
-              className='hero-image'
-            />
 
-            {/* <div className='contact-details'>
-              <div className='contact-item'>
-                <span className='contact-icon'>📧</span>
-                <div>
-                  <h4>Email</h4>
-                  <a href='mailto:services@rainbootsmarketing.com'>
-                    services@rainbootsmarketing.com
-                  </a>
-                </div>
-              </div>
+            {/* Hero Image with Super Hero Animation */}
+            <motion.div
+              className='hero-image-wrapper'
+              initial={{ scale: 0, rotate: -180, opacity: 0 }}
+              whileInView={{
+                scale: 1,
+                rotate: 0,
+                opacity: 1,
+                transition: {
+                  type: 'spring',
+                  stiffness: 260,
+                  damping: 20,
+                  duration: 1.2,
+                },
+              }}
+              viewport={{ once: true }}
+              whileHover={{
+                scale: 1.08,
+                rotate: [0, -3, 3, -2, 2, 0],
+                transition: { duration: 0.6 },
+              }}
+            >
+              {/* Enhanced flying effect - SINGLE container */}
+              <motion.div
+                className='flying-effects'
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ delay: 0.2, duration: 0.5 }}
+              >
+                {/* Speed lines */}
+                <motion.div
+                  className='speed-line speed-line-1'
+                  animate={{
+                    x: [-100, 100],
+                    opacity: [0, 0.6, 0],
+                  }}
+                  transition={{
+                    duration: 1.5,
+                    repeat: Infinity,
+                    delay: 0.3,
+                  }}
+                />
+                <motion.div
+                  className='speed-line speed-line-2'
+                  animate={{
+                    x: [-120, 120],
+                    opacity: [0, 0.4, 0],
+                  }}
+                  transition={{
+                    duration: 1.8,
+                    repeat: Infinity,
+                    delay: 0.5,
+                  }}
+                />
 
-              <div className='contact-item'>
-                <span className='contact-icon'>📍</span>
-                <div>
-                  <h4>Location</h4>
-                  <p>Seattle, Washington</p>
-                </div>
-              </div>
+                {/* Energy sparks - each with different behavior */}
+                <motion.div
+                  className='spark spark-1'
+                  animate={{
+                    scale: [0, 1.2, 0.8, 0],
+                    x: [0, 40, 20, 60],
+                    y: [0, -30, -50, -80],
+                    opacity: [0, 1, 0.8, 0],
+                    rotate: [0, 45, 90, 180],
+                  }}
+                  transition={{
+                    duration: 1.2,
+                    repeat: Infinity,
+                    delay: 0.1,
+                    ease: 'easeOut',
+                  }}
+                />
 
-              <div className='contact-item'>
-                <span className='contact-icon'>⏰</span>
-                <div>
-                  <h4>Business Hours</h4>
-                  <p>Monday - Friday: 9am - 5pm PST</p>
-                </div>
-              </div>
-            </div> */}
+                <motion.div
+                  className='spark spark-2'
+                  animate={{
+                    scale: [0, 1, 0.6, 0],
+                    x: [0, 60, 100, 80],
+                    y: [0, -20, -60, -100],
+                    opacity: [0, 0.8, 0.4, 0],
+                  }}
+                  transition={{
+                    duration: 1,
+                    repeat: Infinity,
+                    delay: 0.5,
+                    ease: 'easeIn',
+                  }}
+                />
+
+                <motion.div
+                  className='spark spark-3'
+                  animate={{
+                    scale: [0, 1.3, 0.4, 0.8, 0],
+                    x: [0, 30, -20, 50, 80],
+                    y: [0, -40, -60, -30, -90],
+                    opacity: [0, 0.9, 0.6, 0.3, 0],
+                    rotate: [0, 90, 180, 270, 360],
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    delay: 0.2,
+                    ease: 'anticipate',
+                  }}
+                />
+
+                <motion.div
+                  className='spark spark-4'
+                  animate={{
+                    scale: [0, 0.8, 0.4, 0],
+                    x: [0, 25, 45, 30],
+                    y: [0, -15, -35, -50],
+                    opacity: [0, 0.7, 0.3, 0],
+                  }}
+                  transition={{
+                    duration: 0.8,
+                    repeat: Infinity,
+                    delay: 0.4,
+                    ease: 'easeOut',
+                  }}
+                />
+
+                <motion.div
+                  className='spark spark-5'
+                  animate={{
+                    scale: [0, 1.1, 0.5, 0],
+                    x: [0, 50, 90, 130],
+                    y: [0, -10, -40, -70],
+                    opacity: [0, 0.9, 0.5, 0],
+                    rotate: [0, 30, 60, 90],
+                  }}
+                  transition={{
+                    duration: 1.3,
+                    repeat: Infinity,
+                    delay: 0.7,
+                    ease: 'backOut',
+                  }}
+                />
+
+                <motion.div
+                  className='spark spark-9'
+                  animate={{
+                    scale: [0, 0.7, 0.3, 0],
+                    x: [0, 35, 65, 95],
+                    y: [0, -20, -45, -75],
+                    opacity: [0, 0.6, 0.3, 0],
+                  }}
+                  transition={{
+                    duration: 1.1,
+                    repeat: Infinity,
+                    delay: 0.8,
+                    ease: 'easeOut',
+                  }}
+                />
+              </motion.div>
+
+              <img
+                src='/images/hero.png'
+                alt='Rainboots Marketing'
+                className='hero-image'
+              />
+
+              {/* Subtle rim light effect */}
+              <motion.div
+                className='rim-light'
+                animate={{
+                  opacity: [0.3, 0.7, 0.3],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                }}
+              />
+            </motion.div>
           </motion.div>
 
           <motion.form
@@ -119,6 +261,7 @@ const Contact = () => {
             initial={{ opacity: 0, x: 40 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
           >
             <h3>Send us a message</h3>
 

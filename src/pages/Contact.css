@@ -6,7 +6,7 @@
   padding: 8rem 5% 4rem;
   background: linear-gradient(
     135deg,
-    rgba(43, 92, 230, 0.05),
+    rgba(149, 177, 251, 0.05),
     rgba(75, 179, 212, 0.05)
   );
   text-align: center;
@@ -15,7 +15,7 @@
 }
 
 .contact-hero-content {
-  max-width: 800px;
+  max-width: 100%;
   margin: 0 auto;
 }
 
@@ -186,6 +186,228 @@
 .submit-button:hover {
   transform: translateY(-3px);
   box-shadow: 0 15px 40px rgba(43, 92, 230, 0.4);
+}
+
+.hero-image-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  margin: 2rem auto;
+  cursor: pointer;
+  z-index: 1;
+  filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.2));
+}
+
+.hero-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  position: relative;
+  z-index: 2000;
+}
+
+/* Flying effects container */
+.flying-effects {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 3;
+  overflow: visible;
+}
+
+.hero-image-wrapper,
+.hero-image,
+.flying-effects,
+.rim-light {
+  border: none !important;
+  outline: none !important;
+}
+
+/* If you want to keep the rim-light but make it less visible */
+.rim-light {
+  opacity: 0.1; /* Reduce opacity instead of removing */
+  /* or */
+  display: none; /* Hide it completely */
+}
+
+/* Speed lines */
+.speed-line {
+  position: absolute;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--primary) 20%,
+    var(--splash) 50%,
+    var(--primary) 80%,
+    transparent
+  );
+  filter: blur(2px);
+  opacity: 0;
+  border-radius: 2px;
+}
+
+.speed-line-1 {
+  top: 50%;
+  left: -20%;
+  width: 140%;
+  transform: rotate(-5deg);
+}
+
+.speed-line-2 {
+  bottom: 20%;
+  left: -15%;
+  width: 130%;
+  transform: rotate(3deg);
+}
+
+/* Energy sparks */
+.spark {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(1.5px);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Spark 1 - quick burst from top */
+.spark-1 {
+  width: 10px;
+  height: 10px;
+  top: 10%;
+  right: 20%;
+  background: radial-gradient(
+    circle,
+    #f7d50f 0%,
+    #ffaa00 70%,
+    transparent 100%
+  );
+  filter: blur(1px);
+}
+
+/* Spark 3 - fast diagonal from bottom */
+.spark-2 {
+  width: 8px;
+  height: 8px;
+  bottom: 15%;
+  right: 10%;
+  background: radial-gradient(
+    circle,
+    #f7d50f 0%,
+    #ff6b35 80%,
+    transparent 100%
+  );
+  filter: blur(1px);
+}
+
+/* Spark 5 - small quick spark */
+.spark-3 {
+  width: 6px;
+  height: 6px;
+  top: 70%;
+  right: 15%;
+  background: radial-gradient(
+    circle,
+    #f7d50f 0%,
+    #ffaa00 90%,
+    transparent 100%
+  );
+  filter: blur(0.5px);
+}
+
+/* Spark 7 - fast burst */
+.spark-4 {
+  width: 9px;
+  height: 9px;
+  top: 80%;
+  right: 25%;
+  background: radial-gradient(
+    circle,
+    #ff6b35 0%,
+    #f7d50f 70%,
+    transparent 100%
+  );
+  filter: blur(1px);
+}
+
+/* Spark 9 - tiny quick */
+.spark-5 {
+  width: 5px;
+  height: 5px;
+  top: 30%;
+  right: 35%;
+  background: radial-gradient(
+    circle,
+    #f7d50f 0%,
+    #ffffff 80%,
+    transparent 100%
+  );
+  filter: blur(0.5px);
+}
+
+/* Rim light effect (replaces the glow) */
+.rim-light {
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  border: 2px solid transparent; /* This creates a border */
+  border-radius: 25px;
+  background: linear-gradient(135deg, var(--primary), var(--splash)) border-box;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) padding-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0.4;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Optional: Add a subtle shadow under the image */
+.hero-image-wrapper::after {
+  content: '';
+  position: absolute;
+  bottom: -15px;
+  left: 10%;
+  width: 100%;
+  height: 20px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0.2) 0%,
+    transparent 70%
+  );
+  filter: blur(8px);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .hero-image-wrapper {
+    max-width: 300px;
+  }
+
+  .speed-line-1 {
+    width: 150%;
+    left: -25%;
+  }
+
+  .speed-line-2 {
+    width: 140%;
+    left: -20%;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-image-wrapper {
+    max-width: 250px;
+  }
 }
 
 @media (max-width: 968px) {
