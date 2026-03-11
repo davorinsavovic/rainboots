@@ -825,10 +825,15 @@ h1 .highlight {
 .cta-section {
   position: relative;
   padding: 8rem 5%;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--splash) 100%);
+  background: var(--primary);
   color: white;
   text-align: center;
   overflow: hidden;
+  background-image: url('../images/hero2.png');
+  background-size: contain;
+  background-position: right;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 .cta-section::before {
@@ -862,13 +867,14 @@ h1 .highlight {
   font-size: 3.5rem;
   margin-bottom: 1.5rem;
   font-style: italic;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 .cta-content p {
-  font-size: 1.3rem;
+  font-size: 1.25rem;
   margin-bottom: 3rem;
   opacity: 0.95;
-  font-weight: 300;
+  text-shadow: 0 1px px rgba(0, 0, 0, 0.8);
 }
 
 .cta-content .btn-primary {
