@@ -145,15 +145,14 @@ const SplashScreen = ({ onClose }) => {
             <span>Skip</span>
           </button>
 
-          {/* Progress Bar */}
-          <div className='splash-progress'>
-            <motion.div
-              className='splash-progress-bar'
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ duration: 38, ease: 'linear' }}
-            />
-          </div>
+          {/* Progress Bar - FIXED */}
+          <motion.div
+            className='splash-progress'
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ duration: 38, ease: 'linear' }}
+            style={{ transformOrigin: 'left' }}
+          />
 
           {/* Skip Hint */}
           <div className='splash-hint'>Press ESC to skip</div>
