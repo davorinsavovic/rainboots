@@ -12,6 +12,7 @@ import WebDevelopment from './pages/WebDevelopment';
 import CustomerAcquisition from './pages/CustomerAcquisition';
 import LifecycleStrategy from './pages/LifecycleStrategy';
 import SocialMedia from './pages/SocialMedia';
+import BrandIdentity from './pages/BrandIdentity';
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
@@ -77,6 +78,7 @@ function App() {
             <Route path='/acquisition' element={<CustomerAcquisition />} />
             <Route path='/lifecycle' element={<LifecycleStrategy />} />
             <Route path='/social' element={<SocialMedia />} />
+            <Route path='/branding' element={<BrandIdentity />} />
           </Routes>
           <Footer />
         </>
