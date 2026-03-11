@@ -661,26 +661,6 @@
   filter: blur(0.5px);
 }
 
-/* Rim light effect */
-.rim-light {
-  position: absolute;
-  top: -5px;
-  left: -5px;
-  right: -5px;
-  bottom: -5px;
-  border: 2px solid transparent;
-  border-radius: 25px;
-  background: linear-gradient(135deg, var(--primary), var(--splash)) border-box;
-  -webkit-mask:
-    linear-gradient(#fff 0 0) padding-box,
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  opacity: 0.4;
-  z-index: 10;
-  pointer-events: none;
-}
-
 /* Shadow under the image */
 .hero-image-wrapper::after {
   content: '';

@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import SplashScreen from './components/SplashScreen';
-import ScrollToTop from './components/ScrollToTop'; // Add this import
+import ScrollToTop from './components/ScrollToTop';
 import Home from './pages/Home';
 import Services from './pages/Services';
 import About from './pages/About';
@@ -14,6 +14,8 @@ import CustomerAcquisition from './pages/CustomerAcquisition';
 import LifecycleStrategy from './pages/LifecycleStrategy';
 import SocialMedia from './pages/SocialMedia';
 import BrandIdentity from './pages/BrandIdentity';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsConditions from './pages/TermsConditions';
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
@@ -74,6 +76,8 @@ function App() {
             <Route path='/lifecycle' element={<LifecycleStrategy />} />
             <Route path='/social' element={<SocialMedia />} />
             <Route path='/branding' element={<BrandIdentity />} />
+            <Route path='/privacy' element={<PrivacyPolicy />} />
+            <Route path='/terms' element={<TermsConditions />} />
           </Routes>
           <Footer />
         </>

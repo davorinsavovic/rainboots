@@ -105,10 +105,25 @@ const Contact = () => {
     setSubmitStatus('submitting');
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      console.log('Form submitted:', formData);
+      // Send form data to your API endpoint
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to send message');
+      }
+
+      console.log('Form submitted successfully:', data);
       setSubmitStatus('success');
 
+      // Reset form after success
       setTimeout(() => {
         setFormData({
           name: '',
@@ -126,6 +141,7 @@ const Contact = () => {
         setIsSubmitting(false);
       }, 2000);
     } catch (error) {
+      console.error('Error submitting form:', error);
       setSubmitStatus('error');
       setTimeout(() => {
         setSubmitStatus(null);
@@ -155,7 +171,7 @@ const Contact = () => {
           >
             Get In Touch
           </motion.span>
-          <h1 className='power-strike-voltage'>⚡ Summon Your Heros ⚡</h1>
+          <h1>Summon Your Heroes</h1>
           <p>
             We're here to assist you with any questions, inquiries, or project
             requests you may have.
@@ -174,9 +190,6 @@ const Contact = () => {
           >
             <h2>Contact Information</h2>
             <p>
-              {/* Whether you're a small business looking to establish a strong
-              online presence or a larger organization seeking to enhance your
-              marketing strategy, Rainboots is here to&nbsp;help. */}
               Whether you need a sidekick for small tasks or a full league of
               heroes for an epic marketing campaign, Rainboots Justice League is
               standing by.
