@@ -98,16 +98,56 @@
   color: var(--primary);
 }
 
+/* ===== SUPERHERO FORM STYLES ===== */
 .contact-form {
   background: var(--light);
   padding: 3rem;
   border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-form::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle,
+    rgba(247, 213, 15, 0.05) 0%,
+    transparent 70%
+  );
+  animation: heroPulse 10s ease infinite;
+  z-index: 0;
+  pointer-events: none;
+}
+
+@keyframes heroPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.5;
+  }
 }
 
 .contact-form h3 {
-  font-size: 1.8rem;
+  font-size: 2rem;
   color: var(--dark);
   margin-bottom: 2rem;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  background: linear-gradient(135deg, var(--primary), var(--splash));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
 .form-row {
@@ -116,15 +156,22 @@
   gap: 1.5rem;
 }
 
+/* Form Group with Superhero Flair */
 .form-group {
   margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 1;
 }
 
 .form-group label {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   margin-bottom: 0.5rem;
   color: var(--dark);
-  font-weight: 500;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .form-group input,
@@ -138,16 +185,116 @@
   font-size: 1rem;
   transition: all 0.3s ease;
   background: white;
+  position: relative;
+  z-index: 1;
 }
 
+/* Hero Focus Effect */
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(43, 92, 230, 0.1);
+  box-shadow:
+    0 0 0 3px rgba(43, 92, 230, 0.1),
+    0 0 20px rgba(247, 213, 15, 0.3);
+  transform: translateY(-2px);
 }
 
+/* Error State */
+.form-group.has-error input,
+.form-group.has-error select,
+.form-group.has-error textarea {
+  border-color: #ff3860;
+  background: rgba(255, 56, 96, 0.05);
+  animation: errorPulse 1.5s ease infinite;
+}
+
+@keyframes errorPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 56, 96, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 15px 5px rgba(255, 56, 96, 0.2);
+  }
+}
+
+/* Success State */
+.form-group.has-success input,
+.form-group.has-success select,
+.form-group.has-success textarea {
+  border-color: #48c774;
+  background: rgba(72, 199, 116, 0.05);
+  box-shadow: 0 0 15px rgba(72, 199, 116, 0.3);
+}
+
+/* Error Message */
+.error-message {
+  color: #ff3860;
+  font-size: 0.8rem;
+  margin-left: 1rem;
+  font-weight: normal;
+  display: inline-block;
+  background: rgba(255, 56, 96, 0.1);
+  padding: 0.2rem 0.5rem;
+  border-radius: 20px;
+  border-left: 2px solid #ff3860;
+}
+
+/* Success Indicator */
+.success-indicator {
+  position: absolute;
+  right: 1rem;
+  top: 2.5rem;
+  color: #48c774;
+  font-size: 1.2rem;
+  font-weight: bold;
+  animation: successPop 0.3s ease;
+  width: 24px;
+  height: 24px;
+  background: #48c774;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 15px #48c774;
+}
+
+@keyframes successPop {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Form Shake Animation */
+.form-shake {
+  animation: formShake 0.5s ease;
+}
+
+@keyframes formShake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20%,
+  60% {
+    transform: translateX(-10px);
+  }
+  40%,
+  80% {
+    transform: translateX(10px);
+  }
+}
+
+/* Checkbox Group */
 .checkbox-group {
   display: flex;
   flex-direction: column;
@@ -160,27 +307,193 @@
   gap: 0.8rem;
   cursor: pointer;
   font-weight: 300;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  background: white;
+  border: 2px solid transparent;
+}
+
+.checkbox-label:hover {
+  transform: translateX(5px);
+  border-color: var(--primary);
+  box-shadow: 0 5px 15px rgba(43, 92, 230, 0.1);
 }
 
 .checkbox-label input[type='checkbox'] {
-  width: auto;
+  width: 20px;
+  height: 20px;
   cursor: pointer;
   accent-color: var(--primary);
+  margin-right: 10px;
+  transition: all 0.3s ease;
 }
 
+.checkbox-label input[type='checkbox']:checked {
+  transform: scale(1.2);
+  filter: drop-shadow(0 0 5px var(--primary));
+}
+
+.checkbox-label span {
+  transition: all 0.3s ease;
+}
+
+.checkbox-label input[type='checkbox']:checked + span {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* Submit Status Animations */
+.submit-status {
+  padding: 1.5rem;
+  border-radius: 15px;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-weight: 600;
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.submit-status.submitting {
+  background: linear-gradient(
+    135deg,
+    rgba(247, 213, 15, 0.15),
+    rgba(255, 170, 0, 0.15)
+  );
+  border: 2px solid #ffaa00;
+  color: #ffaa00;
+}
+
+.submit-status.success {
+  background: linear-gradient(
+    135deg,
+    rgba(72, 199, 116, 0.15),
+    rgba(46, 204, 113, 0.15)
+  );
+  border: 2px solid #2ecc71;
+  color: #27ae60;
+}
+
+.submit-status.error {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 56, 96, 0.15),
+    rgba(231, 76, 60, 0.15)
+  );
+  border: 2px solid #e74c3c;
+  color: #c0392b;
+}
+
+.power-charging {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.power-charging span {
+  animation: charging 1.5s ease infinite;
+  filter: drop-shadow(0 0 10px #ffaa00);
+}
+
+.power-charging span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.power-charging span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes charging {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-10px) scale(1.2);
+  }
+}
+
+.power-explosion {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  animation: explosion 0.5s ease;
+  filter: drop-shadow(0 0 20px #2ecc71);
+}
+
+@keyframes explosion {
+  0% {
+    transform: scale(0) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.5) rotate(180deg);
+  }
+  100% {
+    transform: scale(1) rotate(360deg);
+  }
+}
+
+.power-fail {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  animation: failShake 0.5s ease;
+  filter: drop-shadow(0 0 20px #e74c3c);
+}
+
+@keyframes failShake {
+  0%,
+  100% {
+    transform: translateX(0) rotate(0deg);
+  }
+  25% {
+    transform: translateX(-10px) rotate(-10deg);
+  }
+  75% {
+    transform: translateX(10px) rotate(10deg);
+  }
+}
+
+/* Submit Button */
 .submit-button {
-  background: var(--primary);
+  background: linear-gradient(135deg, var(--primary), var(--splash));
   color: white;
   padding: 1.2rem 3rem;
   border-radius: 50px;
   font-weight: 600;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 10px 30px rgba(43, 92, 230, 0.3);
   width: 100%;
   margin-top: 1rem;
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+  letter-spacing: 1px;
+}
+
+.submit-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: left 0.5s ease;
+  z-index: -1;
+}
+
+.submit-button:hover::before {
+  left: 100%;
 }
 
 .submit-button:hover {
@@ -188,6 +501,17 @@
   box-shadow: 0 15px 40px rgba(43, 92, 230, 0.4);
 }
 
+.submit-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.submit-button:disabled::before {
+  display: none;
+}
+
+/* Hero Image Styles */
 .hero-image-wrapper {
   position: relative;
   width: 100%;
@@ -224,13 +548,6 @@
 .rim-light {
   border: none !important;
   outline: none !important;
-}
-
-/* If you want to keep the rim-light but make it less visible */
-.rim-light {
-  opacity: 0.1; /* Reduce opacity instead of removing */
-  /* or */
-  display: none; /* Hide it completely */
 }
 
 /* Speed lines */
@@ -274,7 +591,6 @@
   z-index: 10;
 }
 
-/* Spark 1 - quick burst from top */
 .spark-1 {
   width: 10px;
   height: 10px;
@@ -289,7 +605,6 @@
   filter: blur(1px);
 }
 
-/* Spark 3 - fast diagonal from bottom */
 .spark-2 {
   width: 8px;
   height: 8px;
@@ -304,7 +619,6 @@
   filter: blur(1px);
 }
 
-/* Spark 5 - small quick spark */
 .spark-3 {
   width: 6px;
   height: 6px;
@@ -319,7 +633,6 @@
   filter: blur(0.5px);
 }
 
-/* Spark 7 - fast burst */
 .spark-4 {
   width: 9px;
   height: 9px;
@@ -334,7 +647,6 @@
   filter: blur(1px);
 }
 
-/* Spark 9 - tiny quick */
 .spark-5 {
   width: 5px;
   height: 5px;
@@ -349,14 +661,14 @@
   filter: blur(0.5px);
 }
 
-/* Rim light effect (replaces the glow) */
+/* Rim light effect */
 .rim-light {
   position: absolute;
   top: -5px;
   left: -5px;
   right: -5px;
   bottom: -5px;
-  border: 2px solid transparent; /* This creates a border */
+  border: 2px solid transparent;
   border-radius: 25px;
   background: linear-gradient(135deg, var(--primary), var(--splash)) border-box;
   -webkit-mask:
@@ -369,7 +681,7 @@
   pointer-events: none;
 }
 
-/* Optional: Add a subtle shadow under the image */
+/* Shadow under the image */
 .hero-image-wrapper::after {
   content: '';
   position: absolute;
@@ -387,29 +699,7 @@
   pointer-events: none;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .hero-image-wrapper {
-    max-width: 300px;
-  }
-
-  .speed-line-1 {
-    width: 150%;
-    left: -25%;
-  }
-
-  .speed-line-2 {
-    width: 140%;
-    left: -20%;
-  }
-}
-
-@media (max-width: 480px) {
-  .hero-image-wrapper {
-    max-width: 250px;
-  }
-}
-
+/* Responsive */
 @media (max-width: 968px) {
   .contact-container {
     grid-template-columns: 1fr;
@@ -428,5 +718,52 @@
 
   .contact-form {
     padding: 2rem;
+  }
+
+  .contact-form h3 {
+    font-size: 1.8rem;
+  }
+
+  .hero-image-wrapper {
+    max-width: 300px;
+  }
+
+  .speed-line-1 {
+    width: 150%;
+    left: -25%;
+  }
+
+  .speed-line-2 {
+    width: 140%;
+    left: -20%;
+  }
+
+  .error-message {
+    display: block;
+    margin-left: 0;
+    margin-top: 0.25rem;
+  }
+
+  .success-indicator {
+    top: 2.2rem;
+    right: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-image-wrapper {
+    max-width: 250px;
+  }
+
+  .contact-form h3 {
+    font-size: 1.5rem;
+  }
+
+  .power-charging {
+    font-size: 2rem;
+  }
+
+  .power-explosion {
+    font-size: 3rem;
   }
 }

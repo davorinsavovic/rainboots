@@ -830,8 +830,8 @@ h1 .highlight {
   text-align: center;
   overflow: hidden;
   background-image: url('../images/hero2.png');
-  background-size: contain;
-  background-position: right;
+  background-size: cover;
+  background-position: top right;
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
