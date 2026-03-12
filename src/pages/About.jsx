@@ -12,23 +12,6 @@ const teamMembers = [
     role: 'Co-founder, Sr. Marketing Specialist, Software Engineer, Designer',
     icon: '/images/i_davorin.png',
   },
-  // {
-  //   name: 'Joey Atkins',
-  //   role: 'Co-founder, Mobile Marketing Manager',
-  //   emoji: '📱',
-  // },
-  // {
-  //   name: 'Thomas Olson',
-  //   role: 'Co-founder, Software Engineer, Designer',
-  //   emoji: '🎨',
-  // },
-  // {
-  //   name: 'Matt Strzelecki',
-  //   role: 'Sr. Email Deliverability Manager',
-  //   emoji: '📧',
-  // },
-  // { name: 'Elizabeth Martin', role: 'Director of Marketing', emoji: '📊' },
-  // { name: 'Robert Martin', role: 'Sr. Software Engineer', emoji: '⚙️' },
 ];
 
 const values = [
@@ -61,6 +44,7 @@ const values = [
 const About = () => {
   return (
     <div className='about-page'>
+      {/* Hero Section */}
       <section className='about-hero'>
         <motion.div
           className='about-hero-content'
@@ -86,12 +70,14 @@ const About = () => {
         </motion.div>
       </section>
 
+      {/* Mission Section */}
       <section className='mission-section'>
         <motion.div
           className='mission-content'
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
         >
           <h2>Our Mission</h2>
           <p>
@@ -105,12 +91,14 @@ const About = () => {
         </motion.div>
       </section>
 
+      {/* Values Section */}
       <section className='values-section'>
         <div className='section-header'>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
           >
             Why Choose Rainboots?
           </motion.h2>
@@ -124,7 +112,7 @@ const About = () => {
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
+              transition={{ delay: index * 0.1, duration: 0.6 }}
             >
               <img
                 src={value.icon}
@@ -138,12 +126,14 @@ const About = () => {
         </div>
       </section>
 
+      {/* Team Section */}
       <section className='team-section' id='team'>
         <div className='section-header'>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
           >
             Meet Our Team
           </motion.h2>
@@ -151,7 +141,7 @@ const About = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
+            transition={{ delay: 0.1, duration: 0.6 }}
           >
             Experienced professionals dedicated to your success
           </motion.p>
@@ -165,13 +155,15 @@ const About = () => {
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
+              transition={{ delay: index * 0.1, duration: 0.6 }}
             >
               <div className='team-emoji'>
-                <img src={member.icon} alt={member.name} className='' />
+                <img src={member.icon} alt={member.name} />
               </div>
-              <h3>{member.name}</h3>
-              <p>{member.role}</p>
+              <div className='team-card-content'>
+                <h3>{member.name}</h3>
+                <p>{member.role}</p>
+              </div>
             </motion.div>
           ))}
         </div>
