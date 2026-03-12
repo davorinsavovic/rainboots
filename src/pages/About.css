@@ -114,7 +114,7 @@
   height: 140px;
   object-fit: contain;
   margin: 0 auto 1.5rem;
-  filter: drop-shadow(0 4px 12px rgba(43, 92, 230, 0.3));
+  /* filter: drop-shadow(0 4px 12px rgba(43, 92, 230, 0.3)); */
 }
 
 .value-card:hover .glass-icon-large {
@@ -364,8 +364,8 @@
   }
 
   .glass-icon-large {
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
     margin-bottom: 1rem;
   }
 
@@ -478,8 +478,8 @@
   }
 
   .glass-icon-large {
-    width: 80px;
-    height: 80px;
+    width: 120px;
+    height: 120px;
   }
 
   .value-card h3 {
@@ -536,8 +536,8 @@
   }
 
   .glass-icon-large {
-    width: 70px;
-    height: 70px;
+    width: 120px;
+    height: 120px;
   }
 
   .value-card h3 {
@@ -578,8 +578,8 @@
   }
 
   .glass-icon-large {
-    width: 60px;
-    height: 60px;
+    width: 120px;
+    height: 120px;
   }
 
   .value-card h3 {
