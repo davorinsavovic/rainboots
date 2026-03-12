@@ -226,7 +226,7 @@
 /* Benefits Section */
 .benefits-section {
   padding: 6rem 5%;
-  background: var(--light);
+  background: var(--light) !important;
   position: relative;
   z-index: 10;
 }

@@ -165,7 +165,7 @@
 /* Platforms Section */
 .platforms-section {
   padding: 6rem 5%;
-  background: white;
+  background: white !important;
   position: relative;
   z-index: 10;
 }
