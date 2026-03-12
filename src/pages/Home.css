@@ -966,3 +966,135 @@ h1 .highlight {
 .description {
   font-size: 1rem;
 }
+
+/* Add to your Home.css - Services Grid Mobile Stack */
+.services-grid.mobile-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0 1rem;
+}
+
+.services-grid.mobile-stack .service-card {
+  width: 100%;
+  margin: 0;
+}
+
+/* Mobile-specific hero section */
+@media (max-width: 800px) {
+  .hero {
+    min-height: auto;
+    padding: 2rem 1rem !important;
+  }
+
+  .hero-content {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .hero h1 {
+    font-size: 2.2rem !important;
+    line-height: 1.2;
+  }
+
+  .hero p {
+    font-size: 1.1rem !important;
+    margin-bottom: 2rem;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+    max-width: 280px;
+    text-align: center;
+    padding: 1rem 1.5rem;
+  }
+
+  /* Hide hero visual container on mobile */
+  .hero-visual-container {
+    display: none !important;
+  }
+
+  /* Services section mobile styles */
+  .services {
+    padding: 4rem 1rem !important;
+  }
+
+  .section-header h2 {
+    font-size: 2rem !important;
+  }
+
+  .section-header p {
+    font-size: 1rem !important;
+    padding: 0 1rem;
+  }
+
+  /* Stats section mobile */
+  .stats-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+
+  .stat-item h3 {
+    font-size: 2.5rem !important;
+  }
+
+  /* CTA section mobile */
+  .cta-section {
+    padding: 4rem 1rem !important;
+  }
+
+  .cta-content h2 {
+    font-size: 2rem !important;
+  }
+
+  .cta-content p {
+    font-size: 1rem !important;
+    padding: 0 1rem;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 1.8rem !important;
+  }
+
+  .hero p {
+    font-size: 1rem !important;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    max-width: 240px;
+    padding: 0.875rem 1.25rem;
+    font-size: 0.95rem;
+  }
+
+  .section-header h2 {
+    font-size: 1.8rem !important;
+  }
+
+  .stat-item h3 {
+    font-size: 2rem !important;
+  }
+}
+
+/* Very small devices */
+@media (max-width: 360px) {
+  .hero h1 {
+    font-size: 1.5rem !important;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    max-width: 200px;
+    padding: 0.75rem 1rem;
+  }
+}

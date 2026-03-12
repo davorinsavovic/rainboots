@@ -65,8 +65,25 @@ const Home = ({
 }) => {
   const [isAnimationComplete, setIsAnimationComplete] = useState(false);
   const [showHeroImage, setShowHeroImage] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 800);
 
   useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 800);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (isMobile) {
+      // Skip all animation stuff on mobile
+      setIsAnimationComplete(true);
+      setShowHeroImage(false);
+      return;
+    }
+
     if (hasAnimationPlayed) {
       console.log(
         'Animation already played in this session, showing hero image',
@@ -91,7 +108,7 @@ const Home = ({
         onAnimationPlayed();
       }
     }
-  }, [initialAnimationState, hasAnimationPlayed, onAnimationPlayed]);
+  }, [initialAnimationState, hasAnimationPlayed, onAnimationPlayed, isMobile]);
 
   const handleAnimationComplete = () => {
     console.log('Animation completed in Home component');
@@ -100,11 +117,12 @@ const Home = ({
     onAnimationPlayed();
   };
 
-  const shouldShowAnimation = !hasAnimationPlayed && !isAnimationComplete;
+  const shouldShowAnimation =
+    !isMobile && !hasAnimationPlayed && !isAnimationComplete;
 
   return (
     <div className='home'>
-      {/* Hero Section */}
+      {/* Hero Section - Modified for mobile */}
       <section className='hero'>
         <motion.div
           className='hero-content'
@@ -139,41 +157,43 @@ const Home = ({
           </motion.div>
         </motion.div>
 
-        {/* Animation and Hero Image Container */}
-        <div className='hero-visual-container'>
-          {shouldShowAnimation && (
-            <div className='hero-animation-wrapper'>
-              <div className='animation-responsive-container'>
-                <HeroAnimation
-                  onAnimationComplete={handleAnimationComplete}
-                  initialStage={initialAnimationState}
-                  isInSplash={false}
-                />
+        {/* Animation and Hero Image Container - Hidden on mobile */}
+        {!isMobile && (
+          <div className='hero-visual-container'>
+            {shouldShowAnimation && (
+              <div className='hero-animation-wrapper'>
+                <div className='animation-responsive-container'>
+                  <HeroAnimation
+                    onAnimationComplete={handleAnimationComplete}
+                    initialStage={initialAnimationState}
+                    isInSplash={false}
+                  />
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
-          {(showHeroImage || hasAnimationPlayed) && (
-            <motion.div
-              className='hero-image-container'
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, ease: 'easeOut' }}
-            >
-              <img
-                src='../images/heros.png'
-                alt='Hero Illustration'
-                className='hero-image'
-                onError={(e) => {
-                  console.error('Failed to load image:', e.target.src);
-                  e.target.style.display = 'none';
-                }}
-                onLoad={() => console.log('Hero image loaded successfully')}
-              />
-              <WaterDrops />
-            </motion.div>
-          )}
-        </div>
+            {(showHeroImage || hasAnimationPlayed) && (
+              <motion.div
+                className='hero-image-container'
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, ease: 'easeOut' }}
+              >
+                <img
+                  src='../images/heros.png'
+                  alt='Hero Illustration'
+                  className='hero-image'
+                  onError={(e) => {
+                    console.error('Failed to load image:', e.target.src);
+                    e.target.style.display = 'none';
+                  }}
+                  onLoad={() => console.log('Hero image loaded successfully')}
+                />
+                <WaterDrops />
+              </motion.div>
+            )}
+          </div>
+        )}
       </section>
 
       {/* Services Section */}
@@ -206,7 +226,7 @@ const Home = ({
           </motion.p>
         </div>
 
-        <div className='services-grid'>
+        <div className={`services-grid ${isMobile ? 'mobile-stack' : ''}`}>
           {servicesData.map((service, index) => (
             <Link
               to={service.link}
