@@ -205,7 +205,7 @@ const SocialMedia = () => {
       </section>
 
       {/* Platforms Section */}
-      <section className='platforms-section-sicial'>
+      <section className='platforms-section-social'>
         <div className='section-header'>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
