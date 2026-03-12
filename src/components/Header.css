@@ -199,21 +199,24 @@
   z-index: 1400;
 }
 
-/* Mobile Navigation - RIGHT ALIGNED (YOUR WORKING CODE) */
+/* Mobile Navigation */
 .nav-mobile {
   position: fixed;
-  top: 70px; /* below header */
+  top: 70px;
   right: 0;
   height: calc(100vh - 70px);
+
+  width: 280px;
+  max-width: 85vw;
+
   background: linear-gradient(145deg, #ffffff 0%, #f8faff 100%);
   box-shadow: -5px 0 30px rgba(0, 0, 0, 0.15);
+  border-left: 1px solid rgba(43, 92, 230, 0.1);
+
   z-index: 1500;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  min-width: 260px;
-  max-width: 320px;
-  border-left: 1px solid rgba(43, 92, 230, 0.1);
 }
 
 /* Hide scrollbar for cleaner look */
