@@ -81,8 +81,8 @@ const Header = () => {
   };
 
   const menuItems = [
-    { path: '/', label: 'Home →', bold: true },
-    { path: '/services', label: 'Services →', bold: true },
+    { path: '/', label: 'Home', bold: true },
+    { path: '/services', label: 'Services', bold: true },
     { path: '/about', label: 'About', bold: true },
     { path: '/contact', label: 'Get Started', isCta: true, bold: true },
   ];
@@ -204,8 +204,6 @@ const Header = () => {
                 <p className='footer-text'>
                   Let's create something amazing together
                 </p>
-                <div className='footer-divider'></div>
-                <p className='footer-copyright'>© 2024 Rainboots Marketing</p>
               </div>
             </div>
           </motion.nav>
