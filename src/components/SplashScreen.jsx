@@ -7,12 +7,38 @@ const SplashScreen = ({ onClose }) => {
   const [showSplash, setShowSplash] = useState(true);
   const [isClosing, setIsClosing] = useState(false);
   const [startLogoTransition, setStartLogoTransition] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const animationStateRef = useRef(null);
   const splashLogoRef = useRef(null);
   const closeButtonRef = useRef(null);
 
+  // Check for mobile on mount
+  useEffect(() => {
+    const checkMobile = () => {
+      const mobile = window.innerWidth <= 768;
+      setIsMobile(mobile);
+
+      // If mobile, immediately close splash screen
+      if (mobile) {
+        console.log('Mobile detected - skipping splash screen');
+        setShowSplash(false);
+        if (onClose) {
+          onClose(null);
+        }
+      }
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    return () => window.removeEventListener('resize', checkMobile);
+  }, [onClose]);
+
   // Auto-close after animation completes (safety net)
   useEffect(() => {
+    // Don't set timers if mobile
+    if (isMobile) return;
+
     const totalAnimationTime = 38000; // 38 seconds
 
     const timer = setTimeout(() => {
@@ -23,7 +49,7 @@ const SplashScreen = ({ onClose }) => {
     }, totalAnimationTime);
 
     return () => clearTimeout(timer);
-  }, [showSplash, isClosing]);
+  }, [showSplash, isClosing, isMobile]);
 
   const handleAnimationStateChange = (state) => {
     animationStateRef.current = state;
@@ -57,6 +83,9 @@ const SplashScreen = ({ onClose }) => {
 
   // Handle ESC key
   useEffect(() => {
+    // Don't add listener if mobile
+    if (isMobile) return;
+
     const handleEscKey = (event) => {
       if (event.key === 'Escape' && showSplash && !isClosing) {
         console.log('ESC pressed - closing splash');
@@ -66,13 +95,18 @@ const SplashScreen = ({ onClose }) => {
 
     window.addEventListener('keydown', handleEscKey);
     return () => window.removeEventListener('keydown', handleEscKey);
-  }, [showSplash, isClosing]);
+  }, [showSplash, isClosing, isMobile]);
 
   // Log mount/unmount
   useEffect(() => {
     console.log('SplashScreen mounted');
     return () => console.log('SplashScreen unmounted');
   }, []);
+
+  // If mobile, don't render anything
+  if (isMobile) {
+    return null;
+  }
 
   return (
     <AnimatePresence mode='wait'>
