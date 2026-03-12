@@ -1,12 +1,13 @@
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './Header.css';
 
 const Header = () => {
   const location = useLocation();
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const menuRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -47,7 +48,7 @@ const Header = () => {
       transition: {
         type: 'spring',
         stiffness: 300,
-        damping: 30,
+        damping: 35,
       },
     },
     open: {
@@ -55,145 +56,162 @@ const Header = () => {
       transition: {
         type: 'spring',
         stiffness: 300,
-        damping: 30,
+        damping: 35,
       },
     },
   };
 
+  const overlayVariants = {
+    closed: { opacity: 0 },
+    open: { opacity: 0.3 },
+  };
+
   const menuItemVariants = {
-    closed: { opacity: 0, x: 50 },
+    closed: { opacity: 0, x: 20 },
     open: (i) => ({
       opacity: 1,
       x: 0,
       transition: {
-        delay: i * 0.1,
+        delay: i * 0.06,
         type: 'spring',
-        stiffness: 300,
-        damping: 30,
+        stiffness: 400,
+        damping: 25,
       },
     }),
   };
 
+  const menuItems = [
+    { path: '/', label: 'Home →', bold: true },
+    { path: '/services', label: 'Services →', bold: true },
+    { path: '/about', label: 'About', bold: true },
+    { path: '/contact', label: 'Get Started', isCta: true, bold: true },
+  ];
+
   return (
-    <motion.header
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: 'easeOut' }}
-      className={`header ${scrolled ? 'header-scrolled' : 'header-transparent'}`}
-    >
-      <Link to='/' className='logo' onClick={() => setMobileMenuOpen(false)}>
-        <img
-          src='/images/rainboots_splashboot_icon.png'
-          alt='Rainboots Marketing'
-        />
-      </Link>
-
-      {/* Desktop Navigation */}
-      <nav className='nav-desktop'>
-        <Link to='/' className={location.pathname === '/' ? 'active' : ''}>
-          Home
-        </Link>
-        <Link
-          to='/services'
-          className={location.pathname === '/services' ? 'active' : ''}
-        >
-          Services
-        </Link>
-        <Link
-          to='/about'
-          className={location.pathname === '/about' ? 'active' : ''}
-        >
-          About
-        </Link>
-        <Link to='/contact' className='cta-button'>
-          Get Started
-        </Link>
-      </nav>
-
-      {/* Mobile Menu Button */}
-      <button
-        className={`mobile-menu-btn ${mobileMenuOpen ? 'open' : ''}`}
-        onClick={toggleMobileMenu}
-        aria-label='Toggle menu'
+    <>
+      <motion.header
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6, ease: 'easeOut' }}
+        className={`header ${scrolled ? 'header-scrolled' : 'header-transparent'}`}
       >
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+        <Link to='/' className='logo' onClick={() => setMobileMenuOpen(false)}>
+          <img
+            src='/images/rainboots_splashboot_icon.png'
+            alt='Rainboots Marketing'
+          />
+        </Link>
 
-      {/* Mobile Menu Overlay */}
+        {/* Desktop Navigation */}
+        <nav className='nav-desktop'>
+          <Link to='/' className={location.pathname === '/' ? 'active' : ''}>
+            Home
+          </Link>
+          <Link
+            to='/services'
+            className={location.pathname === '/services' ? 'active' : ''}
+          >
+            Services
+          </Link>
+          <Link
+            to='/about'
+            className={location.pathname === '/about' ? 'active' : ''}
+          >
+            About
+          </Link>
+          <Link to='/contact' className='cta-button'>
+            Get Started
+          </Link>
+        </nav>
+
+        {/* Mobile Menu Button - Always visible with animation */}
+        <button
+          className={`mobile-menu-btn ${mobileMenuOpen ? 'open' : ''}`}
+          onClick={toggleMobileMenu}
+          aria-label='Toggle menu'
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </motion.header>
+
+      {/* Mobile Menu Overlay - Click to close */}
       <AnimatePresence>
         {mobileMenuOpen && (
-          <>
-            <motion.div
-              className='mobile-menu-overlay'
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={toggleMobileMenu}
-            />
-            <motion.nav
-              className='nav-mobile'
-              variants={menuVariants}
-              initial='closed'
-              animate='open'
-              exit='closed'
-            >
-              <div className='mobile-menu-header'>
-                <span className='mobile-menu-title'>Menu</span>
-                <button
-                  className='mobile-menu-close'
-                  onClick={toggleMobileMenu}
-                  aria-label='Close menu'
-                >
-                  ×
-                </button>
-              </div>
-              <div className='mobile-menu-links'>
-                <motion.div custom={0} variants={menuItemVariants}>
-                  <Link
-                    to='/'
-                    className={location.pathname === '/' ? 'active' : ''}
-                    onClick={toggleMobileMenu}
-                  >
-                    Home
-                  </Link>
-                </motion.div>
-                <motion.div custom={1} variants={menuItemVariants}>
-                  <Link
-                    to='/services'
-                    className={
-                      location.pathname === '/services' ? 'active' : ''
-                    }
-                    onClick={toggleMobileMenu}
-                  >
-                    Services
-                  </Link>
-                </motion.div>
-                <motion.div custom={2} variants={menuItemVariants}>
-                  <Link
-                    to='/about'
-                    className={location.pathname === '/about' ? 'active' : ''}
-                    onClick={toggleMobileMenu}
-                  >
-                    About
-                  </Link>
-                </motion.div>
-                <motion.div custom={3} variants={menuItemVariants}>
-                  <Link
-                    to='/contact'
-                    className='mobile-cta'
-                    onClick={toggleMobileMenu}
-                  >
-                    Get Started
-                  </Link>
-                </motion.div>
-              </div>
-            </motion.nav>
-          </>
+          <motion.div
+            className='mobile-menu-overlay'
+            variants={overlayVariants}
+            initial='closed'
+            animate='open'
+            exit='closed'
+            onClick={toggleMobileMenu}
+          />
         )}
       </AnimatePresence>
-    </motion.header>
+
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.nav
+            ref={menuRef}
+            className='nav-mobile'
+            variants={menuVariants}
+            initial='closed'
+            animate='open'
+            exit='closed'
+          >
+            {/* Decorative Elements */}
+            <div className='menu-decoration'>
+              <div className='decoration-circle'></div>
+              <div className='decoration-dots'></div>
+              <div className='decoration-wave'></div>
+            </div>
+
+            {/* Menu Header */}
+            <div className='mobile-menu-header'>
+              <div className='menu-header-content'>
+                <span className='menu-title'>Menu</span>
+                <span className='menu-subtitle'>NAVIGATE</span>
+              </div>
+            </div>
+
+            {/* Menu Links */}
+            <div className='mobile-menu-links'>
+              {menuItems.map((item, index) => (
+                <motion.div
+                  key={item.path}
+                  custom={index}
+                  variants={menuItemVariants}
+                  className='menu-item-wrapper'
+                >
+                  <Link
+                    to={item.path}
+                    className={`menu-link ${location.pathname === item.path ? 'active' : ''} ${item.isCta ? 'menu-cta' : ''}`}
+                    onClick={toggleMobileMenu}
+                  >
+                    <span className={`menu-label ${item.bold ? 'bold' : ''}`}>
+                      {item.label}
+                    </span>
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Menu Footer */}
+            <div className='mobile-menu-footer'>
+              <div className='footer-content'>
+                <p className='footer-text'>
+                  Let's create something amazing together
+                </p>
+                <div className='footer-divider'></div>
+                <p className='footer-copyright'>© 2024 Rainboots Marketing</p>
+              </div>
+            </div>
+          </motion.nav>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 
