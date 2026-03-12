@@ -44,7 +44,7 @@ export default async function handler(req, res) {
     `;
 
     const { data, error } = await resend.emails.send({
-      from: 'Rainboots Marketing <services@rainbootsmarketing.com/>',
+      from: 'Rainboots Marketing <onboarding@resend.dev>',
       to: ['services@rainbootsmarketing.com'],
       subject: `🦸 New Hero Signal from ${name}`,
       text: emailContent,
