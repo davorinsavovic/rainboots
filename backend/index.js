@@ -18,20 +18,6 @@ app.use(express.json());
 // Routes - ONLY email functionality
 app.use('/api', sendEmailRoutes);
 
-// Simple test route
-app.get('/api/test', (req, res) => {
-  res.json({
-    message: 'Email server is running!',
-    endpoints: {
-      sendEmail: 'POST /api/send-email',
-    },
-  });
-});
-
-app.get('/api/ping', (req, res) => {
-  res.json({ message: 'pong', time: new Date().toISOString() });
-});
-
 // 404 handler
 app.use((req, res) => {
   res.status(404).json({ error: 'Endpoint not found' });
