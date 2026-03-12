@@ -21,19 +21,44 @@ function App() {
   const [showSplash, setShowSplash] = useState(true);
   const [animationState, setAnimationState] = useState(null);
   const [hasAnimationPlayed, setHasAnimationPlayed] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check for mobile device
+  useEffect(() => {
+    const checkMobile = () => {
+      const mobile = window.innerWidth <= 768;
+      setIsMobile(mobile);
+
+      // If mobile, never show splash screen
+      if (mobile) {
+        setShowSplash(false);
+        sessionStorage.setItem('splashShown', 'true');
+      }
+    };
+
+    // Check on initial load
+    checkMobile();
+
+    // Check on resize
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
-    const splashShown = sessionStorage.getItem('splashShown');
-    const animationPlayed = sessionStorage.getItem('animationPlayed');
+    // Only check sessionStorage if not mobile
+    if (!isMobile) {
+      const splashShown = sessionStorage.getItem('splashShown');
+      const animationPlayed = sessionStorage.getItem('animationPlayed');
 
-    if (splashShown) {
-      setShowSplash(false);
-    }
+      if (splashShown) {
+        setShowSplash(false);
+      }
 
-    if (animationPlayed) {
-      setHasAnimationPlayed(true);
+      if (animationPlayed) {
+        setHasAnimationPlayed(true);
+      }
     }
-  }, []);
+  }, [isMobile]);
 
   const handleSplashClose = (savedState) => {
     setShowSplash(false);
@@ -49,9 +74,44 @@ function App() {
     sessionStorage.setItem('animationPlayed', 'true');
   };
 
+  // If mobile, never show splash screen
+  if (isMobile) {
+    return (
+      <Router>
+        <ScrollToTop />
+        <Header />
+        <Routes>
+          <Route
+            path='/'
+            element={
+              <Home
+                initialAnimationState={null}
+                hasAnimationPlayed={true} // Treat as played on mobile
+                onAnimationPlayed={handleAnimationPlayed}
+              />
+            }
+          />
+          <Route path='/services' element={<Services />} />
+          <Route path='/about' element={<About />} />
+          <Route path='/contact' element={<Contact />} />
+          <Route path='/outbound' element={<Outbound />} />
+          <Route path='/web-development' element={<WebDevelopment />} />
+          <Route path='/acquisition' element={<CustomerAcquisition />} />
+          <Route path='/lifecycle' element={<LifecycleStrategy />} />
+          <Route path='/social' element={<SocialMedia />} />
+          <Route path='/branding' element={<BrandIdentity />} />
+          <Route path='/privacy' element={<PrivacyPolicy />} />
+          <Route path='/terms' element={<TermsConditions />} />
+        </Routes>
+        <Footer />
+      </Router>
+    );
+  }
+
+  // Desktop - show splash screen logic
   return (
     <Router>
-      <ScrollToTop /> {/* Add this component here */}
+      <ScrollToTop />
       {showSplash && <SplashScreen onClose={handleSplashClose} />}
       {!showSplash && (
         <>
