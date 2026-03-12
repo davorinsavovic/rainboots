@@ -287,7 +287,7 @@ const SocialMedia = () => {
       </section>
 
       {/* Benefits Section */}
-      <section className='benefits-section'>
+      <section className='benefits-section-social'>
         <div className='benefits-container'>
           <motion.div
             className='benefits-content'

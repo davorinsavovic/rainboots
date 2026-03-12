@@ -197,7 +197,7 @@ const Outbound = () => {
       </section>
 
       {/* Benefits Section */}
-      <section className='benefits-section'>
+      <section className='benefits-section-outbound'>
         <div className='benefits-container'>
           <motion.div
             className='benefits-content'
