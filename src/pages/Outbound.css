@@ -2,7 +2,7 @@
   min-height: 100vh;
 }
 
-/* Hero Section */
+/* ===== HERO SECTION ===== */
 .outbound-hero {
   padding: 8rem 5% 4rem;
   background: linear-gradient(
@@ -50,7 +50,7 @@
   filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.1));
 }
 
-/* Stats Section */
+/* ===== STATS SECTION ===== */
 .outbound-stats {
   padding: 4rem 5%;
   background: white;
@@ -80,7 +80,7 @@
   font-weight: 300;
 }
 
-/* Channels Section */
+/* ===== CHANNELS SECTION ===== */
 .channels-section {
   padding: 6rem 5%;
   background: var(--light);
@@ -162,7 +162,7 @@
   font-size: 0.95rem;
 }
 
-/* Benefits Section */
+/* ===== BENEFITS SECTION ===== */
 .benefits-section-outbound {
   padding: 6rem 5%;
   background: white !important;
@@ -250,7 +250,7 @@
   height: auto;
 }
 
-/* Process Section */
+/* ===== PROCESS SECTION ===== */
 .process-section {
   padding: 6rem 5%;
   background: var(--light);
@@ -305,7 +305,7 @@
   font-size: 0.95rem;
 }
 
-/* CTA Section */
+/* ===== CTA SECTION ===== */
 .outbound-cta {
   padding: 6rem 5%;
   background: linear-gradient(135deg, var(--primary) 0%, var(--splash) 100%);
@@ -337,6 +337,13 @@
 .outbound-cta .btn-primary {
   background: white;
   color: var(--primary);
+  padding: 1.2rem 3rem;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: inline-block;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
@@ -347,7 +354,85 @@
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
 }
 
-/* Responsive */
+/* ===== RESPONSIVE BREAKPOINTS ===== */
+
+/* Large Desktop */
+@media (min-width: 1800px) {
+  .outbound-hero h1 {
+    font-size: 4rem;
+  }
+
+  .outbound-hero-image img {
+    max-width: 90%;
+  }
+}
+
+/* Desktop */
+@media (max-width: 1600px) {
+  .outbound-hero h1 {
+    font-size: 3.2rem;
+  }
+
+  .outbound-hero {
+    gap: 3rem;
+  }
+}
+
+/* Small Desktop */
+@media (max-width: 1400px) {
+  .outbound-hero {
+    padding: 7rem 5% 3rem;
+  }
+
+  .outbound-hero h1 {
+    font-size: 3rem;
+  }
+
+  .outbound-hero p {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 1300px) {
+  .outbound-hero h1 {
+    font-size: 2.8rem;
+  }
+
+  .channels-grid {
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 1200px) {
+  .outbound-hero h1 {
+    font-size: 2.6rem;
+  }
+
+  .process-grid {
+    gap: 1.5rem;
+  }
+
+  .benefits-content h2 {
+    font-size: 2.2rem;
+  }
+}
+
+@media (max-width: 1100px) {
+  .outbound-hero {
+    padding: 6rem 4% 3rem;
+    gap: 2rem;
+  }
+
+  .outbound-hero h1 {
+    font-size: 2.4rem;
+  }
+
+  .outbound-hero p {
+    font-size: 1rem;
+  }
+}
+
+/* Tablet */
 @media (max-width: 1024px) {
   .channels-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -359,40 +444,458 @@
 
   .outbound-stats .stats-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  .benefits-container {
+    gap: 3rem;
+  }
+
+  .outbound-cta h2 {
+    font-size: 2.5rem;
   }
 }
 
-@media (max-width: 768px) {
+/* Mobile Breakpoint - Major improvements */
+@media (max-width: 800px) {
+  /* Push content down below fixed header */
+  .outbound-page {
+    padding-top: 70px;
+  }
+
+  /* Hero Section - Mobile (hide image) */
   .outbound-hero {
     grid-template-columns: 1fr;
     text-align: center;
-    gap: 2rem;
+    gap: 1.5rem;
+    padding: 2rem 1rem !important;
+    margin-top: 0;
   }
 
   .outbound-hero-content {
     margin: 0 auto;
+    max-width: 100%;
+  }
+
+  .outbound-hero h1 {
+    font-size: 2.2rem !important;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+
+  .outbound-hero p {
+    font-size: 1rem !important;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    padding: 0 0.5rem;
+  }
+
+  /* Hide hero image on mobile */
+  .outbound-hero-image {
+    display: none !important;
+  }
+
+  /* Stats Section - Mobile */
+  .outbound-stats {
+    padding: 3rem 1rem !important;
+  }
+
+  .outbound-stats .stats-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2rem;
+  }
+
+  .outbound-stats .stat-item h3 {
+    font-size: 2.5rem !important;
+  }
+
+  .outbound-stats .stat-item p {
+    font-size: 1rem;
+  }
+
+  /* Channels Section - Mobile */
+  .channels-section {
+    padding: 3rem 1rem !important;
+  }
+
+  .section-header {
+    margin-bottom: 2rem;
+  }
+
+  .section-header h2 {
+    font-size: 2rem !important;
+  }
+
+  .section-header p {
+    font-size: 1rem !important;
+    padding: 0 1rem;
+  }
+
+  .channels-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.2rem;
+  }
+
+  .channel-card {
+    padding: 1.5rem;
+  }
+
+  .channel-icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 1rem;
+  }
+
+  .channel-icon img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .channel-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .channel-card p {
+    font-size: 0.9rem;
+  }
+
+  /* Benefits Section - Mobile */
+  .benefits-section-outbound {
+    padding: 3rem 1rem !important;
   }
 
   .benefits-container {
     grid-template-columns: 1fr;
+    gap: 2rem;
   }
 
-  .channels-grid,
+  .benefits-content {
+    text-align: center;
+  }
+
+  .benefits-content .section-tag {
+    margin-bottom: 1rem;
+  }
+
+  .benefits-content h2 {
+    font-size: 2rem !important;
+  }
+
+  .benefits-content > p {
+    font-size: 1rem !important;
+    margin-bottom: 2rem;
+  }
+
+  .benefits-list {
+    gap: 1.2rem;
+    text-align: left;
+  }
+
+  .benefit-item {
+    gap: 0.8rem;
+  }
+
+  .benefit-item h4 {
+    font-size: 1.1rem;
+  }
+
+  .benefit-item p {
+    font-size: 0.9rem;
+  }
+
+  .benefits-image {
+    display: none; /* Hide benefits image on mobile */
+  }
+
+  /* Process Section - Mobile */
+  .process-section {
+    padding: 3rem 1rem !important;
+  }
+
   .process-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
+    gap: 1rem;
   }
 
-  .outbound-stats .stats-grid {
-    grid-template-columns: 1fr;
+  .process-card {
+    padding: 1.5rem;
+  }
+
+  .process-step {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .process-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .process-card p {
+    font-size: 0.9rem;
+  }
+
+  /* CTA Section - Mobile */
+  .outbound-cta {
+    padding: 3rem 1rem !important;
+  }
+
+  .outbound-cta h2 {
+    font-size: 2rem !important;
+    margin-bottom: 1rem;
+  }
+
+  .outbound-cta p {
+    font-size: 1rem !important;
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+  }
+
+  .outbound-cta .btn-primary {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+  }
+}
+
+/* Extra Small Devices */
+@media (max-width: 600px) {
+  .outbound-page {
+    padding-top: 65px;
+  }
+
+  .outbound-hero {
+    padding: 1.5rem 0.75rem !important;
   }
 
   .outbound-hero h1 {
-    font-size: 2.5rem;
+    font-size: 2rem !important;
   }
 
-  .section-header h2,
-  .benefits-content h2,
+  .outbound-hero p {
+    font-size: 0.95rem !important;
+    padding: 0 0.25rem;
+  }
+
+  .outbound-stats {
+    padding: 2rem 0.75rem !important;
+  }
+
+  .outbound-stats .stat-item h3 {
+    font-size: 2.2rem !important;
+  }
+
+  .outbound-stats .stat-item p {
+    font-size: 0.9rem;
+  }
+
+  .channels-section {
+    padding: 2rem 0.75rem !important;
+  }
+
+  .section-header h2 {
+    font-size: 1.8rem !important;
+  }
+
+  .channel-card {
+    padding: 1.2rem;
+  }
+
+  .channel-icon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .channel-icon img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .benefits-section-outbound {
+    padding: 2rem 0.75rem !important;
+  }
+
+  .benefits-content h2 {
+    font-size: 1.8rem !important;
+  }
+
+  .process-section {
+    padding: 2rem 0.75rem !important;
+  }
+
+  .process-card {
+    padding: 1.2rem;
+  }
+
+  .outbound-cta {
+    padding: 2rem 0.75rem !important;
+  }
+
   .outbound-cta h2 {
+    font-size: 1.8rem !important;
+  }
+
+  .outbound-cta .btn-primary {
+    max-width: 250px;
+    padding: 0.875rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .outbound-page {
+    padding-top: 60px;
+  }
+
+  .outbound-hero h1 {
+    font-size: 1.8rem !important;
+  }
+
+  .outbound-hero p {
+    font-size: 0.9rem !important;
+  }
+
+  .outbound-stats .stat-item h3 {
+    font-size: 2rem !important;
+  }
+
+  .section-header h2 {
+    font-size: 1.6rem !important;
+  }
+
+  .section-header p {
+    font-size: 0.9rem !important;
+  }
+
+  .benefits-content h2 {
+    font-size: 1.6rem !important;
+  }
+
+  .outbound-cta h2 {
+    font-size: 1.6rem !important;
+  }
+
+  .outbound-cta .btn-primary {
+    max-width: 240px;
+    padding: 0.875rem 1.25rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .outbound-hero h1 {
+    font-size: 1.6rem !important;
+  }
+
+  .outbound-hero p {
+    font-size: 0.85rem !important;
+  }
+
+  .outbound-stats .stat-item h3 {
+    font-size: 1.8rem !important;
+  }
+
+  .section-header h2 {
+    font-size: 1.5rem !important;
+  }
+
+  .benefits-content h2 {
+    font-size: 1.5rem !important;
+  }
+
+  .outbound-cta h2 {
+    font-size: 1.5rem !important;
+  }
+
+  .channel-card h3 {
+    font-size: 1.1rem;
+  }
+
+  .channel-card p {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .outbound-page {
+    padding-top: 55px;
+  }
+
+  .outbound-hero h1 {
+    font-size: 1.5rem !important;
+  }
+
+  .outbound-stats .stat-item h3 {
+    font-size: 1.6rem !important;
+  }
+
+  .section-header h2 {
+    font-size: 1.4rem !important;
+  }
+
+  .benefits-content h2 {
+    font-size: 1.4rem !important;
+  }
+
+  .outbound-cta h2 {
+    font-size: 1.4rem !important;
+  }
+
+  .outbound-cta .btn-primary {
+    max-width: 200px;
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .outbound-hero h1 {
+    font-size: 1.4rem !important;
+  }
+}
+
+/* Mobile Landscape */
+@media (max-width: 800px) and (orientation: landscape) {
+  .outbound-hero {
+    padding: 1.5rem 2rem !important;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .outbound-hero-image {
+    display: none; /* Keep hidden in landscape */
+  }
+
+  .outbound-hero-content {
+    text-align: left;
+  }
+
+  .outbound-hero h1 {
     font-size: 2rem;
+  }
+
+  .channels-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .process-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .benefits-container {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .benefits-image {
+    display: none; /* Keep hidden in landscape */
+  }
+
+  .outbound-cta .btn-primary {
+    width: auto;
+    max-width: none;
+  }
+}
+
+@media (max-width: 700px) and (orientation: landscape) {
+  .outbound-hero h1 {
+    font-size: 1.8rem;
   }
 }
