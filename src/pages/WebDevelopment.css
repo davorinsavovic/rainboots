@@ -694,11 +694,6 @@
     padding: 3rem 1rem !important;
   }
 
-  .tech-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 1rem;
-  }
-
   .tech-item {
     padding: 1.2rem;
   }
@@ -824,46 +819,6 @@
 .tech-item p {
   font-weight: 500;
   color: var(--dark);
-}
-
-/* Mobile Breakpoint - already in your file, but update the tech-grid rule */
-@media (max-width: 800px) {
-  /* ... existing styles ... */
-
-  /* Technologies Section - Mobile */
-  .tech-section {
-    padding: 3rem 1rem !important;
-  }
-
-  .tech-grid {
-    grid-template-columns: repeat(4, 1fr) !important; /* Force 4 columns */
-    gap: 0.5rem;
-  }
-
-  .tech-item {
-    padding: 0.8rem 0.5rem;
-    background: transparent;
-    box-shadow: none;
-    border: none;
-  }
-
-  .tech-item:hover {
-    transform: translateY(-3px);
-    border: none;
-    box-shadow: none;
-  }
-
-  .tech-item img {
-    width: 40px;
-    height: 40px;
-    margin-bottom: 0.3rem;
-  }
-
-  .tech-item p {
-    font-size: 0.7rem;
-    font-weight: 400;
-    color: var(--text);
-  }
 }
 
 /* Extra Small Devices - keep 4 columns but adjust sizes */
@@ -1049,10 +1004,6 @@
     padding: 0.875rem 1.25rem;
     font-size: 0.95rem;
   }
-
-  .tech-grid {
-    grid-template-columns: 1fr !important; /* Stack tech items on very small screens */
-  }
 }
 
 @media (max-width: 400px) {
@@ -1143,7 +1094,7 @@
   }
 
   .webdev-hero-image {
-    display: none; /* Keep hidden in landscape */
+    display: none;
   }
 
   .webdev-hero-content {
@@ -1171,21 +1122,51 @@
   }
 
   .features-image {
-    display: none; /* Keep hidden in landscape */
+    display: none;
   }
 
   .webdev-cta .btn-primary {
     width: auto;
     max-width: none;
   }
+
+  .tech-section {
+    padding: 3rem 1rem !important;
+  }
+
+  .tech-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 0.5rem;
+  }
+
+  .tech-item {
+    padding: 0.8rem 0.5rem;
+    background: transparent;
+    box-shadow: none;
+    border: none;
+  }
+
+  .tech-item:hover {
+    transform: translateY(-3px);
+    border: none;
+    box-shadow: none;
+  }
+
+  .tech-item img {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 0.3rem;
+  }
+
+  .tech-item p {
+    font-size: 0.7rem;
+    font-weight: 400;
+    color: var(--text);
+  }
 }
 
 @media (max-width: 700px) and (orientation: landscape) {
   .webdev-hero h1 {
     font-size: 1.8rem;
-  }
-
-  .tech-grid {
-    grid-template-columns: repeat(3, 1fr) !important;
   }
 }
