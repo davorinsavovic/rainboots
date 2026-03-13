@@ -2,7 +2,7 @@
   min-height: 100vh;
 }
 
-/* Hero Section */
+/* ===== HERO SECTION ===== */
 .acquisition-hero {
   padding: 8rem 5% 4rem;
   background: linear-gradient(
@@ -50,7 +50,7 @@
   filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.1));
 }
 
-/* Stats Section */
+/* ===== STATS SECTION ===== */
 .acquisition-stats {
   padding: 4rem 5%;
   background: white;
@@ -80,7 +80,7 @@
   font-weight: 300;
 }
 
-/* Channels Section */
+/* ===== CHANNELS SECTION ===== */
 .acquisition-channels {
   padding: 6rem 5%;
   background: var(--light);
@@ -162,7 +162,7 @@
   font-size: 0.95rem;
 }
 
-/* Platforms Section */
+/* ===== PLATFORMS SECTION ===== */
 .platforms-section-acquisition {
   padding: 6rem 5%;
   background: white !important;
@@ -205,7 +205,7 @@
   color: var(--dark);
 }
 
-/* Process Section */
+/* ===== PROCESS SECTION ===== */
 .acquisition-process {
   padding: 6rem 5%;
   background: var(--light);
@@ -295,7 +295,7 @@
   font-size: 0.95rem;
 }
 
-/* Strategies Section */
+/* ===== STRATEGIES SECTION ===== */
 .strategies-section {
   padding: 6rem 5%;
   background: white;
@@ -386,7 +386,7 @@
   line-height: 1.6;
 }
 
-/* CTA Section */
+/* ===== CTA SECTION ===== */
 .acquisition-cta {
   padding: 6rem 5%;
   background: linear-gradient(135deg, var(--primary) 0%, var(--splash) 100%);
@@ -418,6 +418,13 @@
 .acquisition-cta .btn-primary {
   background: white;
   color: var(--primary);
+  padding: 1.2rem 3rem;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: inline-block;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
@@ -428,9 +435,90 @@
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
 }
 
-/* Responsive */
+/* ===== RESPONSIVE BREAKPOINTS ===== */
+
+/* Large Desktop */
+@media (min-width: 1800px) {
+  .acquisition-hero h1 {
+    font-size: 4rem;
+  }
+
+  .acquisition-hero-image img {
+    max-width: 90%;
+  }
+}
+
+/* Desktop */
+@media (max-width: 1600px) {
+  .acquisition-hero h1 {
+    font-size: 3.2rem;
+  }
+
+  .acquisition-hero {
+    gap: 3rem;
+  }
+}
+
+/* Small Desktop */
+@media (max-width: 1400px) {
+  .acquisition-hero {
+    padding: 7rem 5% 3rem;
+  }
+
+  .acquisition-hero h1 {
+    font-size: 3rem;
+  }
+
+  .acquisition-hero p {
+    font-size: 1.1rem;
+  }
+
+  .acquisition-channels .channels-grid {
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 1300px) {
+  .acquisition-hero h1 {
+    font-size: 2.8rem;
+  }
+
+  .acquisition-process .process-steps {
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 1200px) {
+  .acquisition-hero h1 {
+    font-size: 2.6rem;
+  }
+
+  .strategies-content h2 {
+    font-size: 2.2rem;
+  }
+}
+
+@media (max-width: 1100px) {
+  .acquisition-hero {
+    padding: 6rem 4% 3rem;
+    gap: 2rem;
+  }
+
+  .acquisition-hero h1 {
+    font-size: 2.4rem;
+  }
+
+  .acquisition-hero p {
+    font-size: 1rem;
+  }
+}
+
+/* Tablet */
 @media (max-width: 1024px) {
-  .acquisition-channels .channels-grid,
+  .acquisition-channels .channels-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .acquisition-process .process-steps {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -441,42 +529,548 @@
 
   .acquisition-stats .stats-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  .strategies-container {
+    gap: 3rem;
+  }
+
+  .acquisition-cta h2 {
+    font-size: 2.5rem;
   }
 }
 
-@media (max-width: 768px) {
+/* Mobile Breakpoint - Major improvements */
+@media (max-width: 800px) {
+  /* Push content down below fixed header */
+  .acquisition-page {
+    padding-top: 70px;
+  }
+
+  /* Hero Section - Mobile (hide image) */
   .acquisition-hero {
     grid-template-columns: 1fr;
     text-align: center;
-    gap: 2rem;
+    gap: 1.5rem;
+    padding: 2rem 1rem !important;
+    margin-top: 0;
   }
 
   .acquisition-hero-content {
     margin: 0 auto;
+    max-width: 100%;
+  }
+
+  .acquisition-hero h1 {
+    font-size: 2.2rem !important;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+
+  .acquisition-hero p {
+    font-size: 1rem !important;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    padding: 0 0.5rem;
+  }
+
+  /* Hide hero image on mobile */
+  .acquisition-hero-image {
+    display: none !important;
+  }
+
+  /* Stats Section - Mobile */
+  .acquisition-stats {
+    padding: 3rem 1rem !important;
+  }
+
+  .acquisition-stats .stats-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2rem;
+  }
+
+  .acquisition-stats .stat-item h3 {
+    font-size: 2.5rem !important;
+  }
+
+  .acquisition-stats .stat-item p {
+    font-size: 1rem;
+  }
+
+  /* Channels Section - Mobile */
+  .acquisition-channels {
+    padding: 3rem 1rem !important;
+  }
+
+  .section-header {
+    margin-bottom: 2rem;
+  }
+
+  .section-header h2 {
+    font-size: 2rem !important;
+  }
+
+  .section-header p {
+    font-size: 1rem !important;
+    padding: 0 1rem;
+  }
+
+  .acquisition-channels .channels-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.2rem;
+  }
+
+  .acquisition-channels .channel-card {
+    padding: 1.5rem;
+  }
+
+  .channel-icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 1rem;
+  }
+
+  .channel-icon img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .acquisition-channels .channel-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .acquisition-channels .channel-card p {
+    font-size: 0.9rem;
+  }
+
+  /* Platforms Section - Mobile */
+  .platforms-section-acquisition {
+    padding: 3rem 1rem !important;
+  }
+
+  .platforms-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1rem;
+  }
+
+  .platform-item {
+    padding: 1.2rem;
+  }
+
+  .platform-item img {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 0.5rem;
+  }
+
+  .platform-item p {
+    font-size: 0.9rem;
+  }
+
+  /* Process Section - Mobile */
+  .acquisition-process {
+    padding: 3rem 1rem !important;
+  }
+
+  .process-content {
+    margin-bottom: 2rem;
+  }
+
+  .process-content .section-tag {
+    margin-bottom: 1rem;
+  }
+
+  .process-content h2 {
+    font-size: 2rem !important;
+  }
+
+  .process-content p {
+    font-size: 1rem !important;
+  }
+
+  .acquisition-process .process-steps {
+    grid-template-columns: 1fr !important;
+    gap: 1rem;
+  }
+
+  .acquisition-process .process-step {
+    padding: 1.5rem;
+  }
+
+  .step-number {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .acquisition-process .process-step h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .acquisition-process .process-step p {
+    font-size: 0.9rem;
+  }
+
+  /* Strategies Section - Mobile */
+  .strategies-section {
+    padding: 3rem 1rem !important;
   }
 
   .strategies-container {
     grid-template-columns: 1fr;
+    gap: 2rem;
   }
 
-  .acquisition-channels .channels-grid,
-  .acquisition-process .process-steps,
-  .platforms-grid {
-    grid-template-columns: 1fr;
+  .strategies-content {
+    text-align: center;
   }
 
-  .acquisition-stats .stats-grid {
-    grid-template-columns: 1fr;
+  .strategies-content .section-tag {
+    margin-bottom: 1rem;
+  }
+
+  .strategies-content h2 {
+    font-size: 2rem !important;
+  }
+
+  .strategies-content > p {
+    font-size: 1rem !important;
+    margin-bottom: 2rem;
+  }
+
+  .strategies-list {
+    gap: 1.2rem;
+    text-align: left;
+  }
+
+  .strategy-item {
+    gap: 0.8rem;
+  }
+
+  .strategy-item h4 {
+    font-size: 1.1rem;
+  }
+
+  .strategy-item p {
+    font-size: 0.9rem;
+  }
+
+  .strategies-image {
+    display: none; /* Hide strategies image on mobile */
+  }
+
+  /* CTA Section - Mobile */
+  .acquisition-cta {
+    padding: 3rem 1rem !important;
+  }
+
+  .acquisition-cta h2 {
+    font-size: 2rem !important;
+    margin-bottom: 1rem;
+  }
+
+  .acquisition-cta p {
+    font-size: 1rem !important;
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+  }
+
+  .acquisition-cta .btn-primary {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+  }
+}
+
+/* Extra Small Devices */
+@media (max-width: 600px) {
+  .acquisition-page {
+    padding-top: 65px;
+  }
+
+  .acquisition-hero {
+    padding: 1.5rem 0.75rem !important;
   }
 
   .acquisition-hero h1 {
-    font-size: 2.5rem;
+    font-size: 2rem !important;
   }
 
-  .section-header h2,
-  .process-content h2,
-  .strategies-content h2,
+  .acquisition-hero p {
+    font-size: 0.95rem !important;
+    padding: 0 0.25rem;
+  }
+
+  .acquisition-stats {
+    padding: 2rem 0.75rem !important;
+  }
+
+  .acquisition-stats .stat-item h3 {
+    font-size: 2.2rem !important;
+  }
+
+  .acquisition-stats .stat-item p {
+    font-size: 0.9rem;
+  }
+
+  .acquisition-channels {
+    padding: 2rem 0.75rem !important;
+  }
+
+  .section-header h2 {
+    font-size: 1.8rem !important;
+  }
+
+  .acquisition-channels .channel-card {
+    padding: 1.2rem;
+  }
+
+  .channel-icon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .channel-icon img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .platforms-section-acquisition {
+    padding: 2rem 0.75rem !important;
+  }
+
+  .platforms-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.8rem;
+  }
+
+  .platform-item {
+    padding: 1rem;
+  }
+
+  .platform-item img {
+    width: 35px;
+    height: 35px;
+  }
+
+  .platform-item p {
+    font-size: 0.8rem;
+  }
+
+  .acquisition-process {
+    padding: 2rem 0.75rem !important;
+  }
+
+  .process-content h2 {
+    font-size: 1.8rem !important;
+  }
+
+  .acquisition-process .process-step {
+    padding: 1.2rem;
+  }
+
+  .strategies-section {
+    padding: 2rem 0.75rem !important;
+  }
+
+  .strategies-content h2 {
+    font-size: 1.8rem !important;
+  }
+
+  .acquisition-cta {
+    padding: 2rem 0.75rem !important;
+  }
+
   .acquisition-cta h2 {
+    font-size: 1.8rem !important;
+  }
+
+  .acquisition-cta .btn-primary {
+    max-width: 250px;
+    padding: 0.875rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .acquisition-page {
+    padding-top: 60px;
+  }
+
+  .acquisition-hero h1 {
+    font-size: 1.8rem !important;
+  }
+
+  .acquisition-hero p {
+    font-size: 0.9rem !important;
+  }
+
+  .acquisition-stats .stat-item h3 {
+    font-size: 2rem !important;
+  }
+
+  .section-header h2 {
+    font-size: 1.6rem !important;
+  }
+
+  .section-header p {
+    font-size: 0.9rem !important;
+  }
+
+  .process-content h2 {
+    font-size: 1.6rem !important;
+  }
+
+  .strategies-content h2 {
+    font-size: 1.6rem !important;
+  }
+
+  .acquisition-cta h2 {
+    font-size: 1.6rem !important;
+  }
+
+  .acquisition-cta .btn-primary {
+    max-width: 240px;
+    padding: 0.875rem 1.25rem;
+    font-size: 0.95rem;
+  }
+
+  .platforms-grid {
+    grid-template-columns: 1fr !important; /* Stack platform items on very small screens */
+  }
+}
+
+@media (max-width: 400px) {
+  .acquisition-hero h1 {
+    font-size: 1.6rem !important;
+  }
+
+  .acquisition-hero p {
+    font-size: 0.85rem !important;
+  }
+
+  .acquisition-stats .stat-item h3 {
+    font-size: 1.8rem !important;
+  }
+
+  .section-header h2 {
+    font-size: 1.5rem !important;
+  }
+
+  .process-content h2 {
+    font-size: 1.5rem !important;
+  }
+
+  .strategies-content h2 {
+    font-size: 1.5rem !important;
+  }
+
+  .acquisition-cta h2 {
+    font-size: 1.5rem !important;
+  }
+
+  .acquisition-channels .channel-card h3 {
+    font-size: 1.1rem;
+  }
+
+  .acquisition-channels .channel-card p {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .acquisition-page {
+    padding-top: 55px;
+  }
+
+  .acquisition-hero h1 {
+    font-size: 1.5rem !important;
+  }
+
+  .acquisition-stats .stat-item h3 {
+    font-size: 1.6rem !important;
+  }
+
+  .section-header h2 {
+    font-size: 1.4rem !important;
+  }
+
+  .process-content h2 {
+    font-size: 1.4rem !important;
+  }
+
+  .strategies-content h2 {
+    font-size: 1.4rem !important;
+  }
+
+  .acquisition-cta h2 {
+    font-size: 1.4rem !important;
+  }
+
+  .acquisition-cta .btn-primary {
+    max-width: 200px;
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .acquisition-hero h1 {
+    font-size: 1.4rem !important;
+  }
+}
+
+/* Mobile Landscape */
+@media (max-width: 800px) and (orientation: landscape) {
+  .acquisition-hero {
+    padding: 1.5rem 2rem !important;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .acquisition-hero-image {
+    display: none; /* Keep hidden in landscape */
+  }
+
+  .acquisition-hero-content {
+    text-align: left;
+  }
+
+  .acquisition-hero h1 {
     font-size: 2rem;
+  }
+
+  .acquisition-channels .channels-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .acquisition-process .process-steps {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .platforms-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+
+  .strategies-container {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .strategies-image {
+    display: none; /* Keep hidden in landscape */
+  }
+
+  .acquisition-cta .btn-primary {
+    width: auto;
+    max-width: none;
+  }
+}
+
+@media (max-width: 700px) and (orientation: landscape) {
+  .acquisition-hero h1 {
+    font-size: 1.8rem;
+  }
+
+  .platforms-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
   }
 }
