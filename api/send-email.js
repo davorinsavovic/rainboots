@@ -44,7 +44,7 @@ ${message}
 
     const { data, error } = await resend.emails.send({
       from: 'Rainboots Marketing <hello@rainbootsmarketing.com>',
-      to: ['services@rainbootsmarketing.com'],
+      to: ['davorins@gmail.com'],
       subject: `🦸 New Hero Signal from ${name}`,
       text: emailContent,
       reply_to: email,

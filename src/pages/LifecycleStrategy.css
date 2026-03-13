@@ -2,7 +2,7 @@
   min-height: 100vh;
 }
 
-/* Hero Section */
+/* ===== HERO SECTION ===== */
 .lifecycle-hero {
   padding: 8rem 5% 4rem;
   background: linear-gradient(
@@ -50,7 +50,7 @@
   filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.1));
 }
 
-/* Stats Section */
+/* ===== STATS SECTION ===== */
 .lifecycle-stats {
   padding: 4rem 5%;
   background: white;
@@ -80,7 +80,7 @@
   font-weight: 300;
 }
 
-/* Stages Section */
+/* ===== STAGES SECTION ===== */
 .lifecycle-stages {
   padding: 6rem 5%;
   background: var(--light);
@@ -162,7 +162,7 @@
   font-size: 0.95rem;
 }
 
-/* Channels Section */
+/* ===== CHANNELS SECTION ===== */
 .lifecycle-channels {
   padding: 6rem 5%;
   background: white;
@@ -176,15 +176,15 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 4rem;
-  align-items: start; /* This aligns items to the top */
+  align-items: start;
 }
 
 .channels-content,
 .strategies-content {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* Content starts from the top */
-  height: 100%; /* Take full height of the grid cell */
+  justify-content: flex-start;
+  height: 100%;
 }
 
 .channels-content .section-tag,
@@ -199,7 +199,7 @@
   font-size: 0.9rem;
   letter-spacing: 1px;
   text-transform: uppercase;
-  align-self: flex-start; /* Keep tag left-aligned */
+  align-self: flex-start;
 }
 
 .channels-content h2,
@@ -259,7 +259,7 @@
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
 
-/* Process Section */
+/* ===== PROCESS SECTION ===== */
 .lifecycle-process {
   padding: 6rem 5%;
   background: var(--light);
@@ -349,7 +349,7 @@
   font-size: 0.95rem;
 }
 
-/* Strategies Section */
+/* ===== STRATEGIES SECTION ===== */
 .strategies-section {
   padding: 6rem 5%;
   background: white;
@@ -440,7 +440,7 @@
   line-height: 1.6;
 }
 
-/* CTA Section */
+/* ===== CTA SECTION ===== */
 .lifecycle-cta {
   padding: 6rem 5%;
   background: linear-gradient(135deg, var(--primary) 0%, var(--splash) 100%);
@@ -472,6 +472,13 @@
 .lifecycle-cta .btn-primary {
   background: white;
   color: var(--primary);
+  padding: 1.2rem 3rem;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: inline-block;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
@@ -482,7 +489,86 @@
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
 }
 
-/* Responsive */
+/* ===== RESPONSIVE BREAKPOINTS ===== */
+
+/* Large Desktop */
+@media (min-width: 1800px) {
+  .lifecycle-hero h1 {
+    font-size: 4rem;
+  }
+
+  .lifecycle-hero-image img {
+    max-width: 90%;
+  }
+}
+
+/* Desktop */
+@media (max-width: 1600px) {
+  .lifecycle-hero h1 {
+    font-size: 3.2rem;
+  }
+
+  .lifecycle-hero {
+    gap: 3rem;
+  }
+}
+
+/* Small Desktop */
+@media (max-width: 1400px) {
+  .lifecycle-hero {
+    padding: 7rem 5% 3rem;
+  }
+
+  .lifecycle-hero h1 {
+    font-size: 3rem;
+  }
+
+  .lifecycle-hero p {
+    font-size: 1.1rem;
+  }
+
+  .stages-grid {
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 1300px) {
+  .lifecycle-hero h1 {
+    font-size: 2.8rem;
+  }
+
+  .lifecycle-process .process-steps {
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 1200px) {
+  .lifecycle-hero h1 {
+    font-size: 2.6rem;
+  }
+
+  .channels-content h2,
+  .strategies-content h2 {
+    font-size: 2.2rem;
+  }
+}
+
+@media (max-width: 1100px) {
+  .lifecycle-hero {
+    padding: 6rem 4% 3rem;
+    gap: 2rem;
+  }
+
+  .lifecycle-hero h1 {
+    font-size: 2.4rem;
+  }
+
+  .lifecycle-hero p {
+    font-size: 1rem;
+  }
+}
+
+/* Tablet */
 @media (max-width: 1024px) {
   .stages-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -494,43 +580,628 @@
 
   .lifecycle-stats .stats-grid {
     grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 768px) {
-  .lifecycle-hero {
-    grid-template-columns: 1fr;
-    text-align: center;
     gap: 2rem;
-  }
-
-  .lifecycle-hero-content {
-    margin: 0 auto;
   }
 
   .channels-container,
   .strategies-container {
-    grid-template-columns: 1fr;
+    gap: 3rem;
   }
 
-  .stages-grid,
-  .lifecycle-process .process-steps {
-    grid-template-columns: 1fr;
+  .lifecycle-cta h2 {
+    font-size: 2.5rem;
+  }
+}
+
+/* Mobile Breakpoint - Major improvements */
+@media (max-width: 800px) {
+  /* Push content down below fixed header */
+  .lifecycle-page {
+    padding-top: 70px;
   }
 
-  .lifecycle-stats .stats-grid {
+  /* Hero Section - Mobile (hide image) */
+  .lifecycle-hero {
     grid-template-columns: 1fr;
+    text-align: center;
+    gap: 1.5rem;
+    padding: 2rem 1rem !important;
+    margin-top: 0;
+  }
+
+  .lifecycle-hero-content {
+    margin: 0 auto;
+    max-width: 100%;
   }
 
   .lifecycle-hero h1 {
-    font-size: 2.5rem;
+    font-size: 2.2rem !important;
+    line-height: 1.2;
+    margin-bottom: 1rem;
   }
 
-  .section-header h2,
-  .channels-content h2,
-  .process-content h2,
-  .strategies-content h2,
-  .lifecycle-cta h2 {
+  .lifecycle-hero p {
+    font-size: 1rem !important;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    padding: 0 0.5rem;
+  }
+
+  /* Hide hero image on mobile */
+  .lifecycle-hero-image {
+    display: none !important;
+  }
+
+  /* Stats Section - Mobile */
+  .lifecycle-stats {
+    padding: 3rem 1rem !important;
+  }
+
+  .lifecycle-stats .stats-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2rem;
+  }
+
+  .lifecycle-stats .stat-item h3 {
+    font-size: 2.5rem !important;
+  }
+
+  .lifecycle-stats .stat-item p {
+    font-size: 1rem;
+  }
+
+  /* Stages Section - Mobile */
+  .lifecycle-stages {
+    padding: 3rem 1rem !important;
+  }
+
+  .section-header {
+    margin-bottom: 2rem;
+  }
+
+  .section-header h2 {
+    font-size: 2rem !important;
+  }
+
+  .section-header p {
+    font-size: 1rem !important;
+    padding: 0 1rem;
+  }
+
+  .stages-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.2rem;
+  }
+
+  .stage-card {
+    padding: 1.5rem;
+  }
+
+  .stage-icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 1rem;
+  }
+
+  .stage-icon img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .stage-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .stage-card p {
+    font-size: 0.9rem;
+  }
+
+  /* Channels Section - Mobile */
+  .lifecycle-channels {
+    padding: 3rem 1rem !important;
+  }
+
+  .channels-container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .channels-content {
+    text-align: center;
+    order: 2; /* Content comes after image on mobile */
+  }
+
+  .channels-content .section-tag {
+    align-self: center;
+  }
+
+  .channels-content h2 {
+    font-size: 2rem !important;
+  }
+
+  .channels-content > p {
+    font-size: 1rem !important;
+    margin-bottom: 2rem;
+  }
+
+  .channels-list {
+    gap: 1.2rem;
+    text-align: left;
+  }
+
+  .channel-item {
+    gap: 0.8rem;
+  }
+
+  .channel-item h4 {
+    font-size: 1.1rem;
+  }
+
+  .channel-item p {
+    font-size: 0.9rem;
+  }
+
+  .channel-bullet {
+    font-size: 1.3rem;
+  }
+
+  .channels-image {
+    order: 1; /* Image comes first on mobile */
+    margin-bottom: 1rem;
+  }
+
+  .channels-image img {
+    max-width: 80%;
+    display: block;
+    margin: 0 auto;
+  }
+
+  /* Process Section - Mobile */
+  .lifecycle-process {
+    padding: 3rem 1rem !important;
+  }
+
+  .process-content {
+    margin-bottom: 2rem;
+  }
+
+  .process-content .section-tag {
+    margin-bottom: 1rem;
+  }
+
+  .process-content h2 {
+    font-size: 2rem !important;
+  }
+
+  .process-content p {
+    font-size: 1rem !important;
+  }
+
+  .lifecycle-process .process-steps {
+    grid-template-columns: 1fr !important;
+    gap: 1rem;
+  }
+
+  .lifecycle-process .process-step {
+    padding: 1.5rem;
+  }
+
+  .step-number {
     font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .lifecycle-process .process-step h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .lifecycle-process .process-step p {
+    font-size: 0.9rem;
+  }
+
+  /* Strategies Section - Mobile */
+  .strategies-section {
+    padding: 3rem 1rem !important;
+  }
+
+  .strategies-container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .strategies-content {
+    text-align: center;
+    order: 2; /* Content comes after image on mobile */
+  }
+
+  .strategies-content .section-tag {
+    align-self: center;
+  }
+
+  .strategies-content h2 {
+    font-size: 2rem !important;
+  }
+
+  .strategies-content > p {
+    font-size: 1rem !important;
+    margin-bottom: 2rem;
+  }
+
+  .strategies-list {
+    gap: 1.2rem;
+    text-align: left;
+  }
+
+  .strategy-item {
+    gap: 0.8rem;
+  }
+
+  .strategy-icon {
+    width: 20px;
+    height: 20px;
+    font-size: 0.8rem;
+  }
+
+  .strategy-item h4 {
+    font-size: 1.1rem;
+  }
+
+  .strategy-item p {
+    font-size: 0.9rem;
+  }
+
+  .strategies-image {
+    order: 1; /* Image comes first on mobile */
+    margin-bottom: 1rem;
+  }
+
+  .strategies-image img {
+    max-width: 80%;
+    display: block;
+    margin: 0 auto;
+  }
+
+  /* CTA Section - Mobile */
+  .lifecycle-cta {
+    padding: 3rem 1rem !important;
+  }
+
+  .lifecycle-cta h2 {
+    font-size: 2rem !important;
+    margin-bottom: 1rem;
+  }
+
+  .lifecycle-cta p {
+    font-size: 1rem !important;
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+  }
+
+  .lifecycle-cta .btn-primary {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+  }
+}
+
+/* Extra Small Devices */
+@media (max-width: 600px) {
+  .lifecycle-page {
+    padding-top: 65px;
+  }
+
+  .lifecycle-hero {
+    padding: 1.5rem 0.75rem !important;
+  }
+
+  .lifecycle-hero h1 {
+    font-size: 2rem !important;
+  }
+
+  .lifecycle-hero p {
+    font-size: 0.95rem !important;
+    padding: 0 0.25rem;
+  }
+
+  .lifecycle-stats {
+    padding: 2rem 0.75rem !important;
+  }
+
+  .lifecycle-stats .stat-item h3 {
+    font-size: 2.2rem !important;
+  }
+
+  .lifecycle-stats .stat-item p {
+    font-size: 0.9rem;
+  }
+
+  .lifecycle-stages {
+    padding: 2rem 0.75rem !important;
+  }
+
+  .section-header h2 {
+    font-size: 1.8rem !important;
+  }
+
+  .stage-card {
+    padding: 1.2rem;
+  }
+
+  .stage-icon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .stage-icon img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .lifecycle-channels {
+    padding: 2rem 0.75rem !important;
+  }
+
+  .channels-content h2 {
+    font-size: 1.8rem !important;
+  }
+
+  .channels-image img {
+    max-width: 90%;
+  }
+
+  .lifecycle-process {
+    padding: 2rem 0.75rem !important;
+  }
+
+  .process-content h2 {
+    font-size: 1.8rem !important;
+  }
+
+  .lifecycle-process .process-step {
+    padding: 1.2rem;
+  }
+
+  .strategies-section {
+    padding: 2rem 0.75rem !important;
+  }
+
+  .strategies-content h2 {
+    font-size: 1.8rem !important;
+  }
+
+  .strategies-image img {
+    max-width: 90%;
+  }
+
+  .lifecycle-cta {
+    padding: 2rem 0.75rem !important;
+  }
+
+  .lifecycle-cta h2 {
+    font-size: 1.8rem !important;
+  }
+
+  .lifecycle-cta .btn-primary {
+    max-width: 250px;
+    padding: 0.875rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .lifecycle-page {
+    padding-top: 60px;
+  }
+
+  .lifecycle-hero h1 {
+    font-size: 1.8rem !important;
+  }
+
+  .lifecycle-hero p {
+    font-size: 0.9rem !important;
+  }
+
+  .lifecycle-stats .stat-item h3 {
+    font-size: 2rem !important;
+  }
+
+  .section-header h2 {
+    font-size: 1.6rem !important;
+  }
+
+  .section-header p {
+    font-size: 0.9rem !important;
+  }
+
+  .channels-content h2 {
+    font-size: 1.6rem !important;
+  }
+
+  .process-content h2 {
+    font-size: 1.6rem !important;
+  }
+
+  .strategies-content h2 {
+    font-size: 1.6rem !important;
+  }
+
+  .lifecycle-cta h2 {
+    font-size: 1.6rem !important;
+  }
+
+  .lifecycle-cta .btn-primary {
+    max-width: 240px;
+    padding: 0.875rem 1.25rem;
+    font-size: 0.95rem;
+  }
+
+  .channels-image img,
+  .strategies-image img {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 400px) {
+  .lifecycle-hero h1 {
+    font-size: 1.6rem !important;
+  }
+
+  .lifecycle-hero p {
+    font-size: 0.85rem !important;
+  }
+
+  .lifecycle-stats .stat-item h3 {
+    font-size: 1.8rem !important;
+  }
+
+  .section-header h2 {
+    font-size: 1.5rem !important;
+  }
+
+  .channels-content h2 {
+    font-size: 1.5rem !important;
+  }
+
+  .process-content h2 {
+    font-size: 1.5rem !important;
+  }
+
+  .strategies-content h2 {
+    font-size: 1.5rem !important;
+  }
+
+  .lifecycle-cta h2 {
+    font-size: 1.5rem !important;
+  }
+
+  .stage-card h3 {
+    font-size: 1.1rem;
+  }
+
+  .stage-card p {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .lifecycle-page {
+    padding-top: 55px;
+  }
+
+  .lifecycle-hero h1 {
+    font-size: 1.5rem !important;
+  }
+
+  .lifecycle-stats .stat-item h3 {
+    font-size: 1.6rem !important;
+  }
+
+  .section-header h2 {
+    font-size: 1.4rem !important;
+  }
+
+  .channels-content h2 {
+    font-size: 1.4rem !important;
+  }
+
+  .process-content h2 {
+    font-size: 1.4rem !important;
+  }
+
+  .strategies-content h2 {
+    font-size: 1.4rem !important;
+  }
+
+  .lifecycle-cta h2 {
+    font-size: 1.4rem !important;
+  }
+
+  .lifecycle-cta .btn-primary {
+    max-width: 200px;
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .lifecycle-hero h1 {
+    font-size: 1.4rem !important;
+  }
+}
+
+/* Mobile Landscape */
+@media (max-width: 800px) and (orientation: landscape) {
+  .lifecycle-hero {
+    padding: 1.5rem 2rem !important;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .lifecycle-hero-image {
+    display: none; /* Keep hidden in landscape */
+  }
+
+  .lifecycle-hero-content {
+    text-align: left;
+  }
+
+  .lifecycle-hero h1 {
+    font-size: 2rem;
+  }
+
+  .stages-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .lifecycle-process .process-steps {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .channels-container {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .channels-image {
+    order: 1;
+  }
+
+  .channels-content {
+    order: 2;
+    text-align: left;
+  }
+
+  .channels-content .section-tag {
+    align-self: flex-start;
+  }
+
+  .strategies-container {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .strategies-image {
+    order: 1;
+  }
+
+  .strategies-content {
+    order: 2;
+    text-align: left;
+  }
+
+  .strategies-content .section-tag {
+    align-self: flex-start;
+  }
+
+  .lifecycle-cta .btn-primary {
+    width: auto;
+    max-width: none;
+  }
+}
+
+@media (max-width: 700px) and (orientation: landscape) {
+  .lifecycle-hero h1 {
+    font-size: 1.8rem;
+  }
+
+  .stages-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
   }
 }
