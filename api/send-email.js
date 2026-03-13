@@ -211,13 +211,13 @@ export default async function handler(req, res) {
         <div style="max-width:600px;margin:30px auto;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 10px 30px rgba(43,92,230,0.1);border:1px solid rgba(43,92,230,0.1);">
 
           <!-- Hero Header with Rainboots Gradient -->
-          <div style="background:linear-gradient(135deg, #2b5ce6 0%, #4bb3d4 100%);padding:40px 30px;text-align:center;">
-            <img src="https://rainbootsmarketing.com/images/rainboots_logo_white.png" 
+          <div style="background:linear-gradient(135deg, #fff 0%, #fff 100%);padding:40px 30px;text-align:center;">
+            <img src="https://rainbootsmarketing.com/images/rainboots_logo.png" 
                  alt="Rainboots Marketing"
-                 style="max-width:180px;height:auto;margin-bottom:16px;filter:brightness(0) invert(1);"
+                 style="max-width:180px;height:auto;margin-bottom:16px;"
                  onerror="this.onerror=null;this.src='https://via.placeholder.com/180x60/ffffff/2b5ce6?text=Rainboots';" />
-            <h1 style="margin:10px 0 0;color:#ffffff;font-size:32px;font-weight:700;letter-spacing:-0.5px;font-family:'Manrope',Arial,sans-serif;">🦸 Signal Received!</h1>
-            <p style="margin:8px 0 0;color:rgba(255,255,255,0.9);font-size:18px;font-weight:300;">
+            <h1 style="margin:10px 0 0;color:rgba(33,45,81,1);font-size:28px;font-weight:700;letter-spacing:-0.5px;font-family:'Manrope',Arial,sans-serif;">🦸 Signal Received!</h1>
+            <p style="margin:8px 0 0;color:rgba(33,45,81,.9);font-size:16px;font-weight:300;">
               The Justice League is assembling, ${firstName}!
             </p>
           </div>
@@ -298,14 +298,14 @@ export default async function handler(req, res) {
               <strong style="color:#2b5ce6;">The Rainboots Justice League</strong>
             </p>
             
-            <div style="margin-top:30px;padding:20px;background:#f1f5f9;border-radius:8px;text-align:center;">
-              <p style="margin:0 0 10px;color:#1e293b;font-size:14px;">⚡ Stay connected with your heroes ⚡</p>
-              <div style="display:flex;justify-content:center;gap:15px;">
-                <a href="https://linkedin.com/company/rainboots" style="color:#2b5ce6;text-decoration:none;font-size:20px;">💼</a>
-                <a href="https://twitter.com/rainboots" style="color:#2b5ce6;text-decoration:none;font-size:20px;">🐦</a>
-                <a href="https://instagram.com/rainboots" style="color:#2b5ce6;text-decoration:none;font-size:20px;">📷</a>
-              </div>
-            </div>
+            // <div style="margin-top:30px;padding:20px;background:#f1f5f9;border-radius:8px;text-align:center;">
+            //   <p style="margin:0 0 10px;color:#1e293b;font-size:14px;">⚡ Stay connected with your heroes ⚡</p>
+            //   <div style="display:flex;justify-content:center;gap:15px;">
+            //     <a href="https://www.linkedin.com/company/102702602/admin/dashboard/" style="color:#2b5ce6;text-decoration:none;font-size:20px;">💼</a>
+            //     <a href="https://twitter.com/rainboots" style="color:#2b5ce6;text-decoration:none;font-size:20px;">🐦</a>
+            //     <a href="https://instagram.com/rainboots" style="color:#2b5ce6;text-decoration:none;font-size:20px;">📷</a>
+            //   </div>
+            // </div>
           </div>
 
           <!-- Footer with Rainboots Branding -->
