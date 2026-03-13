@@ -81,8 +81,8 @@ export default async function handler(req, res) {
                  alt="Rainboots Marketing"
                  style="max-width:180px;height:auto;margin-bottom:16px;"
                  onerror="this.onerror=null;this.src='https://via.placeholder.com/180x60/ffffff/2b5ce6?text=Rainboots';" />
-            <h1 style="margin:10px 0 0;color:#ffffff;font-size:28px;font-weight:700;letter-spacing:-0.5px;font-family:'Manrope',Arial,sans-serif;">⚡ New Hero Signal ⚡</h1>
-            <p style="margin:8px 0 0;color:rgba(255,255,255,0.9);font-size:16px;font-weight:300;">
+            <h1 style="margin:10px 0 0;color:rgba(33,45,81,1);font-size:28px;font-weight:700;letter-spacing:-0.5px;font-family:'Manrope',Arial,sans-serif;">⚡ New Hero Signal ⚡</h1>
+            <p style="margin:8px 0 0;color:rgba(33,45,81,.9);font-size:16px;font-weight:300;">
               A new hero has summoned the Rainboots Justice League!
             </p>
           </div>
