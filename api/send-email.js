@@ -1,6 +1,6 @@
 import { Resend } from 'resend';
 import rateLimit from 'express-rate-limit';
-import { createClient } from '@vercel/kv'; // Optional: for distributed rate limiting
+//import { createClient } from '@vercel/kv';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 

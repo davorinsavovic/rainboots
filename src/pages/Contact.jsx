@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react'; // Add useEffect
 import './Contact.css';
 
 const Contact = () => {
@@ -133,12 +133,18 @@ const Contact = () => {
         }),
       });
 
+      // Check if response is OK before parsing JSON
+      if (!response.ok) {
+        const text = await response.text();
+        console.error('Server response:', text);
+        throw new Error(`Server error: ${response.status}`);
+      }
+
       const data = await response.json();
 
       // 👇 Check if this was a blocked bot (fake success)
       if (data.fake) {
         console.log('Bot submission detected and blocked');
-        // Still show success to the bot
         setSubmitStatus('success');
         setShowThankYou(true);
         setTimeout(() => {
@@ -159,10 +165,6 @@ const Contact = () => {
           setIsSubmitting(false);
         }, 500);
         return;
-      }
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to send message');
       }
 
       console.log('Form submitted successfully:', data);
@@ -241,8 +243,8 @@ const Contact = () => {
             <h2>Contact Information</h2>
             <p>
               Whether you need a sidekick for small tasks or a full league of
-              heroes for an epic marketing campaign, Rainboots Marketing League
-              is standing by.
+              heroes for an epic marketing campaign, Rainboots Justice League is
+              standing by.
             </p>
 
             {/* Hero Image with Super Hero Animation */}
