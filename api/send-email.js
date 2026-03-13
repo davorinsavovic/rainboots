@@ -76,10 +76,10 @@ export default async function handler(req, res) {
         <div style="max-width:600px;margin:30px auto;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 10px 30px rgba(43,92,230,0.1);border:1px solid rgba(43,92,230,0.1);">
 
           <!-- Hero Header with Rainboots Gradient -->
-          <div style="background:linear-gradient(135deg, #2b5ce6 0%, #4bb3d4 100%);padding:40px 30px;text-align:center;">
+          <div style="background:linear-gradient(135deg, #fff 0%, #fff 100%);padding:40px 30px;text-align:center;">
             <img src="https://rainbootsmarketing.com/images/rainboots_logo.png" 
                  alt="Rainboots Marketing"
-                 style="max-width:180px;height:auto;margin-bottom:16px;filter:brightness(0) invert(1);"
+                 style="max-width:180px;height:auto;margin-bottom:16px;"
                  onerror="this.onerror=null;this.src='https://via.placeholder.com/180x60/ffffff/2b5ce6?text=Rainboots';" />
             <h1 style="margin:10px 0 0;color:#ffffff;font-size:28px;font-weight:700;letter-spacing:-0.5px;font-family:'Manrope',Arial,sans-serif;">⚡ New Hero Signal ⚡</h1>
             <p style="margin:8px 0 0;color:rgba(255,255,255,0.9);font-size:16px;font-weight:300;">
