@@ -2,7 +2,7 @@
   min-height: 100vh;
 }
 
-/* Hero Section */
+/* ===== HERO SECTION ===== */
 .social-hero {
   padding: 8rem 5% 4rem;
   background: linear-gradient(
@@ -50,7 +50,7 @@
   filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.1));
 }
 
-/* Stats Section */
+/* ===== STATS SECTION ===== */
 .social-stats {
   padding: 4rem 5%;
   background: white;
@@ -80,7 +80,7 @@
   font-weight: 300;
 }
 
-/* Platforms Section */
+/* ===== PLATFORMS SECTION ===== */
 .platforms-section-social {
   padding: 6rem 5%;
   background: var(--light) !important;
@@ -162,7 +162,7 @@
   font-size: 0.95rem;
 }
 
-/* Services Section */
+/* ===== SERVICES SECTION ===== */
 .social-services {
   padding: 6rem 5%;
   background: white;
@@ -223,7 +223,7 @@
   font-size: 0.95rem;
 }
 
-/* Benefits Section */
+/* ===== BENEFITS SECTION ===== */
 .benefits-section-social {
   padding: 6rem 5%;
   background: var(--light) !important;
@@ -306,7 +306,7 @@
   font-size: 0.95rem;
 }
 
-/* Process Section */
+/* ===== PROCESS SECTION ===== */
 .social-process {
   padding: 6rem 5%;
   background: white;
@@ -396,7 +396,7 @@
   font-size: 0.95rem;
 }
 
-/* CTA Section */
+/* ===== CTA SECTION ===== */
 .social-cta {
   padding: 6rem 5%;
   background: linear-gradient(135deg, var(--primary) 0%, var(--splash) 100%);
@@ -428,6 +428,13 @@
 .social-cta .btn-primary {
   background: white;
   color: var(--primary);
+  padding: 1.2rem 3rem;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: inline-block;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
@@ -438,10 +445,97 @@
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
 }
 
-/* Responsive */
-@media (max-width: 1024px) {
+/* ===== RESPONSIVE BREAKPOINTS ===== */
+
+/* Large Desktop */
+@media (min-width: 1800px) {
+  .social-hero h1 {
+    font-size: 4rem;
+  }
+
+  .social-hero-image img {
+    max-width: 90%;
+  }
+}
+
+/* Desktop */
+@media (max-width: 1600px) {
+  .social-hero h1 {
+    font-size: 3.2rem;
+  }
+
+  .social-hero {
+    gap: 3rem;
+  }
+}
+
+/* Small Desktop */
+@media (max-width: 1400px) {
+  .social-hero {
+    padding: 7rem 5% 3rem;
+  }
+
+  .social-hero h1 {
+    font-size: 3rem;
+  }
+
+  .social-hero p {
+    font-size: 1.1rem;
+  }
+
   .platforms-grid,
   .social-services .services-grid,
+  .benefits-grid {
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 1300px) {
+  .social-hero h1 {
+    font-size: 2.8rem;
+  }
+
+  .social-process .process-steps {
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 1200px) {
+  .social-hero h1 {
+    font-size: 2.6rem;
+  }
+
+  .benefits-content h2,
+  .process-header h2 {
+    font-size: 2.2rem;
+  }
+}
+
+@media (max-width: 1100px) {
+  .social-hero {
+    padding: 6rem 4% 3rem;
+    gap: 2rem;
+  }
+
+  .social-hero h1 {
+    font-size: 2.4rem;
+  }
+
+  .social-hero p {
+    font-size: 1rem;
+  }
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .platforms-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .social-services .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .benefits-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -452,39 +546,546 @@
 
   .social-stats .stats-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  .social-cta h2 {
+    font-size: 2.5rem;
   }
 }
 
-@media (max-width: 768px) {
+/* Mobile Breakpoint - Major improvements */
+@media (max-width: 800px) {
+  /* Push content down below fixed header */
+  .social-page {
+    padding-top: 70px;
+  }
+
+  /* Hero Section - Mobile (hide image) */
   .social-hero {
     grid-template-columns: 1fr;
     text-align: center;
-    gap: 2rem;
+    gap: 1.5rem;
+    padding: 2rem 1rem !important;
+    margin-top: 0;
   }
 
   .social-hero-content {
     margin: 0 auto;
+    max-width: 100%;
+  }
+
+  .social-hero h1 {
+    font-size: 2.2rem !important;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+
+  .social-hero p {
+    font-size: 1rem !important;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    padding: 0 0.5rem;
+  }
+
+  /* Hide hero image on mobile */
+  .social-hero-image {
+    display: none !important;
+  }
+
+  /* Stats Section - Mobile */
+  .social-stats {
+    padding: 3rem 1rem !important;
+  }
+
+  .social-stats .stats-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2rem;
+  }
+
+  .social-stats .stat-item h3 {
+    font-size: 2.5rem !important;
+  }
+
+  .social-stats .stat-item p {
+    font-size: 1rem;
+  }
+
+  /* Platforms Section - Mobile */
+  .platforms-section-social {
+    padding: 3rem 1rem !important;
+  }
+
+  .section-header {
+    margin-bottom: 2rem;
+  }
+
+  .section-header h2 {
+    font-size: 2rem !important;
+  }
+
+  .section-header p {
+    font-size: 1rem !important;
+    padding: 0 1rem;
+  }
+
+  .platforms-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.2rem;
+  }
+
+  .platform-card {
+    padding: 1.5rem;
+  }
+
+  .platform-icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 1rem;
+  }
+
+  .platform-icon img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .platform-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .platform-card p {
+    font-size: 0.9rem;
+  }
+
+  /* Services Section - Mobile */
+  .social-services {
+    padding: 3rem 1rem !important;
+  }
+
+  .social-services .services-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.2rem;
+  }
+
+  .social-services .service-card {
+    padding: 1.5rem;
+  }
+
+  .social-services .service-icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 1rem;
+  }
+
+  .social-services .service-icon img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .social-services .service-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .social-services .service-card p {
+    font-size: 0.9rem;
+  }
+
+  /* Benefits Section - Mobile */
+  .benefits-section-social {
+    padding: 3rem 1rem !important;
+  }
+
+  .benefits-content {
+    margin-bottom: 2rem;
+  }
+
+  .benefits-content .section-tag {
+    margin-bottom: 1rem;
+  }
+
+  .benefits-content h2 {
+    font-size: 2rem !important;
+  }
+
+  .benefits-content p {
+    font-size: 1rem !important;
+  }
+
+  .benefits-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem;
+  }
+
+  .benefit-card {
+    padding: 1.5rem;
+  }
+
+  .benefit-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .benefit-card p {
+    font-size: 0.9rem;
+  }
+
+  /* Process Section - Mobile */
+  .social-process {
+    padding: 3rem 1rem !important;
+  }
+
+  .process-header {
+    margin-bottom: 2rem;
+  }
+
+  .process-header .section-tag {
+    margin-bottom: 1rem;
+  }
+
+  .process-header h2 {
+    font-size: 2rem !important;
+  }
+
+  .process-header p {
+    font-size: 1rem !important;
+  }
+
+  .social-process .process-steps {
+    grid-template-columns: 1fr !important;
+    gap: 1rem;
+  }
+
+  .social-process .process-step {
+    padding: 1.5rem;
+  }
+
+  .step-number {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .social-process .process-step h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .social-process .process-step p {
+    font-size: 0.9rem;
+  }
+
+  /* CTA Section - Mobile */
+  .social-cta {
+    padding: 3rem 1rem !important;
+  }
+
+  .social-cta h2 {
+    font-size: 2rem !important;
+    margin-bottom: 1rem;
+  }
+
+  .social-cta p {
+    font-size: 1rem !important;
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+  }
+
+  .social-cta .btn-primary {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+  }
+}
+
+/* Extra Small Devices */
+@media (max-width: 600px) {
+  .social-page {
+    padding-top: 65px;
+  }
+
+  .social-hero {
+    padding: 1.5rem 0.75rem !important;
+  }
+
+  .social-hero h1 {
+    font-size: 2rem !important;
+  }
+
+  .social-hero p {
+    font-size: 0.95rem !important;
+    padding: 0 0.25rem;
+  }
+
+  .social-stats {
+    padding: 2rem 0.75rem !important;
+  }
+
+  .social-stats .stat-item h3 {
+    font-size: 2.2rem !important;
+  }
+
+  .social-stats .stat-item p {
+    font-size: 0.9rem;
+  }
+
+  .platforms-section-social {
+    padding: 2rem 0.75rem !important;
+  }
+
+  .section-header h2 {
+    font-size: 1.8rem !important;
+  }
+
+  .platform-card {
+    padding: 1.2rem;
+  }
+
+  .platform-icon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .platform-icon img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .social-services {
+    padding: 2rem 0.75rem !important;
+  }
+
+  .social-services .service-card {
+    padding: 1.2rem;
+  }
+
+  .social-services .service-icon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .social-services .service-icon img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .benefits-section-social {
+    padding: 2rem 0.75rem !important;
+  }
+
+  .benefits-content h2 {
+    font-size: 1.8rem !important;
+  }
+
+  .benefit-card {
+    padding: 1.2rem;
+  }
+
+  .social-process {
+    padding: 2rem 0.75rem !important;
+  }
+
+  .process-header h2 {
+    font-size: 1.8rem !important;
+  }
+
+  .social-process .process-step {
+    padding: 1.2rem;
+  }
+
+  .social-cta {
+    padding: 2rem 0.75rem !important;
+  }
+
+  .social-cta h2 {
+    font-size: 1.8rem !important;
+  }
+
+  .social-cta .btn-primary {
+    max-width: 250px;
+    padding: 0.875rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .social-page {
+    padding-top: 60px;
+  }
+
+  .social-hero h1 {
+    font-size: 1.8rem !important;
+  }
+
+  .social-hero p {
+    font-size: 0.9rem !important;
+  }
+
+  .social-stats .stat-item h3 {
+    font-size: 2rem !important;
+  }
+
+  .section-header h2 {
+    font-size: 1.6rem !important;
+  }
+
+  .section-header p {
+    font-size: 0.9rem !important;
+  }
+
+  .benefits-content h2 {
+    font-size: 1.6rem !important;
+  }
+
+  .process-header h2 {
+    font-size: 1.6rem !important;
+  }
+
+  .social-cta h2 {
+    font-size: 1.6rem !important;
+  }
+
+  .social-cta .btn-primary {
+    max-width: 240px;
+    padding: 0.875rem 1.25rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .social-hero h1 {
+    font-size: 1.6rem !important;
+  }
+
+  .social-hero p {
+    font-size: 0.85rem !important;
+  }
+
+  .social-stats .stat-item h3 {
+    font-size: 1.8rem !important;
+  }
+
+  .section-header h2 {
+    font-size: 1.5rem !important;
+  }
+
+  .benefits-content h2 {
+    font-size: 1.5rem !important;
+  }
+
+  .process-header h2 {
+    font-size: 1.5rem !important;
+  }
+
+  .social-cta h2 {
+    font-size: 1.5rem !important;
+  }
+
+  .platform-card h3,
+  .social-services .service-card h3,
+  .benefit-card h3,
+  .social-process .process-step h3 {
+    font-size: 1.1rem;
+  }
+
+  .platform-card p,
+  .social-services .service-card p,
+  .benefit-card p,
+  .social-process .process-step p {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .social-page {
+    padding-top: 55px;
+  }
+
+  .social-hero h1 {
+    font-size: 1.5rem !important;
+  }
+
+  .social-stats .stat-item h3 {
+    font-size: 1.6rem !important;
+  }
+
+  .section-header h2 {
+    font-size: 1.4rem !important;
+  }
+
+  .benefits-content h2 {
+    font-size: 1.4rem !important;
+  }
+
+  .process-header h2 {
+    font-size: 1.4rem !important;
+  }
+
+  .social-cta h2 {
+    font-size: 1.4rem !important;
+  }
+
+  .social-cta .btn-primary {
+    max-width: 200px;
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .social-hero h1 {
+    font-size: 1.4rem !important;
+  }
+}
+
+/* Mobile Landscape */
+@media (max-width: 800px) and (orientation: landscape) {
+  .social-hero {
+    padding: 1.5rem 2rem !important;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .social-hero-image {
+    display: none; /* Keep hidden in landscape */
+  }
+
+  .social-hero-content {
+    text-align: left;
+  }
+
+  .social-hero h1 {
+    font-size: 2rem;
+  }
+
+  .platforms-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .social-services .services-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .benefits-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .social-process .process-steps {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .social-cta .btn-primary {
+    width: auto;
+    max-width: none;
+  }
+}
+
+@media (max-width: 700px) and (orientation: landscape) {
+  .social-hero h1 {
+    font-size: 1.8rem;
   }
 
   .platforms-grid,
   .social-services .services-grid,
   .benefits-grid,
   .social-process .process-steps {
-    grid-template-columns: 1fr;
-  }
-
-  .social-stats .stats-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .social-hero h1 {
-    font-size: 2.5rem;
-  }
-
-  .section-header h2,
-  .benefits-content h2,
-  .process-header h2,
-  .social-cta h2 {
-    font-size: 2rem;
+    grid-template-columns: repeat(2, 1fr) !important;
   }
 }
