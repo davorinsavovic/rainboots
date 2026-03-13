@@ -2,7 +2,7 @@
   min-height: 100vh;
 }
 
-/* Hero Section */
+/* ===== HERO SECTION ===== */
 .webdev-hero {
   padding: 8rem 5% 4rem;
   background: linear-gradient(
@@ -50,7 +50,7 @@
   filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.1));
 }
 
-/* Stats Section */
+/* ===== STATS SECTION ===== */
 .webdev-stats {
   padding: 4rem 5%;
   background: white;
@@ -80,7 +80,7 @@
   font-weight: 300;
 }
 
-/* Services Section */
+/* ===== SERVICES SECTION ===== */
 .webdev-services {
   padding: 6rem 5%;
   background: var(--light);
@@ -162,7 +162,7 @@
   font-size: 0.95rem;
 }
 
-/* Process Section */
+/* ===== PROCESS SECTION ===== */
 .webdev-process {
   padding: 6rem 5%;
   background: white;
@@ -252,7 +252,7 @@
   font-size: 0.95rem;
 }
 
-/* Technologies Section */
+/* ===== TECHNOLOGIES SECTION ===== */
 .tech-section {
   padding: 6rem 5%;
   background: var(--light);
@@ -295,7 +295,7 @@
   color: var(--dark);
 }
 
-/* Features Section */
+/* ===== FEATURES SECTION ===== */
 .features-section {
   padding: 6rem 5%;
   background: white;
@@ -386,7 +386,7 @@
   line-height: 1.6;
 }
 
-/* CTA Section */
+/* ===== CTA SECTION ===== */
 .webdev-cta {
   padding: 6rem 5%;
   background: linear-gradient(135deg, var(--primary) 0%, var(--splash) 100%);
@@ -418,6 +418,13 @@
 .webdev-cta .btn-primary {
   background: white;
   color: var(--primary);
+  padding: 1.2rem 3rem;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: inline-block;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
@@ -428,52 +435,628 @@
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
 }
 
-/* Responsive */
+/* ===== RESPONSIVE BREAKPOINTS ===== */
+
+/* Large Desktop */
+@media (min-width: 1800px) {
+  .webdev-hero h1 {
+    font-size: 4rem;
+  }
+
+  .webdev-hero-image img {
+    max-width: 90%;
+  }
+}
+
+/* Desktop */
+@media (max-width: 1600px) {
+  .webdev-hero h1 {
+    font-size: 3.2rem;
+  }
+
+  .webdev-hero {
+    gap: 3rem;
+  }
+}
+
+/* Small Desktop */
+@media (max-width: 1400px) {
+  .webdev-hero {
+    padding: 7rem 5% 3rem;
+  }
+
+  .webdev-hero h1 {
+    font-size: 3rem;
+  }
+
+  .webdev-hero p {
+    font-size: 1.1rem;
+  }
+
+  .webdev-services .services-grid {
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 1300px) {
+  .webdev-hero h1 {
+    font-size: 2.8rem;
+  }
+
+  .process-steps {
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 1200px) {
+  .webdev-hero h1 {
+    font-size: 2.6rem;
+  }
+
+  .features-content h2 {
+    font-size: 2.2rem;
+  }
+}
+
+@media (max-width: 1100px) {
+  .webdev-hero {
+    padding: 6rem 4% 3rem;
+    gap: 2rem;
+  }
+
+  .webdev-hero h1 {
+    font-size: 2.4rem;
+  }
+
+  .webdev-hero p {
+    font-size: 1rem;
+  }
+}
+
+/* Tablet */
 @media (max-width: 1024px) {
-  .webdev-services .services-grid,
-  .process-steps,
+  .webdev-services .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .process-steps {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .tech-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 
   .webdev-stats .stats-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  .features-container {
+    gap: 3rem;
+  }
+
+  .webdev-cta h2 {
+    font-size: 2.5rem;
   }
 }
 
-@media (max-width: 768px) {
+/* Mobile Breakpoint - Major improvements */
+@media (max-width: 800px) {
+  /* Push content down below fixed header */
+  .webdev-page {
+    padding-top: 70px;
+  }
+
+  /* Hero Section - Mobile (hide image) */
   .webdev-hero {
     grid-template-columns: 1fr;
     text-align: center;
-    gap: 2rem;
+    gap: 1.5rem;
+    padding: 2rem 1rem !important;
+    margin-top: 0;
   }
 
   .webdev-hero-content {
     margin: 0 auto;
+    max-width: 100%;
+  }
+
+  .webdev-hero h1 {
+    font-size: 2.2rem !important;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+
+  .webdev-hero p {
+    font-size: 1rem !important;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    padding: 0 0.5rem;
+  }
+
+  /* Hide hero image on mobile */
+  .webdev-hero-image {
+    display: none !important;
+  }
+
+  /* Stats Section - Mobile */
+  .webdev-stats {
+    padding: 3rem 1rem !important;
+  }
+
+  .webdev-stats .stats-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2rem;
+  }
+
+  .webdev-stats .stat-item h3 {
+    font-size: 2.5rem !important;
+  }
+
+  .webdev-stats .stat-item p {
+    font-size: 1rem;
+  }
+
+  /* Services Section - Mobile */
+  .webdev-services {
+    padding: 3rem 1rem !important;
+  }
+
+  .section-header {
+    margin-bottom: 2rem;
+  }
+
+  .section-header h2 {
+    font-size: 2rem !important;
+  }
+
+  .section-header p {
+    font-size: 1rem !important;
+    padding: 0 1rem;
+  }
+
+  .webdev-services .services-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.2rem;
+  }
+
+  .webdev-services .service-card {
+    padding: 1.5rem;
+  }
+
+  .service-icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 1rem;
+  }
+
+  .service-icon img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .webdev-services .service-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .webdev-services .service-card p {
+    font-size: 0.9rem;
+  }
+
+  /* Process Section - Mobile */
+  .webdev-process {
+    padding: 3rem 1rem !important;
+  }
+
+  .process-content {
+    margin-bottom: 2rem;
+  }
+
+  .process-content .section-tag {
+    margin-bottom: 1rem;
+  }
+
+  .process-content h2 {
+    font-size: 2rem !important;
+  }
+
+  .process-content p {
+    font-size: 1rem !important;
+  }
+
+  .process-steps {
+    grid-template-columns: 1fr !important;
+    gap: 1rem;
+  }
+
+  .process-step {
+    padding: 1.5rem;
+  }
+
+  .step-number {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .process-step h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .process-step p {
+    font-size: 0.9rem;
+  }
+
+  /* Technologies Section - Mobile */
+  .tech-section {
+    padding: 3rem 1rem !important;
+  }
+
+  .tech-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1rem;
+  }
+
+  .tech-item {
+    padding: 1.2rem;
+  }
+
+  .tech-item img {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 0.5rem;
+  }
+
+  .tech-item p {
+    font-size: 0.9rem;
+  }
+
+  /* Features Section - Mobile */
+  .features-section {
+    padding: 3rem 1rem !important;
   }
 
   .features-container {
     grid-template-columns: 1fr;
+    gap: 2rem;
   }
 
-  .webdev-services .services-grid,
-  .process-steps,
-  .tech-grid {
-    grid-template-columns: 1fr;
+  .features-content {
+    text-align: center;
   }
 
-  .webdev-stats .stats-grid {
-    grid-template-columns: 1fr;
+  .features-content .section-tag {
+    margin-bottom: 1rem;
+  }
+
+  .features-content h2 {
+    font-size: 2rem !important;
+  }
+
+  .features-content > p {
+    font-size: 1rem !important;
+    margin-bottom: 2rem;
+  }
+
+  .features-list {
+    gap: 1.2rem;
+    text-align: left;
+  }
+
+  .feature-item {
+    gap: 0.8rem;
+  }
+
+  .feature-item h4 {
+    font-size: 1.1rem;
+  }
+
+  .feature-item p {
+    font-size: 0.9rem;
+  }
+
+  .features-image {
+    display: none; /* Hide features image on mobile */
+  }
+
+  /* CTA Section - Mobile */
+  .webdev-cta {
+    padding: 3rem 1rem !important;
+  }
+
+  .webdev-cta h2 {
+    font-size: 2rem !important;
+    margin-bottom: 1rem;
+  }
+
+  .webdev-cta p {
+    font-size: 1rem !important;
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+  }
+
+  .webdev-cta .btn-primary {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+  }
+}
+
+/* Extra Small Devices */
+@media (max-width: 600px) {
+  .webdev-page {
+    padding-top: 65px;
+  }
+
+  .webdev-hero {
+    padding: 1.5rem 0.75rem !important;
   }
 
   .webdev-hero h1 {
-    font-size: 2.5rem;
+    font-size: 2rem !important;
   }
 
-  .section-header h2,
-  .process-content h2,
-  .features-content h2,
+  .webdev-hero p {
+    font-size: 0.95rem !important;
+    padding: 0 0.25rem;
+  }
+
+  .webdev-stats {
+    padding: 2rem 0.75rem !important;
+  }
+
+  .webdev-stats .stat-item h3 {
+    font-size: 2.2rem !important;
+  }
+
+  .webdev-stats .stat-item p {
+    font-size: 0.9rem;
+  }
+
+  .webdev-services {
+    padding: 2rem 0.75rem !important;
+  }
+
+  .section-header h2 {
+    font-size: 1.8rem !important;
+  }
+
+  .webdev-services .service-card {
+    padding: 1.2rem;
+  }
+
+  .service-icon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .service-icon img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .webdev-process {
+    padding: 2rem 0.75rem !important;
+  }
+
+  .process-content h2 {
+    font-size: 1.8rem !important;
+  }
+
+  .process-step {
+    padding: 1.2rem;
+  }
+
+  .tech-section {
+    padding: 2rem 0.75rem !important;
+  }
+
+  .tech-item {
+    padding: 1rem;
+  }
+
+  .features-section {
+    padding: 2rem 0.75rem !important;
+  }
+
+  .features-content h2 {
+    font-size: 1.8rem !important;
+  }
+
+  .webdev-cta {
+    padding: 2rem 0.75rem !important;
+  }
+
   .webdev-cta h2 {
+    font-size: 1.8rem !important;
+  }
+
+  .webdev-cta .btn-primary {
+    max-width: 250px;
+    padding: 0.875rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .webdev-page {
+    padding-top: 60px;
+  }
+
+  .webdev-hero h1 {
+    font-size: 1.8rem !important;
+  }
+
+  .webdev-hero p {
+    font-size: 0.9rem !important;
+  }
+
+  .webdev-stats .stat-item h3 {
+    font-size: 2rem !important;
+  }
+
+  .section-header h2 {
+    font-size: 1.6rem !important;
+  }
+
+  .section-header p {
+    font-size: 0.9rem !important;
+  }
+
+  .process-content h2 {
+    font-size: 1.6rem !important;
+  }
+
+  .features-content h2 {
+    font-size: 1.6rem !important;
+  }
+
+  .webdev-cta h2 {
+    font-size: 1.6rem !important;
+  }
+
+  .webdev-cta .btn-primary {
+    max-width: 240px;
+    padding: 0.875rem 1.25rem;
+    font-size: 0.95rem;
+  }
+
+  .tech-grid {
+    grid-template-columns: 1fr !important; /* Stack tech items on very small screens */
+  }
+}
+
+@media (max-width: 400px) {
+  .webdev-hero h1 {
+    font-size: 1.6rem !important;
+  }
+
+  .webdev-hero p {
+    font-size: 0.85rem !important;
+  }
+
+  .webdev-stats .stat-item h3 {
+    font-size: 1.8rem !important;
+  }
+
+  .section-header h2 {
+    font-size: 1.5rem !important;
+  }
+
+  .process-content h2 {
+    font-size: 1.5rem !important;
+  }
+
+  .features-content h2 {
+    font-size: 1.5rem !important;
+  }
+
+  .webdev-cta h2 {
+    font-size: 1.5rem !important;
+  }
+
+  .webdev-services .service-card h3 {
+    font-size: 1.1rem;
+  }
+
+  .webdev-services .service-card p {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .webdev-page {
+    padding-top: 55px;
+  }
+
+  .webdev-hero h1 {
+    font-size: 1.5rem !important;
+  }
+
+  .webdev-stats .stat-item h3 {
+    font-size: 1.6rem !important;
+  }
+
+  .section-header h2 {
+    font-size: 1.4rem !important;
+  }
+
+  .process-content h2 {
+    font-size: 1.4rem !important;
+  }
+
+  .features-content h2 {
+    font-size: 1.4rem !important;
+  }
+
+  .webdev-cta h2 {
+    font-size: 1.4rem !important;
+  }
+
+  .webdev-cta .btn-primary {
+    max-width: 200px;
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .webdev-hero h1 {
+    font-size: 1.4rem !important;
+  }
+}
+
+/* Mobile Landscape */
+@media (max-width: 800px) and (orientation: landscape) {
+  .webdev-hero {
+    padding: 1.5rem 2rem !important;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .webdev-hero-image {
+    display: none; /* Keep hidden in landscape */
+  }
+
+  .webdev-hero-content {
+    text-align: left;
+  }
+
+  .webdev-hero h1 {
     font-size: 2rem;
+  }
+
+  .webdev-services .services-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .process-steps {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .tech-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+  }
+
+  .features-container {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .features-image {
+    display: none; /* Keep hidden in landscape */
+  }
+
+  .webdev-cta .btn-primary {
+    width: auto;
+    max-width: none;
+  }
+}
+
+@media (max-width: 700px) and (orientation: landscape) {
+  .webdev-hero h1 {
+    font-size: 1.8rem;
+  }
+
+  .tech-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
   }
 }
