@@ -861,6 +861,236 @@
   }
 }
 
+/* ===== THANK YOU MESSAGE STYLES ===== */
+.thank-you-message {
+  text-align: center;
+  padding: 2rem 1.5rem;
+  background: linear-gradient(135deg, #f8faff 0%, #ffffff 100%);
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.thank-you-message::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle,
+    rgba(247, 213, 15, 0.1) 0%,
+    transparent 70%
+  );
+  animation: heroPulse 8s ease infinite;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.thank-you-heroes {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.thank-you-emoji {
+  display: inline-block;
+  filter: drop-shadow(0 10px 20px rgba(43, 92, 230, 0.3));
+}
+
+.thank-you-message h2 {
+  font-family: 'Manrope', sans-serif;
+  font-size: 2.2rem;
+  color: var(--dark);
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 1;
+  background: linear-gradient(135deg, var(--primary), var(--splash));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.thank-you-stars {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: #f7d50f;
+  filter: drop-shadow(0 0 10px rgba(247, 213, 15, 0.5));
+  position: relative;
+  z-index: 1;
+}
+
+.thank-you-message p {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: var(--text);
+  font-weight: 300;
+  margin-bottom: 2rem;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  z-index: 1;
+}
+
+.thank-you-timeline {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(43, 92, 230, 0.05);
+  padding: 1rem 1.5rem;
+  border-radius: 50px;
+  margin-bottom: 2rem;
+  max-width: 350px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid rgba(43, 92, 230, 0.1);
+  position: relative;
+  z-index: 1;
+}
+
+.timeline-icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.thank-you-timeline strong {
+  color: var(--primary);
+  font-size: 0.9rem;
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+.thank-you-timeline p {
+  font-size: 0.95rem;
+  margin-bottom: 0;
+  color: var(--dark);
+  font-weight: 400;
+}
+
+.thank-you-message-footer {
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.thank-you-message-footer p {
+  font-size: 0.95rem;
+  color: #666;
+  font-style: italic;
+}
+
+.thank-you-button {
+  background: linear-gradient(135deg, var(--primary), var(--splash));
+  color: white;
+  padding: 1rem 2.5rem;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 20px rgba(43, 92, 230, 0.3);
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.thank-you-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: left 0.5s ease;
+  z-index: -1;
+}
+
+.thank-you-button:hover::before {
+  left: 100%;
+}
+
+.thank-you-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(43, 92, 230, 0.4);
+}
+
+/* Animation for thank you message entrance */
+@keyframes heroEntrance {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.thank-you-active .contact-form {
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+}
+
+/* Mobile responsive for thank you message */
+@media (max-width: 768px) {
+  .thank-you-message {
+    padding: 1.5rem 1rem;
+  }
+
+  .thank-you-heroes {
+    font-size: 3rem;
+  }
+
+  .thank-you-message h2 {
+    font-size: 1.8rem;
+  }
+
+  .thank-you-stars {
+    font-size: 1.2rem;
+  }
+
+  .thank-you-message p {
+    font-size: 1rem;
+  }
+
+  .thank-you-timeline {
+    padding: 0.8rem 1.2rem;
+  }
+
+  .timeline-icon {
+    font-size: 1.5rem;
+  }
+
+  .thank-you-timeline p {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .thank-you-message h2 {
+    font-size: 1.5rem;
+  }
+
+  .thank-you-heroes {
+    font-size: 2.5rem;
+  }
+
+  .thank-you-button {
+    padding: 0.8rem 2rem;
+    font-size: 0.9rem;
+  }
+}
+
 /* Small Mobile */
 @media (max-width: 600px) {
   .contact-hero {

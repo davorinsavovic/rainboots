@@ -77,7 +77,7 @@ export default async function handler(req, res) {
 
           <!-- Hero Header with Rainboots Gradient -->
           <div style="background:linear-gradient(135deg, #2b5ce6 0%, #4bb3d4 100%);padding:40px 30px;text-align:center;">
-            <img src="https://rainbootsmarketing.com/images/rainboots_logo_white.png" 
+            <img src="https://rainbootsmarketing.com/images/rainboots_logo.png" 
                  alt="Rainboots Marketing"
                  style="max-width:180px;height:auto;margin-bottom:16px;filter:brightness(0) invert(1);"
                  onerror="this.onerror=null;this.src='https://via.placeholder.com/180x60/ffffff/2b5ce6?text=Rainboots';" />

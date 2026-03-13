@@ -18,6 +18,8 @@ const Contact = () => {
   const [touched, setTouched] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
+  const [showThankYou, setShowThankYou] = useState(false);
+  const [submittedName, setSubmittedName] = useState('');
 
   const validateField = (name, value) => {
     switch (name) {
@@ -103,6 +105,7 @@ const Contact = () => {
 
     setIsSubmitting(true);
     setSubmitStatus('submitting');
+    setSubmittedName(formData.name.split(' ')[0]); // Save first name for thank you message
 
     try {
       // Send form data to your API endpoint
@@ -123,7 +126,10 @@ const Contact = () => {
       console.log('Form submitted successfully:', data);
       setSubmitStatus('success');
 
-      // Reset form after success
+      // Show thank you message
+      setShowThankYou(true);
+
+      // Reset form after success (but keep thank you message visible)
       setTimeout(() => {
         setFormData({
           name: '',
@@ -139,7 +145,7 @@ const Contact = () => {
         setErrors({});
         setSubmitStatus(null);
         setIsSubmitting(false);
-      }, 2000);
+      }, 500);
     } catch (error) {
       console.error('Error submitting form:', error);
       setSubmitStatus('error');
@@ -148,6 +154,10 @@ const Contact = () => {
         setIsSubmitting(false);
       }, 2000);
     }
+  };
+
+  const handleCloseThankYou = () => {
+    setShowThankYou(false);
   };
 
   const hasError = (fieldName) => touched[fieldName] && errors[fieldName];
@@ -298,7 +308,7 @@ const Contact = () => {
           </motion.div>
 
           <motion.form
-            className={`contact-form ${submitStatus === 'error' ? 'form-shake' : ''}`}
+            className={`contact-form ${submitStatus === 'error' ? 'form-shake' : ''} ${showThankYou ? 'thank-you-active' : ''}`}
             onSubmit={handleSubmit}
             initial={{ opacity: 0, x: 40 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -306,331 +316,446 @@ const Contact = () => {
             transition={{ duration: 0.6 }}
             noValidate
           >
-            <h3>Send a Signal</h3>
-
-            <div className='form-row'>
-              <div
-                className={`form-group ${hasError('name') ? 'has-error' : ''} ${isValid('name') ? 'has-success' : ''}`}
-              >
-                <label htmlFor='name'>Your Hero Name *</label>
-                <input
-                  type='text'
-                  id='name'
-                  name='name'
-                  value={formData.name}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  disabled={isSubmitting}
-                />
-                <AnimatePresence mode='wait'>
-                  {hasError('name') && (
-                    <motion.div
-                      className='hero-error'
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                    >
-                      {errors.name}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-                {isValid('name') && (
-                  <motion.div
-                    className='success-indicator'
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                  >
-                    ✓
-                  </motion.div>
-                )}
-              </div>
-
-              <div
-                className={`form-group ${hasError('email') ? 'has-error' : ''} ${isValid('email') ? 'has-success' : ''}`}
-              >
-                <label htmlFor='email'>Super Email *</label>
-                <input
-                  type='email'
-                  id='email'
-                  name='email'
-                  value={formData.email}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  disabled={isSubmitting}
-                />
-                <AnimatePresence mode='wait'>
-                  {hasError('email') && (
-                    <motion.div
-                      className='hero-error'
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                    >
-                      {errors.email}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-                {isValid('email') && (
-                  <motion.div
-                    className='success-indicator'
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                  >
-                    ✓
-                  </motion.div>
-                )}
-              </div>
-            </div>
-
-            <div
-              className={`form-group ${hasError('company') ? 'has-error' : ''} ${isValid('company') ? 'has-success' : ''}`}
-            >
-              <label htmlFor='company'>Secret Headquarters (Company)</label>
-              <input
-                type='text'
-                id='company'
-                name='company'
-                value={formData.company}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                disabled={isSubmitting}
-              />
-              <AnimatePresence mode='wait'>
-                {hasError('company') && (
-                  <motion.div
-                    className='hero-error'
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                  >
-                    {errors.company}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-              {isValid('company') && (
-                <motion.div
-                  className='success-indicator'
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                >
-                  ✓
-                </motion.div>
-              )}
-            </div>
-
-            <div className='form-group'>
-              <label htmlFor='businessType'>Superpower (Business Type)</label>
-              <select
-                id='businessType'
-                name='businessType'
-                value={formData.businessType}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                disabled={isSubmitting}
-              >
-                <option value=''>Select your superpower</option>
-                <option value='advertising'>Advertising and Marketing</option>
-                <option value='travel'>Transport and Travel</option>
-                <option value='hospitality'>Hotel and Catering</option>
-                <option value='food'>Food and Beverage</option>
-                <option value='beauty'>Health and Beauty</option>
-                <option value='fashion'>Fashion</option>
-                <option value='sports'>Sports and Leisure</option>
-                <option value='tech'>Technology and Apps</option>
-                <option value='other'>Other</option>
-              </select>
-            </div>
-
-            <div className='form-group'>
-              <label>Heroic Services Needed</label>
-              <div className='checkbox-group'>
-                <label className='checkbox-label'>
-                  <input
-                    type='checkbox'
-                    name='services'
-                    value='strategy'
-                    onChange={handleChange}
-                    checked={formData.services.includes('strategy')}
-                    disabled={isSubmitting}
-                  />
-                  Marketing Strategy Development
-                </label>
-                <label className='checkbox-label'>
-                  <input
-                    type='checkbox'
-                    name='services'
-                    value='digital'
-                    onChange={handleChange}
-                    checked={formData.services.includes('digital')}
-                    disabled={isSubmitting}
-                  />
-                  Digital Marketing
-                </label>
-                <label className='checkbox-label'>
-                  <input
-                    type='checkbox'
-                    name='services'
-                    value='branding'
-                    onChange={handleChange}
-                    checked={formData.services.includes('branding')}
-                    disabled={isSubmitting}
-                  />
-                  Branding and Creative Services
-                </label>
-                <label className='checkbox-label'>
-                  <input
-                    type='checkbox'
-                    name='services'
-                    value='content'
-                    onChange={handleChange}
-                    checked={formData.services.includes('content')}
-                    disabled={isSubmitting}
-                  />
-                  Content Marketing
-                </label>
-              </div>
-            </div>
-
-            <div className='form-row'>
-              <div className='form-group'>
-                <label htmlFor='budget'>Power Level (Budget)</label>
-                <select
-                  id='budget'
-                  name='budget'
-                  value={formData.budget}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  disabled={isSubmitting}
-                >
-                  <option value=''>Select power level</option>
-                  <option value='under10k'>Sidekick Level (Under $10k)</option>
-                  <option value='10k-25k'>Local Hero ($10k - $25k)</option>
-                  <option value='25k-50k'>City Protector ($25k - $50k)</option>
-                  <option value='50k-100k'>Avenger Level ($50k - $100k)</option>
-                  <option value='over100k'>Justice League (Over $100k)</option>
-                </select>
-              </div>
-
-              <div className='form-group'>
-                <label htmlFor='timeline'>Rescue Timeline</label>
-                <select
-                  id='timeline'
-                  name='timeline'
-                  value={formData.timeline}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  disabled={isSubmitting}
-                >
-                  <option value=''>Select timeline</option>
-                  <option value='immediate'>Emergency! (1-2 weeks)</option>
-                  <option value='short'>Quick Mission (1-3 months)</option>
-                  <option value='medium'>
-                    Strategic Campaign (3-6 months)
-                  </option>
-                  <option value='long'>Epic Saga (6+ months)</option>
-                </select>
-              </div>
-            </div>
-
-            <div
-              className={`form-group ${hasError('message') ? 'has-error' : ''} ${isValid('message') ? 'has-success' : ''}`}
-            >
-              <label htmlFor='message'>Distress Signal (Message)</label>
-              <textarea
-                id='message'
-                name='message'
-                rows='5'
-                value={formData.message}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                placeholder='Tell us about your villain (marketing challenges)...'
-                disabled={isSubmitting}
-              ></textarea>
-              <AnimatePresence mode='wait'>
-                {hasError('message') && (
-                  <motion.div
-                    className='hero-error'
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                  >
-                    {errors.message}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-              {isValid('message') && (
-                <motion.div
-                  className='success-indicator'
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                >
-                  ✓
-                </motion.div>
-              )}
-            </div>
-
             <AnimatePresence mode='wait'>
-              {submitStatus === 'submitting' && (
+              {!showThankYou ? (
                 <motion.div
-                  key='submitting'
-                  className='submit-status submitting'
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  key='form'
+                  initial={{ opacity: 1 }}
                   exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
                 >
-                  <div className='power-charging'>
-                    <span>⚡</span>
-                    <span>⚡</span>
-                    <span>⚡</span>
+                  <h3>Send a Signal</h3>
+
+                  <div className='form-row'>
+                    <div
+                      className={`form-group ${hasError('name') ? 'has-error' : ''} ${isValid('name') ? 'has-success' : ''}`}
+                    >
+                      <label htmlFor='name'>Your Hero Name *</label>
+                      <input
+                        type='text'
+                        id='name'
+                        name='name'
+                        value={formData.name}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        disabled={isSubmitting}
+                      />
+                      <AnimatePresence mode='wait'>
+                        {hasError('name') && (
+                          <motion.div
+                            className='hero-error'
+                            initial={{ opacity: 0, y: -10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                          >
+                            {errors.name}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                      {isValid('name') && (
+                        <motion.div
+                          className='success-indicator'
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                        >
+                          ✓
+                        </motion.div>
+                      )}
+                    </div>
+
+                    <div
+                      className={`form-group ${hasError('email') ? 'has-error' : ''} ${isValid('email') ? 'has-success' : ''}`}
+                    >
+                      <label htmlFor='email'>Super Email *</label>
+                      <input
+                        type='email'
+                        id='email'
+                        name='email'
+                        value={formData.email}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        disabled={isSubmitting}
+                      />
+                      <AnimatePresence mode='wait'>
+                        {hasError('email') && (
+                          <motion.div
+                            className='hero-error'
+                            initial={{ opacity: 0, y: -10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                          >
+                            {errors.email}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                      {isValid('email') && (
+                        <motion.div
+                          className='success-indicator'
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                        >
+                          ✓
+                        </motion.div>
+                      )}
+                    </div>
                   </div>
-                  <p>Summoning heroes...</p>
-                </motion.div>
-              )}
 
-              {submitStatus === 'success' && (
-                <motion.div
-                  key='success'
-                  className='submit-status success'
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.8 }}
-                >
-                  <div className='power-explosion'>💥</div>
-                  <p>Heroes Assembled! We'll rescue you soon!</p>
-                </motion.div>
-              )}
+                  <div
+                    className={`form-group ${hasError('company') ? 'has-error' : ''} ${isValid('company') ? 'has-success' : ''}`}
+                  >
+                    <label htmlFor='company'>
+                      Secret Headquarters (Company)
+                    </label>
+                    <input
+                      type='text'
+                      id='company'
+                      name='company'
+                      value={formData.company}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      disabled={isSubmitting}
+                    />
+                    <AnimatePresence mode='wait'>
+                      {hasError('company') && (
+                        <motion.div
+                          className='hero-error'
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -10 }}
+                        >
+                          {errors.company}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                    {isValid('company') && (
+                      <motion.div
+                        className='success-indicator'
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                      >
+                        ✓
+                      </motion.div>
+                    )}
+                  </div>
 
-              {submitStatus === 'error' && (
+                  <div className='form-group'>
+                    <label htmlFor='businessType'>
+                      Superpower (Business Type)
+                    </label>
+                    <select
+                      id='businessType'
+                      name='businessType'
+                      value={formData.businessType}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      disabled={isSubmitting}
+                    >
+                      <option value=''>Select your superpower</option>
+                      <option value='advertising'>
+                        Advertising and Marketing
+                      </option>
+                      <option value='travel'>Transport and Travel</option>
+                      <option value='hospitality'>Hotel and Catering</option>
+                      <option value='food'>Food and Beverage</option>
+                      <option value='beauty'>Health and Beauty</option>
+                      <option value='fashion'>Fashion</option>
+                      <option value='sports'>Sports and Leisure</option>
+                      <option value='tech'>Technology and Apps</option>
+                      <option value='other'>Other</option>
+                    </select>
+                  </div>
+
+                  <div className='form-group'>
+                    <label>Heroic Services Needed</label>
+                    <div className='checkbox-group'>
+                      <label className='checkbox-label'>
+                        <input
+                          type='checkbox'
+                          name='services'
+                          value='strategy'
+                          onChange={handleChange}
+                          checked={formData.services.includes('strategy')}
+                          disabled={isSubmitting}
+                        />
+                        Marketing Strategy Development
+                      </label>
+                      <label className='checkbox-label'>
+                        <input
+                          type='checkbox'
+                          name='services'
+                          value='digital'
+                          onChange={handleChange}
+                          checked={formData.services.includes('digital')}
+                          disabled={isSubmitting}
+                        />
+                        Digital Marketing
+                      </label>
+                      <label className='checkbox-label'>
+                        <input
+                          type='checkbox'
+                          name='services'
+                          value='branding'
+                          onChange={handleChange}
+                          checked={formData.services.includes('branding')}
+                          disabled={isSubmitting}
+                        />
+                        Branding and Creative Services
+                      </label>
+                      <label className='checkbox-label'>
+                        <input
+                          type='checkbox'
+                          name='services'
+                          value='content'
+                          onChange={handleChange}
+                          checked={formData.services.includes('content')}
+                          disabled={isSubmitting}
+                        />
+                        Content Marketing
+                      </label>
+                    </div>
+                  </div>
+
+                  <div className='form-row'>
+                    <div className='form-group'>
+                      <label htmlFor='budget'>Power Level (Budget)</label>
+                      <select
+                        id='budget'
+                        name='budget'
+                        value={formData.budget}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        disabled={isSubmitting}
+                      >
+                        <option value=''>Select power level</option>
+                        <option value='under10k'>
+                          Sidekick Level (Under $10k)
+                        </option>
+                        <option value='10k-25k'>
+                          Local Hero ($10k - $25k)
+                        </option>
+                        <option value='25k-50k'>
+                          City Protector ($25k - $50k)
+                        </option>
+                        <option value='50k-100k'>
+                          Avenger Level ($50k - $100k)
+                        </option>
+                        <option value='over100k'>
+                          Justice League (Over $100k)
+                        </option>
+                      </select>
+                    </div>
+
+                    <div className='form-group'>
+                      <label htmlFor='timeline'>Rescue Timeline</label>
+                      <select
+                        id='timeline'
+                        name='timeline'
+                        value={formData.timeline}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        disabled={isSubmitting}
+                      >
+                        <option value=''>Select timeline</option>
+                        <option value='immediate'>
+                          Emergency! (1-2 weeks)
+                        </option>
+                        <option value='short'>
+                          Quick Mission (1-3 months)
+                        </option>
+                        <option value='medium'>
+                          Strategic Campaign (3-6 months)
+                        </option>
+                        <option value='long'>Epic Saga (6+ months)</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div
+                    className={`form-group ${hasError('message') ? 'has-error' : ''} ${isValid('message') ? 'has-success' : ''}`}
+                  >
+                    <label htmlFor='message'>Distress Signal (Message)</label>
+                    <textarea
+                      id='message'
+                      name='message'
+                      rows='5'
+                      value={formData.message}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      placeholder='Tell us about your villain (marketing challenges)...'
+                      disabled={isSubmitting}
+                    ></textarea>
+                    <AnimatePresence mode='wait'>
+                      {hasError('message') && (
+                        <motion.div
+                          className='hero-error'
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -10 }}
+                        >
+                          {errors.message}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                    {isValid('message') && (
+                      <motion.div
+                        className='success-indicator'
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                      >
+                        ✓
+                      </motion.div>
+                    )}
+                  </div>
+
+                  <AnimatePresence mode='wait'>
+                    {submitStatus === 'submitting' && (
+                      <motion.div
+                        key='submitting'
+                        className='submit-status submitting'
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                      >
+                        <div className='power-charging'>
+                          <span>⚡</span>
+                          <span>⚡</span>
+                          <span>⚡</span>
+                        </div>
+                        <p>Summoning heroes...</p>
+                      </motion.div>
+                    )}
+
+                    {submitStatus === 'error' && (
+                      <motion.div
+                        key='error'
+                        className='submit-status error'
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 20 }}
+                      >
+                        <div className='power-fail'>💢</div>
+                        <p>Signal interrupted! Check your super-info above.</p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
+                  <motion.button
+                    type='submit'
+                    className='submit-button'
+                    disabled={isSubmitting}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    animate={
+                      submitStatus === 'error'
+                        ? {
+                            x: [-10, 10, -10, 10, 0],
+                            transition: { duration: 0.4 },
+                          }
+                        : {}
+                    }
+                  >
+                    {isSubmitting
+                      ? 'Assembling Heroes...'
+                      : 'Send Hero Signal ⚡'}
+                  </motion.button>
+                </motion.div>
+              ) : (
                 <motion.div
-                  key='error'
-                  className='submit-status error'
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 20 }}
+                  key='thankyou'
+                  className='thank-you-message'
+                  initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.8, y: -20 }}
+                  transition={{
+                    type: 'spring',
+                    stiffness: 300,
+                    damping: 25,
+                    delay: 0.2,
+                  }}
                 >
-                  <div className='power-fail'>💢</div>
-                  <p>Signal interrupted! Check your super-info above.</p>
+                  <div className='thank-you-heroes'>
+                    <motion.div
+                      animate={{
+                        rotate: [0, 10, -10, 10, 0],
+                        scale: [1, 1.1, 1],
+                      }}
+                      transition={{
+                        duration: 1.5,
+                        repeat: Infinity,
+                        repeatType: 'reverse',
+                      }}
+                      className='thank-you-emoji'
+                    >
+                      🦸‍♂️ 🦸‍♀️ 🦸
+                    </motion.div>
+                  </div>
+
+                  <motion.h2
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 }}
+                  >
+                    Signal Received, {submittedName}!
+                  </motion.h2>
+
+                  <motion.div
+                    className='thank-you-stars'
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.4 }}
+                  >
+                    ⭐ ⭐ ⭐ ⭐ ⭐
+                  </motion.div>
+
+                  <motion.p
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5 }}
+                  >
+                    The Rainboots Justice League has received your distress
+                    signal and is assembling heroes with the perfect powers for
+                    your mission.
+                  </motion.p>
+
+                  <motion.div
+                    className='thank-you-timeline'
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.6 }}
+                  >
+                    <div className='timeline-icon'>⚡</div>
+                    <div>
+                      <strong>Expected response time:</strong>
+                      <p>A hero will contact you within 24 hours</p>
+                    </div>
+                  </motion.div>
+
+                  <motion.div
+                    className='thank-you-message-footer'
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.7 }}
+                  >
+                    <p>
+                      While you wait, check out our heroic services or read some
+                      success stories!
+                    </p>
+                  </motion.div>
+
+                  <motion.button
+                    className='thank-you-button'
+                    onClick={handleCloseThankYou}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.8 }}
+                  >
+                    Send Another Signal
+                  </motion.button>
                 </motion.div>
               )}
             </AnimatePresence>
-
-            <motion.button
-              type='submit'
-              className='submit-button'
-              disabled={isSubmitting}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              animate={
-                submitStatus === 'error'
-                  ? {
-                      x: [-10, 10, -10, 10, 0],
-                      transition: { duration: 0.4 },
-                    }
-                  : {}
-              }
-            >
-              {isSubmitting ? 'Assembling Heroes...' : 'Send Hero Signal ⚡'}
-            </motion.button>
           </motion.form>
         </div>
       </section>
