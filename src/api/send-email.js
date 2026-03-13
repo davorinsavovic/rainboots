@@ -19,37 +19,35 @@ export default async function handler(req, res) {
       message,
     } = req.body;
 
-    // Format services list
     const servicesList =
-      services.length > 0
+      services?.length > 0
         ? services.map((s) => `• ${s}`).join('\n')
         : 'None selected';
 
     const emailContent = `
-      🦸 NEW HERO SIGNAL RECEIVED 🦸
-      
-      Hero Name: ${name}
-      Super Email: ${email}
-      Secret Headquarters: ${company || 'Not provided'}
-      Superpower: ${businessType || 'Not specified'}
-      
-      Power Level: ${budget || 'Not specified'}
-      Rescue Timeline: ${timeline || 'Not specified'}
-      
-      Heroic Services Needed:
-      ${servicesList}
-      
-      Distress Signal:
-      ${message}
-    `;
+🦸 NEW HERO SIGNAL RECEIVED 🦸
+
+Hero Name: ${name}
+Super Email: ${email}
+Secret Headquarters: ${company || 'Not provided'}
+Superpower: ${businessType || 'Not specified'}
+
+Power Level: ${budget || 'Not specified'}
+Rescue Timeline: ${timeline || 'Not specified'}
+
+Heroic Services Needed:
+${servicesList}
+
+Distress Signal:
+${message}
+`;
 
     const { data, error } = await resend.emails.send({
-      const { data, error } = await resend.emails.send({
       from: 'Rainboots Marketing <hello@rainbootsmarketing.com>',
       to: ['services@rainbootsmarketing.com'],
       subject: `🦸 New Hero Signal from ${name}`,
       text: emailContent,
-      replyTo: email,
+      reply_to: email,
     });
 
     if (error) {
