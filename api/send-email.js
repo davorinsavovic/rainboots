@@ -1,8 +1,97 @@
 import { Resend } from 'resend';
+import rateLimit from 'express-rate-limit';
+import { createClient } from '@vercel/kv'; // Optional: for distributed rate limiting
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+// In-memory store for rate limiting (works for low traffic)
+// For high traffic, use Vercel KV or Redis
+const rateLimitMap = new Map();
+
+// Clean up old entries every hour
+setInterval(
+  () => {
+    const now = Date.now();
+    for (const [key, data] of rateLimitMap.entries()) {
+      if (now > data.resetTime) {
+        rateLimitMap.delete(key);
+      }
+    }
+  },
+  60 * 60 * 1000,
+);
+
+// Simple in-memory rate limiter (no external dependencies)
+const checkRateLimit = (ip) => {
+  const windowMs = 15 * 60 * 1000; // 15 minutes
+  const maxRequests = 3; // 3 requests per 15 minutes
+
+  const now = Date.now();
+  const record = rateLimitMap.get(ip) || {
+    count: 0,
+    resetTime: now + windowMs,
+  };
+
+  // Reset if window has passed
+  if (now > record.resetTime) {
+    record.count = 0;
+    record.resetTime = now + windowMs;
+  }
+
+  record.count += 1;
+  rateLimitMap.set(ip, record);
+
+  return {
+    limited: record.count > maxRequests,
+    remaining: Math.max(0, maxRequests - record.count),
+    resetTime: record.resetTime,
+  };
+};
+
+// Helper to get client IP from Vercel headers
+const getClientIp = (req) => {
+  return (
+    req.headers['x-forwarded-for'] ||
+    req.headers['x-real-ip'] ||
+    req.socket.remoteAddress ||
+    'unknown'
+  );
+};
+
+// Spam keyword list
+const spamKeywords = [
+  'casino',
+  'viagra',
+  'cialis',
+  'porn',
+  'xxx',
+  'sex',
+  'bitcoin',
+  'crypto',
+  'forex',
+  'loan',
+  'mortgage',
+  'seo services',
+  'backlinks',
+  'guest post',
+  'marketing agency',
+  'digital agency',
+  'web design company',
+];
+
+const containsSpamKeywords = (text) => {
+  if (!text) return false;
+  const lowerText = text.toLowerCase();
+  return spamKeywords.some((keyword) => lowerText.includes(keyword));
+};
+
+const isValidEmail = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
 export default async function handler(req, res) {
+  // Only allow POST
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -17,8 +106,66 @@ export default async function handler(req, res) {
       budget,
       timeline,
       message,
+      website, // Honeypot field
+      formLoadTime, // Timestamp for time-based check
     } = req.body;
 
+    const clientIp = getClientIp(req);
+    const now = Date.now();
+
+    // ===== LAYER 1: HONEYPOT CHECK =====
+    // If honeypot field is filled, it's a bot
+    if (website && website.length > 0) {
+      console.log('🚫 Honeypot triggered - bot detected', { ip: clientIp });
+      // Silently return success to fool the bot
+      return res.status(200).json({ success: true, fake: true });
+    }
+
+    // ===== LAYER 2: TIME-BASED CHECK =====
+    // Humans take at least 5 seconds to fill a form
+    const timeTaken = now - parseInt(formLoadTime || now);
+    if (timeTaken < 3000) {
+      // Less than 3 seconds
+      console.log('🚫 Time check failed - too fast', {
+        ip: clientIp,
+        timeTaken,
+      });
+      return res.status(200).json({ success: true, fake: true });
+    }
+
+    // ===== LAYER 3: RATE LIMITING =====
+    const rateLimit = checkRateLimit(clientIp);
+    if (rateLimit.limited) {
+      console.log('🚫 Rate limit exceeded', {
+        ip: clientIp,
+        resetTime: new Date(rateLimit.resetTime).toISOString(),
+      });
+      return res.status(429).json({
+        error: 'Too many signals. Please wait before sending another.',
+      });
+    }
+
+    // ===== LAYER 4: EMAIL VALIDATION =====
+    if (!email || !isValidEmail(email)) {
+      console.log('🚫 Invalid email', { ip: clientIp, email });
+      return res
+        .status(400)
+        .json({ error: 'Please enter a valid email address' });
+    }
+
+    // ===== LAYER 5: SPAM KEYWORD CHECK =====
+    const textToCheck = `${name} ${company} ${message}`.toLowerCase();
+    if (containsSpamKeywords(textToCheck)) {
+      console.log('🚫 Spam keywords detected', { ip: clientIp });
+      return res.status(200).json({ success: true, fake: true });
+    }
+
+    // ===== LAYER 6: BASIC INPUT VALIDATION =====
+    if (!name || name.trim().length < 2) {
+      return res.status(400).json({ error: 'Please enter a valid name' });
+    }
+
+    // If we passed all checks, proceed with email sending
     const servicesList =
       services?.length > 0
         ? services
@@ -64,7 +211,7 @@ export default async function handler(req, res) {
     const currentYear = new Date().getFullYear();
     const firstName = name.split(' ')[0];
 
-    // ===== INTERNAL NOTIFICATION EMAIL (to you and Steve) =====
+    // ===== INTERNAL NOTIFICATION EMAIL =====
     const internalHtmlContent = `<!DOCTYPE html>
       <html>
       <head>
@@ -297,15 +444,6 @@ export default async function handler(req, res) {
               To your success,<br/>
               <strong style="color:#2b5ce6;">The Rainboots Justice League</strong>
             </p>
-            
-            // <div style="margin-top:30px;padding:20px;background:#f1f5f9;border-radius:8px;text-align:center;">
-            //   <p style="margin:0 0 10px;color:#1e293b;font-size:14px;">⚡ Stay connected with your heroes ⚡</p>
-            //   <div style="display:flex;justify-content:center;gap:15px;">
-            //     <a href="https://www.linkedin.com/company/102702602/admin/dashboard/" style="color:#2b5ce6;text-decoration:none;font-size:20px;">💼</a>
-            //     <a href="https://twitter.com/rainboots" style="color:#2b5ce6;text-decoration:none;font-size:20px;">🐦</a>
-            //     <a href="https://instagram.com/rainboots" style="color:#2b5ce6;text-decoration:none;font-size:20px;">📷</a>
-            //   </div>
-            // </div>
           </div>
 
           <!-- Footer with Rainboots Branding -->
@@ -353,7 +491,6 @@ Rainboots Marketing — Making Waves in Marketing
 rainbootsmarketing.com
 `;
 
-    // Internal notification text version
     const internalTextContent = `
 ⚡ NEW HERO SIGNAL RECEIVED ⚡
 
@@ -376,7 +513,7 @@ Rainboots Marketing — Making Waves in Marketing
 rainbootsmarketing.com
 `;
 
-    // Send internal notification to you and Steve
+    // Send internal notification
     const internalEmail = await resend.emails.send({
       from: 'Rainboots Justice League <hello@rainbootsmarketing.com>',
       to: ['davorins@gmail.com', 'steveutt915@gmail.com'],
@@ -402,9 +539,16 @@ rainbootsmarketing.com
 
     if (customerEmail.error) {
       console.error('Resend error (customer):', customerEmail.error);
-      // Still return success for internal email even if customer email fails
-      // but log the error
     }
+
+    // Log successful submission (for monitoring)
+    console.log('✅ Valid form submission', {
+      ip: clientIp,
+      name,
+      email,
+      timeTaken,
+      remainingRequests: rateLimit.remaining,
+    });
 
     return res.status(200).json({
       success: true,

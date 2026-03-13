@@ -1,8 +1,9 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './Contact.css';
 
 const Contact = () => {
+  // Add website field for honeypot
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -12,7 +13,11 @@ const Contact = () => {
     budget: '',
     timeline: '',
     message: '',
+    website: '', // 👈 HONEYPOT FIELD - should stay empty
   });
+
+  // 👇 Track when form loads for time-based check
+  const [formLoadTime] = useState(Date.now());
 
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
@@ -20,6 +25,14 @@ const Contact = () => {
   const [submitStatus, setSubmitStatus] = useState(null);
   const [showThankYou, setShowThankYou] = useState(false);
   const [submittedName, setSubmittedName] = useState('');
+
+  // 👇 Prevent browser autofill on honeypot
+  useEffect(() => {
+    const honeypot = document.querySelector('input[name="website"]');
+    if (honeypot) {
+      honeypot.setAttribute('autocomplete', 'off');
+    }
+  }, []);
 
   const validateField = (name, value) => {
     switch (name) {
@@ -105,19 +118,48 @@ const Contact = () => {
 
     setIsSubmitting(true);
     setSubmitStatus('submitting');
-    setSubmittedName(formData.name.split(' ')[0]); // Save first name for thank you message
+    setSubmittedName(formData.name.split(' ')[0]);
 
     try {
-      // Send form data to your API endpoint
+      // Include honeypot and timestamp in submission
       const response = await fetch('/api/send-email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          formLoadTime, // 👈 Send timestamp for time-based check
+        }),
       });
 
       const data = await response.json();
+
+      // 👇 Check if this was a blocked bot (fake success)
+      if (data.fake) {
+        console.log('Bot submission detected and blocked');
+        // Still show success to the bot
+        setSubmitStatus('success');
+        setShowThankYou(true);
+        setTimeout(() => {
+          setFormData({
+            name: '',
+            email: '',
+            company: '',
+            businessType: '',
+            services: [],
+            budget: '',
+            timeline: '',
+            message: '',
+            website: '',
+          });
+          setTouched({});
+          setErrors({});
+          setSubmitStatus(null);
+          setIsSubmitting(false);
+        }, 500);
+        return;
+      }
 
       if (!response.ok) {
         throw new Error(data.error || 'Failed to send message');
@@ -125,11 +167,8 @@ const Contact = () => {
 
       console.log('Form submitted successfully:', data);
       setSubmitStatus('success');
-
-      // Show thank you message
       setShowThankYou(true);
 
-      // Reset form after success (but keep thank you message visible)
       setTimeout(() => {
         setFormData({
           name: '',
@@ -140,6 +179,7 @@ const Contact = () => {
           budget: '',
           timeline: '',
           message: '',
+          website: '',
         });
         setTouched({});
         setErrors({});
@@ -201,8 +241,8 @@ const Contact = () => {
             <h2>Contact Information</h2>
             <p>
               Whether you need a sidekick for small tasks or a full league of
-              heroes for an epic marketing campaign, Rainboots Justice League is
-              standing by.
+              heroes for an epic marketing campaign, Rainboots Marketing League
+              is standing by.
             </p>
 
             {/* Hero Image with Super Hero Animation */}
@@ -227,14 +267,12 @@ const Contact = () => {
                 transition: { duration: 0.6 },
               }}
             >
-              {/* Enhanced flying effect */}
               <motion.div
                 className='flying-effects'
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 transition={{ delay: 0.2, duration: 0.5 }}
               >
-                {/* Speed lines */}
                 <motion.div
                   className='speed-line speed-line-1'
                   animate={{
@@ -260,7 +298,6 @@ const Contact = () => {
                   }}
                 />
 
-                {/* Energy sparks */}
                 {[1, 2, 3, 4, 5].map((i) => (
                   <motion.div
                     key={i}
@@ -293,7 +330,6 @@ const Contact = () => {
                 className='hero-image'
               />
 
-              {/* Subtle rim light effect */}
               <motion.div
                 className='rim-light'
                 animate={{
@@ -316,6 +352,30 @@ const Contact = () => {
             transition={{ duration: 0.6 }}
             noValidate
           >
+            {/* 👇 HONEYPOT FIELD - hidden from users, visible to bots */}
+            <input
+              type='text'
+              name='website'
+              value={formData.website}
+              onChange={handleChange}
+              style={{
+                position: 'absolute',
+                opacity: 0,
+                top: 0,
+                left: 0,
+                height: 0,
+                width: 0,
+                zIndex: -1,
+                pointerEvents: 'none',
+              }}
+              tabIndex='-1'
+              aria-hidden='true'
+              autoComplete='off'
+            />
+
+            {/* 👇 HIDDEN TIMESTAMP FIELD */}
+            <input type='hidden' name='formLoadTime' value={formLoadTime} />
+
             <AnimatePresence mode='wait'>
               {!showThankYou ? (
                 <motion.div
