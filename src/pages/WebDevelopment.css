@@ -783,6 +783,135 @@
   }
 }
 
+/* ===== TECHNOLOGIES SECTION ===== */
+.tech-section {
+  padding: 6rem 5%;
+  background: var(--light);
+  position: relative;
+  z-index: 10;
+}
+
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.tech-item {
+  background: white;
+  padding: 2rem;
+  border-radius: 20px;
+  text-align: center;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.tech-item:hover {
+  border-color: var(--primary);
+  box-shadow: 0 10px 30px rgba(43, 92, 230, 0.1);
+}
+
+.tech-item img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  margin-bottom: 1rem;
+}
+
+.tech-item p {
+  font-weight: 500;
+  color: var(--dark);
+}
+
+/* Mobile Breakpoint - already in your file, but update the tech-grid rule */
+@media (max-width: 800px) {
+  /* ... existing styles ... */
+
+  /* Technologies Section - Mobile */
+  .tech-section {
+    padding: 3rem 1rem !important;
+  }
+
+  .tech-grid {
+    grid-template-columns: repeat(4, 1fr) !important; /* Force 4 columns */
+    gap: 0.5rem;
+  }
+
+  .tech-item {
+    padding: 0.8rem 0.5rem;
+    background: transparent;
+    box-shadow: none;
+    border: none;
+  }
+
+  .tech-item:hover {
+    transform: translateY(-3px);
+    border: none;
+    box-shadow: none;
+  }
+
+  .tech-item img {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 0.3rem;
+  }
+
+  .tech-item p {
+    font-size: 0.7rem;
+    font-weight: 400;
+    color: var(--text);
+  }
+}
+
+/* Extra Small Devices - keep 4 columns but adjust sizes */
+@media (max-width: 600px) {
+  .tech-section {
+    padding: 2rem 0.5rem !important;
+  }
+
+  .tech-grid {
+    gap: 0.3rem;
+  }
+
+  .tech-item img {
+    width: 35px;
+    height: 35px;
+  }
+
+  .tech-item p {
+    font-size: 0.65rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .tech-grid {
+    grid-template-columns: repeat(4, 1fr) !important; /* Still 4 columns */
+  }
+
+  .tech-item img {
+    width: 30px;
+    height: 30px;
+  }
+
+  .tech-item p {
+    font-size: 0.6rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .tech-item img {
+    width: 25px;
+    height: 25px;
+  }
+
+  .tech-item p {
+    font-size: 0.55rem;
+  }
+}
+
 /* Extra Small Devices */
 @media (max-width: 600px) {
   .webdev-page {
