@@ -8,26 +8,56 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { to, subject, body } = req.body;
+    const {
+      name,
+      email,
+      company,
+      businessType,
+      services,
+      budget,
+      timeline,
+      message,
+    } = req.body;
+
+    // Format services list
+    const servicesList =
+      services.length > 0
+        ? services.map((s) => `• ${s}`).join('\n')
+        : 'None selected';
+
+    const emailContent = `
+      🦸 NEW HERO SIGNAL RECEIVED 🦸
+      
+      Hero Name: ${name}
+      Super Email: ${email}
+      Secret Headquarters: ${company || 'Not provided'}
+      Superpower: ${businessType || 'Not specified'}
+      
+      Power Level: ${budget || 'Not specified'}
+      Rescue Timeline: ${timeline || 'Not specified'}
+      
+      Heroic Services Needed:
+      ${servicesList}
+      
+      Distress Signal:
+      ${message}
+    `;
 
     const { data, error } = await resend.emails.send({
+      const { data, error } = await resend.emails.send({
       from: 'Rainboots Marketing <hello@rainbootsmarketing.com>',
-      to,
-      subject,
-      html: body,
+      to: ['services@rainbootsmarketing.com'],
+      subject: `🦸 New Hero Signal from ${name}`,
+      text: emailContent,
+      replyTo: email,
     });
 
     if (error) {
-      return res.status(500).json(error);
+      return res.status(500).json({ error: error.message });
     }
 
-    res.status(200).json({
-      success: true,
-      id: data.id,
-    });
-  } catch (err) {
-    res.status(500).json({
-      error: err.message,
-    });
+    return res.status(200).json({ success: true, data });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
   }
 }
