@@ -131,7 +131,8 @@ const Home = ({
           transition={{ duration: 0.8, delay: 0.3 }}
         >
           <h1>
-            Marketing Made <span className='highlight'>Easy</span>
+            {/* Marketing Made <span className='highlight'>Easy</span> */}
+            Making <span className='highlight'>Waves</span> in Marketing
           </h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
