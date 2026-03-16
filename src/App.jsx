@@ -140,6 +140,7 @@ function App() {
             <Route path='/branding' element={<BrandIdentity />} />
             <Route path='/privacy' element={<PrivacyPolicy />} />
             <Route path='/terms' element={<TermsConditions />} />
+            <Route path='/blog-generator' element={<BlogGenerator />} />
           </Routes>
           <Footer />
         </>
