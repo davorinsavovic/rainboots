@@ -35,6 +35,60 @@ const LOADING_MESSAGES = [
   'Almost ready...',
 ];
 
+// All styles needed for the article when pasted into WordPress
+const WP_ARTICLE_STYLES = `
+<style>
+.rb-wp-article { font-family: 'DM Sans', 'Helvetica Neue', sans-serif; font-size: 16px; line-height: 1.8; color: #2a2a3a; max-width: 780px; margin: 0 auto; }
+.rb-wp-article h2 { font-family: Georgia, 'Times New Roman', serif; font-size: 26px; color: #0d1b2a; margin: 40px 0 14px; line-height: 1.3; font-weight: 700; border-left: 4px solid #0e9aa7; padding-left: 16px; }
+.rb-wp-article h3 { font-family: 'Helvetica Neue', sans-serif; font-size: 18px; font-weight: 700; color: #1a3a5c; margin: 28px 0 10px; letter-spacing: 0.01em; }
+.rb-wp-article p { margin-bottom: 20px; }
+.rb-wp-article ul, .rb-wp-article ol { padding-left: 28px; margin-bottom: 20px; }
+.rb-wp-article li { margin-bottom: 8px; line-height: 1.7; }
+.rb-wp-article a { color: #0e7a85; text-decoration: underline; text-underline-offset: 3px; font-weight: 600; }
+.rb-wp-article a:hover { color: #0d1b2a; }
+.rb-wp-article blockquote { border-left: 5px solid #0e9aa7; margin: 28px 0; padding: 18px 24px; background: #f0fafa; border-radius: 0 10px 10px 0; font-style: italic; color: #1a3a5c; font-size: 17px; }
+.rb-wp-article strong { color: #0d1b2a; font-weight: 700; }
+.rb-wp-article .rb-category-tag { display: inline-block; background: #0d1b2a; color: #17c3d4; font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; padding: 5px 14px; border-radius: 20px; margin-bottom: 20px; font-family: 'Helvetica Neue', sans-serif; }
+.rb-wp-article .rb-article-meta { display: flex; gap: 20px; flex-wrap: wrap; font-size: 13px; color: #8a96a3; margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid #e8edf2; font-family: 'Helvetica Neue', sans-serif; }
+.rb-wp-article .rb-article-meta span { display: flex; align-items: center; gap: 5px; }
+.rb-wp-article .cta-box { background: linear-gradient(135deg, #0d1b2a 0%, #1a3a5c 100%); border-radius: 16px; padding: 36px 40px; margin-top: 48px; text-align: center; }
+.rb-wp-article .cta-box p { font-family: Georgia, serif; font-size: 22px; color: #f5f0e8; margin-bottom: 16px; font-style: normal; line-height: 1.3; }
+.rb-wp-article .cta-box a { display: inline-block; background: #0e9aa7; color: #ffffff !important; text-decoration: none !important; font-family: 'Helvetica Neue', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 14px 32px; border-radius: 8px; transition: background 0.2s; }
+.rb-wp-article .rb-divider { border: none; border-top: 1px solid #e8edf2; margin: 40px 0; }
+</style>
+`;
+
+// Generates the full WordPress-ready HTML block
+function buildWordPressHTML(article) {
+  const date = new Date().toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+  return `<!-- Paste this entire block into WordPress Code Editor (Posts > Add New > ⋮ > Code editor) -->
+<!-- SEO FIELDS — paste into Yoast/RankMath: -->
+<!-- Title: ${article.seoTitle} -->
+<!-- Meta Description: ${article.metaDesc} -->
+<!-- Focus Keywords: ${article.keywords} -->
+
+${WP_ARTICLE_STYLES}
+
+<div class="rb-wp-article">
+
+  <span class="rb-category-tag">${article.category}</span>
+
+  <div class="rb-article-meta">
+    <span>✍️ Rainboots Marketing Team</span>
+    <span>📅 ${date}</span>
+    <span>🏷️ ${article.service}</span>
+    <span>⏱️ ~${article.readTime} min read</span>
+  </div>
+
+  ${article.html}
+
+</div>`;
+}
+
 // ─── Password Gate ────────────────────────────────────────────────────────────
 function PasswordGate({ onUnlock }) {
   const [input, setInput] = useState('');
@@ -45,7 +99,6 @@ function PasswordGate({ onUnlock }) {
     e.preventDefault();
     const correct = process.env.REACT_APP_BLOG_PASSWORD;
     if (!correct) {
-      // No env var set — allow through (useful for local dev)
       onUnlock();
       return;
     }
@@ -72,8 +125,6 @@ function PasswordGate({ onUnlock }) {
         .rb-gate-input:focus { border-color: #0e9aa7 !important; outline: none; }
         .rb-gate-btn:hover { background: #17c3d4 !important; }
       `}</style>
-
-      {/* Rain background */}
       <div
         style={{
           position: 'fixed',
@@ -99,7 +150,6 @@ function PasswordGate({ onUnlock }) {
           />
         ))}
       </div>
-
       <form
         onSubmit={handleSubmit}
         className={`rb-gate-card${shake ? ' shake' : ''}`}
@@ -194,14 +244,12 @@ const gateStyles = {
   hint: { fontSize: 12, color: '#3a4a56', marginTop: 20 },
 };
 
-// ─── Root component ───────────────────────────────────────────────────────────
+// ─── Root ─────────────────────────────────────────────────────────────────────
 export default function BlogGenerator() {
   const [unlocked, setUnlocked] = useState(false);
-
   useEffect(() => {
     if (sessionStorage.getItem('rb_blog_auth') === 'true') setUnlocked(true);
   }, []);
-
   if (!unlocked) return <PasswordGate onUnlock={() => setUnlocked(true)} />;
   return <GeneratorApp />;
 }
@@ -233,9 +281,8 @@ function GeneratorApp() {
   }, [loading]);
 
   useEffect(() => {
-    if (article && outputRef.current) {
+    if (article && outputRef.current)
       outputRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
   }, [article]);
 
   const getMeta = (text, key) => {
@@ -252,8 +299,6 @@ function GeneratorApp() {
     setLoading(true);
     setArticle(null);
 
-    const apiKey = process.env.REACT_APP_ANTHROPIC_KEY;
-
     const prompt = `You are an expert SEO content writer for Rainboots Marketing, a digital marketing agency based in Seattle (rainbootsmarketing.com).
 
 Write a complete, SEO-optimized blog article with these requirements:
@@ -265,10 +310,10 @@ TONE: ${tone}
 KEYWORDS TO TARGET: ${keywords || 'use relevant industry keywords naturally'}
 
 CRITICAL REQUIREMENTS:
-1. Naturally link to https://rainbootsmarketing.com at least 3 times using descriptive anchor text related to the service. Example: <a href="https://rainbootsmarketing.com">our ${service} team at Rainboots</a>
+1. Naturally link to https://rainbootsmarketing.com at least 3 times using descriptive anchor text. Example: <a href="https://rainbootsmarketing.com">our ${service} team at Rainboots</a>
 2. Write in HTML using only: <h2>, <h3>, <p>, <ul>, <ol>, <li>, <strong>, <em>, <blockquote>, <a> tags
-3. End with this exact CTA block: <div class="cta-box"><p>Ready to level up your ${service}?</p><a href="https://rainbootsmarketing.com">Work With Rainboots →</a></div>
-4. Include a compelling intro paragraph that hooks the reader
+3. End with: <div class="cta-box"><p>Ready to level up your ${service}?</p><a href="https://rainbootsmarketing.com">Work With Rainboots →</a></div>
+4. Hook the reader in the first paragraph
 5. Use keywords naturally — never stuffed
 6. Structure for featured snippets (clear questions + direct answers)
 7. Include at least one blockquote with a key insight or stat
@@ -279,23 +324,20 @@ ALSO PROVIDE (before the article HTML, separated by |||):
 - KEYWORDS: (5-7 comma-separated target keywords)
 - CATEGORY: (one of: Email Marketing / Deliverability / Lifecycle / SMS & Push / Automation / Retention / Acquisition / Branding / Strategy)
 
-FORMAT YOUR RESPONSE EXACTLY LIKE:
-SEO_TITLE: [title here]
-META_DESC: [description here]
+FORMAT:
+SEO_TITLE: [title]
+META_DESC: [desc]
 KEYWORDS: [kw1, kw2, kw3]
 CATEGORY: [category]
 |||
-[full article HTML here]`;
+[full article HTML]`;
 
     try {
-      const headers = { 'Content-Type': 'application/json' };
-      if (apiKey) headers['x-api-key'] = apiKey;
-
       const response = await fetch('/api/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
+          model: 'claude-sonnet-4-6',
           max_tokens: 2000,
           messages: [{ role: 'user', content: prompt }],
         }),
@@ -344,16 +386,14 @@ CATEGORY: [category]
   const copy = (text, label) => {
     navigator.clipboard.writeText(text).then(() => {
       setCopyStatus(label);
-      setTimeout(() => setCopyStatus(''), 2000);
+      setTimeout(() => setCopyStatus(''), 2500);
     });
   };
 
-  const copyArticleHTML = () => {
+  // ★ The main new feature — single button WordPress export
+  const copyForWordPress = () => {
     if (!article) return;
-    copy(
-      `<!-- SEO Title: ${article.seoTitle} -->\n<!-- Meta Description: ${article.metaDesc} -->\n<!-- Keywords: ${article.keywords} -->\n\n${article.html}`,
-      'article',
-    );
+    copy(buildWordPressHTML(article), 'wordpress');
   };
 
   const copyMetaTags = () => {
@@ -390,6 +430,7 @@ CATEGORY: [category]
         .rb-action-btn:hover{background:rgba(14,154,167,0.15)!important;border-color:#0e9aa7!important;color:#17c3d4!important}
         .rb-history-card:hover{border-color:#0e9aa7!important;background:rgba(14,154,167,0.08)!important}
         .rb-logout:hover{border-color:rgba(255,255,255,0.25)!important;color:#f5f0e8!important}
+        .rb-wp-btn:hover{background:#16a34a!important}
       `}</style>
 
       {/* Rain */}
@@ -437,7 +478,7 @@ CATEGORY: [category]
           </button>
         </header>
 
-        {/* Form panel */}
+        {/* Form */}
         <div style={s.panel}>
           <div style={s.sectionLabel}>Article Settings</div>
           <div style={s.formGrid}>
@@ -452,7 +493,6 @@ CATEGORY: [category]
                 onKeyDown={(e) => e.key === 'Enter' && generateArticle()}
               />
             </div>
-
             <div style={s.field}>
               <label style={s.label}>Target Service</label>
               <select
@@ -467,7 +507,6 @@ CATEGORY: [category]
                 ))}
               </select>
             </div>
-
             <div style={s.field}>
               <label style={s.label}>Article Length</label>
               <select
@@ -482,7 +521,6 @@ CATEGORY: [category]
                 ))}
               </select>
             </div>
-
             <div style={{ ...s.field, gridColumn: '1 / -1' }}>
               <label style={s.label}>Focus Keywords (optional)</label>
               <input
@@ -493,7 +531,6 @@ CATEGORY: [category]
                 onChange={(e) => setKeywords(e.target.value)}
               />
             </div>
-
             <div style={{ ...s.field, gridColumn: '1 / -1' }}>
               <label style={s.label}>Tone</label>
               <div style={s.toneGrid}>
@@ -513,7 +550,6 @@ CATEGORY: [category]
               </div>
             </div>
           </div>
-
           <button
             style={{
               ...s.generateBtn,
@@ -630,7 +666,7 @@ CATEGORY: [category]
               />
             </div>
 
-            {/* Actions */}
+            {/* ★ Action bar with WordPress button */}
             <div
               style={{
                 display: 'flex',
@@ -639,11 +675,18 @@ CATEGORY: [category]
                 flexWrap: 'wrap',
               }}
             >
-              <button style={s.actionBtnPrimary} onClick={copyArticleHTML}>
-                {copyStatus === 'article'
-                  ? '✅ Copied!'
-                  : '📋 Copy Article HTML'}
+              {/* PRIMARY: WordPress one-click export */}
+              <button
+                className='rb-wp-btn'
+                style={s.wpBtn}
+                onClick={copyForWordPress}
+              >
+                {copyStatus === 'wordpress'
+                  ? '✅ Copied! Paste into WordPress →'
+                  : '🟢 Copy for WordPress'}
               </button>
+
+              {/* SECONDARY: just meta tags */}
               <button
                 className='rb-action-btn'
                 style={s.actionBtn}
@@ -651,6 +694,8 @@ CATEGORY: [category]
               >
                 {copyStatus === 'meta' ? '✅ Copied!' : '📝 Copy Meta Tags'}
               </button>
+
+              {/* Reset */}
               <button
                 className='rb-action-btn'
                 style={s.actionBtn}
@@ -664,10 +709,41 @@ CATEGORY: [category]
                 ↺ New Article
               </button>
             </div>
+
+            {/* WordPress instructions */}
+            <div style={s.wpInstructions}>
+              <div style={s.wpInstructionsTitle}>
+                📋 How to publish in WordPress
+              </div>
+              <ol style={s.wpInstructionsList}>
+                <li>
+                  Click <strong>Copy for WordPress</strong> above
+                </li>
+                <li>
+                  Go to <strong>wp-admin → Posts → Add New</strong>
+                </li>
+                <li>
+                  Click the <strong>⋮ menu (top right) → Code editor</strong>
+                </li>
+                <li>Select all and paste — styles + content included</li>
+                <li>
+                  Set the post <strong>Title</strong> to:{' '}
+                  <em>{article.seoTitle}</em>
+                </li>
+                <li>
+                  In <strong>Yoast / RankMath</strong>: paste the meta
+                  description and keywords (use Copy Meta Tags button)
+                </li>
+                <li>
+                  Add a <strong>featured image</strong>, assign a{' '}
+                  <strong>category</strong>, then <strong>Publish</strong>
+                </li>
+              </ol>
+            </div>
           </div>
         )}
 
-        {/* Session history */}
+        {/* History */}
         {history.length > 1 && (
           <div style={{ marginTop: 48 }}>
             <div style={s.sectionLabel}>Session History</div>
@@ -916,6 +992,24 @@ const s = {
     lineHeight: 1.8,
     color: '#2a2a3a',
   },
+  // ★ WordPress button — green to stand out
+  wpBtn: {
+    background: '#16a34a',
+    border: 'none',
+    borderRadius: 8,
+    color: '#fff',
+    cursor: 'pointer',
+    fontFamily: "'Syne',sans-serif",
+    fontSize: 12,
+    fontWeight: 700,
+    letterSpacing: '0.06em',
+    textTransform: 'uppercase',
+    padding: '11px 20px',
+    transition: 'background 0.2s',
+    display: 'flex',
+    alignItems: 'center',
+    gap: 6,
+  },
   actionBtn: {
     background: 'rgba(255,255,255,0.07)',
     border: '1px solid rgba(255,255,255,0.12)',
@@ -930,19 +1024,28 @@ const s = {
     padding: '10px 16px',
     transition: 'all 0.15s',
   },
-  actionBtnPrimary: {
-    background: '#0e9aa7',
-    border: '1px solid #0e9aa7',
-    borderRadius: 8,
-    color: '#fff',
-    cursor: 'pointer',
+  // ★ WordPress instructions panel
+  wpInstructions: {
+    background: 'rgba(22,163,74,0.08)',
+    border: '1px solid rgba(22,163,74,0.25)',
+    borderRadius: 12,
+    padding: '20px 24px',
+    marginTop: 14,
+  },
+  wpInstructionsTitle: {
     fontFamily: "'Syne',sans-serif",
     fontSize: 12,
-    fontWeight: 600,
-    letterSpacing: '0.06em',
-    textTransform: 'uppercase',
-    padding: '10px 16px',
-    transition: 'background 0.2s',
+    fontWeight: 700,
+    color: '#4ade80',
+    marginBottom: 12,
+    letterSpacing: '0.05em',
+  },
+  wpInstructionsList: {
+    margin: 0,
+    paddingLeft: 20,
+    color: '#a0b0a8',
+    fontSize: 13,
+    lineHeight: 2,
   },
   historyCard: {
     background: 'rgba(255,255,255,0.04)',
