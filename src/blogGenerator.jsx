@@ -291,9 +291,9 @@ CATEGORY: [category]
       const headers = { 'Content-Type': 'application/json' };
       if (apiKey) headers['x-api-key'] = apiKey;
 
-      const response = await fetch('https://api.anthropic.com/v1/messages', {
+      const response = await fetch('/api/generate', {
         method: 'POST',
-        headers,
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           model: 'claude-sonnet-4-20250514',
           max_tokens: 1000,
