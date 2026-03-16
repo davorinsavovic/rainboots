@@ -33,7 +33,7 @@ export default async function handler(req, res) {
   }
 
   const payload = JSON.stringify({
-    model: body.model || 'claude-sonnet-4-5',
+    model: body.model || 'claude-sonnet-4-5-20250929',
     max_tokens: body.max_tokens || 2000,
     messages: body.messages,
   });
