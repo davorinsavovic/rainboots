@@ -16,6 +16,7 @@ import SocialMedia from './pages/SocialMedia';
 import BrandIdentity from './pages/BrandIdentity';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsConditions from './pages/TermsConditions';
+import BlogGenerator from './blogGenerator';
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
@@ -102,6 +103,7 @@ function App() {
           <Route path='/branding' element={<BrandIdentity />} />
           <Route path='/privacy' element={<PrivacyPolicy />} />
           <Route path='/terms' element={<TermsConditions />} />
+          <Route path='/blog-generator' element={<BlogGenerator />} />
         </Routes>
         <Footer />
       </Router>
