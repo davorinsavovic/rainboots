@@ -1,24 +1,20 @@
 export default async function handler(req, res) {
-  // Only allow POST
+  // Handle CORS preflight
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  // Only allow requests from your own domain
-  const origin = req.headers.origin || '';
-  const allowed = [
-    'https://rainbootsmarketing.com',
-    'https://www.rainbootsmarketing.com',
-    'http://localhost:3000',
-    'http://localhost:5173',
-  ];
-  if (!allowed.includes(origin)) {
-    return res.status(403).json({ error: 'Forbidden' });
-  }
-
   const apiKey = process.env.REACT_APP_ANTHROPIC_KEY;
   if (!apiKey) {
-    return res.status(500).json({ error: 'API key not configured' });
+    return res.status(500).json({ error: 'API key not configured on server' });
   }
 
   try {
@@ -29,16 +25,16 @@ export default async function handler(req, res) {
         'x-api-key': apiKey,
         'anthropic-version': '2023-06-01',
       },
-      body: JSON.stringify(req.body),
+      body: JSON.stringify({
+        model: req.body.model || 'claude-sonnet-4-20250514',
+        max_tokens: req.body.max_tokens || 2000,
+        messages: req.body.messages,
+      }),
     });
 
     const data = await response.json();
 
-    // Set CORS header so browser accepts the response
-    res.setHeader('Access-Control-Allow-Origin', origin);
-    res.setHeader('Access-Control-Allow-Methods', 'POST');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
+    // Forward exact status from Anthropic
     return res.status(response.status).json(data);
   } catch (err) {
     return res.status(500).json({ error: 'Proxy error: ' + err.message });
