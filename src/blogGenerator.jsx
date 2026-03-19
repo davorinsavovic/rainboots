@@ -60,33 +60,13 @@ const WP_ARTICLE_STYLES = `
 
 // Generates the full WordPress-ready HTML block
 function buildWordPressHTML(article) {
-  const date = new Date().toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
-  return `<!-- Paste this entire block into WordPress Code Editor (Posts > Add New > ⋮ > Code editor) -->
-<!-- SEO FIELDS — paste into Yoast/RankMath: -->
-<!-- Title: ${article.seoTitle} -->
+  return `<!-- PASTE INTO: Posts > Add New > Code Editor (top-right ⋮ menu) -->
+<!-- SEO Title: ${article.seoTitle} -->
 <!-- Meta Description: ${article.metaDesc} -->
 <!-- Focus Keywords: ${article.keywords} -->
+<!-- Category: ${article.category} -->
 
-${WP_ARTICLE_STYLES}
-
-<div class="rb-wp-article">
-
-  <span class="rb-category-tag">${article.category}</span>
-
-  <div class="rb-article-meta">
-    <span>✍️ Rainboots Marketing Team</span>
-    <span>📅 ${date}</span>
-    <span>🏷️ ${article.service}</span>
-    <span>⏱️ ~${article.readTime} min read</span>
-  </div>
-
-  ${article.html}
-
-</div>`;
+${article.html}`;
 }
 
 // ─── Password Gate ────────────────────────────────────────────────────────────
