@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import './LifecycleStrategy.css';
 
 const LifecycleStrategy = () => {
@@ -124,6 +125,24 @@ const LifecycleStrategy = () => {
 
   return (
     <div className='lifecycle-page'>
+      <Helmet>
+        <title>
+          Lifecycle Marketing Strategy Seattle | Rainboots Marketing
+        </title>
+        <meta
+          name='description'
+          content='Personalized customer journeys that activate, engage, retain and win back customers. Seattle lifecycle marketing specialists — the right message at the right moment.'
+        />
+        <meta
+          property='og:title'
+          content='Lifecycle Marketing Strategy | Rainboots Marketing'
+        />
+        <meta
+          property='og:description'
+          content='We create personalized customer experiences that activate new customers, drive engagement, build loyalty, and win back those who have drifted away.'
+        />
+        <link rel='canonical' href='https://rainbootsmarketing.com/lifecycle' />
+      </Helmet>
       {/* Hero Section */}
       <section className='lifecycle-hero'>
         <motion.div

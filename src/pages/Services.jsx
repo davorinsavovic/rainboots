@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom'; // Add this import
+import { Link } from 'react-router-dom';
 import ServiceCard from '../components/ServiceCard';
+import { Helmet } from 'react-helmet-async';
 import './Services.css';
 
 const servicesData = [
@@ -93,6 +94,22 @@ const servicesData = [
 const Services = () => {
   return (
     <div className='services-page'>
+      <Helmet>
+        <title>Digital Marketing Services Seattle | Rainboots Marketing</title>
+        <meta
+          name='description'
+          content='Full-service digital marketing agency in Seattle. Email, SMS, lifecycle marketing, customer acquisition, web development, branding and social media. Get started today.'
+        />
+        <meta
+          property='og:title'
+          content='Digital Marketing Services | Rainboots Marketing'
+        />
+        <meta
+          property='og:description'
+          content='From email to acquisition, branding to retention — Rainboots handles it all so you can focus on what matters most.'
+        />
+        <link rel='canonical' href='https://rainbootsmarketing.com/services' />
+      </Helmet>
       <section className='services-hero'>
         <motion.div
           className='services-hero-content'

@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import './SocialMedia.css';
 
 const SocialMedia = () => {
@@ -138,6 +139,22 @@ const SocialMedia = () => {
 
   return (
     <div className='social-page'>
+      <Helmet>
+        <title>Social Media Marketing Seattle | Rainboots Marketing</title>
+        <meta
+          name='description'
+          content='Strategic social media marketing that builds your brand and engages your audience. Seattle social media agency — meet your customers where they spend their time.'
+        />
+        <meta
+          property='og:title'
+          content='Social Media Marketing | Rainboots Marketing Seattle'
+        />
+        <meta
+          property='og:description'
+          content='Whether you want to attract new customers or deepen relationships with existing ones, we help you show up consistently and make an impact on social media.'
+        />
+        <link rel='canonical' href='https://rainbootsmarketing.com/social' />
+      </Helmet>
       {/* Hero Section */}
       <section className='social-hero'>
         <motion.div

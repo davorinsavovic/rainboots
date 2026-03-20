@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import './Outbound.css';
 
 const Outbound = () => {
@@ -89,6 +90,24 @@ const Outbound = () => {
 
   return (
     <div className='outbound-page'>
+      <Helmet>
+        <title>
+          Email, SMS & Push Notification Marketing Seattle | Rainboots
+        </title>
+        <meta
+          name='description'
+          content='Targeted email, SMS and push notification campaigns that drive engagement and revenue. Seattle outbound marketing specialists with 25+ years combined experience.'
+        />
+        <meta
+          property='og:title'
+          content='Outbound Marketing Services | Rainboots Marketing'
+        />
+        <meta
+          property='og:description'
+          content='Connect with prospects and customers through targeted email, SMS and push notification campaigns that drive engagement and revenue.'
+        />
+        <link rel='canonical' href='https://rainbootsmarketing.com/outbound' />
+      </Helmet>
       {/* Hero Section */}
       <section className='outbound-hero'>
         <motion.div

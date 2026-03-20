@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import './WebDevelopment.css';
 
 const WebDevelopment = () => {
@@ -112,6 +113,25 @@ const WebDevelopment = () => {
 
   return (
     <div className='webdev-page'>
+      <Helmet>
+        <title>Web Design & Development Seattle | Rainboots Marketing</title>
+        <meta
+          name='description'
+          content='Custom websites built for speed, SEO and conversions. Seattle web design and development agency — we build fast, beautiful, search-friendly sites that convert visitors into customers.'
+        />
+        <meta
+          property='og:title'
+          content='Web Design & Development | Rainboots Marketing Seattle'
+        />
+        <meta
+          property='og:description'
+          content="Whether you're building a new site or optimizing an existing one, we create fast, beautiful, search-friendly websites that represent your brand."
+        />
+        <link
+          rel='canonical'
+          href='https://rainbootsmarketing.com/web-development'
+        />
+      </Helmet>
       {/* Hero Section */}
       <section className='webdev-hero'>
         <motion.div

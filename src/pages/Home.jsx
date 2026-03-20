@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import ServiceCard from '../components/ServiceCard';
 import HeroAnimation from '../components/HeroAnimation';
 import WaterDrops from '../components/WaterDrops';
+import { Helmet } from 'react-helmet-async';
 import './Home.css';
 
 const servicesData = [
@@ -65,7 +66,9 @@ const Home = ({
 }) => {
   const [isAnimationComplete, setIsAnimationComplete] = useState(false);
   const [showHeroImage, setShowHeroImage] = useState(false);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 800);
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== 'undefined' ? window.innerWidth <= 800 : false,
+  );
 
   useEffect(() => {
     const handleResize = () => {
@@ -122,6 +125,23 @@ const Home = ({
 
   return (
     <div className='home'>
+      <Helmet>
+        <title>Rainboots Marketing — Seattle Digital Marketing Agency</title>
+        <meta
+          name='description'
+          content='Seattle-based digital marketing agency specializing in email, SMS, lifecycle marketing, customer acquisition, web development and branding. 25+ years combined experience.'
+        />
+        <meta
+          property='og:title'
+          content='Rainboots Marketing — Seattle Digital Marketing Agency'
+        />
+        <meta
+          property='og:description'
+          content="We're not your typical marketing agency. We dive deep into strategy, make waves with execution, and keep your business dry when things get stormy."
+        />
+        <meta property='og:url' content='https://rainbootsmarketing.com' />
+        <link rel='canonical' href='https://rainbootsmarketing.com' />
+      </Helmet>
       {/* Hero Section - Modified for mobile */}
       <section className='hero'>
         <motion.div
