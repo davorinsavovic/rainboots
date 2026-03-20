@@ -102,10 +102,10 @@ function App() {
           <Route path='/lifecycle' element={<LifecycleStrategy />} />
           <Route path='/social' element={<SocialMedia />} />
           <Route path='/branding' element={<BrandIdentity />} />
+          <Route path='/portfolio' element={<Portfolio />} />
           <Route path='/privacy' element={<PrivacyPolicy />} />
           <Route path='/terms' element={<TermsConditions />} />
           <Route path='/blog-generator' element={<BlogGenerator />} />
-          <Route path='/portfolio' element={<Portfolio />} />
         </Routes>
         <Footer />
       </Router>
@@ -140,6 +140,7 @@ function App() {
             <Route path='/lifecycle' element={<LifecycleStrategy />} />
             <Route path='/social' element={<SocialMedia />} />
             <Route path='/branding' element={<BrandIdentity />} />
+            <Route path='/portfolio' element={<Portfolio />} />
             <Route path='/privacy' element={<PrivacyPolicy />} />
             <Route path='/terms' element={<TermsConditions />} />
             <Route path='/blog-generator' element={<BlogGenerator />} />

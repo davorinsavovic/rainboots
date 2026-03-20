@@ -439,7 +439,6 @@ const Portfolio = () => {
         />
         <link rel='canonical' href='https://rainbootsmarketing.com/portfolio' />
       </Helmet>
-
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
       <section className='portfolio-hero'>
         <div className='portfolio-hero__bg' />
@@ -512,7 +511,6 @@ const Portfolio = () => {
           ))}
         </div>
       </section>
-
       {/* ── Filter bar ────────────────────────────────────────────────────── */}
       <div className='portfolio-filters'>
         <div className='portfolio-filters__inner'>
@@ -532,7 +530,6 @@ const Portfolio = () => {
           ))}
         </div>
       </div>
-
       {/* ── Grid ──────────────────────────────────────────────────────────── */}
       <section className='portfolio-grid-section'>
         <div className='portfolio-grid-inner'>
@@ -567,7 +564,6 @@ const Portfolio = () => {
           )}
         </div>
       </section>
-
       {/* ── Process strip ─────────────────────────────────────────────────── */}
       <section className='portfolio-process'>
         <div className='portfolio-process__inner'>
@@ -620,7 +616,6 @@ const Portfolio = () => {
           </div>
         </div>
       </section>
-
       {/* ── CTA ───────────────────────────────────────────────────────────── */}
       <section className='portfolio-cta'>
         <motion.div
@@ -642,7 +637,6 @@ const Portfolio = () => {
           </Link>
         </motion.div>
       </section>
-
       {/* ── Modal ─────────────────────────────────────────────────────────── */}
       <AnimatePresence>
         {selectedProject && (
@@ -652,6 +646,7 @@ const Portfolio = () => {
           />
         )}
       </AnimatePresence>
+      test...
     </div>
   );
 };
