@@ -1,0 +1,12 @@
+# Rainboots Marketing — robots.txt
+
+# Allow all well-behaved crawlers
+User-agent: *
+Allow: /
+
+# Block internal/private pages
+Disallow: /blog-generator
+Disallow: /api/
+
+# Point to sitemap
+Sitemap: https://www.rainbootsmarketing.com/sitemap.xml
