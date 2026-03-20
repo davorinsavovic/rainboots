@@ -339,6 +339,17 @@ const ROUTES = [
     `,
   },
   {
+    path: '/portfolio',
+    title: 'Portfolio & Case Studies | Rainboots Marketing Seattle',
+    description:
+      'Real results from real campaigns. See how Rainboots has driven revenue growth, improved deliverability, and built lasting brands.',
+    canonical: 'https://rainbootsmarketing.com/portfolio',
+    h1: 'Results that speak for themselves',
+    intro: 'Real campaigns. Real clients. Real numbers.',
+    bodyContent:
+      '<section><h2>Our Work</h2><p>Case studies across email marketing, deliverability, lifecycle, SMS, acquisition, branding and web development.</p></section>',
+  },
+  {
     path: '/privacy',
     title: 'Privacy Policy | Rainboots Marketing',
     description:
