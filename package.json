@@ -30,6 +30,20 @@
     "puppeteerArgs": [
       "--no-sandbox",
       "--disable-setuid-sandbox"
+    ],
+    "include": [
+      "/",
+      "/services",
+      "/about",
+      "/contact",
+      "/outbound",
+      "/web-development",
+      "/acquisition",
+      "/lifecycle",
+      "/social",
+      "/branding",
+      "/privacy",
+      "/terms"
     ]
   }
 }
