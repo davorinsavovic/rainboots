@@ -348,6 +348,7 @@ const ROUTES = [
     intro: 'Real campaigns. Real clients. Real numbers.',
     bodyContent:
       '<section><h2>Our Work</h2><p>Case studies across email marketing, deliverability, lifecycle, SMS, acquisition, branding and web development.</p></section>',
+    clientOnly: true,
   },
   {
     path: '/privacy',
@@ -467,8 +468,9 @@ ROUTES.forEach((route) => {
       </main>
     </div>`;
 
-  // Replace the empty <div id="root"></div> with our content
-  html = html.replace('<div id="root"></div>', crawlerContent);
+  if (!route.clientOnly) {
+    html = html.replace('<div id="root"></div>', crawlerContent);
+  }
 
   fs.writeFileSync(outFile, html);
   console.log(

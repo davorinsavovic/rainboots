@@ -6,7 +6,13 @@ import './index.css';
 
 const rootElement = document.getElementById('root');
 
-if (rootElement.hasChildNodes()) {
+// Dynamic pages with filters/modals shouldn't be hydrated from prerender
+const dynamicRoutes = ['/portfolio', '/blog-generator'];
+const isDynamic = dynamicRoutes.some((r) =>
+  window.location.pathname.startsWith(r),
+);
+
+if (rootElement.hasChildNodes() && !isDynamic) {
   hydrateRoot(
     rootElement,
     <React.StrictMode>
@@ -16,6 +22,8 @@ if (rootElement.hasChildNodes()) {
     </React.StrictMode>,
   );
 } else {
+  // Clear any prerendered content and render fresh
+  rootElement.innerHTML = '';
   createRoot(rootElement).render(
     <React.StrictMode>
       <HelmetProvider>
