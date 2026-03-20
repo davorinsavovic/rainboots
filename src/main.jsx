@@ -7,7 +7,7 @@ import './index.css';
 const rootElement = document.getElementById('root');
 
 // Dynamic pages with filters/modals shouldn't be hydrated from prerender
-const dynamicRoutes = ['/portfolio', '/blog-generator'];
+const dynamicRoutes = ['/portfolio', '/work', '/blog-generator'];
 const isDynamic = dynamicRoutes.some((r) =>
   window.location.pathname.startsWith(r),
 );

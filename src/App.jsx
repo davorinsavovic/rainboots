@@ -15,6 +15,7 @@ import LifecycleStrategy from './pages/LifecycleStrategy';
 import SocialMedia from './pages/SocialMedia';
 import BrandIdentity from './pages/BrandIdentity';
 import Portfolio from './pages/Portfolio';
+import Work from './pages/Work';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsConditions from './pages/TermsConditions';
 import BlogGenerator from './blogGenerator';
@@ -103,6 +104,7 @@ function App() {
           <Route path='/social' element={<SocialMedia />} />
           <Route path='/branding' element={<BrandIdentity />} />
           <Route path='/portfolio' element={<Portfolio />} />
+          <Route path='/work' element={<Work />} />
           <Route path='/privacy' element={<PrivacyPolicy />} />
           <Route path='/terms' element={<TermsConditions />} />
           <Route path='/blog-generator' element={<BlogGenerator />} />
@@ -141,6 +143,7 @@ function App() {
             <Route path='/social' element={<SocialMedia />} />
             <Route path='/branding' element={<BrandIdentity />} />
             <Route path='/portfolio' element={<Portfolio />} />
+            <Route path='/work' element={<Work />} />
             <Route path='/privacy' element={<PrivacyPolicy />} />
             <Route path='/terms' element={<TermsConditions />} />
             <Route path='/blog-generator' element={<BlogGenerator />} />

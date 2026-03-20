@@ -351,6 +351,18 @@ const ROUTES = [
     clientOnly: true,
   },
   {
+    path: '/work',
+    title: 'Our Work — Websites, Logos & Branding | Rainboots Marketing',
+    description:
+      'Browse our portfolio of websites, logos, brand identities, print collateral and email templates. Seattle design agency.',
+    canonical: 'https://rainbootsmarketing.com/work',
+    h1: 'Designed to make an impression',
+    intro: 'Websites, logos, brand identities, print and email templates.',
+    bodyContent:
+      '<section><h2>Visual Work</h2><p>Browse our design portfolio across websites, logos, branding, print and email.</p></section>',
+    clientOnly: true,
+  },
+  {
     path: '/privacy',
     title: 'Privacy Policy | Rainboots Marketing',
     description:
