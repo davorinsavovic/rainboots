@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import './About.css';
+import { Helmet } from 'react-helmet-async';
 
 const teamMembers = [
   {
@@ -44,6 +45,20 @@ const values = [
 const About = () => {
   return (
     <div className='about-page'>
+      <Helmet>
+        <title>About Us | Rainboots Marketing — Seattle Digital Agency</title>
+        <meta
+          name='description'
+          content='Meet the Rainboots team — seasoned marketers, developers and engineers based in Seattle with 25+ years combined experience across email, SMS, lifecycle and more.'
+        />
+        <meta property='og:title' content='About Rainboots Marketing' />
+        <meta
+          property='og:description'
+          content='Seattle-based digital marketing agency specializing in email deliverability, lifecycle marketing, SMS, and acquisition.'
+        />
+        <link rel='canonical' href='https://rainbootsmarketing.com/about' />
+      </Helmet>
+
       {/* Hero Section */}
       <section className='about-hero'>
         <motion.div

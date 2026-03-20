@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import './CustomerAcquisition.css';
+import { Helmet } from 'react-helmet-async';
 
 const CustomerAcquisition = () => {
   const channels = [
@@ -98,6 +99,27 @@ const CustomerAcquisition = () => {
 
   return (
     <div className='acquisition-page'>
+      <Helmet>
+        <title>
+          Customer Acquisition Marketing Seattle | Rainboots Marketing
+        </title>
+        <meta
+          name='description'
+          content='Data-driven acquisition campaigns across Google, Meta, LinkedIn and more. Reach the right customers at the right time and grow your business with Rainboots Marketing.'
+        />
+        <meta
+          property='og:title'
+          content='Customer Acquisition Services | Rainboots Marketing'
+        />
+        <meta
+          property='og:description'
+          content='Multi-channel paid advertising and lead generation campaigns that turn prospects into paying customers. Seattle digital marketing agency.'
+        />
+        <link
+          rel='canonical'
+          href='https://rainbootsmarketing.com/acquisition'
+        />
+      </Helmet>
       {/* Hero Section */}
       <section className='acquisition-hero'>
         <motion.div

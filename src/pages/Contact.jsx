@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState, useEffect } from 'react'; // Add useEffect
+import { useState, useEffect } from 'react';
 import './Contact.css';
+import { Helmet } from 'react-helmet-async';
 
 const Contact = () => {
   // Add website field for honeypot
@@ -208,6 +209,19 @@ const Contact = () => {
 
   return (
     <div className='contact-page'>
+      <Helmet>
+        <title>Contact Rainboots Marketing — Let's Talk Seattle</title>
+        <meta
+          name='description'
+          content="Ready to grow your business? Get in touch with Rainboots Marketing's Seattle team today. We'd love to hear about your goals and how we can help."
+        />
+        <meta property='og:title' content='Contact Rainboots Marketing' />
+        <meta
+          property='og:description'
+          content='Schedule a free consultation with our Seattle digital marketing team. Email, SMS, lifecycle, branding and more.'
+        />
+        <link rel='canonical' href='https://rainbootsmarketing.com/contact' />
+      </Helmet>
       <section className='contact-hero'>
         <motion.div
           className='contact-hero-content'

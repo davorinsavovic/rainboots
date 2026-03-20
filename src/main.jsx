@@ -1,5 +1,6 @@
 import React from 'react';
 import { hydrateRoot, createRoot } from 'react-dom/client';
+import { HelmetProvider } from 'react-helmet-async';
 import App from './App';
 import './index.css';
 
@@ -9,13 +10,17 @@ if (rootElement.hasChildNodes()) {
   hydrateRoot(
     rootElement,
     <React.StrictMode>
-      <App />
+      <HelmetProvider>
+        <App />
+      </HelmetProvider>
     </React.StrictMode>,
   );
 } else {
   createRoot(rootElement).render(
     <React.StrictMode>
-      <App />
+      <HelmetProvider>
+        <App />
+      </HelmetProvider>
     </React.StrictMode>,
   );
 }

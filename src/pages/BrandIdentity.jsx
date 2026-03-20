@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import './BrandIdentity.css';
+import { Helmet } from 'react-helmet-async';
 
 const BrandIdentity = () => {
   const services = [
@@ -124,6 +125,24 @@ const BrandIdentity = () => {
 
   return (
     <div className='brand-page'>
+      <Helmet>
+        <title>
+          Brand Identity & Design Services Seattle | Rainboots Marketing
+        </title>
+        <meta
+          name='description'
+          content='Logo design, brand guidelines, typography and visual assets that make a lasting first impression. Seattle branding agency — Rainboots Marketing.'
+        />
+        <meta
+          property='og:title'
+          content='Brand Identity & Design | Rainboots Marketing'
+        />
+        <meta
+          property='og:description'
+          content='From logo design to complete brand packages — we help Seattle businesses define who they are and stand out from competitors.'
+        />
+        <link rel='canonical' href='https://rainbootsmarketing.com/branding' />
+      </Helmet>
       {/* Hero Section */}
       <section className='brand-hero'>
         <motion.div
