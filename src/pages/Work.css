@@ -790,6 +790,31 @@
   line-height: 1.55;
 }
 
+/* ── Case study referral badge ───────────────────────────────────────────── */
+.case-study__referral {
+  margin-top: 20px;
+  background: color-mix(in srgb, var(--cs-color) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--cs-color) 25%, transparent);
+  border-left: 3px solid var(--cs-color);
+  border-radius: 8px;
+  padding: 14px 16px;
+}
+.case-study__referral-label {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--cs-color) 90%, #0d1b2a);
+  margin-bottom: 6px;
+}
+.case-study__referral-text {
+  font-size: 0.78rem;
+  line-height: 1.65;
+  color: #5a6a7a;
+  margin: 0;
+}
+
 /* ── CTA ───────────────────────────────────────────────────────────────────── */
 .work-cta {
   background: linear-gradient(135deg, var(--dark, #0d1b2a) 0%, #1a3a5c 100%);

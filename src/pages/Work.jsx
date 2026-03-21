@@ -35,7 +35,7 @@ const WORK_ITEMS = [
       'AAU / K-12',
     ],
     description:
-      'Partizan Basketball Camp needed more than a brochure site — they needed a living, breathing digital operations platform. I designed and built partizanhoops.com from the ground up: a responsive public-facing site paired with a robust back-office CMS that handles player registration, tryout sign-ups, camp enrollments, tournament organization, and roster management — all in one place. No third-party SportsEngine subscription required.',
+      'Partizan Basketball Camp needed more than a brochure site — they needed a living, breathing digital operations platform. We designed and built partizanhoops.com from the ground up: a responsive public-facing site paired with a robust back-office CMS that handles player registration, tryout sign-ups, camp enrollments, tournament organization, and roster management — all in one place. No third-party SportsEngine subscription required.',
     features: [
       {
         title: 'Parent Registration Portal',
@@ -80,6 +80,60 @@ const WORK_ITEMS = [
   {
     id: 2,
     category: 'websites',
+    title: 'Bothell Select Basketball',
+    subtitle:
+      'Full-stack youth basketball platform for Boys & Girls grades 4–8 — tournament management, team registration, event listings & custom CMS. The project that brought Partizan Hoops on board.',
+    src: '/images/work/web-bothellselect.png',
+    srcFull: '/images/work/web-bothellselect-full.png',
+    url: 'https://bothellselect.com',
+    color: '#506ee4',
+    aspect: 'wide',
+
+    // ── Extended case-study data ───────────────────────────────────────────
+    tags: [
+      'React',
+      'Custom CMS',
+      'Tournament Management',
+      'Team Registration',
+      'Boys & Girls 4th–8th',
+      'Bothell WA',
+    ],
+    description:
+      'Bothell Select Basketball is a competitive AAU program based in Bothell, WA, serving Boys & Girls in grades 4 through 8. They needed a professional digital home that could handle everything from tournament event listings and team registrations to a back-office CMS their staff could manage independently. We built bothellselect.com as a full-stack React application — clean, fast, and purpose-built for a youth sports organization. This project was the direct referral that brought Partizan Hoops to us.',
+    features: [
+      {
+        title: 'Tournament Event System',
+        body: 'Dynamic event pages for tournaments like the Winter Classic — dates, grades, divisions, and registration links all CMS-managed.',
+      },
+      {
+        title: 'Team Registration Portal',
+        body: 'Online sign-up flows for Boys & Girls teams across grade divisions, with contact routing to program staff.',
+      },
+      {
+        title: 'Admin CMS Dashboard',
+        body: 'Staff can create and update events, rosters, news, and program info without any code changes.',
+      },
+      {
+        title: 'Boys & Girls Programs',
+        body: 'Separate program tracks for boys and girls, grades 4th–8th, with division-specific content and schedules.',
+      },
+      {
+        title: 'Event & Schedule Listings',
+        body: 'Upcoming games, practices, and tournaments displayed dynamically and kept current by admins.',
+      },
+      {
+        title: 'Mobile-First Design',
+        body: 'Fully responsive React build — parents and coaches access everything cleanly on any device.',
+      },
+    ],
+    referral: {
+      label: 'Client referral',
+      text: 'After launching bothellselect.com, the Bothell Select organization referred Partizan Basketball Camp — who reached out specifically because they wanted the same platform built for their program.',
+    },
+  },
+  {
+    id: 3,
+    category: 'websites',
     title: 'E-Commerce Store',
     subtitle: 'Shopify · Custom Theme',
     src: '/images/work/web-ecommerce.png',
@@ -89,7 +143,7 @@ const WORK_ITEMS = [
     aspect: 'wide',
   },
   {
-    id: 3,
+    id: 4,
     category: 'websites',
     title: 'SaaS Platform Landing',
     subtitle: 'Next.js · Tailwind',
@@ -100,7 +154,7 @@ const WORK_ITEMS = [
     aspect: 'wide',
   },
   {
-    id: 4,
+    id: 5,
     category: 'websites',
     title: 'Restaurant Group',
     subtitle: 'WordPress · Custom Design',
@@ -112,7 +166,7 @@ const WORK_ITEMS = [
   },
   // ── Logos ──
   {
-    id: 5,
+    id: 6,
     category: 'logos',
     title: 'Rainboots Marketing',
     subtitle: 'Brand Identity',
@@ -123,7 +177,7 @@ const WORK_ITEMS = [
     aspect: 'square',
   },
   {
-    id: 6,
+    id: 7,
     category: 'logos',
     title: 'Pacific Northwest Coffee',
     subtitle: 'Logo & Icon System',
@@ -356,6 +410,19 @@ function CaseStudyPanel({ item }) {
             ))}
           </div>
         </>
+      )}
+
+      {/* Referral badge — shown when this project led to another client */}
+      {item.referral && (
+        <div
+          className='case-study__referral'
+          style={{ '--cs-color': item.color }}
+        >
+          <div className='case-study__referral-label'>
+            {item.referral.label}
+          </div>
+          <p className='case-study__referral-text'>{item.referral.text}</p>
+        </div>
       )}
     </div>
   );
