@@ -515,10 +515,59 @@ const WORK_ITEMS = [
     },
   },
 
+  {
+    id: 10,
+    category: 'websites',
+    title: 'Nelson Cabinetry',
+    subtitle:
+      'Large-scale WordPress WooCommerce e-commerce platform for a family-owned RTA cabinet company — 150,000+ cabinets sold, 11+ collections, 5 distribution centers, free 3D design tool, and retail partnerships with Wayfair, AllModern & more.',
+    src: '/images/work/web-nelsonkb.png',
+    srcFull: '/images/work/web-nelsonkb-full.png',
+    url: 'https://nelsonkb.com',
+    color: '#1a5fa8',
+    aspect: 'wide',
+    tags: [
+      'WordPress',
+      'WooCommerce',
+      'E-Commerce',
+      'Large Catalog',
+      'Home & Kitchen',
+      'Nationwide',
+    ],
+    description:
+      'Nelson Cabinetry is a family-owned RTA (ready-to-assemble) cabinet company built on nearly 100 years of craftsmanship, selling wholesale-priced premium cabinets directly to homeowners, contractors, and designers across the U.S. The WordPress WooCommerce platform handles a massive catalog spanning 11+ cabinet collections, a free 3D kitchen design tool, 1-minute quote engine, budget calculator, assembly video library, nationwide shipping tracking, financing options, a scholarship program, and retail integrations with Wayfair, AllModern, BirchLane, Joss & Main, Bed Bath & Beyond, and Overstock. With 150,000+ cabinets sold, 18,000+ customers, 346 Google reviews, and 5 distribution centers across Texas, Florida, New York, Illinois, and California — this is one of the most feature-complete e-commerce builds in our portfolio.',
+    features: [
+      {
+        title: 'WooCommerce Large-Catalog Store',
+        body: '11+ collections (White, Gray, Blue, Black, Brown, Honey, Slim White, Slim Oak, Glossy White, Rustic Oak, Walnut, Matte White) with product pages, door samples, and cart — custom category architecture throughout.',
+      },
+      {
+        title: 'Free 3D Kitchen Design Tool',
+        body: 'Customers submit a sketch or photo and receive a free 3D rendering, custom layout, itemized quote, and cart link within 24 hours — fully integrated into the conversion funnel.',
+      },
+      {
+        title: '1-Minute Quote & Budget Calculator',
+        body: 'Custom-built tools letting customers estimate project costs instantly — reducing friction and driving qualified leads directly to the sales team at 832-998-6598.',
+      },
+      {
+        title: 'Retail Partner Integrations',
+        body: 'Product catalog syndicated to Wayfair, AllModern, BirchLane, Joss & Main, Bed Bath & Beyond, and Overstock — expanding reach far beyond direct-to-consumer.',
+      },
+      {
+        title: 'Nationwide Logistics Infrastructure',
+        body: '$399 flat-rate shipping from 5 distribution centers (TX, FL, NY, IL, CA), with shipment tracking page, assembly video guide library, and measurement how-to resources.',
+      },
+      {
+        title: 'Full Resource & Trust Library',
+        body: 'Assembly guides, remodel checklists, warranty docs, glossary, pricelist PDF, financing, scholarships, 18,000+ customer testimonials gallery, and FAQ — a complete buying journey resource hub.',
+      },
+    ],
+  },
+
   // ── Logos ──────────────────────────────────────────────────────────────────
 
   {
-    id: 10,
+    id: 11,
     category: 'logos',
     title: 'Partizan Hoops',
     subtitle:
@@ -566,7 +615,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 11,
+    id: 12,
     category: 'logos',
     title: 'Bothell Select Basketball',
     subtitle:
@@ -614,7 +663,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 12,
+    id: 13,
     category: 'logos',
     title: 'Vector RE Corp',
     subtitle:
@@ -663,7 +712,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 13,
+    id: 14,
     category: 'logos',
     title: 'Live Love Flow Studios',
     subtitle:
@@ -711,7 +760,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 14,
+    id: 15,
     category: 'logos',
     title: 'Seattle Platinum Limo',
     subtitle:
@@ -760,7 +809,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 15,
+    id: 16,
     category: 'logos',
     title: 'Fintech Startup',
     subtitle: 'Wordmark + Symbol',
@@ -771,7 +820,7 @@ const WORK_ITEMS = [
     aspect: 'square',
   },
   {
-    id: 16,
+    id: 17,
     category: 'logos',
     title: 'Health & Wellness Brand',
     subtitle: 'Full Logo Suite',
@@ -785,43 +834,252 @@ const WORK_ITEMS = [
   // ── Branding ──────────────────────────────────────────────────────────────
 
   {
-    id: 17,
-    category: 'branding',
-    title: 'Professional Services Rebrand',
-    subtitle: 'Complete Brand System',
-    src: '/images/work/brand-professional.png',
-    srcFull: '/images/work/brand-professional-full.png',
-    url: null,
-    color: '#be185d',
-    aspect: 'wide',
-  },
-  {
     id: 18,
     category: 'branding',
-    title: 'Restaurant Chain Identity',
-    subtitle: 'Brand Guidelines · Signage',
-    src: '/images/work/brand-restaurant.png',
-    srcFull: '/images/work/brand-restaurant-full.png',
-    url: null,
-    color: '#d97706',
+    title: 'Live Love Flow Studios',
+    subtitle:
+      'Full brand collateral system for a Seattle hot yoga studio — event flyers, social media graphics, business cards, indoor signage, and promotional campaigns. Built around the logo and WordPress site we designed.',
+    src: '/images/work/brand-liveloveflow.png',
+    srcFull: '/images/work/brand-liveloveflow-full.png',
+    url: 'https://www.liveloveflowstudios.com',
+    color: '#2a7ab5',
     aspect: 'wide',
+    tags: [
+      'Brand Collateral',
+      'Event Flyers',
+      'Social Media Graphics',
+      'Signage',
+      'Business Cards',
+      'Wellness / Yoga',
+    ],
+    description:
+      'Beyond the logo and WordPress website, Live Love Flow Studios needed a full suite of branded marketing materials to support their day-to-day studio operations, event promotions, and community growth. We designed everything: event flyers for the EuroBound Travel + Yoga retreat (Netherlands, Belgium & France), Teacher Training open house, and Instagram Challenge campaigns; social media graphics for new student intro offers and weekly promotions; business card designs; and physical indoor/outdoor signage including the studio door sign and upstairs directional — all maintaining the bold pink, navy, and white brand identity throughout.',
+    features: [
+      {
+        title: 'Event Flyer Suite',
+        body: 'Branded flyers for EuroBound Travel + Yoga retreat (July 4–14, Netherlands/Belgium/France), Teacher Training Open House, Instagram Challenge, and Intro Offer campaigns.',
+      },
+      {
+        title: 'Social Media Graphics',
+        body: 'Instagram and social post designs for studio promotions — Intro Offer ($29 for new students), 1-Week Trial, Instagram Challenge (#LIVELOVEFLOW), and seasonal campaigns.',
+      },
+      {
+        title: 'Business Card Design',
+        body: "Branded business cards in the studio's navy, pink, and white palette — stacked mockup delivery for presentation and print production.",
+      },
+      {
+        title: 'Indoor & Outdoor Signage',
+        body: 'Physical studio signage including the main door sign ("Live Love Flow — Intention to Flow") and the interior directional sign ("Live Love Flow — Upstairs ▶").',
+      },
+      {
+        title: 'Consistent Brand Voice',
+        body: 'All materials maintain the bold, energetic Live Love Flow brand identity — same typographic hierarchy, color palette, and logo lock-up used across digital and print.',
+      },
+      {
+        title: 'Full-System Cohesion',
+        body: 'Designed as a direct extension of the logo and website we built — every flyer, card, and sign connects back to a single, recognizable brand.',
+      },
+    ],
   },
   {
     id: 19,
     category: 'branding',
-    title: 'Tech Startup Brand Kit',
-    subtitle: 'Colors · Typography · Assets',
-    src: '/images/work/brand-tech.png',
-    srcFull: '/images/work/brand-tech-full.png',
-    url: null,
-    color: '#7c3aed',
+    title: 'Partizan Hoops',
+    subtitle:
+      'Full brand collateral system for a K-12 AAU basketball program — applied across the React platform, tournament materials, team jerseys, registration flows, and coach-facing content.',
+    src: '/images/work/brand-partizan.png',
+    srcFull: '/images/work/brand-partizan-full.png',
+    url: 'https://partizanhoops.com',
+    color: '#E85D04',
     aspect: 'wide',
+    tags: [
+      'Brand Collateral',
+      'Sports / Basketball',
+      'Tournament Materials',
+      'Digital + Print',
+      'AAU / K-12',
+      'Pacific Northwest',
+    ],
+    description:
+      'The Partizan Hoops brand identity extended far beyond the logo — it had to work across every touchpoint of a full youth sports operation. From the React website and admin CMS to tournament bracket flyers, camp registration confirmations, coach profile pages, team rosters, and apparel, the bold orange and dark identity had to read clearly at every scale and in every context. We designed and applied the brand system across the full platform and all associated materials, ensuring that every parent, player, and coach encountered a consistent, professional presence from first click to game day.',
+    features: [
+      {
+        title: 'Digital Platform Branding',
+        body: 'Full brand application across the React website, admin CMS dashboard, registration portal, tournament pages, and coach profile sections.',
+      },
+      {
+        title: 'Tournament & Event Materials',
+        body: 'Bracket sheets, event flyers, and camp schedule materials — all carrying the Partizan mark, orange palette, and typographic system.',
+      },
+      {
+        title: 'Registration & Confirmation Design',
+        body: 'Parent-facing enrollment confirmations, camp information sheets, and sign-up flow design — brand consistency from first touchpoint to final confirmation.',
+      },
+      {
+        title: 'Apparel & Jersey Application',
+        body: 'Logo and brand guidelines applied to team jersey designs and embroidered apparel — the identity works at full size on a court as well as on screen.',
+      },
+      {
+        title: 'Coach & Staff Collateral',
+        body: 'Coach profile page design, staff information materials, and program overview documents — consistent identity across all stakeholder-facing content.',
+      },
+      {
+        title: 'European × Pacific Northwest Identity',
+        body: "Brand voice and visual language that honors the program's European basketball roots (Partizan Belgrade, Division I pedigree) while feeling at home in the PNW youth sports community.",
+      },
+    ],
+  },
+
+  {
+    id: 20,
+    category: 'branding',
+    title: 'Bothell Select Basketball',
+    subtitle:
+      'Brand collateral system for a competitive Boys & Girls AAU program — applied across the React platform, tournament materials, registration communications, and divisional team content.',
+    src: '/images/work/brand-bothellselect.png',
+    srcFull: '/images/work/brand-bothellselect-full.png',
+    url: 'https://bothellselect.com',
+    color: '#506ee4',
+    aspect: 'wide',
+    tags: [
+      'Brand Collateral',
+      'Sports / Basketball',
+      'Tournament Materials',
+      'Digital + Print',
+      'Boys & Girls 4th–8th',
+      'Bothell WA',
+    ],
+    description:
+      'Bothell Select Basketball needed a brand that worked across two distinct audiences — parents researching the program online and coaches managing rosters and tournaments from the admin panel. The blue and white identity was applied consistently across the full React platform, Winter Classic tournament materials, divisional team content for Boys and Girls grades 4–8, registration communications, and event listings. A cohesive brand at every level — from the website header to the bracket sheet — was part of what gave Bothell Select the credibility that led directly to the Partizan Hoops referral.',
+    features: [
+      {
+        title: 'Digital Platform Application',
+        body: 'Full brand rollout across the React website, CMS admin dashboard, team registration portal, event listings, and roster management pages.',
+      },
+      {
+        title: 'Winter Classic Tournament Materials',
+        body: 'Event flyers, bracket sheets, and divisional schedules for the Winter Classic and other tournament events — consistent mark and color throughout.',
+      },
+      {
+        title: 'Boys & Girls Divisional Content',
+        body: 'Brand applied across separate Boys and Girls program tracks, grades 4th–8th — gender-neutral identity that works equally across all age groups.',
+      },
+      {
+        title: 'Registration & Parent Communications',
+        body: 'Enrollment confirmation design, team placement notices, and parent-facing program information — brand consistency from sign-up to first practice.',
+      },
+      {
+        title: 'Event & Schedule Graphics',
+        body: 'Upcoming game, practice, and tournament schedule visuals — dynamically driven by the CMS but visually anchored in the Bothell Select brand system.',
+      },
+      {
+        title: 'Referral-Earning Brand Quality',
+        body: 'The consistency and professionalism of the applied brand system was a direct factor in the referral that brought Partizan Basketball Camp to us as a new client.',
+      },
+    ],
+  },
+
+  {
+    id: 21,
+    category: 'branding',
+    title: 'Vector RE Corp',
+    subtitle:
+      'Full brand collateral system for a Kirkland-based commercial real estate developer — project marketing flyers, property one-pagers, business cards, American Lake Logistics campaign, logo exploration, and investor-grade materials.',
+    src: '/images/work/brand-vectorrecorp.png',
+    srcFull: '/images/work/brand-vectorrecorp-full.png',
+    url: 'https://vectorrecorp.com',
+    color: '#1c3a5e',
+    aspect: 'wide',
+    tags: [
+      'Brand Collateral',
+      'Real Estate Development',
+      'Project Marketing',
+      'Print + Digital',
+      'B2B / Corporate',
+      'Kirkland WA',
+    ],
+    description:
+      'Vector RE Corp operates at the institutional level — their brand had to hold up in front of Fortune 500 tenants, long-term investors, and development partners reviewing project materials before committing to a 158,000 or 325,000+ square foot lease. We produced a complete brand collateral system: property marketing flyers for MI-S Business Park (231,924 SF, Available 1Q 2020) and American Lake Logistics, project one-pagers with aerial and architectural photography, multi-panel property brochures, business card design, and a full logo exploration board showing the mark across multiple contexts and applications — all anchored in the Vector navy, red, and white identity.',
+    features: [
+      {
+        title: 'Property Marketing Flyers',
+        body: 'Print and digital flyers for MI-S Business Park (231,924 SF) and American Lake Logistics — square footage, availability date, phone number, and building photography in a clean investor-ready layout.',
+      },
+      {
+        title: 'American Lake Logistics Campaign',
+        body: 'Full marketing materials for the American Lake Logistics development — aerial photography, property specs, and branded presentation for prospective tenants and buyers.',
+      },
+      {
+        title: 'Multi-Panel Property Brochures',
+        body: 'Folded brochures with architectural renderings and completed building photography — designed for in-person meetings with tenants, brokers, and development partners.',
+      },
+      {
+        title: 'Business Card Design',
+        body: 'Executive business cards for Vector principals — clean navy and white, institutional quality, consistent with the scale of projects they represent.',
+      },
+      {
+        title: 'Logo Exploration Board',
+        body: 'Comprehensive logo exploration showing the Vector mark across color variants, background applications, and scaled contexts — from business cards to building signage.',
+      },
+      {
+        title: 'Investor-Grade Brand Consistency',
+        body: 'Every material — from a PDF attachment to a property flyer — communicates the same institutional precision expected by Fortune 500 tenants and long-term development partners.',
+      },
+    ],
   },
 
   // ── Print ──────────────────────────────────────────────────────────────────
 
   {
-    id: 20,
+    id: 22,
+    category: 'print',
+    title: 'Northville Cabinetry',
+    subtitle:
+      'Rush trade show flyer, brochure & promo materials for a Houston RTA cabinet company — designed and delivered within 24 hours for BuildExpo Dallas, Booth B #808.',
+    src: '/images/work/print-northvillecabinetry.png',
+    srcFull: '/images/work/print-northvillecabinetry-full.png',
+    url: 'http://www.northvillecabinetry.com',
+    color: '#1b2d4f',
+    aspect: 'wide',
+    tags: [
+      'Print Design',
+      'Trade Show Flyer',
+      'Brochure',
+      'Rush Delivery',
+      'Cabinetry / Home',
+      'Houston TX',
+    ],
+    description:
+      'Northville Cabinetry came to us with a tight deadline — they needed polished trade show flyers, a brochure, and promotional materials ready to hand out in-store and at BuildExpo Dallas (Booth B #808). We turned the full package around within 24 hours. The design centers on a dark navy, gold, and white palette that communicates the premium positioning of their ready-to-assemble kitchen and bathroom cabinets — using real kitchen photography, cabinet door finish swatches, and a confident typographic hierarchy. The client was happy with the results and had everything they needed for the expo.',
+    features: [
+      {
+        title: '24-Hour Rush Turnaround',
+        body: 'Full print-ready flyer and promo materials designed and delivered within one business day to meet the BuildExpo Dallas deadline.',
+      },
+      {
+        title: 'Trade Show Flyer',
+        body: 'Single-page event flyer featuring the BuildExpo Dallas booth number (B #808), phone number, kitchen photography, and cabinet door swatch showcase.',
+      },
+      {
+        title: 'Navy / Gold / White Brand Palette',
+        body: 'Premium color system anchored by deep navy, warm gold accents, and crisp white — communicating quality cabinetry at an accessible price point.',
+      },
+      {
+        title: 'Cabinet Door Swatch Showcase',
+        body: 'Bottom strip displaying five finish options (natural oak, white shaker, espresso, gray, classic white) — giving trade show attendees an immediate visual catalog.',
+      },
+      {
+        title: 'Brochure & In-Store Collateral',
+        body: 'Supporting brochure and promotional pieces designed for in-store distribution alongside the expo materials — consistent brand voice throughout.',
+      },
+      {
+        title: 'Print-Ready Production Files',
+        body: 'All files delivered print-ready with correct bleed, trim marks, and CMYK color profiles — ready to send directly to the printer.',
+      },
+    ],
+  },
+  {
+    id: 23,
     category: 'print',
     title: 'Business Card Suite',
     subtitle: 'Premium Foil Print',
@@ -832,7 +1090,7 @@ const WORK_ITEMS = [
     aspect: 'wide',
   },
   {
-    id: 21,
+    id: 24,
     category: 'print',
     title: 'Marketing Brochure',
     subtitle: 'Trifold · 4-color',
@@ -843,7 +1101,7 @@ const WORK_ITEMS = [
     aspect: 'wide',
   },
   {
-    id: 22,
+    id: 25,
     category: 'print',
     title: 'Trade Show Displays',
     subtitle: 'Banner · Booth Graphics',
@@ -857,7 +1115,7 @@ const WORK_ITEMS = [
   // ── Email ──────────────────────────────────────────────────────────────────
 
   {
-    id: 23,
+    id: 26,
     category: 'email',
     title: 'Welcome Series Template',
     subtitle: 'Email Design · HTML',
@@ -868,7 +1126,7 @@ const WORK_ITEMS = [
     aspect: 'tall',
   },
   {
-    id: 24,
+    id: 27,
     category: 'email',
     title: 'Promotional Campaign',
     subtitle: 'E-commerce · Seasonal',
@@ -879,7 +1137,7 @@ const WORK_ITEMS = [
     aspect: 'tall',
   },
   {
-    id: 25,
+    id: 28,
     category: 'email',
     title: 'Newsletter Template',
     subtitle: 'B2B · Monthly Send',
