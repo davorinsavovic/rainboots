@@ -564,10 +564,167 @@ const WORK_ITEMS = [
     ],
   },
 
+  {
+    id: 11,
+    category: 'websites',
+    title: 'Cabinets.Deals',
+    subtitle:
+      'Custom e-commerce platform for a Houston-based dealer-exclusive RTA cabinet company — built strictly to serve dealers and trade professionals, with multiple cabinet lines, free 3D design, and retail partnerships with Wayfair, AllModern & Overstock.',
+    src: '/images/work/web-cabinetsdeals.png',
+    srcFull: '/images/work/web-cabinetsdeals-full.png',
+    url: 'https://www.cabinets.deals',
+    color: '#c0392b',
+    aspect: 'wide',
+    tags: [
+      'Custom E-Commerce',
+      'Magento / PHP',
+      'Dealer-Exclusive',
+      'Cabinet Catalog',
+      'Home & Kitchen',
+      'Houston TX',
+    ],
+    description:
+      'Cabinets.Deals is a dealer-exclusive kitchen and bathroom cabinet e-commerce platform based in Houston, TX — a sister company to Northville Cabinetry operating out of the same location (9815 North Fwy). The business was strictly focused on dealing exclusively with dealers nationwide, with a goal to extend their services and offer products to private customers online. We were responsible for designing and developing a clean, dealer-facing website that would provide a premium experience. The platform carries multiple cabinet lines — Elements Line (Blue Shaker, Natural Wood, Elegant White, Espresso, Grey, Metallic), Northville Cabinetry Line, Prismora Frameless, Slim Craft, and Closet — alongside free 3D kitchen design, price match, dealer onboarding, installer network, and retail syndication to Wayfair, AllModern, Overstock, BirchLane, and Joss & Main.',
+    features: [
+      {
+        title: 'Custom E-Commerce Platform',
+        body: 'Fully custom-built dealer-focused cabinet store — multiple product lines, product comparison, quote requests, sample ordering, and a clean checkout built for trade professionals.',
+      },
+      {
+        title: 'Multiple Cabinet Line Architecture',
+        body: 'Elements Line, Northville Cabinetry Line, Prismora (Frameless), Slim Craft, Closet, and Sale categories — each with dedicated collection pages, product specs, and pricing.',
+      },
+      {
+        title: 'Dealer & Professional Portal',
+        body: 'Become a Dealer and Installer Network onboarding flows — purpose-built for a business dealing exclusively with trade professionals and resellers nationwide.',
+      },
+      {
+        title: 'Free 3D Kitchen Design Integration',
+        body: 'Full design request flow connected to the in-house design team — customers submit measurements and receive a 3D rendering and itemized quote.',
+      },
+      {
+        title: 'Retail Partner Syndication',
+        body: 'Product catalog integrated with Wayfair, AllModern, Overstock, BirchLane, and Joss & Main — expanding the dealer channel with major retail marketplaces.',
+      },
+      {
+        title: 'Fully Responsive Multi-Device Build',
+        body: 'Complete responsive design across desktop, tablet, and mobile — the product catalog, quote flows, and checkout all optimized for every screen size.',
+      },
+    ],
+  },
+
+  {
+    id: 12,
+    category: 'websites',
+    title: 'TSI Inc.',
+    subtitle:
+      'Original WordPress website for an industrial machinery company in Lynnwood, WA — advanced wood processing technology serving OSB, particle board, and wood pellet manufacturers worldwide since 1992. Client has since migrated to Webflow independently.',
+    src: '/images/work/web-tsiinc.png',
+    srcFull: '/images/work/web-tsiinc-full.png',
+    url: 'https://www.tsi-inc.net',
+    color: '#2e7d32',
+    aspect: 'wide',
+    tags: [
+      'WordPress',
+      'Custom Design',
+      'Industrial B2B',
+      'Heavy Machinery',
+      'Corporate',
+      'Lynnwood WA',
+    ],
+    description:
+      "TSI (Technology Systems Inc.) has been building advanced machinery for the global wood processing industry since 1992, operating out of Lynnwood, WA. Their product line spans Rotary Drum Dryers, Heat Energy Systems, Pollution Control equipment (collectively the \"Dryer Island\"), Torrefaction plants, and Finishing Lines — serving manufacturers of OSB (oriented strand board), particle board, and wood pellets. Clients include Weyerhaeuser, Grant Forest Products (world's largest twin OSB plants, 2006), Masisa Brazil (world's largest dryer, 24'×100', 2007), Portucel South Carolina (largest dryer in the industrial pellet industry, 2017), and a 120,000 tpy Torrefaction plant in SE Asia for a Japanese client (2023). We built the original WordPress website — a clean, authoritative corporate presence for a technically complex, internationally operating industrial company. The client has since migrated to Webflow independently; the WordPress build is our work.",
+    features: [
+      {
+        title: 'Industrial B2B Corporate Site',
+        body: 'Clean, authoritative WordPress build for a heavy machinery company operating across North America, Europe, Brazil, China, and SE Asia — designed to communicate technical credibility to industrial buyers.',
+      },
+      {
+        title: 'Product Line Architecture',
+        body: 'Dedicated pages for each product category: Dryer Islands, Dryers, Heat Energy Systems, Pollution Control, Torrefaction, and Finishing Lines — each with technical photography and specification context.',
+      },
+      {
+        title: 'Industries Served Section',
+        body: 'Pages covering the OSB, particle board, and wood pellet manufacturing sectors — helping prospective clients immediately identify relevance to their production environment.',
+      },
+      {
+        title: 'Company Timeline & Credibility',
+        body: "A 30+ year milestone timeline (1992–2023) establishing TSI's deep industry track record — from first Weyerhaeuser dryers to the world's largest dryer in Brazil and Torrefaction plants in Asia.",
+      },
+      {
+        title: 'International Presence',
+        body: 'Site architected to serve a global client base — with clear contact routing, international phone number (+1 425-771-1190), and content that speaks to buyers from North America, Europe, and Asia.',
+      },
+      {
+        title: 'Jobs & Careers Section',
+        body: "Careers page supporting the company's ongoing engineering talent recruitment — reflecting TSI's growth into new markets including Asian operations and a Beijing office.",
+      },
+    ],
+    migration: {
+      from: 'WordPress (our build)',
+      to: 'Webflow (client-managed)',
+      note: 'Client migrated to Webflow independently after our engagement. The original WordPress site is our portfolio work.',
+    },
+  },
+
+  {
+    id: 13,
+    category: 'websites',
+    title: 'Schippers & Crew',
+    subtitle:
+      'Original WordPress website for a 35+ year Seattle electronics manufacturing services company — ISO 9001, AS9100, ISO 13485 & ITAR certified, serving aerospace, medical, industrial and communications OEMs. Included full wireframes and trade show materials.',
+    src: '/images/work/web-schippers.png',
+    srcFull: '/images/work/web-schippers-full.png',
+    url: 'https://www.schippers.com',
+    color: '#1565c0',
+    aspect: 'wide',
+    tags: [
+      'WordPress',
+      'Custom Design',
+      'Electronics Manufacturing',
+      'Industrial B2B',
+      'Aerospace / Medical',
+      'Seattle WA',
+    ],
+    description:
+      'Schippers & Crew, Inc. is a Seattle-based Electronics Manufacturing Services (EMS) company with 35+ years of operation, serving OEMs in test and measurement, medical instruments, industrial controls, communications, and aerospace from their Shilshole Ave NW facility. Their certifications — ISO 9001, AS9100, ISO 13485, and ITAR — signal a level of regulatory compliance that demands an equally credible digital presence. We built the original WordPress website from the ground up, beginning with a full sitemap and detailed wireframes before moving into design and development. The engagement also included trade show collateral: pull-up banner stands and event display materials. The client has since migrated to Wix independently; the WordPress build and trade show materials are our work.',
+    features: [
+      {
+        title: 'Full Wireframe & Sitemap Process',
+        body: 'Complete UX planning delivered before a single pixel was designed — full sitemap architecture and detailed page-level wireframes covering all services, about, contact, and jobs sections.',
+      },
+      {
+        title: 'Electronics Manufacturing Corporate Site',
+        body: 'Clean, authoritative WordPress build communicating PCB Assembly, Electromechanical Assembly, Testing & QC, and Supply Chain Management to OEM buyers across multiple regulated industries.',
+      },
+      {
+        title: 'Certification & Compliance Visibility',
+        body: 'ISO 9001, AS9100 (aerospace), ISO 13485 (medical devices), and ITAR certification prominently integrated — critical trust signals for aerospace and medical OEM prospects.',
+      },
+      {
+        title: 'Services Architecture',
+        body: 'Individual service pages for PCB Assembly, Electromechanical Assembly, Testing & Quality Control, and Supply Chain Management — each designed for technical buyers evaluating manufacturing partners.',
+      },
+      {
+        title: 'Pull-Up Banner Stands & Trade Show Materials',
+        body: 'Full trade show collateral designed alongside the website — pull-up banner stands and event display materials carrying the Schippers & Crew brand into physical industry events.',
+      },
+      {
+        title: 'Quote Request & Lead Generation',
+        body: 'Contact and quote request flows designed to convert OEM prospects into qualified leads — optimized for the long-cycle B2B manufacturing services sales process.',
+      },
+    ],
+    migration: {
+      from: 'WordPress (our build)',
+      to: 'Wix (client-managed)',
+      note: 'Client migrated to Wix independently after our engagement. The original WordPress site and trade show materials are our portfolio work.',
+    },
+  },
+
   // ── Logos ──────────────────────────────────────────────────────────────────
 
   {
-    id: 11,
+    id: 14,
     category: 'logos',
     title: 'Partizan Hoops',
     subtitle:
@@ -615,7 +772,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 12,
+    id: 15,
     category: 'logos',
     title: 'Bothell Select Basketball',
     subtitle:
@@ -663,7 +820,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 13,
+    id: 16,
     category: 'logos',
     title: 'Vector RE Corp',
     subtitle:
@@ -712,7 +869,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 14,
+    id: 17,
     category: 'logos',
     title: 'Live Love Flow Studios',
     subtitle:
@@ -760,7 +917,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 15,
+    id: 18,
     category: 'logos',
     title: 'Seattle Platinum Limo',
     subtitle:
@@ -809,7 +966,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 16,
+    id: 19,
     category: 'logos',
     title: 'Fintech Startup',
     subtitle: 'Wordmark + Symbol',
@@ -820,7 +977,7 @@ const WORK_ITEMS = [
     aspect: 'square',
   },
   {
-    id: 17,
+    id: 20,
     category: 'logos',
     title: 'Health & Wellness Brand',
     subtitle: 'Full Logo Suite',
@@ -834,7 +991,7 @@ const WORK_ITEMS = [
   // ── Branding ──────────────────────────────────────────────────────────────
 
   {
-    id: 18,
+    id: 21,
     category: 'branding',
     title: 'Live Love Flow Studios',
     subtitle:
@@ -882,7 +1039,7 @@ const WORK_ITEMS = [
     ],
   },
   {
-    id: 19,
+    id: 22,
     category: 'branding',
     title: 'Partizan Hoops',
     subtitle:
@@ -931,7 +1088,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 20,
+    id: 23,
     category: 'branding',
     title: 'Bothell Select Basketball',
     subtitle:
@@ -980,7 +1137,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 21,
+    id: 24,
     category: 'branding',
     title: 'Vector RE Corp',
     subtitle:
@@ -1028,10 +1185,59 @@ const WORK_ITEMS = [
     ],
   },
 
+  {
+    id: 25,
+    category: 'branding',
+    title: "Asha Women's Spa & Boutique",
+    subtitle:
+      "Complete brand identity system for a women's spa & boutique — logo design (light & dark), typography spec, trifold brochure, service menu/rack card, and business cards. A five-deliverable brand package from mark to print.",
+    src: '/images/work/brand-asha.png',
+    srcFull: '/images/work/brand-asha-full.png',
+    url: 'https://www.ashaspandboutique.com',
+    color: '#d81b8e',
+    aspect: 'wide',
+    tags: [
+      'Brand Identity',
+      'Logo Design',
+      'Print Collateral',
+      'Brochure',
+      'Business Cards',
+      'Spa & Wellness',
+    ],
+    description:
+      "Asha Women's Spa & Boutique needed a brand identity that felt luxurious, feminine, and deeply personal — from the first glance at a business card to the moment a client picks up a service menu. We delivered a complete five-piece brand system: a primary logo with custom script typography on both white and black backgrounds with full color and type specifications, a trifold brochure covering Makeup and Wax services with professional photography, a service menu/rack card for Relaxation services with spa photography, and a premium two-sided business card. The hot pink and black palette communicates elegance and confidence — exactly the tone a women's spa and boutique needs to stand out.",
+    features: [
+      {
+        title: '001 — Logo on White (Light Version)',
+        body: 'Primary brand mark in hot pink on white background — script logotype with full typography alphabet spec and black/pink color swatches.',
+      },
+      {
+        title: '002 — Logo on Black (Dark Version)',
+        body: 'Inverted brand application on black background — same mark and type spec, showing full versatility across light and dark surfaces.',
+      },
+      {
+        title: '003 — Trifold Brochure',
+        body: 'Three-panel trifold brochure covering Makeup and Wax service categories — professional photography, service listings, and the Asha mark throughout.',
+      },
+      {
+        title: '004 — Service Menu / Rack Card',
+        body: 'Standalone service menu for Relaxation services — premium dark format with spa photography and full service listing, designed for reception desk display.',
+      },
+      {
+        title: '005 — Business Cards',
+        body: 'Two-sided business card design — dark premium card with hot pink and white typography, and a clean white reverse — print-ready mockup delivered.',
+      },
+      {
+        title: 'Full Brand System Delivery',
+        body: 'All five deliverables designed cohesively — logo, print collateral, and cards — so every touchpoint from appointment card to service brochure carries a single, consistent identity.',
+      },
+    ],
+  },
+
   // ── Print ──────────────────────────────────────────────────────────────────
 
   {
-    id: 22,
+    id: 26,
     category: 'print',
     title: 'Northville Cabinetry',
     subtitle:
@@ -1079,7 +1285,7 @@ const WORK_ITEMS = [
     ],
   },
   {
-    id: 23,
+    id: 27,
     category: 'print',
     title: 'Business Card Suite',
     subtitle: 'Premium Foil Print',
@@ -1090,7 +1296,7 @@ const WORK_ITEMS = [
     aspect: 'wide',
   },
   {
-    id: 24,
+    id: 28,
     category: 'print',
     title: 'Marketing Brochure',
     subtitle: 'Trifold · 4-color',
@@ -1101,7 +1307,7 @@ const WORK_ITEMS = [
     aspect: 'wide',
   },
   {
-    id: 25,
+    id: 29,
     category: 'print',
     title: 'Trade Show Displays',
     subtitle: 'Banner · Booth Graphics',
@@ -1115,7 +1321,7 @@ const WORK_ITEMS = [
   // ── Email ──────────────────────────────────────────────────────────────────
 
   {
-    id: 26,
+    id: 30,
     category: 'email',
     title: 'Welcome Series Template',
     subtitle: 'Email Design · HTML',
@@ -1126,7 +1332,7 @@ const WORK_ITEMS = [
     aspect: 'tall',
   },
   {
-    id: 27,
+    id: 31,
     category: 'email',
     title: 'Promotional Campaign',
     subtitle: 'E-commerce · Seasonal',
@@ -1137,7 +1343,7 @@ const WORK_ITEMS = [
     aspect: 'tall',
   },
   {
-    id: 28,
+    id: 32,
     category: 'email',
     title: 'Newsletter Template',
     subtitle: 'B2B · Monthly Send',
