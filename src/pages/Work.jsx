@@ -13,7 +13,8 @@ import './Work.css';
 //   Print: 1200x800px flat lay or mockup
 //   Email: 600x800px email screenshots
 const WORK_ITEMS = [
-  // ── Websites ──
+  // ── Websites ──────────────────────────────────────────────────────────────
+
   {
     id: 1,
     category: 'websites',
@@ -25,8 +26,6 @@ const WORK_ITEMS = [
     url: 'https://partizanhoops.com',
     color: '#E85D04',
     aspect: 'wide',
-
-    // ── Extended case-study data (used in the enriched Lightbox) ──────────
     tags: [
       'React',
       'Custom CMS',
@@ -77,6 +76,7 @@ const WORK_ITEMS = [
       },
     ],
   },
+
   {
     id: 2,
     category: 'websites',
@@ -88,8 +88,6 @@ const WORK_ITEMS = [
     url: 'https://bothellselect.com',
     color: '#506ee4',
     aspect: 'wide',
-
-    // ── Extended case-study data ───────────────────────────────────────────
     tags: [
       'React',
       'Custom CMS',
@@ -131,6 +129,7 @@ const WORK_ITEMS = [
       text: 'After launching bothellselect.com, the Bothell Select organization referred Partizan Basketball Camp — who reached out specifically because they wanted the same platform built for their program.',
     },
   },
+
   {
     id: 3,
     category: 'websites',
@@ -142,8 +141,6 @@ const WORK_ITEMS = [
     url: 'https://investworkshop.com',
     color: '#1a6b3c',
     aspect: 'wide',
-
-    // ── Extended case-study data ───────────────────────────────────────────
     tags: [
       'Education Platform',
       'Teachable Integration',
@@ -165,7 +162,7 @@ const WORK_ITEMS = [
       },
       {
         title: 'Live Events & Workshops',
-        body: 'Dynamic event listings for online workshops — Property Acquisition Fundamentals, Feasibility Analysis, Land Use Code & Zoning, and more — with instructor and date info.',
+        body: 'Dynamic event listings for online workshops — Property Acquisition Fundamentals, Feasibility Analysis, Land Use Code & Zoning, and more.',
       },
       {
         title: 'Zoom Meeting Schedule',
@@ -188,6 +185,7 @@ const WORK_ITEMS = [
     },
     ongoing: true,
   },
+
   {
     id: 4,
     category: 'websites',
@@ -199,8 +197,6 @@ const WORK_ITEMS = [
     url: 'https://oregonrule.com',
     color: '#2d6a2d',
     aspect: 'wide',
-
-    // ── Extended case-study data ───────────────────────────────────────────
     tags: [
       'Shopify',
       'WooCommerce Migration',
@@ -243,248 +239,9 @@ const WORK_ITEMS = [
       note: 'Platform migration preserving full catalog, customer accounts, and SEO rankings while modernizing UX and checkout.',
     },
   },
+
   {
     id: 5,
-    category: 'websites',
-    title: 'Live Love Flow Studios',
-    subtitle:
-      'WordPress website for a boutique hot yoga & fitness studio in Green Lake, Seattle — built alongside the custom logo we designed. Client has since migrated to Squarespace independently.',
-    src: '/images/work/web-liveloveflow.png',
-    srcFull: '/images/work/web-liveloveflow-full.png',
-    url: 'https://www.liveloveflowstudios.com',
-    color: '#2a7ab5',
-    aspect: 'wide',
-
-    // ── Extended case-study data ───────────────────────────────────────────
-    tags: [
-      'WordPress',
-      'Custom Design',
-      'MindBody Integration',
-      'Class Scheduling',
-      'Wellness / Yoga',
-      'Seattle WA',
-    ],
-    description:
-      "Live Love Flow™ is a boutique hot yoga and fitness studio in Green Lake, Seattle offering three signature class formats: Flow (heated Vinyasa), Flow Fit (yoga-strength fusion), and Stretch (Yin-inspired mobility). We designed the original WordPress website alongside the studio's brand identity and logo — building a clean, conversion-focused online presence that connected their class schedule, instructor profiles, and pricing to a MindBody booking integration. The client has since migrated the site to Squarespace independently; the WordPress build and the logo are our work.",
-    features: [
-      {
-        title: 'WordPress Custom Design',
-        body: 'Fully custom WordPress theme built to match the Live Love Flow brand — white, blue, and warm photography throughout.',
-      },
-      {
-        title: 'MindBody Booking Integration',
-        body: 'Class scheduling and membership purchases connected to MindBody Online — the industry-standard booking platform for fitness studios.',
-      },
-      {
-        title: 'Three Class Format Pages',
-        body: 'Dedicated pages for Flow, Flow Fit, and Stretch — each with class description, intensity level, and what to expect for first-timers.',
-      },
-      {
-        title: 'Pricing & Membership Pages',
-        body: 'Class packs, monthly memberships, intro offers (3 classes for $30), and gift cards — all linked to live MindBody purchase flows.',
-      },
-      {
-        title: 'Instructor Profiles',
-        body: 'Individual pages for each instructor highlighting their background, teaching style, and class specialties.',
-      },
-      {
-        title: 'Brand Continuity',
-        body: 'Built as a direct extension of the logo we designed — same white/blue palette, "I Am" philosophy, and boutique studio tone carried throughout every page.',
-      },
-    ],
-    migration: {
-      from: 'WordPress (our build)',
-      to: 'Squarespace (client-managed)',
-      note: 'Client migrated to Squarespace independently after our engagement. The original WordPress site and logo design are our portfolio work.',
-    },
-  },
-  // ── Logos ──
-  {
-    id: 6,
-    category: 'logos',
-    title: 'Live Love Flow Studios',
-    subtitle:
-      'Logo design for a boutique hot yoga & fitness studio in Green Lake, Seattle — white/blue mark built around the "I Am" philosophy and three signature movement methods.',
-    src: '/images/work/logo-liveloveflow.png',
-    srcFull: '/images/work/logo-liveloveflow-full.png',
-    url: 'https://www.liveloveflowstudios.com',
-    color: '#2a7ab5',
-    aspect: 'square',
-
-    // ── Extended case-study data ───────────────────────────────────────────
-    tags: [
-      'Logo Design',
-      'Brand Identity',
-      'Wellness / Yoga',
-      'Seattle WA',
-      'Boutique Studio',
-    ],
-    description:
-      'Live Love Flow™ is a boutique Heated Flow Yoga and Strength Training studio located in Green Lake, Seattle. The logo needed to carry the studio\'s core philosophy — the "I Am" concept rooted in the first chakra, representing grounding, confidence, and connection — while feeling clean and contemporary enough to live across class booking apps, signage, merchandise, and a Squarespace website. The result is a white-and-blue mark that balances the warmth of a wellness brand with the clarity of a modern fitness studio.',
-    features: [
-      {
-        title: '"I Am" Philosophy',
-        body: "The mark reflects the studio's chakra-rooted identity — grounded, confident, and inviting across all three signature movement methods.",
-      },
-      {
-        title: 'White & Blue Color System',
-        body: 'A crisp white primary mark with a signature blue accent — versatile across dark backgrounds, light surfaces, and branded merchandise.',
-      },
-      {
-        title: 'Transparent PNG Delivery',
-        body: 'Logo delivered as a transparent-background PNG for seamless use across the Squarespace website, MindBody booking app, and print.',
-      },
-      {
-        title: 'Multi-Format Suite',
-        body: 'Full logo suite including primary stacked lockup, horizontal variant, and icon-only mark for app icons and social avatars.',
-      },
-      {
-        title: 'Wellness Brand Tone',
-        body: 'Balances the energy of a hot yoga studio with the approachability of a community-first fitness space — not clinical, not overly spiritual.',
-      },
-      {
-        title: 'Applied Brand Context',
-        body: 'Designed for real-world use: website header, class scheduling platform (MindBody), instructor bios, signage at 6900 East Green Lake Way N.',
-      },
-    ],
-  },
-  {
-    id: 7,
-    category: 'logos',
-    title: 'Pacific Northwest Coffee',
-    subtitle: 'Logo & Icon System',
-    src: '/images/work/logo-coffee.png',
-    srcFull: '/images/work/logo-coffee-full.png',
-    url: null,
-    color: '#92400e',
-    aspect: 'square',
-  },
-  {
-    id: 7,
-    category: 'logos',
-    title: 'Fintech Startup',
-    subtitle: 'Wordmark + Symbol',
-    src: '/images/work/logo-fintech.png',
-    srcFull: '/images/work/logo-fintech-full.png',
-    url: null,
-    color: '#0284c7',
-    aspect: 'square',
-  },
-  {
-    id: 8,
-    category: 'logos',
-    title: 'Health & Wellness Brand',
-    subtitle: 'Full Logo Suite',
-    src: '/images/work/logo-wellness.png',
-    srcFull: '/images/work/logo-wellness-full.png',
-    url: null,
-    color: '#059669',
-    aspect: 'square',
-  },
-  // ── Branding ──
-  {
-    id: 9,
-    category: 'branding',
-    title: 'Professional Services Rebrand',
-    subtitle: 'Complete Brand System',
-    src: '/images/work/brand-professional.png',
-    srcFull: '/images/work/brand-professional-full.png',
-    url: null,
-    color: '#be185d',
-    aspect: 'wide',
-  },
-  {
-    id: 10,
-    category: 'branding',
-    title: 'Restaurant Chain Identity',
-    subtitle: 'Brand Guidelines · Signage',
-    src: '/images/work/brand-restaurant.png',
-    srcFull: '/images/work/brand-restaurant-full.png',
-    url: null,
-    color: '#d97706',
-    aspect: 'wide',
-  },
-  {
-    id: 11,
-    category: 'branding',
-    title: 'Tech Startup Brand Kit',
-    subtitle: 'Colors · Typography · Assets',
-    src: '/images/work/brand-tech.png',
-    srcFull: '/images/work/brand-tech-full.png',
-    url: null,
-    color: '#7c3aed',
-    aspect: 'wide',
-  },
-  // ── Print ──
-  {
-    id: 12,
-    category: 'print',
-    title: 'Business Card Suite',
-    subtitle: 'Premium Foil Print',
-    src: '/images/work/print-cards.png',
-    srcFull: '/images/work/print-cards-full.png',
-    url: null,
-    color: '#0d1b2a',
-    aspect: 'wide',
-  },
-  {
-    id: 13,
-    category: 'print',
-    title: 'Marketing Brochure',
-    subtitle: 'Trifold · 4-color',
-    src: '/images/work/print-brochure.png',
-    srcFull: '/images/work/print-brochure-full.png',
-    url: null,
-    color: '#2b5ce6',
-    aspect: 'wide',
-  },
-  {
-    id: 14,
-    category: 'print',
-    title: 'Trade Show Displays',
-    subtitle: 'Banner · Booth Graphics',
-    src: '/images/work/print-tradeshow.png',
-    srcFull: '/images/work/print-tradeshow-full.png',
-    url: null,
-    color: '#dc2626',
-    aspect: 'wide',
-  },
-  // ── Email ──
-  {
-    id: 15,
-    category: 'email',
-    title: 'Welcome Series Template',
-    subtitle: 'Email Design · HTML',
-    src: '/images/work/email-welcome.png',
-    srcFull: '/images/work/email-welcome-full.png',
-    url: null,
-    color: '#2b5ce6',
-    aspect: 'tall',
-  },
-  {
-    id: 16,
-    category: 'email',
-    title: 'Promotional Campaign',
-    subtitle: 'E-commerce · Seasonal',
-    src: '/images/work/email-promo.png',
-    srcFull: '/images/work/email-promo-full.png',
-    url: null,
-    color: '#dc2626',
-    aspect: 'tall',
-  },
-  {
-    id: 17,
-    category: 'email',
-    title: 'Newsletter Template',
-    subtitle: 'B2B · Monthly Send',
-    src: '/images/work/email-newsletter.png',
-    srcFull: '/images/work/email-newsletter-full.png',
-    url: null,
-    color: '#059669',
-    aspect: 'tall',
-  },
-  {
-    id: 18,
     category: 'websites',
     title: 'Alchemy of Yoga',
     subtitle:
@@ -494,8 +251,6 @@ const WORK_ITEMS = [
     url: 'https://alchemyofyoga.com',
     color: '#7c4a8c',
     aspect: 'wide',
-
-    // ── Extended case-study data ───────────────────────────────────────────
     tags: [
       'WordPress',
       'Yoga Alliance RYS 200',
@@ -539,6 +294,601 @@ const WORK_ITEMS = [
       bio: 'World-renowned yoga teacher, author, and happiness coach. Founder of Alchemy of Yoga — a Yoga Alliance RYS 200 school with 39 graduating classes and alumni across 25+ countries including Australia, Japan, France, South Africa, and the United States.',
     },
   },
+
+  {
+    id: 6,
+    category: 'websites',
+    title: 'Live Love Flow Studios',
+    subtitle:
+      'WordPress website for a boutique hot yoga & fitness studio in Green Lake, Seattle — built alongside the custom logo we designed. Client has since migrated to Squarespace independently.',
+    src: '/images/work/web-liveloveflow.png',
+    srcFull: '/images/work/web-liveloveflow-full.png',
+    url: 'https://www.liveloveflowstudios.com',
+    color: '#2a7ab5',
+    aspect: 'wide',
+    tags: [
+      'WordPress',
+      'Custom Design',
+      'MindBody Integration',
+      'Class Scheduling',
+      'Wellness / Yoga',
+      'Seattle WA',
+    ],
+    description:
+      "Live Love Flow™ is a boutique hot yoga and fitness studio in Green Lake, Seattle offering three signature class formats: Flow (heated Vinyasa), Flow Fit (yoga-strength fusion), and Stretch (Yin-inspired mobility). We designed the original WordPress website alongside the studio's brand identity and logo — building a clean, conversion-focused online presence that connected their class schedule, instructor profiles, and pricing to a MindBody booking integration. The client has since migrated the site to Squarespace independently; the WordPress build and the logo are our work.",
+    features: [
+      {
+        title: 'WordPress Custom Design',
+        body: 'Fully custom WordPress theme built to match the Live Love Flow brand — white, blue, and warm photography throughout.',
+      },
+      {
+        title: 'MindBody Booking Integration',
+        body: 'Class scheduling and membership purchases connected to MindBody Online — the industry-standard booking platform for fitness studios.',
+      },
+      {
+        title: 'Three Class Format Pages',
+        body: 'Dedicated pages for Flow, Flow Fit, and Stretch — each with class description, intensity level, and what to expect for first-timers.',
+      },
+      {
+        title: 'Pricing & Membership Pages',
+        body: 'Class packs, monthly memberships, intro offers (3 classes for $30), and gift cards — all linked to live MindBody purchase flows.',
+      },
+      {
+        title: 'Instructor Profiles',
+        body: 'Individual pages for each instructor highlighting their background, teaching style, and class specialties.',
+      },
+      {
+        title: 'Brand Continuity',
+        body: 'Built as a direct extension of the logo we designed — same white/blue palette, "I Am" philosophy, and boutique studio tone carried throughout every page.',
+      },
+    ],
+    migration: {
+      from: 'WordPress (our build)',
+      to: 'Squarespace (client-managed)',
+      note: 'Client migrated to Squarespace independently after our engagement. The original WordPress site and logo design are our portfolio work.',
+    },
+  },
+
+  {
+    id: 7,
+    category: 'websites',
+    title: 'Seattle Platinum Limo',
+    subtitle:
+      "Original WordPress site for Seattle's premier luxury limo service — a one-of-a-kind scroll experience where a limo drives across a continuous panoramic cityscape as the user travels through service categories.",
+    src: '/images/work/web-platinumlimo.png',
+    srcFull: '/images/work/web-platinumlimo-full.png',
+    url: 'https://seattleplatinumlimo.com',
+    color: '#1a1a2e',
+    aspect: 'wide',
+    tags: [
+      'WordPress',
+      'Custom Design',
+      'Horizontal Scroll',
+      'Parallax Panorama',
+      'Luxury Brand',
+      'Seattle WA',
+    ],
+    description:
+      "The original Seattle Platinum Limo WordPress site is one of the most distinctive scroll experiences we've ever built. Rather than a standard vertical layout, the entire site unfolds as a continuous horizontal panoramic cityscape — as the user scrolls, a limousine literally drives across the screen through seamlessly stitched Seattle scenes: downtown skyline at golden hour, the airport, lush green suburbs, a wedding venue at dusk, and an entertainment district at night. Each scene maps to a service category, with a dark content panel floating above the panorama. The sky itself transitions from warm daylight to deep night as you travel right — a cinematic metaphor for round-the-clock availability. Trusted by Microsoft, Boeing, Google, Apple, Deloitte, GE, and Expedia.",
+    features: [
+      {
+        title: 'Limo-Drives-Through-the-Page',
+        body: 'As the user scrolls, a stretch limo animates across a continuous panoramic backdrop — one of the most memorable scroll interactions ever built for a transport brand.',
+      },
+      {
+        title: 'Seamless Panoramic Cityscape',
+        body: 'A single composited horizontal scene spanning downtown Seattle, SeaTac airport, green suburbs, a wedding venue, and a nightlife strip — each zone its own service category.',
+      },
+      {
+        title: 'Day-to-Night Sky Progression',
+        body: "The sky transitions from warm golden daylight on the left to deep night on the right — a visual metaphor for Platinum Limo's 24/7 availability across every occasion.",
+      },
+      {
+        title: 'Floating Dark Content Panels',
+        body: 'Service info, copy, and CTAs presented in dark glass-style panels hovering above the panorama — legible and elegant against the richly illustrated background.',
+      },
+      {
+        title: 'Scene-to-Service Mapping',
+        body: 'Airport transfers, corporate travel, weddings, events, and hourly service each occupy a distinct scene — storytelling through environment, not just text.',
+      },
+      {
+        title: 'Enterprise Trust & Booking',
+        body: 'Corporate client logos (Microsoft, Boeing, Google, Apple, Deloitte) and MyLimoBiz online reservation flow embedded within the immersive single-page experience.',
+      },
+    ],
+  },
+
+  {
+    id: 8,
+    category: 'websites',
+    title: 'Vector RE Corp',
+    subtitle:
+      'WordPress website for a Kirkland-based commercial real estate development firm — project portfolio, SVG service icon system, development pipeline, and an architectural brand presence built alongside the logo we designed.',
+    src: '/images/work/web-vectorrecorp.png',
+    srcFull: '/images/work/web-vectorrecorp-full.png',
+    url: 'https://vectorrecorp.com',
+    color: '#1c3a5e',
+    aspect: 'wide',
+    tags: [
+      'WordPress',
+      'Custom Design',
+      'Real Estate Development',
+      'Project Portfolio',
+      'B2B / Corporate',
+      'Kirkland WA',
+    ],
+    description:
+      'Vector RE Corp is a commercial real estate development company based in Kirkland, WA, specializing in industrial logistics buildings across the Pacific Northwest. Their portfolio includes American Lake Logistics (158,000 sqft, Lakewood WA), Canyon East Logistics (325,000 sqft two-building development, Frederickson WA), and Tacoma I-5 Logistics — all fully leased or sold. We built the WordPress site alongside the brand identity and logo — creating a clean, architecturally-toned presence built to impress institutional investors, long-term tenants, and development partners. The site features a custom SVG icon system spanning 10 development disciplines and individual project pages with aerial photography and development narratives.',
+    features: [
+      {
+        title: 'Project Portfolio Pages',
+        body: 'Individual pages for American Lake Logistics, Canyon East Logistics, and Tacoma I-5 — with aerial photography, square footage specs, and project narrative.',
+      },
+      {
+        title: 'SVG Service Icon System',
+        body: '10 custom SVG icons covering the full development pipeline: Site Selection, Entitlement Procurement, Master Planning, Project Management, Value Engineering, Sustainable Development, Asset Management, and more.',
+      },
+      {
+        title: 'Industrial Development Focus',
+        body: 'Content architecture built around the industrial logistics sector — truck courts, clear heights, distribution tenants, and speculative development terminology.',
+      },
+      {
+        title: 'Architectural Visual Design',
+        body: 'Dark, concrete-toned aesthetic with precision typography — a visual language that matches the scale and seriousness of multi-hundred-thousand-square-foot projects.',
+      },
+      {
+        title: 'News & Media Section',
+        body: 'Project update and media hub keeping investors, tenants, and partners informed on development pipeline and completed projects.',
+      },
+      {
+        title: 'B2B Contact & Team Pages',
+        body: 'Direct contact routing to principals Tyler Litzenberger and Max Cordell, with LinkedIn and social presence integrated throughout.',
+      },
+    ],
+    coaches: [
+      {
+        initials: 'TL',
+        name: 'Tyler Litzenberger',
+        role: 'Principal',
+        bio: 'Commercial real estate developer specializing in industrial logistics projects across the Pacific Northwest. Based in Kirkland, WA.',
+      },
+      {
+        initials: 'MC',
+        name: 'Max Cordell',
+        role: 'Principal',
+        bio: 'Co-founder of Vector RE Corp, focused on site selection, entitlement procurement, and development project management for industrial tenants.',
+      },
+    ],
+  },
+
+  {
+    id: 9,
+    category: 'websites',
+    title: 'Simply Sweet',
+    subtitle:
+      'Original WordPress website for a beloved Snohomish, WA artisan bakery — founded 2009, Snohomish Wedding Guild member, Climate Pledge Collective partner, and community institution. Client has since migrated to Squarespace independently.',
+    src: '/images/work/web-simplysweetwa.png',
+    srcFull: '/images/work/web-simplysweetwa-full.png',
+    url: 'https://www.simplysweetwa.com',
+    color: '#c0576e',
+    aspect: 'wide',
+    tags: [
+      'WordPress',
+      'Custom Design',
+      'Bakery / Food',
+      'Square Integration',
+      'Weddings & Events',
+      'Snohomish WA',
+    ],
+    description:
+      'Simply Sweet has been making Snohomish County sweeter since 2009. This beloved artisan bakery at 2705 Bickford Ave specializes in cupcakes, custom cakes, cookies, French macarons, and cake pops — serving everything from everyday walk-in treats to elaborate wedding cakes, graduation orders, and custom event desserts. A longtime member of the Snohomish Wedding Guild and a partner of the Climate Pledge Collective (home of the Seattle Kraken and Seattle Storm), Simply Sweet is a genuine community institution. We built the original WordPress website — a warm, product-focused presence connecting their walk-in shop, custom order flow, party space, workshops, and wedding services into one cohesive experience. The client has since migrated to Squarespace independently; the WordPress build is our work.',
+    features: [
+      {
+        title: 'Five Product Category Pages',
+        body: 'Dedicated pages for Cupcakes, Cakes, Cookies, French Macarons, and Cake Pops — each with photography, flavor options, and custom order lead time guidance.',
+      },
+      {
+        title: 'Square Online Order Integration',
+        body: 'Walk-in and pre-order purchasing connected to Square (simply-sweet-wa.square.site) — allowing customers to order ahead for pickup from the Snohomish shop.',
+      },
+      {
+        title: 'Weddings & Events Section',
+        body: "Full wedding landing page showcasing Simply Sweet's role as a Snohomish Wedding Guild member, with galleries, inquiry prompts, and seasonal lead time guidance.",
+      },
+      {
+        title: 'Custom Order Guide',
+        body: 'A dedicated guide page walking customers through the custom order process — lead times, peak seasons (graduation, weddings), and how to request quote.',
+      },
+      {
+        title: 'Party Space & Workshops',
+        body: "Pages for the rentable party space and baking workshops/classes — expanding the bakery's revenue beyond product sales into experiences.",
+      },
+      {
+        title: 'Instagram Feed & Brand Voice',
+        body: 'Live Instagram integration and a warm, personality-driven brand voice throughout — "You\'re Simply the Best" — reflecting the bakery\'s beloved community identity.',
+      },
+    ],
+    migration: {
+      from: 'WordPress (our build)',
+      to: 'Squarespace (client-managed)',
+      note: 'Client migrated to Squarespace independently after our engagement. The original WordPress site is our portfolio work.',
+    },
+  },
+
+  // ── Logos ──────────────────────────────────────────────────────────────────
+
+  {
+    id: 10,
+    category: 'logos',
+    title: 'Partizan Hoops',
+    subtitle:
+      'Logo design for a K-12 AAU basketball camp in the Pacific Northwest — a bold, dynamic mark for a program built on European fundamentals and elite coaching.',
+    src: '/images/work/logo-partizan.png',
+    srcFull: '/images/work/logo-partizan-full.png',
+    url: 'https://partizanhoops.com',
+    color: '#E85D04',
+    aspect: 'square',
+    tags: [
+      'Logo Design',
+      'Brand Identity',
+      'Sports / Basketball',
+      'AAU / K-12',
+      'Pacific Northwest',
+    ],
+    description:
+      'Partizan Hoops is a K-12 youth basketball camp and AAU program led by two former professional players — Zlatko Savovic (Lehigh University, Crvena Zvezda, Europe) and Armend Kahrimanovic (University of Idaho, professional clubs in Greece and the Balkans). The logo needed to project athletic intensity and European-style precision while remaining accessible to the parents, kids, and coaches who make up the community. The mark anchors the entire platform — from the custom React website and CMS to tournament flyers, team jerseys, and registration confirmation emails — in a cohesive identity that sets Partizan apart from generic AAU programs.',
+    features: [
+      {
+        title: 'Athletic Energy & Precision',
+        body: 'The mark balances the intensity of competitive basketball with the structured, fundamentals-first coaching philosophy the program is built on.',
+      },
+      {
+        title: 'European Basketball Heritage',
+        body: "Visual language informed by Partizan Belgrade's storied European basketball tradition — serious, technical, and proud of its roots.",
+      },
+      {
+        title: 'Full Platform Application',
+        body: 'Applied across the React website, CMS admin panel, tournament materials, registration flows, coach profile pages, and program listings.',
+      },
+      {
+        title: 'Bold Orange Identity',
+        body: 'A high-energy orange palette commands attention on court and screen alike — standout on dark jerseys, white backgrounds, and digital assets.',
+      },
+      {
+        title: 'Multi-Format Delivery',
+        body: 'Logo suite covering primary mark, horizontal lockup, and icon-only version for app icons, social avatars, and embroidered apparel.',
+      },
+      {
+        title: 'Community-Ready Brand',
+        body: 'Designed to grow with the program — from single-session camps to a full AAU tournament calendar serving grades K–12 across the Pacific Northwest.',
+      },
+    ],
+  },
+
+  {
+    id: 11,
+    category: 'logos',
+    title: 'Bothell Select Basketball',
+    subtitle:
+      'Logo design for a competitive Boys & Girls AAU program in Bothell, WA — clean, professional mark for a grades 4–8 organization running tournaments, registrations, and year-round programming.',
+    src: '/images/work/logo-bothellselect.png',
+    srcFull: '/images/work/logo-bothellselect-full.png',
+    url: 'https://bothellselect.com',
+    color: '#506ee4',
+    aspect: 'square',
+    tags: [
+      'Logo Design',
+      'Brand Identity',
+      'Sports / Basketball',
+      'Boys & Girls 4th–8th',
+      'Bothell WA',
+    ],
+    description:
+      'Bothell Select Basketball is a competitive AAU program serving Boys & Girls in grades 4 through 8 in Bothell, WA. The logo needed to look as organized and credible as the program itself — one that runs tournaments like the Winter Classic, manages multi-division team registrations, and operates a full CMS-powered digital platform. The mark communicates structure and competitive spirit without leaning into aggressive sports clichés — it needed to appeal equally to parents, kids, and coaches across age groups and skill levels.',
+    features: [
+      {
+        title: 'Credibility for a Growing Program',
+        body: 'A polished, professional mark that signals organizational depth — matching the tournament management infrastructure and custom registration platform behind it.',
+      },
+      {
+        title: 'Blue & White Brand System',
+        body: 'Primary blue (#506ee4) and white palette — clean and versatile across jerseys, tournament banners, website headers, and digital registration materials.',
+      },
+      {
+        title: 'Boys & Girls Inclusive',
+        body: 'Gender-neutral design language that works equally well across the Boys and Girls program tracks, grades 4th through 8th.',
+      },
+      {
+        title: 'Tournament Identity',
+        body: 'Mark applied across Winter Classic and other tournament materials — brackets, event pages, and CMS-generated schedules all anchor back to this identity.',
+      },
+      {
+        title: 'Full Platform Integration',
+        body: 'Applied across the React website, team registration portal, admin CMS dashboard, event listings, and coach-facing roster management tools.',
+      },
+      {
+        title: 'Referral-Grade Brand',
+        body: 'The identity helped establish Bothell Select as the reference client that directly referred Partizan Basketball Camp — proof the brand communicated the right level of quality.',
+      },
+    ],
+  },
+
+  {
+    id: 12,
+    category: 'logos',
+    title: 'Vector RE Corp',
+    subtitle:
+      'Logo design for a Kirkland-based commercial real estate development firm — a precise, architectural mark built for industrial-scale credibility.',
+    src: '/images/work/logo-vectorrecorp.png',
+    srcFull: '/images/work/logo-vectorrecorp-full.png',
+    url: 'https://vectorrecorp.com',
+    color: '#1c3a5e',
+    aspect: 'square',
+    tags: [
+      'Logo Design',
+      'Brand Identity',
+      'Real Estate',
+      'Corporate / B2B',
+      'Kirkland WA',
+      'Industrial',
+    ],
+    description:
+      'Vector RE Corp develops large-scale industrial logistics buildings across the Pacific Northwest — 158,000 to 325,000+ square foot projects serving sophisticated distribution tenants. The logo needed to communicate institutional precision, architectural scale, and long-term investment credibility. The mark references the concept of a vector: direction, force, and purposeful movement — aligned with the firm\'s tagline "Develop Efficiently, Build Creatively." Applied across the WordPress site, business collateral, LinkedIn, investor presentations, and individual project PDFs.',
+    features: [
+      {
+        title: 'Architectural Precision',
+        body: 'Clean geometric mark conveying the exactness of site planning, entitlement management, and structural development — not decorative, purposeful.',
+      },
+      {
+        title: '"Vector" Concept in the Mark',
+        body: 'The identity references direction and momentum — a visual embodiment of the firm\'s tagline "Develop Efficiently, Build Creatively."',
+      },
+      {
+        title: 'Institutional Color Palette',
+        body: 'Deep navy tones communicate the gravitas of a firm managing multi-hundred-thousand-square-foot industrial projects for long-term tenants.',
+      },
+      {
+        title: 'WordPress Header Delivery',
+        body: 'Logo delivered as a clean PNG optimized for the WordPress site header — crisp at all viewport sizes across desktop and mobile.',
+      },
+      {
+        title: 'B2B & Investor-Ready',
+        body: 'Mark works across project PDFs, LinkedIn, investor presentations, and business cards — anywhere a Fortune 500 tenant or institutional investor might encounter the brand.',
+      },
+      {
+        title: 'Scales with the Portfolio',
+        body: 'Designed to anchor a growing portfolio — from Tacoma I-5 to Canyon East — giving each project page a consistent, trusted parent brand.',
+      },
+    ],
+  },
+
+  {
+    id: 13,
+    category: 'logos',
+    title: 'Live Love Flow Studios',
+    subtitle:
+      'Logo design for a boutique hot yoga & fitness studio in Green Lake, Seattle — white/blue mark built around the "I Am" philosophy and three signature movement methods.',
+    src: '/images/work/logo-liveloveflow.png',
+    srcFull: '/images/work/logo-liveloveflow-full.png',
+    url: 'https://www.liveloveflowstudios.com',
+    color: '#2a7ab5',
+    aspect: 'square',
+    tags: [
+      'Logo Design',
+      'Brand Identity',
+      'Wellness / Yoga',
+      'Seattle WA',
+      'Boutique Studio',
+    ],
+    description:
+      'Live Love Flow™ is a boutique Heated Flow Yoga and Strength Training studio located in Green Lake, Seattle. We designed the logo as part of a full brand engagement that included the original WordPress website. The mark needed to carry the studio\'s core philosophy — the "I Am" concept rooted in the first chakra, representing grounding, confidence, and connection — while feeling clean and versatile enough to live across class booking apps, signage, merchandise, and the web. The result is a white-and-blue mark that balances the warmth of a wellness brand with the clarity of a modern fitness studio.',
+    features: [
+      {
+        title: '"I Am" Philosophy',
+        body: "The mark reflects the studio's chakra-rooted identity — grounded, confident, and inviting across all three signature movement methods.",
+      },
+      {
+        title: 'White & Blue Color System',
+        body: 'A crisp white primary mark with a signature blue accent — versatile across dark backgrounds, light surfaces, and branded merchandise.',
+      },
+      {
+        title: 'Transparent PNG Delivery',
+        body: 'Logo delivered as a transparent-background PNG for seamless use across the website, MindBody booking app, and print.',
+      },
+      {
+        title: 'Multi-Format Suite',
+        body: 'Full logo suite including primary stacked lockup, horizontal variant, and icon-only mark for app icons and social avatars.',
+      },
+      {
+        title: 'Wellness Brand Tone',
+        body: 'Balances the energy of a hot yoga studio with the approachability of a community-first fitness space — not clinical, not overly spiritual.',
+      },
+      {
+        title: 'Applied Brand Context',
+        body: 'Designed for real-world use: website header, class scheduling platform (MindBody), instructor bios, signage at 6900 East Green Lake Way N.',
+      },
+    ],
+  },
+
+  {
+    id: 14,
+    category: 'logos',
+    title: 'Seattle Platinum Limo',
+    subtitle:
+      "Logo design for Seattle's premier luxury chauffeured transport service — a premium dark mark trusted by Microsoft, Boeing, Google, Apple & Deloitte.",
+    src: '/images/work/logo-platinumlimo.png',
+    srcFull: '/images/work/logo-platinumlimo-full.png',
+    url: 'https://seattleplatinumlimo.com',
+    color: '#1a1a2e',
+    aspect: 'square',
+    tags: [
+      'Logo Design',
+      'Brand Identity',
+      'Luxury / Premium',
+      'Transportation',
+      'Seattle WA',
+      'B2B & Corporate',
+    ],
+    description:
+      'Seattle Platinum Limo is the Pacific Northwest\'s premier chauffeured transportation service, trusted by corporate clients including Microsoft, Boeing, Google, Apple, Deloitte, GE, and Expedia. Their tagline — "You\'ve Tried the Rest, Now Try the Best" — set the design brief clearly: this logo needed to communicate elite, no-compromise luxury while remaining clean and versatile across a WordPress website, booking platform, vehicle livery, and business collateral. The result is a dark, refined mark that lives up to the fleet it represents: BMW 7 Series, Cadillac XTS, Cadillac Escalade, and Mercedes Sprinter.',
+    features: [
+      {
+        title: 'Premium Dark Identity',
+        body: 'Deep dark palette communicating luxury, exclusivity, and nighttime elegance — consistent with the high-end chauffeured service segment.',
+      },
+      {
+        title: 'Corporate & B2B Ready',
+        body: 'Mark works equally well on executive business cards, email signatures, and partner materials for Fortune 500 clients like Microsoft, Boeing, and Google.',
+      },
+      {
+        title: 'Vehicle Livery Application',
+        body: 'Designed to read clearly on dark vehicle exteriors — BMW 7 Series, Cadillac Escalade, and Mercedes Sprinter fleet branding.',
+      },
+      {
+        title: 'WordPress Website Header',
+        body: 'Delivered as a cropped transparent PNG optimized for WordPress — for crisp rendering at all screen sizes.',
+      },
+      {
+        title: 'Booking Platform Presence',
+        body: 'Mark used across the MyLimoBiz online reservation platform and all client-facing digital touchpoints.',
+      },
+      {
+        title: 'Trust Signal Design',
+        body: 'The visual weight and refinement of the mark directly supports the testimonials and client roster — a logo that looks as reliable as the service.',
+      },
+    ],
+  },
+
+  {
+    id: 15,
+    category: 'logos',
+    title: 'Fintech Startup',
+    subtitle: 'Wordmark + Symbol',
+    src: '/images/work/logo-fintech.png',
+    srcFull: '/images/work/logo-fintech-full.png',
+    url: null,
+    color: '#0284c7',
+    aspect: 'square',
+  },
+  {
+    id: 16,
+    category: 'logos',
+    title: 'Health & Wellness Brand',
+    subtitle: 'Full Logo Suite',
+    src: '/images/work/logo-wellness.png',
+    srcFull: '/images/work/logo-wellness-full.png',
+    url: null,
+    color: '#059669',
+    aspect: 'square',
+  },
+
+  // ── Branding ──────────────────────────────────────────────────────────────
+
+  {
+    id: 17,
+    category: 'branding',
+    title: 'Professional Services Rebrand',
+    subtitle: 'Complete Brand System',
+    src: '/images/work/brand-professional.png',
+    srcFull: '/images/work/brand-professional-full.png',
+    url: null,
+    color: '#be185d',
+    aspect: 'wide',
+  },
+  {
+    id: 18,
+    category: 'branding',
+    title: 'Restaurant Chain Identity',
+    subtitle: 'Brand Guidelines · Signage',
+    src: '/images/work/brand-restaurant.png',
+    srcFull: '/images/work/brand-restaurant-full.png',
+    url: null,
+    color: '#d97706',
+    aspect: 'wide',
+  },
+  {
+    id: 19,
+    category: 'branding',
+    title: 'Tech Startup Brand Kit',
+    subtitle: 'Colors · Typography · Assets',
+    src: '/images/work/brand-tech.png',
+    srcFull: '/images/work/brand-tech-full.png',
+    url: null,
+    color: '#7c3aed',
+    aspect: 'wide',
+  },
+
+  // ── Print ──────────────────────────────────────────────────────────────────
+
+  {
+    id: 20,
+    category: 'print',
+    title: 'Business Card Suite',
+    subtitle: 'Premium Foil Print',
+    src: '/images/work/print-cards.png',
+    srcFull: '/images/work/print-cards-full.png',
+    url: null,
+    color: '#0d1b2a',
+    aspect: 'wide',
+  },
+  {
+    id: 21,
+    category: 'print',
+    title: 'Marketing Brochure',
+    subtitle: 'Trifold · 4-color',
+    src: '/images/work/print-brochure.png',
+    srcFull: '/images/work/print-brochure-full.png',
+    url: null,
+    color: '#2b5ce6',
+    aspect: 'wide',
+  },
+  {
+    id: 22,
+    category: 'print',
+    title: 'Trade Show Displays',
+    subtitle: 'Banner · Booth Graphics',
+    src: '/images/work/print-tradeshow.png',
+    srcFull: '/images/work/print-tradeshow-full.png',
+    url: null,
+    color: '#dc2626',
+    aspect: 'wide',
+  },
+
+  // ── Email ──────────────────────────────────────────────────────────────────
+
+  {
+    id: 23,
+    category: 'email',
+    title: 'Welcome Series Template',
+    subtitle: 'Email Design · HTML',
+    src: '/images/work/email-welcome.png',
+    srcFull: '/images/work/email-welcome-full.png',
+    url: null,
+    color: '#2b5ce6',
+    aspect: 'tall',
+  },
+  {
+    id: 24,
+    category: 'email',
+    title: 'Promotional Campaign',
+    subtitle: 'E-commerce · Seasonal',
+    src: '/images/work/email-promo.png',
+    srcFull: '/images/work/email-promo-full.png',
+    url: null,
+    color: '#dc2626',
+    aspect: 'tall',
+  },
+  {
+    id: 25,
+    category: 'email',
+    title: 'Newsletter Template',
+    subtitle: 'B2B · Monthly Send',
+    src: '/images/work/email-newsletter.png',
+    srcFull: '/images/work/email-newsletter-full.png',
+    url: null,
+    color: '#059669',
+    aspect: 'tall',
+  },
 ];
 
 const CATEGORIES = [
@@ -575,12 +925,17 @@ function PlaceholderCard({ item }) {
   );
 }
 
-// ── Case Study Panel (Partizan-style enriched lightbox content) ─────────────
+// ── Case Study Panel ────────────────────────────────────────────────────────
 function CaseStudyPanel({ item }) {
   return (
     <div className='case-study'>
-      {/* Tags */}
+      {/* Tags — with optional Ongoing badge */}
       <div className='case-study__tags'>
+        {item.ongoing && (
+          <span className='case-study__tag case-study__tag--ongoing'>
+            ● Ongoing
+          </span>
+        )}
         {item.tags.map((t) => (
           <span
             key={t}
@@ -609,7 +964,38 @@ function CaseStudyPanel({ item }) {
         ))}
       </div>
 
-      {/* Coaches */}
+      {/* Single instructor */}
+      {item.instructor && (
+        <>
+          <div className='case-study__section-label'>Instructor & founder</div>
+          <div className='case-study__coaches'>
+            <div className='case-study__coach'>
+              <div
+                className='case-study__coach-avatar'
+                style={{ background: item.color }}
+              >
+                {item.instructor.initials}
+              </div>
+              <div>
+                <div className='case-study__coach-name'>
+                  {item.instructor.name}
+                </div>
+                <div
+                  className='case-study__coach-role'
+                  style={{ color: item.color }}
+                >
+                  {item.instructor.role}
+                </div>
+                <div className='case-study__coach-bio'>
+                  {item.instructor.bio}
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Multiple coaches / principals */}
       {item.coaches && (
         <>
           <div className='case-study__section-label'>
@@ -640,7 +1026,7 @@ function CaseStudyPanel({ item }) {
         </>
       )}
 
-      {/* Referral badge — shown when this project led to another client */}
+      {/* Referral badge */}
       {item.referral && (
         <div
           className='case-study__referral'
@@ -650,6 +1036,28 @@ function CaseStudyPanel({ item }) {
             {item.referral.label}
           </div>
           <p className='case-study__referral-text'>{item.referral.text}</p>
+        </div>
+      )}
+
+      {/* Platform migration badge */}
+      {item.migration && (
+        <div
+          className='case-study__migration'
+          style={{ '--cs-color': item.color }}
+        >
+          <div className='case-study__migration-track'>
+            <span className='case-study__migration-from'>
+              {item.migration.from}
+            </span>
+            <span className='case-study__migration-arrow'>→</span>
+            <span
+              className='case-study__migration-to'
+              style={{ color: item.color }}
+            >
+              {item.migration.to}
+            </span>
+          </div>
+          <p className='case-study__migration-note'>{item.migration.note}</p>
         </div>
       )}
     </div>
@@ -724,10 +1132,9 @@ function Lightbox({ item, onClose, onPrev, onNext, total, current }) {
           </div>
         </div>
 
-        {/* Enriched layout: image left + case study panel right */}
+        {/* Enriched: image left + case study right */}
         {isEnriched ? (
           <div className='lightbox__enriched-body'>
-            {/* Image column */}
             <div
               className='lightbox__image-wrap lightbox__image-wrap--side'
               style={{ background: item.color + '12' }}
@@ -756,14 +1163,11 @@ function Lightbox({ item, onClose, onPrev, onNext, total, current }) {
                 />
               )}
             </div>
-
-            {/* Case study panel */}
             <div className='lightbox__case-panel'>
               <CaseStudyPanel item={item} />
             </div>
           </div>
         ) : (
-          /* Standard single-column image */
           <div
             className='lightbox__image-wrap'
             style={{ background: item.color + '12' }}
@@ -852,7 +1256,6 @@ function WorkCard({ item, index, onClick }) {
       whileHover={{ y: -6, transition: { duration: 0.25, ease: 'easeOut' } }}
       onClick={() => onClick(item)}
     >
-      {/* Image */}
       <div className='work-card__img-wrap'>
         {imgError ? (
           <PlaceholderCard item={item} />
@@ -864,21 +1267,21 @@ function WorkCard({ item, index, onClick }) {
             onError={() => setImgError(true)}
           />
         )}
-        {/* Hover overlay */}
         <div className='work-card__overlay'>
           <span className='work-card__zoom'>
             {item.description ? 'Case Study ↗' : 'View ↗'}
           </span>
         </div>
-        {/* Color bar */}
         <div className='work-card__bar' />
       </div>
-
-      {/* Info */}
       <div className='work-card__info'>
-        <div className='work-card__title'>{item.title}</div>
+        <div className='work-card__title'>
+          {item.title}
+          {item.ongoing && (
+            <span className='work-card__ongoing-dot' title='Ongoing project' />
+          )}
+        </div>
         <div className='work-card__subtitle'>{item.subtitle}</div>
-        {/* Tags preview for enriched items */}
         {item.tags && (
           <div className='work-card__tags'>
             {item.tags.slice(0, 3).map((t) => (
@@ -982,7 +1385,6 @@ const Work = () => {
             Websites, logos, brand identities, print collateral and email
             templates — built with intention and crafted for impact.
           </motion.p>
-          {/* Category pills */}
           <motion.div
             className='work-hero__pills'
             initial={{ opacity: 0, y: 16 }}
@@ -1000,7 +1402,6 @@ const Work = () => {
             ))}
           </motion.div>
         </div>
-        {/* Rain */}
         <div className='work-hero__drops'>
           {[...Array(10)].map((_, i) => (
             <span
