@@ -2716,40 +2716,59 @@ const WORK_ITEMS = [
 
 const CATEGORIES = [
   { value: 'all', label: 'All Work', icon: '✦' },
-  { value: 'websites', label: 'Websites', icon: '🖥' },
-  { value: 'logos', label: 'Logos', icon: '◎' },
-  { value: 'branding', label: 'Branding', icon: '🎨' },
-  { value: 'print', label: 'Print', icon: '📄' },
-  { value: 'email', label: 'Email Design', icon: '✉' },
+  { value: 'websites', label: 'Websites', icon: 'websites' },
+  { value: 'logos', label: 'Logos', icon: 'logos' },
+  { value: 'branding', label: 'Branding', icon: 'branding' },
+  { value: 'print', label: 'Print', icon: 'print' },
+  { value: 'email', label: 'Email Design', icon: 'email' },
 ];
+
+// ── Category icon — JSX component, not a string in data ────────────────────
+function CategoryIcon({ icon, size = 42 }) {
+  if (icon === 'websites')
+    return (
+      <img
+        src='/images/i_customDesign.png'
+        alt='Website Development'
+        height={size}
+      />
+    );
+  if (icon === 'branding')
+    return (
+      <img src='/images/i_colorPalette.png' alt='Branding' height={size} />
+    );
+  if (icon === 'print')
+    return (
+      <img src='/images/i_marketingCollateral.png' alt='Print' height={size} />
+    );
+  if (icon === 'email')
+    return (
+      <img src='/images/i_outbound.png' alt='Email Design' height={size} />
+    );
+  if (icon === 'logos')
+    return (
+      <img
+        src='/images/rainboots_splashboot_icon.png'
+        alt='Logo Design'
+        height={size}
+      />
+    );
+  return <span>{icon}</span>;
+}
 
 // ── Placeholder card when image not yet added ───────────────────────────────
 function PlaceholderCard({ item }) {
   return (
     <div className='work-placeholder' style={{ '--ph-color': item.color }}>
       <div className='work-placeholder__icon'>
-        {item.category === 'websites' ? (
-          <img
-            src='/images/i_customDesign.png'
-            alt='Website Development'
-            height='42px'
-          />
-        ) : item.category === 'logos' ? (
+        {item.category === 'logos' ? (
           <img
             src='/images/rainboots_splashboot_icon.png'
             alt='Logo Design'
-            height='32px'
-          />
-        ) : item.category === 'branding' ? (
-          <img src='/images/i_colorPalette.png' alt='Branding' height='48px' />
-        ) : item.category === 'print' ? (
-          <img
-            src='/images/i_marketingCollateral.png'
-            alt='Branding'
-            height='42px'
+            height={32}
           />
         ) : (
-          <img src='/images/i_outbound.png' alt='Email' height='48px' />
+          <CategoryIcon icon={item.category} size={42} />
         )}
       </div>
       <div className='work-placeholder__label'>{item.category}</div>
@@ -3234,7 +3253,8 @@ const Work = () => {
                 className='work-hero__pill'
                 onClick={() => setActiveCategory(cat.value)}
               >
-                {cat.icon} {cat.label}
+                <CategoryIcon icon={cat.icon} size={20} />
+                {cat.label}
               </button>
             ))}
           </motion.div>
@@ -3264,7 +3284,9 @@ const Work = () => {
               className={`work-filter-btn ${activeCategory === cat.value ? 'active' : ''}`}
               onClick={() => setActiveCategory(cat.value)}
             >
-              <span className='work-filter-icon'>{cat.icon}</span>
+              <span className='work-filter-icon'>
+                <CategoryIcon icon={cat.icon} size={20} />
+              </span>
               {cat.label}
               {activeCategory === cat.value && cat.value !== 'all' && (
                 <span className='work-filter-count'>

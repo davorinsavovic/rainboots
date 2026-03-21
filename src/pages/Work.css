@@ -292,6 +292,7 @@
   transition:
     opacity 0.25s ease,
     transform 0.25s ease;
+  z-index: 999;
 }
 .work-card:hover .work-card__zoom {
   opacity: 1;
