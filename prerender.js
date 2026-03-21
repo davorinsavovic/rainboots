@@ -469,8 +469,9 @@ ROUTES.forEach((route) => {
   // ── SEO content: inject OUTSIDE #root so React never touches it ────────────
   // Visually hidden from users, fully readable by crawlers.
   // React mounts into #root cleanly — no hydration mismatch, no content flash.
-  if (!route.clientOnly) {
-    const crawlerContent = `
+  // clientOnly flag no longer blocks injection — it only prevents #root injection
+  // (which we stopped doing entirely). All routes get the hidden crawler div.
+  const crawlerContent = `
   <div aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;left:-9999px">
     <h1>${route.h1}</h1>
     <p>${route.intro}</p>
@@ -485,9 +486,8 @@ ROUTES.forEach((route) => {
     </nav>
   </div>`;
 
-    // Insert just before closing </body>
-    html = html.replace('</body>', `${crawlerContent}\n</body>`);
-  }
+  // Insert just before closing </body>
+  html = html.replace('</body>', `${crawlerContent}\n</body>`);
 
   fs.writeFileSync(outFile, html);
   console.log(
