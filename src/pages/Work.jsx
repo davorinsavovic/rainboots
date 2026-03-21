@@ -706,8 +706,8 @@ const WORK_ITEMS = [
         body: 'Individual service pages for PCB Assembly, Electromechanical Assembly, Testing & Quality Control, and Supply Chain Management — each designed for technical buyers evaluating manufacturing partners.',
       },
       {
-        title: 'Pull-Up Banner Stands & Trade Show Materials',
-        body: 'Full trade show collateral designed alongside the website — pull-up banner stands and event display materials carrying the Schippers & Crew brand into physical industry events.',
+        title: 'Pull-Up Banner Stands — Three-Panel Suite',
+        body: 'Three coordinated retractable banner stands: center services panel (Prototype Development, SMT, Box-Build, X-Ray Inspection, Turnkey Purchasing, Consigned Assembly, Through-Hole, Cable & Wire Assembly, Test & Engineering) flanked by industry sector panels (Industrial Controls/Communications/Medical and Commercial/Defense/Aerospace).',
       },
       {
         title: 'Quote Request & Lead Generation',
@@ -1015,10 +1015,157 @@ const WORK_ITEMS = [
     ],
   },
 
+  {
+    id: 22,
+    category: 'websites',
+    title: 'GraphiCode Inc.',
+    subtitle:
+      'Website design and development for a Redmond electronics manufacturing CAM software company — GC-PowerPlatform suite (GC-Prevue, GC-PowerPlace, GC-PowerStation, GC-CAM Edit), plus software box packaging, disc design, and product data sheets.',
+    src: '/images/work/web-graphicode.png',
+    srcFull: '/images/work/web-graphicode-full.png',
+    url: 'https://www.graphicode.com',
+    color: '#e65100',
+    aspect: 'wide',
+    tags: [
+      'Website Design',
+      'B2B Software',
+      'Electronics Manufacturing',
+      'CAM Software',
+      'Product Pages',
+      'Redmond WA',
+    ],
+    description:
+      'GraphiCode Inc. is a Redmond, WA software company providing the GC-PowerPlatform suite of CAM tools for the global electronics manufacturing industry — GC-Prevue (industry-standard Gerber data viewer), GC-PowerPlace (PCB assembly CAM), GC-PowerStation (PCB fabrication CAM), GC-CAM Edit (panelization and editing), and GC-PrevuePlus. The website needed to communicate a technically complex product line to engineering buyers across PCB manufacturing, assembly, and fabrication — with clear product differentiation, downloadable trial versions, and a product matrix for comparison. The engagement also covered software packaging: retail box design, CD packaging, product data sheets, and the Product Matrix comparison grid.',
+    features: [
+      {
+        title: 'CAM Software Product Architecture',
+        body: 'Website structure covering five distinct products — GC-Prevue, GC-PowerPlace, GC-PowerStation, GC-CAM Edit, GC-PrevuePlus — each with dedicated pages, feature lists, and trial download flows.',
+      },
+      {
+        title: 'GC-Prevue Eye-Graphic Hero',
+        body: 'Distinctive close-up eye photography brand visual for GC-Prevue ("Your Hassle Free Gerber Data Viewer") — a memorable visual metaphor that anchors the flagship product page.',
+      },
+      {
+        title: 'Product Matrix Page',
+        body: 'Comparison grid for the full GC-PowerPlatform suite — Input Format, Output Format, Assembly Operations, and feature flags across all products — built for technical buyers evaluating CAM software options.',
+      },
+      {
+        title: 'Software Packaging & Print Collateral',
+        body: 'Full physical product suite: retail box design, CD/disc packaging for GC-PowerPlace, product data sheets, and the GC-PowerPlatform brochure — all in the dark orange tech aesthetic.',
+      },
+      {
+        title: 'Technical B2B Product Pages',
+        body: 'Product pages written and designed for PCB engineers and contract manufacturers — technical specifications, feature comparisons, and download/purchase CTAs integrated throughout.',
+      },
+      {
+        title: 'Global Electronics Manufacturing Audience',
+        body: "Site designed for GraphiCode's worldwide customer base — PCB fabricators, contract manufacturers, and EMS companies across North America, Europe, and Asia.",
+      },
+    ],
+  },
+
+  {
+    id: 23,
+    category: 'websites',
+    title: 'Dominis Stone',
+    subtitle:
+      "Website design and development for Seattle's & Boise's countertop destination — Quartz, Dekton, Porcelain, Quartzite, Granite, and Marble product pages, Cambria brand integration, kitchen design tools, installer network, two locations (Tukwila WA & Meridian ID).",
+    src: '/images/work/web-dominisstone.png',
+    srcFull: '/images/work/web-dominisstone-full.png',
+    url: 'https://dominisstone.com',
+    color: '#4a4a4a',
+    aspect: 'wide',
+    tags: [
+      'Website Design',
+      'WordPress',
+      'E-Commerce / Showroom',
+      'Natural Stone',
+      'Cambria Partner',
+      'Seattle WA',
+    ],
+    description:
+      "Dominis Stone is Seattle's and Boise's premier countertop destination — a natural stone showroom and fabricator with locations in Tukwila, WA (13400 Interurban Ave S, 253-277-1854) and Meridian, ID (2835 E Lanark St, 208-609-3805). Their product offering spans Quartz, Dekton, Porcelain, Quartzite, Granite, Marble, and Sinks — with brand partnerships including Silestone, MSI, Cambria, Dekton, Arizon, Natural Stone Institute, and ISFA. The website needed to showcase the full stone catalog, support the Cambria brand partnership (Design Palette, Inspiration Gallery, Why Cambria, Edge Profiles, Cambria Videos), and provide kitchen design tools (Kitchen Design, How to Sketch) and process information for homeowners and designers.",
+    features: [
+      {
+        title: 'Six Stone Category Pages',
+        body: 'Individual product pages for Quartz, Dekton, Porcelain, Quartzite, Granite, and Marble — each with material properties, photography, and specification details for homeowners and design professionals.',
+      },
+      {
+        title: 'Cambria Brand Partnership Integration',
+        body: 'Full Cambria sub-site section: Design Palette, Inspiration Gallery, Why Cambria, Edge Profiles, and Cambria Videos — a dedicated brand presence within the Dominis Stone site.',
+      },
+      {
+        title: 'Kitchen Design Tools',
+        body: 'Kitchen Design and How to Sketch pages — interactive resources helping customers plan their countertop projects before visiting the showroom.',
+      },
+      {
+        title: 'Dual Location Coverage',
+        body: 'Site architecture serving both the Tukwila, WA and Meridian, ID locations — with distinct contact information, maps, and local SEO for both Pacific Northwest and Idaho markets.',
+      },
+      {
+        title: 'Brand Partner Showcase',
+        body: "Silestone, MSI, Cambria, Dekton, Arizon, Natural Stone Institute, and ISFA partner logos integrated — communicating the quality and credentials of Dominis Stone's supplier relationships.",
+      },
+      {
+        title: 'Gallery & Process Pages',
+        body: 'Completed project gallery and installation process explanation — helping homeowners understand what to expect from countertop selection through professional installation.',
+      },
+    ],
+  },
+
+  {
+    id: 24,
+    category: 'websites',
+    title: 'Meraka',
+    subtitle:
+      'WordPress website for a Washington State real estate investment and property management company — transforming homes and revitalizing communities through strategic acquisitions, thoughtful renovations, and affordable housing. Designed by Rainboots Marketing.',
+    src: '/images/work/web-meraka.png',
+    srcFull: '/images/work/web-meraka-full.png',
+    url: 'https://meraka.com',
+    color: '#2e7d32',
+    aspect: 'wide',
+    tags: [
+      'WordPress',
+      'Custom Design',
+      'Real Estate',
+      'Property Management',
+      'Affordable Housing',
+      'Washington State',
+    ],
+    description:
+      'Meraka is a Washington State real estate investment and property management company founded in 2022 — specializing in single- and multi-family housing with a mission to revitalize neighborhoods through strategic acquisitions, thoughtful renovations, and high-quality affordable housing. The name draws from the Bosnian phrase "E Merak(a) u večeri rane," reflecting a philosophy of cherishing simple joys and building lasting community. The WordPress website covers Available Properties, About Us, Team, and Contact — with an inquiry flow for prospective renters and a clean, community-focused design. Designed and developed by Rainboots Marketing.',
+    features: [
+      {
+        title: 'Available Properties Showcase',
+        body: 'Clean property listing section with rental inquiry flow — "Inquire About Rental" CTA connecting prospective tenants directly to the Meraka team.',
+      },
+      {
+        title: 'Mission & Values Architecture',
+        body: 'About Us content communicating the three-pillar approach: Discover Potential (identify undervalued properties), Elevate Design (thoughtful renovation), Build Community (qualified tenant placement).',
+      },
+      {
+        title: 'Team & Credibility Pages',
+        body: 'Team page establishing the principals behind Meraka — supporting the trust-building process for both prospective tenants and investment partners.',
+      },
+      {
+        title: 'Affordable Housing Positioning',
+        body: "Brand voice and design that communicates Meraka's dual mission — sustainable returns for investors AND high-quality, affordable housing for community members — without compromising either.",
+      },
+      {
+        title: 'Washington State & Idaho Market',
+        body: "Site designed for Meraka's Pacific Northwest operations — clean, community-oriented aesthetic reflecting the neighborhoods they invest in and the tenants they serve.",
+      },
+      {
+        title: 'Rainboots Marketing Build',
+        body: 'Designed and developed by Rainboots Marketing LLC — the footer credit on the live site confirms the engagement and connects this work to the broader Rainboots portfolio.',
+      },
+    ],
+  },
+
   // ── Logos ──────────────────────────────────────────────────────────────────
 
   {
-    id: 20,
+    id: 25,
     category: 'logos',
     title: 'DCM Contractors',
     subtitle:
@@ -1115,7 +1262,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 22,
+    id: 26,
     category: 'logos',
     title: 'Bothell Select Basketball',
     subtitle:
@@ -1163,7 +1310,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 23,
+    id: 27,
     category: 'logos',
     title: 'Vector RE Corp',
     subtitle:
@@ -1212,7 +1359,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 24,
+    id: 28,
     category: 'logos',
     title: 'Live Love Flow Studios',
     subtitle:
@@ -1260,7 +1407,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 25,
+    id: 29,
     category: 'logos',
     title: 'Seattle Platinum Limo',
     subtitle:
@@ -1309,32 +1456,304 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 26,
+    id: 30,
     category: 'logos',
-    title: 'Fintech Startup',
-    subtitle: 'Wordmark + Symbol',
-    src: '/images/work/logo-fintech.png',
-    srcFull: '/images/work/logo-fintech-full.png',
+    title: 'Muki Construction',
+    subtitle:
+      'Logo design for a Seattle tile & stone contractor — two-color system (navy/green and orange/white) built for van livery, business cards, signage, and digital use.',
+    src: '/images/work/logo-mukiconstruction.png',
+    srcFull: '/images/work/logo-mukiconstruction-full.png',
     url: null,
-    color: '#0284c7',
+    color: '#e65100',
     aspect: 'square',
+    tags: [
+      'Logo Design',
+      'Brand Identity',
+      'Construction / Trades',
+      'Two-Color System',
+      'Seattle WA',
+      'Tile & Stone',
+    ],
+    description:
+      'Muki Construction LLC is a licensed tile & stone contractor serving residential and commercial clients in Seattle (Lic. CONMUCC102BB) — specializing in tile & stone installation, countertops, backsplash installation, shower enclosures, bath tile walls & surrounds, heated floors, and exterior applications. The logo centers on a bold roofline mark with the MUKI name and a "tile & stone contractor" identifier band. We delivered two complete color versions: a dark navy/forest green professional variant and a bold orange/white high-visibility variant — giving Muki flexibility across dark vehicle livery, white business cards, site signage, and digital materials.',
+    features: [
+      {
+        title: 'Two Complete Color Versions',
+        body: 'Navy/forest green variant for professional print and digital use; orange/white variant for high-visibility applications — van livery, outdoor signage, and attention-grabbing marketing materials.',
+      },
+      {
+        title: 'Roofline Architecture Mark',
+        body: 'Distinctive rooftop silhouette above the MUKI name — immediately communicating construction/trades while being clean enough to scale from a van door to a business card.',
+      },
+      {
+        title: '"Tile & Stone Contractor" Identity Band',
+        body: 'Green or orange identifier band below the mark makes the specialty immediately clear — essential for a trades business where service clarity drives first calls.',
+      },
+      {
+        title: 'Vehicle Livery Ready',
+        body: 'Logo applied to work van — high-contrast orange/white variant reads clearly on a white Mercedes Sprinter in traffic, turning every job site visit into a mobile advertisement.',
+      },
+      {
+        title: 'Business Card Application',
+        body: 'Both color variants applied to business card designs — full contact information (tel: 206-605-9394, license number) in a print-ready format.',
+      },
+      {
+        title: 'Multi-Format Delivery',
+        body: 'Logo delivered across print and digital formats — business cards, van livery, hanging display mockup, and digital materials all applied and tested.',
+      },
+    ],
   },
   {
-    id: 27,
+    id: 31,
     category: 'logos',
-    title: 'Health & Wellness Brand',
-    subtitle: 'Full Logo Suite',
-    src: '/images/work/logo-wellness.png',
-    srcFull: '/images/work/logo-wellness-full.png',
-    url: null,
-    color: '#059669',
+    title: 'AM Ruyle LLC',
+    subtitle:
+      'Logo design for a Seattle general contracting company — bold AM monogram on diamond-plate steel texture, white and blue, applied across business cards for two principals and all company materials.',
+    src: '/images/work/logo-amruyle.png',
+    srcFull: '/images/work/logo-amruyle-full.png',
+    url: 'https://www.amruylellc.com',
+    color: '#1565c0',
     aspect: 'square',
+    tags: [
+      'Logo Design',
+      'Brand Identity',
+      'Construction / General Contracting',
+      'Business Cards',
+      'Seattle WA',
+      'Diamond Plate Texture',
+    ],
+    description:
+      'AM Ruyle LLC is a licensed general contracting company (License No: AMRUYLR872DJ) headed by Aaron Ruyle (President) and Shane Perkins (Project Superintendent) — operating out of the Seattle area (425.686.4319 / 1.206.086.4319, amruylellc.com). The logo centers on a bold AM monogram with a dynamic diagonal slash — white and electric blue on a dark diamond-plate steel background, communicating the toughness, precision, and industrial credibility of a general contracting operation. The mark needed to work equally on a clean white business card front and a dark textured card back — a dual-surface challenge the design handles with two polished variants.',
+    features: [
+      {
+        title: 'Bold AM Monogram Mark',
+        body: 'Dynamic diagonal-slash AM letterform in white and electric blue — aggressive, geometric, and instantly recognizable as a construction/trades identity at any scale.',
+      },
+      {
+        title: 'Diamond-Plate Steel Texture Background',
+        body: 'Dark diamond-plate steel texture anchors the logo in the physical world of construction — material authenticity that separates AM Ruyle from corporate-generic contractor brands.',
+      },
+      {
+        title: 'White Background Variant',
+        body: 'Clean white background version of the logo for print, proposals, and digital use — same mark, same authority, versatile across all professional contexts.',
+      },
+      {
+        title: 'Business Card — Aaron Ruyle (President)',
+        body: 'Two-sided business card: white front with blueprint/site plan background, full contact details, and license number; dark diamond-plate back with large AM mark.',
+      },
+      {
+        title: 'Business Card — Shane Perkins (Project Superintendent)',
+        body: 'Matching card design for the second principal — same two-sided system, consistent identity across both the president and project superintendent roles.',
+      },
+      {
+        title: 'Multi-Principal Identity System',
+        body: 'Brand system designed to scale across both company leaders — AM Ruyle LLC operates with two named principals and the identity works cleanly for both without dilution.',
+      },
+    ],
   },
 
   // ── Branding ──────────────────────────────────────────────────────────────
 
   {
-    id: 28,
+    id: 32,
+    category: 'branding',
+    title: 'AM Ruyle LLC',
+    subtitle:
+      'Full brand collateral system for a Seattle general contracting company — logo on diamond-plate steel, business cards for two principals (Aaron Ruyle & Shane Perkins), scattered card fan mockup, and complete identity system.',
+    src: '/images/work/brand-amruyle.png',
+    srcFull: '/images/work/brand-amruyle-full.png',
+    url: 'https://www.amruylellc.com',
+    color: '#1565c0',
+    aspect: 'wide',
+    tags: [
+      'Brand Collateral',
+      'Business Cards',
+      'Construction / General Contracting',
+      'Multi-Principal',
+      'Print Design',
+      'Seattle WA',
+    ],
+    description:
+      'AM Ruyle LLC needed a brand that could represent a two-principal general contracting operation — President Aaron Ruyle and Project Superintendent Shane Perkins — with consistent professionalism across every handoff. We delivered the complete brand collateral system: the diamond-plate logo suite, two-sided business cards for both principals (white/blueprint front with full contact details and license number, dark textured back with the AM mark), a scattered multi-card fan mockup for presentation, and all materials print-ready for production. The dark, industrial aesthetic communicates the confidence of an experienced general contractor without looking generic.',
+    features: [
+      {
+        title: 'Two-Sided Business Cards — Both Principals',
+        body: 'Aaron Ruyle (President) and Shane Perkins (Project Superintendent) each have individual cards — white blueprint front, dark diamond-plate back, full contact details, license number AMRUYLR872DJ.',
+      },
+      {
+        title: 'Scattered Card Fan Presentation Mockup',
+        body: "Multiple cards fanned across the frame showing both sides of both principals' cards — a professional presentation mockup demonstrating the full identity system at once.",
+      },
+      {
+        title: 'Diamond-Plate Dark Card Back',
+        body: 'The card back features the AM mark at large scale on the dark diamond-plate texture — a tactile, memorable impression that stands out from standard contractor cards.',
+      },
+      {
+        title: 'Blueprint / Site Plan Card Front',
+        body: "White card front with subtle blueprint/architectural site plan background — connecting the brand's visual language to the literal work of general contracting.",
+      },
+      {
+        title: 'Logo on Textured Steel Application',
+        body: 'Brand identity applied at full scale on the diamond-plate steel background — showing the logo in its most powerful, material-authentic context.',
+      },
+      {
+        title: 'Print-Ready Production Files',
+        body: 'All materials delivered print-ready with correct CMYK profiles, bleed, and trim marks — ready for a premium card printer without additional file preparation.',
+      },
+    ],
+  },
+
+  {
+    id: 33,
+    category: 'logos',
+    title: 'Dominis Stone',
+    subtitle:
+      'Logo design for a premium natural stone company — elegant swirl monogram mark in black and white, positioned around a luxury stone tagline: "Going Green Has Never Looked Better."',
+    src: '/images/work/logo-dominisstone.png',
+    srcFull: '/images/work/logo-dominisstone-full.png',
+    url: null,
+    color: '#2d2d2d',
+    aspect: 'square',
+    tags: [
+      'Logo Design',
+      'Brand Identity',
+      'Premium / Luxury',
+      'Natural Stone',
+      'Home & Garden',
+      'Eco-Friendly',
+    ],
+    description:
+      'Dominis Stone is a premium natural stone company — supplying pavers, flooring, and surrounds for residential and commercial applications under the tagline "Going Green Has Never Looked Better." The logo is a refined swirl/calligraphic monogram mark with the DOMINIS STONE wordmark — black, white, and stone-textured, communicating the organic elegance of natural stone without resorting to literal rock imagery. The mark needed to work as the centerpiece of a trifold brochure, a brochure cover, and standalone on black — clean and confident at every application.',
+    features: [
+      {
+        title: 'Swirl Calligraphic Monogram',
+        body: 'Elegant organic swirl mark evoking the natural grain and flow of stone — refined enough for luxury residential contexts, bold enough to anchor a brand system.',
+      },
+      {
+        title: 'Black & White Stone Texture Identity',
+        body: 'Monochromatic palette anchored in the natural tones of stone — black, white, and mid-gray — communicating premium quality without relying on color as a crutch.',
+      },
+      {
+        title: '"Going Green" Brand Positioning',
+        body: 'Tagline "Going Green Has Never Looked Better" positions Dominis Stone at the intersection of luxury and sustainability — a clear market differentiator for eco-conscious homeowners and specifiers.',
+      },
+      {
+        title: 'Brochure Cover Application',
+        body: 'Logo applied as the hero element on the trifold brochure cover alongside natural stone pathway photography — the mark and product working together to communicate the brand.',
+      },
+      {
+        title: 'Standalone Black Background Variant',
+        body: 'Logo on solid black background — the most premium presentation of the mark, used for high-impact digital and print contexts.',
+      },
+      {
+        title: 'Multi-Format Delivery',
+        body: 'Mark delivered for brochure cover, interior page headers, standalone black variant, and all other applications across the Dominis Stone brand system.',
+      },
+    ],
+  },
+
+  // ── Branding ──────────────────────────────────────────────────────────────
+
+  {
+    id: 34,
+    category: 'branding',
+    title: 'Dominis Stone',
+    subtitle:
+      'Complete brand identity system for a premium natural stone company — logo, trifold brochure (About Us, product grids for Pavers/Flooring/Surrounds, Where to Buy), and a luxury print system built around "Going Green Has Never Looked Better."',
+    src: '/images/work/brand-dominisstone.png',
+    srcFull: '/images/work/brand-dominisstone-full.png',
+    url: null,
+    color: '#2d2d2d',
+    aspect: 'wide',
+    tags: [
+      'Brand Identity',
+      'Trifold Brochure',
+      'Print Design',
+      'Natural Stone',
+      'Premium / Luxury',
+      'Eco-Friendly',
+    ],
+    description:
+      'Dominis Stone needed a brand system that could communicate premium quality to both luxury homeowners and design professionals specifying natural stone for pavers, flooring, and surrounds. The full engagement delivered the logo and a comprehensive trifold brochure — a multi-panel print piece covering the About Us story, product photography and grid layouts for Pavers (8 products), Flooring (6+ products), and Surrounds (5 products), and a Where to Buy dealer section — all anchored by the "Going Green Has Never Looked Better" brand positioning and "Quality is the Way We Matter" mission statement. The black, dark green, and natural stone photography palette communicates luxury and sustainability simultaneously.',
+    features: [
+      {
+        title: 'Trifold Brochure — Cover & About Panel',
+        body: 'Stone pathway photography with the Dominis logo and "Going Green Has Never Looked Better" tagline on the cover; About Us story and company philosophy on the inner left panel.',
+      },
+      {
+        title: 'Pavers Product Grid',
+        body: 'Eight paver products presented with photography and product names — a clean grid layout that lets the natural stone speak while maintaining brand architecture.',
+      },
+      {
+        title: 'Flooring Product Grid',
+        body: 'Six+ flooring options including Bull Nose Tile, Full Bullnose, Slate, Light Quartzite, Dark Quartzite, and Travertine — with product photography and naming throughout.',
+      },
+      {
+        title: 'Surrounds Product Grid',
+        body: 'Five surround products including Granite Texture, Lava Texture, and additional options — completing the three-category product system for residential and commercial specifiers.',
+      },
+      {
+        title: 'Where to Buy Dealer Section',
+        body: 'Final brochure panel directing customers to dealer locations — with supporting photography and the Dominis Stone logo as the closing brand impression.',
+      },
+      {
+        title: '"Going Green" Luxury + Sustainability Positioning',
+        body: 'The entire brand system — color, photography, copy, and layout — communicates that natural stone is the sustainable luxury choice, not a compromise between the two.',
+      },
+    ],
+  },
+
+  {
+    id: 35,
+    category: 'branding',
+    title: 'AM Ruyle LLC',
+    subtitle:
+      'Full brand collateral system for a Seattle general contracting company — logo on diamond-plate steel, business cards for two principals (Aaron Ruyle & Shane Perkins), scattered card fan mockup, and complete identity system.',
+    src: '/images/work/brand-amruyle.png',
+    srcFull: '/images/work/brand-amruyle-full.png',
+    url: 'https://www.amruylellc.com',
+    color: '#1565c0',
+    aspect: 'wide',
+    tags: [
+      'Brand Collateral',
+      'Business Cards',
+      'Construction / General Contracting',
+      'Multi-Principal',
+      'Print Design',
+      'Seattle WA',
+    ],
+    description:
+      'AM Ruyle LLC needed a brand that could represent a two-principal general contracting operation — President Aaron Ruyle and Project Superintendent Shane Perkins — with consistent professionalism across every handoff. We delivered the complete brand collateral system: the diamond-plate logo suite, two-sided business cards for both principals (white/blueprint front with full contact details and license number, dark textured back with the AM mark), a scattered multi-card fan mockup for presentation, and all materials print-ready for production. The dark, industrial aesthetic communicates the confidence of an experienced general contractor without looking generic.',
+    features: [
+      {
+        title: 'Two-Sided Business Cards — Both Principals',
+        body: 'Aaron Ruyle (President) and Shane Perkins (Project Superintendent) each have individual cards — white blueprint front, dark diamond-plate back, full contact details, license number AMRUYLR872DJ.',
+      },
+      {
+        title: 'Scattered Card Fan Presentation Mockup',
+        body: "Multiple cards fanned across the frame showing both sides of both principals' cards — a professional presentation mockup demonstrating the full identity system at once.",
+      },
+      {
+        title: 'Diamond-Plate Dark Card Back',
+        body: 'The card back features the AM mark at large scale on the dark diamond-plate texture — a tactile, memorable impression that stands out from standard contractor cards.',
+      },
+      {
+        title: 'Blueprint / Site Plan Card Front',
+        body: "White card front with subtle blueprint/architectural site plan background — connecting the brand's visual language to the literal work of general contracting.",
+      },
+      {
+        title: 'Logo on Textured Steel Application',
+        body: 'Brand identity applied at full scale on the diamond-plate steel background — showing the logo in its most powerful, material-authentic context.',
+      },
+      {
+        title: 'Print-Ready Production Files',
+        body: 'All materials delivered print-ready with correct CMYK profiles, bleed, and trim marks — ready for a premium card printer without additional file preparation.',
+      },
+    ],
+  },
+
+  {
+    id: 36,
     category: 'branding',
     title: 'Live Love Flow Studios',
     subtitle:
@@ -1382,7 +1801,7 @@ const WORK_ITEMS = [
     ],
   },
   {
-    id: 29,
+    id: 37,
     category: 'branding',
     title: 'Partizan Hoops',
     subtitle:
@@ -1431,7 +1850,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 30,
+    id: 38,
     category: 'branding',
     title: 'Bothell Select Basketball',
     subtitle:
@@ -1480,7 +1899,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 31,
+    id: 39,
     category: 'branding',
     title: 'Vector RE Corp',
     subtitle:
@@ -1529,7 +1948,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 32,
+    id: 40,
     category: 'branding',
     title: "Asha Women's Spa & Boutique",
     subtitle:
@@ -1578,7 +1997,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 33,
+    id: 41,
     category: 'branding',
     title: 'Alpha Construction',
     subtitle:
@@ -1629,7 +2048,7 @@ const WORK_ITEMS = [
   // ── Print ──────────────────────────────────────────────────────────────────
 
   {
-    id: 34,
+    id: 42,
     category: 'branding',
     title: 'Ruby The Pet Nanny',
     subtitle:
@@ -1680,7 +2099,103 @@ const WORK_ITEMS = [
   // ── Print (old section header kept for clarity) ───────────────────────────
 
   {
-    id: 35,
+    id: 43,
+    category: 'print',
+    title: 'Dominis Stone',
+    subtitle:
+      'Premium trifold brochure for a natural stone company — About Us panel, stone pathway photography, three product category grids (Pavers, Flooring, Surrounds), Where to Buy section, and the "Going Green Has Never Looked Better" brand throughout.',
+    src: '/images/work/print-dominisstone.png',
+    srcFull: '/images/work/print-dominisstone-full.png',
+    url: null,
+    color: '#2d2d2d',
+    aspect: 'wide',
+    tags: [
+      'Print Design',
+      'Trifold Brochure',
+      'Product Catalog',
+      'Natural Stone',
+      'Premium / Luxury',
+      'Eco-Friendly',
+    ],
+    description:
+      'The Dominis Stone trifold brochure is a complete sales and specification tool — designed for homeowners, landscape architects, and design professionals selecting natural stone products. The multi-panel layout covers the full brand story and product range: an About Us narrative panel with company philosophy and contact details, a Pavers grid with eight product options, a Flooring grid featuring Bull Nose, Slate, Light and Dark Quartzite, Travertine and more, a Surrounds section with Granite Texture, Lava Texture, and additional options, and a Where to Buy dealer locator panel. Stone pathway photography, the Dominis logo, and the "Going Green Has Never Looked Better" tagline carry the brand presence throughout every fold.',
+    features: [
+      {
+        title: 'Cover — Stone Photography + Logo',
+        body: 'Natural stone pathway photography with the Dominis swirl monogram logo and "Going Green Has Never Looked Better" tagline — a premium, nature-forward first impression.',
+      },
+      {
+        title: 'About Us — Story Panel',
+        body: 'Inner left panel with company narrative, "Quality is the Way We Matter" mission statement, and full contact details — the human story behind a premium stone supplier.',
+      },
+      {
+        title: 'Pavers Product Grid',
+        body: 'Eight paver products with individual photography — a clean grid presenting the full range to homeowners and landscape professionals specifying outdoor stone.',
+      },
+      {
+        title: 'Flooring Product Grid',
+        body: 'Interior flooring options including Bull Nose Tile, Slate, Light Quartzite, Dark Quartzite, Travertine and others — product photography at a scale that communicates texture and finish quality.',
+      },
+      {
+        title: 'Surrounds Product Grid',
+        body: 'Granite Texture, Lava Texture, and additional surround options — completing the three-category system for full residential and commercial stone specification.',
+      },
+      {
+        title: 'Where to Buy — Dealer Locator Panel',
+        body: 'Final panel with store photography and dealer location information — closing the brochure with a clear next step for prospective buyers.',
+      },
+    ],
+  },
+  {
+    id: 44,
+    category: 'print',
+    title: 'Schippers & Crew',
+    subtitle:
+      'Three-panel retractable banner suite for a 35+ year Seattle electronics manufacturer — full service listing, industry sector panels (Industrial/Medical, Commercial/Defense/Aerospace), IPC & J-STD certification badges, and globe circuit-board visual.',
+    src: '/images/work/print-schippers.png',
+    srcFull: '/images/work/print-schippers-full.png',
+    url: 'https://www.schippers.com',
+    color: '#1565c0',
+    aspect: 'wide',
+    tags: [
+      'Print Design',
+      'Trade Show Banners',
+      'Retractable Banners',
+      'Electronics Manufacturing',
+      'B2B / Industrial',
+      'Seattle WA',
+    ],
+    description:
+      'Schippers & Crew needed trade show materials that could communicate the full breadth of their Electronics Manufacturing Services offering at a glance — to buyers from across the industrial controls, communications, medical, commercial, defense, and aerospace sectors. We designed a coordinated three-panel retractable banner suite: a center services panel listing all nine capabilities with the Schippers & Crew logo, globe circuit-board hero visual, IPC, J-STD, and third-party certification badges, and "Effectiveness · Precision · Quality" tagline — flanked by two industry sector panels with circular photography vignettes (wind turbines for industrial/energy, satellite dishes for communications, PCB close-ups for medical, oil platforms for commercial, fighter jets for aerospace). All three banners carry the same blue/yellow/black color system and schippers.com + 206-782-2325 contact details.',
+    features: [
+      {
+        title: 'Center Services Banner',
+        body: 'Nine-service listing: Prototype Development, Surface Mount Assembly (SMT), Box-Build Assembly, X-Ray Inspection Services, Turnkey Purchasing Services, Consigned Assembly Services, Through-Hole Assembly, Cable and Wire Assembly, and Test and Engineering.',
+      },
+      {
+        title: 'Left Industry Sector Panel',
+        body: 'Industrial Controls, Communications, Medical — with wind turbine, satellite dish, and industrial facility photography in circular vignettes against the dark globe background.',
+      },
+      {
+        title: 'Right Industry Sector Panel',
+        body: "Commercial, Defense, Aerospace — with PCB close-up, oil platform, and fighter jet photography — speaking directly to Schippers' highest-value regulated market segments.",
+      },
+      {
+        title: 'Certification Badge Display',
+        body: 'IPC membership, J-STD compliance, and third certification badge prominently displayed on the center panel — the exact trust signals procurement teams look for when qualifying EMS partners.',
+      },
+      {
+        title: 'Coordinated Three-Banner System',
+        body: 'All three stands use the same blue/yellow accent band, black background, globe circuit-board motif, and footer contact strip — a unified trade show presence that reads as a professional suite.',
+      },
+      {
+        title: 'Designed Alongside the WordPress Site',
+        body: 'Banner design developed in parallel with the Schippers WordPress build — consistent brand language across digital and physical, so every OEM prospect encounters the same identity online and at industry events.',
+      },
+    ],
+  },
+  {
+    id: 45,
     category: 'print',
     title: 'Northville Cabinetry',
     subtitle:
@@ -1728,7 +2243,7 @@ const WORK_ITEMS = [
     ],
   },
   {
-    id: 36,
+    id: 46,
     category: 'print',
     title: 'Sarajevo Lounge',
     subtitle:
@@ -1776,32 +2291,119 @@ const WORK_ITEMS = [
     ],
   },
   {
-    id: 37,
+    id: 47,
     category: 'print',
-    title: 'Marketing Brochure',
-    subtitle: 'Trifold · 4-color',
-    src: '/images/work/print-brochure.png',
-    srcFull: '/images/work/print-brochure-full.png',
-    url: null,
-    color: '#2b5ce6',
+    title: 'GraphiCode Inc.',
+    subtitle:
+      'Software product packaging and marketing collateral for a Redmond electronics manufacturing CAM software company — retail box design, CD/disc packaging, product data sheets, and the GC-PowerPlatform product matrix.',
+    src: '/images/work/print-graphicode.png',
+    srcFull: '/images/work/print-graphicode-full.png',
+    url: 'https://www.graphicode.com',
+    color: '#e65100',
     aspect: 'wide',
+    tags: [
+      'Print Design',
+      'Software Packaging',
+      'Product Data Sheets',
+      'B2B Software',
+      'Electronics Manufacturing',
+      'Redmond WA',
+    ],
+    description:
+      'GraphiCode Inc. is a Redmond, WA software company providing CAM software solutions for electronics manufacturing — the GC-PowerPlatform suite covers GC-Prevue (industry-standard Gerber data viewer), GC-PowerPlace (PCB assembly CAM), GC-PowerStation (PCB fabrication CAM), GC-CAM Edit, and GC-PrevuePlus. The print engagement delivered a complete suite of physical and marketing materials: retail software box packaging with the GC globe/orange sphere mark, CD/disc package design for GC-PowerPlace ("Get Productive"), product data sheets and the Product Matrix comparison grid, and the distinctive GC-Prevue "Your Hassle Free Gerber Viewer" eye-graphic marketing visual. All designed to position GraphiCode as a premium software provider in the competitive electronics manufacturing software market.',
+    features: [
+      {
+        title: 'Software Box Packaging',
+        body: 'Retail software box design for GC-PowerPlatform — dark tech aesthetic with the GraphiCode globe/sphere mark in orange, positioned as a premium B2B software product.',
+      },
+      {
+        title: 'CD / Disc Package Design',
+        body: 'CD packaging for GC-PowerPlace "Get Productive" — branded disc and sleeve design matching the GC-PowerPlatform visual system.',
+      },
+      {
+        title: 'GC-Prevue Eye-Graphic Campaign',
+        body: 'Distinctive close-up eye photography for GC-Prevue ("Your Hassle Free Gerber Data Viewer") — a memorable visual metaphor for precision data viewing in electronics manufacturing.',
+      },
+      {
+        title: 'Product Matrix Data Sheet',
+        body: 'Comparison grid for the full GC-PowerPlatform product line — Input Format, Output Format, Import File Types, Assembly Operations, Single-Step Commands, and more — designed for technical buyers evaluating CAM software.',
+      },
+      {
+        title: 'GC-PowerPlatform Product Brochure',
+        body: 'Multi-panel product brochure covering the full suite with feature listings, product photography, and technical specifications — the primary leave-behind for trade show and sales meetings.',
+      },
+      {
+        title: 'Website UI Design',
+        body: 'Website design and UI work for graphicode.com — matching the dark tech, orange-accent brand system established across the physical product materials.',
+      },
+    ],
   },
   {
-    id: 38,
+    id: 48,
     category: 'print',
-    title: 'Trade Show Displays',
-    subtitle: 'Banner · Booth Graphics',
-    src: '/images/work/print-tradeshow.png',
-    srcFull: '/images/work/print-tradeshow-full.png',
-    url: null,
-    color: '#dc2626',
+    title: 'Schippers & Crew — Trade Show',
+    subtitle:
+      'Three-panel retractable banner suite · See full case study in the Schippers & Crew print entry.',
+    src: '/images/work/print-schippers.png',
+    srcFull: '/images/work/print-schippers-full.png',
+    url: 'https://www.schippers.com',
+    color: '#1565c0',
     aspect: 'wide',
   },
 
   // ── Email ──────────────────────────────────────────────────────────────────
 
   {
-    id: 39,
+    id: 49,
+    category: 'email',
+    title: 'Classmates.com',
+    subtitle:
+      'Email campaign design for a 40M+ subscriber nostalgia and social platform — transactional notifications, member engagement campaigns, review requests, reunion promotions, and a full reusable template system with analytics tracking.',
+    src: '/images/work/email-classmates.png',
+    srcFull: '/images/work/email-classmates-full.png',
+    url: 'https://www.classmates.com',
+    color: '#e65100',
+    aspect: 'tall',
+    tags: [
+      'Email Design',
+      'HTML Email',
+      'Transactional Email',
+      'Engagement Campaigns',
+      'A/B Testing',
+      'Subscription Platform',
+    ],
+    description:
+      'While on the Classmates marketing team, the focus was on improving email campaigns to drive subscription conversion, member engagement, and platform activity. Highly reusable, dynamic, component-based email templates were created — designed to accommodate any combination of content blocks the campaign team needed to send to the subscriber base. The work included transactional notification emails (yearbook member found, photo sharing alerts), engagement campaigns (virtual reunions, report card nostalgia, "Don\'t stop there" feature discovery), review and reputation prompts, and promotional campaigns with Goldman Sachs & Bank of America partner integrations. Integrated tracking ensured any future campaign created from these components could be accurately monitored for performance.',
+    features: [
+      {
+        title: 'Yearbook Member Notification Emails',
+        body: '"A class member has been found in the 1996 Everett High School yearbook" — transactional trigger emails driving subscribers back into the platform through personalized nostalgia hooks.',
+      },
+      {
+        title: 'Member Engagement Campaigns',
+        body: '"Make a great first impression" review request emails, Virtual Reunions promotional campaigns, Report Card nostalgia series, and "Don\'t stop there" feature discovery flows.',
+      },
+      {
+        title: 'Reusable Component Template System',
+        body: 'Highly dynamic, component-based HTML email templates — any combination of content blocks could be assembled for new campaigns without rebuilding from scratch.',
+      },
+      {
+        title: 'Partner & Promotional Integrations',
+        body: 'Goldman Sachs and Bank of America partner ad integrations woven into campaign templates — additional revenue stream built into the email design system.',
+      },
+      {
+        title: 'Analytics & Campaign Tracking',
+        body: 'Integrated tracking on all email components — ensuring every campaign send could be accurately monitored for open rates, click-through, and subscription conversion performance.',
+      },
+      {
+        title: 'Platform Feature Promotion',
+        body: 'Emails designed to surface and promote specific Classmates features — photo sharing, yearbook search, virtual reunions, and free vs. paid tier differentiation — to a 40M+ subscriber base.',
+      },
+    ],
+  },
+
+  {
+    id: 50,
     category: 'email',
     title: 'Zulily',
     subtitle:
@@ -1849,7 +2451,7 @@ const WORK_ITEMS = [
     ],
   },
   {
-    id: 40,
+    id: 51,
     category: 'email',
     title: 'Promotional Campaign',
     subtitle: 'E-commerce · Seasonal',
@@ -1860,7 +2462,7 @@ const WORK_ITEMS = [
     aspect: 'tall',
   },
   {
-    id: 41,
+    id: 52,
     category: 'email',
     title: 'Newsletter Template',
     subtitle: 'B2B · Monthly Send',
