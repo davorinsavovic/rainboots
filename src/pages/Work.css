@@ -111,6 +111,7 @@
   color: #fff;
   transform: translateY(-2px);
 }
+
 /* Rain */
 .work-hero__drops {
   position: absolute;
@@ -336,6 +337,27 @@
   letter-spacing: 0.04em;
 }
 
+/* Tag pills — shown on enriched cards (Partizan etc.) */
+.work-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 8px;
+}
+.work-card__tag-pill {
+  display: inline-block;
+  background: rgba(13, 27, 42, 0.05);
+  border: 1px solid rgba(13, 27, 42, 0.1);
+  color: #7a8a9a;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 100px;
+}
+
 /* ── Placeholder ───────────────────────────────────────────────────────────── */
 .work-placeholder {
   width: 100%;
@@ -423,6 +445,12 @@
   display: flex;
   flex-direction: column;
   box-shadow: 0 60px 120px rgba(0, 0, 0, 0.5);
+}
+
+/* Wider modal when case-study content is present */
+.lightbox--enriched {
+  max-width: 1080px;
+  width: 95vw;
 }
 
 /* Lightbox header */
@@ -539,7 +567,6 @@
   width: auto;
   max-width: 100%;
 }
-
 .lightbox__loading {
   display: flex;
   align-items: center;
@@ -603,6 +630,164 @@
 }
 .lightbox__dot.active {
   transform: scale(1.3);
+}
+
+/* ── Enriched lightbox — two-column case study layout ─────────────────────── */
+
+/* Side-by-side body: screenshot left, case study panel right */
+.lightbox__enriched-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* Image column inside enriched layout */
+.lightbox__image-wrap--side {
+  max-height: none;
+  border-radius: 0;
+  border-right: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+/* Scrollable case-study panel */
+.lightbox__case-panel {
+  overflow-y: auto;
+  background: #fff;
+  scrollbar-width: thin;
+  scrollbar-color: #dde3ea transparent;
+}
+.lightbox__case-panel::-webkit-scrollbar {
+  width: 4px;
+}
+.lightbox__case-panel::-webkit-scrollbar-thumb {
+  background: #dde3ea;
+  border-radius: 2px;
+}
+
+/* ── Case Study Panel ────────────────────────────────────────────────────────  */
+
+.case-study {
+  padding: 24px 26px 28px;
+}
+
+/* Tech tags */
+.case-study__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+.case-study__tag {
+  display: inline-block;
+  background: color-mix(in srgb, var(--cs-color) 10%, transparent);
+  color: color-mix(in srgb, var(--cs-color) 90%, #0d1b2a);
+  border: 1px solid color-mix(in srgb, var(--cs-color) 30%, transparent);
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 100px;
+}
+
+/* Description */
+.case-study__desc {
+  font-size: 0.83rem;
+  line-height: 1.75;
+  color: #5a6a7a;
+  margin-bottom: 20px;
+}
+
+/* Features grid */
+.case-study__features {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+.case-study__feature {
+  background: #f8f7f4;
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  border-left: 3px solid var(--cs-color);
+  border-radius: 8px;
+  padding: 11px 13px;
+}
+.case-study__feature-title {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--dark, #0d1b2a);
+  margin-bottom: 4px;
+  letter-spacing: -0.01em;
+}
+.case-study__feature-body {
+  font-size: 0.72rem;
+  color: #7a8a9a;
+  line-height: 1.55;
+}
+
+/* Section label */
+.case-study__section-label {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #9aa8b8;
+  margin-bottom: 10px;
+}
+
+/* Coach cards */
+.case-study__coaches {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.case-study__coach {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  background: #f8f7f4;
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+.case-study__coach-avatar {
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 0.05em;
+}
+.case-study__coach-name {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--dark, #0d1b2a);
+  margin-bottom: 1px;
+  letter-spacing: -0.01em;
+}
+.case-study__coach-role {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.62rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 5px;
+}
+.case-study__coach-bio {
+  font-size: 0.72rem;
+  color: #7a8a9a;
+  line-height: 1.55;
 }
 
 /* ── CTA ───────────────────────────────────────────────────────────────────── */
@@ -696,6 +881,29 @@
 }
 
 /* ── Responsive ────────────────────────────────────────────────────────────── */
+@media (max-width: 780px) {
+  /* Enriched lightbox stacks vertically on mobile */
+  .lightbox__enriched-body {
+    grid-template-columns: 1fr;
+    overflow-y: auto;
+  }
+  .lightbox__image-wrap--side {
+    border-right: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    max-height: 40vh;
+  }
+  .lightbox__case-panel {
+    max-height: none;
+    overflow-y: visible;
+  }
+  .case-study__features {
+    grid-template-columns: 1fr;
+  }
+  .lightbox--enriched {
+    max-width: 100%;
+  }
+}
+
 @media (max-width: 768px) {
   .work-page {
     padding-top: 70px;
@@ -721,7 +929,6 @@
     left: 0;
     right: 0;
     max-height: 92vh;
-    border-radius: 16px 16px 0 0;
   }
   .lightbox-overlay {
     padding: 0;
@@ -731,6 +938,7 @@
     padding: 60px 5%;
   }
 }
+
 @media (max-width: 480px) {
   .work-hero__title {
     font-size: 2.2rem;
@@ -743,5 +951,8 @@
   }
   .lightbox__title {
     font-size: 0.95rem;
+  }
+  .case-study {
+    padding: 18px 16px 22px;
   }
 }

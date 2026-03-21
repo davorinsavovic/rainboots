@@ -17,13 +17,65 @@ const WORK_ITEMS = [
   {
     id: 1,
     category: 'websites',
-    title: 'Rainboots Marketing',
-    subtitle: 'React · Vite · Framer Motion',
-    src: '/images/work/web-rainboots.png',
-    srcFull: '/images/work/web-rainboots-full.png',
-    url: 'https://rainbootsmarketing.com',
-    color: '#2b5ce6',
+    title: 'Partizan Hoops',
+    subtitle:
+      'Full-stack youth basketball platform — K-12 registration portal, coach profiles, tournament organizer & custom CMS for sports organizations.',
+    src: '/images/work/web-partizan.png',
+    srcFull: '/images/work/web-partizan-full.png',
+    url: 'https://partizanhoops.com',
+    color: '#E85D04',
     aspect: 'wide',
+
+    // ── Extended case-study data (used in the enriched Lightbox) ──────────
+    tags: [
+      'React',
+      'Custom CMS',
+      'Registration System',
+      'Tournament Mgmt',
+      'AAU / K-12',
+    ],
+    description:
+      'Partizan Basketball Camp needed more than a brochure site — they needed a living, breathing digital operations platform. I designed and built partizanhoops.com from the ground up: a responsive public-facing site paired with a robust back-office CMS that handles player registration, tryout sign-ups, camp enrollments, tournament organization, and roster management — all in one place. No third-party SportsEngine subscription required.',
+    features: [
+      {
+        title: 'Parent Registration Portal',
+        body: 'Online sign-up flows for camps, tryouts & AAU enrollment with validation and confirmation.',
+      },
+      {
+        title: 'Admin CMS Dashboard',
+        body: 'Full content management — edit players, rosters, coaches, and programs without touching code.',
+      },
+      {
+        title: 'Tournament Organizer',
+        body: 'Schedule brackets, manage events, and display upcoming tournaments dynamically.',
+      },
+      {
+        title: 'Player & Roster Management',
+        body: 'Individual athlete profiles organized by team, age group, and program.',
+      },
+      {
+        title: 'Program & Camp Listings',
+        body: 'Dynamic pages for active camps, sessions, skill levels, and pricing — CMS-editable.',
+      },
+      {
+        title: 'Coach & Staff Profiles',
+        body: 'Dedicated pages for coaching staff credentials, philosophy, and background.',
+      },
+    ],
+    coaches: [
+      {
+        initials: 'ZS',
+        name: 'Zlatko (Zo) Savovic',
+        role: 'President & Co-Founder',
+        bio: 'Former D-I player at Lehigh University. WESCO Player of the Year. Played professionally in Europe. B.S. Mechanical Engineering.',
+      },
+      {
+        initials: 'AK',
+        name: 'Armend Kahrimanovic',
+        role: 'VP & Head Coach',
+        bio: 'NCAA D-I at University of Idaho. Played professionally in Greece and the Balkans. European-trained fundamentalist & AAU Director.',
+      },
+    ],
   },
   {
     id: 2,
@@ -241,6 +293,74 @@ function PlaceholderCard({ item }) {
   );
 }
 
+// ── Case Study Panel (Partizan-style enriched lightbox content) ─────────────
+function CaseStudyPanel({ item }) {
+  return (
+    <div className='case-study'>
+      {/* Tags */}
+      <div className='case-study__tags'>
+        {item.tags.map((t) => (
+          <span
+            key={t}
+            className='case-study__tag'
+            style={{ '--cs-color': item.color }}
+          >
+            {t}
+          </span>
+        ))}
+      </div>
+
+      {/* Description */}
+      <p className='case-study__desc'>{item.description}</p>
+
+      {/* Features grid */}
+      <div className='case-study__features'>
+        {item.features.map((f) => (
+          <div
+            key={f.title}
+            className='case-study__feature'
+            style={{ '--cs-color': item.color }}
+          >
+            <div className='case-study__feature-title'>{f.title}</div>
+            <div className='case-study__feature-body'>{f.body}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Coaches */}
+      {item.coaches && (
+        <>
+          <div className='case-study__section-label'>
+            Team behind the platform
+          </div>
+          <div className='case-study__coaches'>
+            {item.coaches.map((c) => (
+              <div key={c.initials} className='case-study__coach'>
+                <div
+                  className='case-study__coach-avatar'
+                  style={{ background: item.color }}
+                >
+                  {c.initials}
+                </div>
+                <div>
+                  <div className='case-study__coach-name'>{c.name}</div>
+                  <div
+                    className='case-study__coach-role'
+                    style={{ color: item.color }}
+                  >
+                    {c.role}
+                  </div>
+                  <div className='case-study__coach-bio'>{c.bio}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
 // ── Lightbox ────────────────────────────────────────────────────────────────
 function Lightbox({ item, onClose, onPrev, onNext, total, current }) {
   useEffect(() => {
@@ -259,6 +379,7 @@ function Lightbox({ item, onClose, onPrev, onNext, total, current }) {
 
   const [imgLoaded, setImgLoaded] = useState(false);
   const [imgError, setImgError] = useState(false);
+  const isEnriched = Boolean(item.description && item.features);
 
   useEffect(() => {
     setImgLoaded(false);
@@ -274,7 +395,7 @@ function Lightbox({ item, onClose, onPrev, onNext, total, current }) {
       onClick={onClose}
     >
       <motion.div
-        className='lightbox'
+        className={`lightbox${isEnriched ? ' lightbox--enriched' : ''}`}
         initial={{ opacity: 0, scale: 0.94 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.94 }}
@@ -308,35 +429,75 @@ function Lightbox({ item, onClose, onPrev, onNext, total, current }) {
           </div>
         </div>
 
-        {/* Image */}
-        <div
-          className='lightbox__image-wrap'
-          style={{ background: item.color + '12' }}
-        >
-          {!imgLoaded && !imgError && (
-            <div className='lightbox__loading'>
-              <div
-                className='lightbox__spinner'
-                style={{ borderTopColor: item.color }}
-              />
+        {/* Enriched layout: image left + case study panel right */}
+        {isEnriched ? (
+          <div className='lightbox__enriched-body'>
+            {/* Image column */}
+            <div
+              className='lightbox__image-wrap lightbox__image-wrap--side'
+              style={{ background: item.color + '12' }}
+            >
+              {!imgLoaded && !imgError && (
+                <div className='lightbox__loading'>
+                  <div
+                    className='lightbox__spinner'
+                    style={{ borderTopColor: item.color }}
+                  />
+                </div>
+              )}
+              {imgError ? (
+                <PlaceholderCard item={item} />
+              ) : (
+                <img
+                  src={item.srcFull || item.src}
+                  alt={item.title}
+                  className={`lightbox__img ${item.aspect}`}
+                  onLoad={() => setImgLoaded(true)}
+                  onError={() => {
+                    setImgError(true);
+                    setImgLoaded(true);
+                  }}
+                  style={{ opacity: imgLoaded ? 1 : 0 }}
+                />
+              )}
             </div>
-          )}
-          {imgError ? (
-            <PlaceholderCard item={item} />
-          ) : (
-            <img
-              src={item.srcFull || item.src}
-              alt={item.title}
-              className={`lightbox__img ${item.aspect}`}
-              onLoad={() => setImgLoaded(true)}
-              onError={() => {
-                setImgError(true);
-                setImgLoaded(true);
-              }}
-              style={{ opacity: imgLoaded ? 1 : 0 }}
-            />
-          )}
-        </div>
+
+            {/* Case study panel */}
+            <div className='lightbox__case-panel'>
+              <CaseStudyPanel item={item} />
+            </div>
+          </div>
+        ) : (
+          /* Standard single-column image */
+          <div
+            className='lightbox__image-wrap'
+            style={{ background: item.color + '12' }}
+          >
+            {!imgLoaded && !imgError && (
+              <div className='lightbox__loading'>
+                <div
+                  className='lightbox__spinner'
+                  style={{ borderTopColor: item.color }}
+                />
+              </div>
+            )}
+            {imgError ? (
+              <PlaceholderCard item={item} />
+            ) : (
+              <img
+                src={item.srcFull || item.src}
+                alt={item.title}
+                className={`lightbox__img ${item.aspect}`}
+                onLoad={() => setImgLoaded(true)}
+                onError={() => {
+                  setImgError(true);
+                  setImgLoaded(true);
+                }}
+                style={{ opacity: imgLoaded ? 1 : 0 }}
+              />
+            )}
+          </div>
+        )}
 
         {/* Nav */}
         <div className='lightbox__nav'>
@@ -410,7 +571,9 @@ function WorkCard({ item, index, onClick }) {
         )}
         {/* Hover overlay */}
         <div className='work-card__overlay'>
-          <span className='work-card__zoom'>View ↗</span>
+          <span className='work-card__zoom'>
+            {item.description ? 'Case Study ↗' : 'View ↗'}
+          </span>
         </div>
         {/* Color bar */}
         <div className='work-card__bar' />
@@ -420,6 +583,16 @@ function WorkCard({ item, index, onClick }) {
       <div className='work-card__info'>
         <div className='work-card__title'>{item.title}</div>
         <div className='work-card__subtitle'>{item.subtitle}</div>
+        {/* Tags preview for enriched items */}
+        {item.tags && (
+          <div className='work-card__tags'>
+            {item.tags.slice(0, 3).map((t) => (
+              <span key={t} className='work-card__tag-pill'>
+                {t}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
     </motion.div>
   );
@@ -441,7 +614,6 @@ const Work = () => {
 
   const openLightbox = useCallback(
     (item) => {
-      // Make sure item is in current filter
       const idx = filtered.findIndex((w) => w.id === item.id);
       if (idx !== -1) setLightboxItem(item);
     },
