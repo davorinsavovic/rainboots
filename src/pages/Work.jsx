@@ -134,47 +134,219 @@ const WORK_ITEMS = [
   {
     id: 3,
     category: 'websites',
-    title: 'E-Commerce Store',
-    subtitle: 'Shopify · Custom Theme',
-    src: '/images/work/web-ecommerce.png',
-    srcFull: '/images/work/web-ecommerce-full.png',
-    url: null,
-    color: '#059669',
+    title: 'InvestWorkshop',
+    subtitle:
+      'Full-featured real estate investment education platform — structured courses, live online events, blog, podcast, and Teachable-integrated student enrollment. Ongoing project.',
+    src: '/images/work/web-investworkshop.png',
+    srcFull: '/images/work/web-investworkshop-full.png',
+    url: 'https://investworkshop.com',
+    color: '#1a6b3c',
     aspect: 'wide',
+
+    // ── Extended case-study data ───────────────────────────────────────────
+    tags: [
+      'Education Platform',
+      'Teachable Integration',
+      'Course CMS',
+      'Events & Zoom',
+      'Blog & Podcast',
+      'Real Estate',
+    ],
+    description:
+      'InvestWorkshop is an ongoing education platform built to guide aspiring real estate investors from first-time prospect to confident developer. Built for instructor Edis Kulaga, the platform covers the full development pipeline — property acquisition, permitting, and building — through structured video courses, live online workshops, Zoom sessions, a blog, and a podcast. Students register and access course content through a seamless Teachable integration, while all site content is managed through a custom CMS. This is an active, growing project with new courses and events added regularly.',
+    features: [
+      {
+        title: 'Structured Course Library',
+        body: '3 learning tracks — Property Acquisition, Permitting, and Building — each with multiple video lessons covering the full development pipeline.',
+      },
+      {
+        title: 'Teachable Integration',
+        body: 'Student registration and course delivery powered by Teachable (edis-kulaga-s-school.teachable.com), fully embedded into the site experience.',
+      },
+      {
+        title: 'Live Events & Workshops',
+        body: 'Dynamic event listings for online workshops — Property Acquisition Fundamentals, Feasibility Analysis, Land Use Code & Zoning, and more — with instructor and date info.',
+      },
+      {
+        title: 'Zoom Meeting Schedule',
+        body: 'Dedicated section for recurring Zoom sessions, letting students join live Q&A and coaching calls directly from the platform.',
+      },
+      {
+        title: 'Blog & Content Engine',
+        body: 'SEO-optimized blog covering topics like feasibility analysis, permitting, avoiding costly mistakes, and property development fundamentals.',
+      },
+      {
+        title: 'Video Hero & Intro Player',
+        body: 'Immersive homepage video experience with a custom-built player — full controls, popup mode, and keyboard shortcuts for an app-like feel.',
+      },
+    ],
+    instructor: {
+      initials: 'EK',
+      name: 'Edis Kulaga',
+      role: 'Founder & Lead Instructor',
+      bio: 'Real estate developer and educator teaching aspiring investors the full development process — from identifying a property and navigating land use codes to permitting, budgeting, and building.',
+    },
+    ongoing: true,
   },
   {
     id: 4,
     category: 'websites',
-    title: 'SaaS Platform Landing',
-    subtitle: 'Next.js · Tailwind',
-    src: '/images/work/web-saas.png',
-    srcFull: '/images/work/web-saas-full.png',
-    url: null,
-    color: '#7c3aed',
+    title: 'Oregon Rule Co.',
+    subtitle:
+      'WooCommerce → Shopify migration for a 40-year-old U.S. precision measurement manufacturer. 2,000+ SKUs, two market verticals, and clients like Boeing, Tesla & Nike.',
+    src: '/images/work/web-oregonrule.png',
+    srcFull: '/images/work/web-oregonrule-full.png',
+    url: 'https://oregonrule.com',
+    color: '#2d6a2d',
     aspect: 'wide',
+
+    // ── Extended case-study data ───────────────────────────────────────────
+    tags: [
+      'Shopify',
+      'WooCommerce Migration',
+      'E-Commerce',
+      '2,000+ SKUs',
+      'Industrial / Forensics',
+      'Founded 1981',
+    ],
+    description:
+      'Oregon Rule Co. has been manufacturing precision measuring tools in the U.S. since 1981. Their original WooCommerce store was straining under a catalog of 2,000+ stocked products and two distinct customer markets — industrial/commercial and forensics. The migration to Shopify modernized their entire storefront: cleaner product taxonomy, faster checkout, Apple Pay / Shop Pay / PayPal support, a full resource library (catalog, data sheets, how-to guides), and a scalable foundation for their ongoing expansion into consumer and forensics markets. Their clients include Boeing, GE Healthcare, Tesla, Nike, Ford Motor Co., General Mills, and Eastman Kodak.',
+    features: [
+      {
+        title: 'WooCommerce → Shopify Migration',
+        body: 'Full platform migration preserving 2,000+ SKUs, product collections, customer data, and SEO structure.',
+      },
+      {
+        title: 'Dual-Market Product Taxonomy',
+        body: 'Organized into two distinct storefronts-in-one: Industrial/Commercial (staff gauges, pipe calipers, floor tapes) and Forensics (rulers, blood stain, corner squares, ID labels).',
+      },
+      {
+        title: 'Multi-Payment Checkout',
+        body: 'Full payment suite enabled: Visa, Mastercard, Amex, Discover, PayPal, Apple Pay, Shop Pay, Amazon, and Diners Club.',
+      },
+      {
+        title: 'Resource Library',
+        body: 'Dedicated pages for product catalog downloads, data sheets, and how-to guides — supporting B2B buyers and distributors.',
+      },
+      {
+        title: 'Custom Collection Pages',
+        body: 'Branded collection landing pages for each product category with hero imagery tailored to industrial and forensics contexts.',
+      },
+      {
+        title: 'B2B & D2C Ready',
+        body: 'Built to serve both direct-to-consumer buyers and distributor-based sales channels, with account login and cart functionality.',
+      },
+    ],
+    migration: {
+      from: 'WooCommerce',
+      to: 'Shopify',
+      note: 'Platform migration preserving full catalog, customer accounts, and SEO rankings while modernizing UX and checkout.',
+    },
   },
   {
     id: 5,
     category: 'websites',
-    title: 'Restaurant Group',
-    subtitle: 'WordPress · Custom Design',
-    src: '/images/work/web-restaurant.png',
-    srcFull: '/images/work/web-restaurant-full.png',
-    url: null,
-    color: '#d97706',
+    title: 'Live Love Flow Studios',
+    subtitle:
+      'WordPress website for a boutique hot yoga & fitness studio in Green Lake, Seattle — built alongside the custom logo we designed. Client has since migrated to Squarespace independently.',
+    src: '/images/work/web-liveloveflow.png',
+    srcFull: '/images/work/web-liveloveflow-full.png',
+    url: 'https://www.liveloveflowstudios.com',
+    color: '#2a7ab5',
     aspect: 'wide',
+
+    // ── Extended case-study data ───────────────────────────────────────────
+    tags: [
+      'WordPress',
+      'Custom Design',
+      'MindBody Integration',
+      'Class Scheduling',
+      'Wellness / Yoga',
+      'Seattle WA',
+    ],
+    description:
+      "Live Love Flow™ is a boutique hot yoga and fitness studio in Green Lake, Seattle offering three signature class formats: Flow (heated Vinyasa), Flow Fit (yoga-strength fusion), and Stretch (Yin-inspired mobility). We designed the original WordPress website alongside the studio's brand identity and logo — building a clean, conversion-focused online presence that connected their class schedule, instructor profiles, and pricing to a MindBody booking integration. The client has since migrated the site to Squarespace independently; the WordPress build and the logo are our work.",
+    features: [
+      {
+        title: 'WordPress Custom Design',
+        body: 'Fully custom WordPress theme built to match the Live Love Flow brand — white, blue, and warm photography throughout.',
+      },
+      {
+        title: 'MindBody Booking Integration',
+        body: 'Class scheduling and membership purchases connected to MindBody Online — the industry-standard booking platform for fitness studios.',
+      },
+      {
+        title: 'Three Class Format Pages',
+        body: 'Dedicated pages for Flow, Flow Fit, and Stretch — each with class description, intensity level, and what to expect for first-timers.',
+      },
+      {
+        title: 'Pricing & Membership Pages',
+        body: 'Class packs, monthly memberships, intro offers (3 classes for $30), and gift cards — all linked to live MindBody purchase flows.',
+      },
+      {
+        title: 'Instructor Profiles',
+        body: 'Individual pages for each instructor highlighting their background, teaching style, and class specialties.',
+      },
+      {
+        title: 'Brand Continuity',
+        body: 'Built as a direct extension of the logo we designed — same white/blue palette, "I Am" philosophy, and boutique studio tone carried throughout every page.',
+      },
+    ],
+    migration: {
+      from: 'WordPress (our build)',
+      to: 'Squarespace (client-managed)',
+      note: 'Client migrated to Squarespace independently after our engagement. The original WordPress site and logo design are our portfolio work.',
+    },
   },
   // ── Logos ──
   {
     id: 6,
     category: 'logos',
-    title: 'Rainboots Marketing',
-    subtitle: 'Brand Identity',
-    src: '/images/work/logo-rainboots.png',
-    srcFull: '/images/work/logo-rainboots-full.png',
-    url: null,
-    color: '#2b5ce6',
+    title: 'Live Love Flow Studios',
+    subtitle:
+      'Logo design for a boutique hot yoga & fitness studio in Green Lake, Seattle — white/blue mark built around the "I Am" philosophy and three signature movement methods.',
+    src: '/images/work/logo-liveloveflow.png',
+    srcFull: '/images/work/logo-liveloveflow-full.png',
+    url: 'https://www.liveloveflowstudios.com',
+    color: '#2a7ab5',
     aspect: 'square',
+
+    // ── Extended case-study data ───────────────────────────────────────────
+    tags: [
+      'Logo Design',
+      'Brand Identity',
+      'Wellness / Yoga',
+      'Seattle WA',
+      'Boutique Studio',
+    ],
+    description:
+      'Live Love Flow™ is a boutique Heated Flow Yoga and Strength Training studio located in Green Lake, Seattle. The logo needed to carry the studio\'s core philosophy — the "I Am" concept rooted in the first chakra, representing grounding, confidence, and connection — while feeling clean and contemporary enough to live across class booking apps, signage, merchandise, and a Squarespace website. The result is a white-and-blue mark that balances the warmth of a wellness brand with the clarity of a modern fitness studio.',
+    features: [
+      {
+        title: '"I Am" Philosophy',
+        body: "The mark reflects the studio's chakra-rooted identity — grounded, confident, and inviting across all three signature movement methods.",
+      },
+      {
+        title: 'White & Blue Color System',
+        body: 'A crisp white primary mark with a signature blue accent — versatile across dark backgrounds, light surfaces, and branded merchandise.',
+      },
+      {
+        title: 'Transparent PNG Delivery',
+        body: 'Logo delivered as a transparent-background PNG for seamless use across the Squarespace website, MindBody booking app, and print.',
+      },
+      {
+        title: 'Multi-Format Suite',
+        body: 'Full logo suite including primary stacked lockup, horizontal variant, and icon-only mark for app icons and social avatars.',
+      },
+      {
+        title: 'Wellness Brand Tone',
+        body: 'Balances the energy of a hot yoga studio with the approachability of a community-first fitness space — not clinical, not overly spiritual.',
+      },
+      {
+        title: 'Applied Brand Context',
+        body: 'Designed for real-world use: website header, class scheduling platform (MindBody), instructor bios, signage at 6900 East Green Lake Way N.',
+      },
+    ],
   },
   {
     id: 7,
@@ -310,6 +482,62 @@ const WORK_ITEMS = [
     url: null,
     color: '#059669',
     aspect: 'tall',
+  },
+  {
+    id: 18,
+    category: 'websites',
+    title: 'Alchemy of Yoga',
+    subtitle:
+      'WordPress site for a globally recognized Yoga Alliance RYS 200 school — online self-paced courses, live cohorts, Bali immersion retreats, and Teachable enrollment. 20+ years, 39 graduating classes, students from 25+ countries.',
+    src: '/images/work/web-alchemyofyoga.png',
+    srcFull: '/images/work/web-alchemyofyoga-full.png',
+    url: 'https://alchemyofyoga.com',
+    color: '#7c4a8c',
+    aspect: 'wide',
+
+    // ── Extended case-study data ───────────────────────────────────────────
+    tags: [
+      'WordPress',
+      'Yoga Alliance RYS 200',
+      'Teachable Integration',
+      'Online + In-Person',
+      'Global Audience',
+      '25+ Countries',
+    ],
+    description:
+      'Alchemy of Yoga is a Yoga Alliance Registered 200-hour Teacher Training school led by Silvia Mordini — one of the most reputable yoga schools in the world, with 20+ years of operation, 39 graduating classes, and alumni from over 25 countries. The WordPress site serves as the hub for three distinct training tracks: a self-paced online course, a live cohort program, and an immersive 20-night Bali retreat. Student enrollment is handled through a Teachable integration, while the site itself drives discovery, trust-building, and conversion through rich program pages, testimonials, a blog, a free taster course, and downloadable guides.',
+    features: [
+      {
+        title: 'Three Training Tracks',
+        body: 'Self-paced online, live Zoom cohort, and 20-night Bali immersion retreat — each with dedicated landing pages, pricing, and enrollment flows.',
+      },
+      {
+        title: 'Teachable Enrollment Integration',
+        body: 'Student registration and course delivery connected to Teachable, with free taster course and instant-access purchase options.',
+      },
+      {
+        title: 'Bali YTT Retreat Page',
+        body: 'Full immersive landing page for the Bali program — daily schedule, venue, accommodation, visa info, pricing, and deposit flow.',
+      },
+      {
+        title: 'Trust & Conversion System',
+        body: 'Testimonials, free PDF guide ("Top 10 Tips"), free info session video, and Instagram feed — all working together to convert visitors to students.',
+      },
+      {
+        title: 'Blog & Content Strategy',
+        body: 'Active blog supporting SEO and audience nurturing, covering yoga philosophy, teacher training advice, and lifestyle content.',
+      },
+      {
+        title: 'Global Community Platform',
+        body: 'Multi-timezone live cohort support, newsletter integration, Facebook Messenger live chat, and social links across Facebook, Instagram, Pinterest, and YouTube.',
+      },
+    ],
+    instructor: {
+      initials: 'SM',
+      name: 'Silvia Mordini',
+      role: 'Founder & Lead Instructor',
+      bio: 'World-renowned yoga teacher, author, and happiness coach. Founder of Alchemy of Yoga — a Yoga Alliance RYS 200 school with 39 graduating classes and alumni across 25+ countries including Australia, Japan, France, South Africa, and the United States.',
+    },
   },
 ];
 
