@@ -721,10 +721,157 @@ const WORK_ITEMS = [
     },
   },
 
+  {
+    id: 14,
+    category: 'websites',
+    title: 'Alpha Construction',
+    subtitle:
+      'WordPress website and branding for a Greater Seattle custom home builder and remodeling company — founded 2001, serving residential and commercial clients including Nike Town Seattle, Old Navy & Abercrombie & Fitch. Full wireframes included.',
+    src: '/images/work/web-alphawa.png',
+    srcFull: '/images/work/web-alphawa-full.png',
+    url: 'https://www.alphawa.com',
+    color: '#e65100',
+    aspect: 'wide',
+    tags: [
+      'WordPress',
+      'Custom Design',
+      'Construction / Home Building',
+      'Wireframes',
+      'Residential & Commercial',
+      'Seattle WA',
+    ],
+    description:
+      'Alpha Construction was founded in 2001 in Woodinville, WA to handle large-scale construction projects — custom home builds, major remodels, additions, and commercial work across the Greater Seattle area including Seattle, Bellevue, Kirkland, Redmond, Woodinville, and Puget Sound. Their commercial client roster includes Nike Town Seattle, Old Navy, Coldwater Creek, and Abercrombie & Fitch. They also manage 50+ residential properties with a handyman division. The objective was a website with impressive design that stood out from competitors, represented their modern home designs, was SEO-friendly, responsive, and eliminated clutter. We delivered a full engagement: custom WordPress build designed from complete wireframes and sitemap through to final responsive multi-page implementation — plus a supporting brand identity system.',
+    features: [
+      {
+        title: 'Full Wireframe & Sitemap Process',
+        body: 'Complete UX planning from the ground up — full orange-coded sitemap architecture and detailed hand-sketched page wireframes before any design began.',
+      },
+      {
+        title: 'Custom WordPress Build',
+        body: 'Modern, responsive WordPress site showcasing custom home builds and remodels — dramatic architectural photography, clean layouts, and a design that stands apart from competitor sites.',
+      },
+      {
+        title: 'Residential & Commercial Services',
+        body: 'Site architecture covering custom homes, remodeling, home additions, warranty repairs, handyman division, and property management — serving both homeowners and commercial clients.',
+      },
+      {
+        title: 'Puget Sound Service Area Coverage',
+        body: 'Content and SEO structure built for Seattle, Bellevue, Kirkland, Redmond, Woodinville, Issaquah, Sammamish, Lynnwood, Snohomish, and surrounding King/Snohomish County areas.',
+      },
+      {
+        title: 'Lead Generation & Quote Flow',
+        body: 'Contact and project inquiry flows optimized for the long-cycle residential remodeling and custom home sales process — designed to convert visitors into qualified consultations.',
+      },
+      {
+        title: 'Multi-Page Responsive Build',
+        body: "Full responsive implementation across desktop, tablet, and mobile — every page of the site optimized for the home-building prospect's research journey.",
+      },
+    ],
+  },
+
+  {
+    id: 15,
+    category: 'websites',
+    title: 'Nova-Tech Engineering',
+    subtitle:
+      'Original WordPress website for a Lynnwood, WA aerospace automation & tooling company — 787 assembly systems, AGVs, friction stir welding, and circumferential drilling for Boeing and Northrop Grumman. Acquired by AIT in 2017.',
+    src: '/images/work/web-novatech.png',
+    srcFull: '/images/work/web-novatech-full.png',
+    url: 'https://www.aint.com',
+    color: '#00838f',
+    aspect: 'wide',
+    tags: [
+      'WordPress',
+      'Custom Design',
+      'Aerospace Engineering',
+      'Industrial B2B',
+      'Information Architecture',
+      'Lynnwood WA',
+    ],
+    description:
+      'Nova-Tech Engineering was a Lynnwood/Mountlake Terrace, WA aerospace automation and tooling company with a strong reputation for engineering excellence — building 787 final assembly systems, AGVs, automated drilling systems, laser indexing, friction stir welding equipment, and precision tooling for clients including Boeing and Northrop Grumman. The existing website had a critical problem: overwhelming content scattered all over the place with no clear organization. The solution was a modern-looking WordPress site that pulled all that data together — organized logically with just enough links to prevent clutter and an intuitive browsing experience. The site was reduced from 5 style pages to 2, with a clean sidebar navigation offering an elegant solution for a technically deep company. Nova-Tech was acquired by Dallas-based Advanced Integration Technology (AIT) in 2017, and was previously a division of TSI Inc. — another client of ours — before being sold in 2018.',
+    features: [
+      {
+        title: 'Content Architecture Overhaul',
+        body: 'Reduced from 5 style pages to 2 — all technical data, product specs, and service content reorganized into a clean, logical hierarchy with intuitive sidebar navigation.',
+      },
+      {
+        title: 'Aerospace Product Pages',
+        body: 'Individual pages for AGVs, Automated Systems for Part-to-Part Assembly, Circumferential Drillers, Friction Stir Welding, Laser Indexing Systems, Positioning Systems, and NCDJ.',
+      },
+      {
+        title: 'Boeing 787 Project Showcase',
+        body: 'Dedicated project pages for the 787 final assembly systems, large-scale integration projects, drilling projects, and assembly/alignment work — with aerospace photography throughout.',
+      },
+      {
+        title: 'Modern Responsive WordPress Build',
+        body: 'Clean, modern-looking site that is fully responsive across desktop, tablet, and mobile — consistent across all modern devices and browsers.',
+      },
+      {
+        title: 'Sidebar Navigation System',
+        body: 'Elegant sidebar navigation structure replacing the previous overcrowded layout — allowing deep technical content to breathe while remaining fully accessible.',
+      },
+      {
+        title: 'B2B Aerospace Credibility',
+        body: 'Visual design and content strategy built to communicate engineering excellence to aerospace prime contractors — a site that looks as capable as the machines Nova-Tech builds.',
+      },
+    ],
+  },
+
+  {
+    id: 16,
+    category: 'websites',
+    title: 'Ruby The Pet Nanny',
+    subtitle:
+      'WordPress website and brand identity for a pet sitting & nanny service — warm photography-driven design, hand-sketched logo, full wireframes, mobile-responsive build, and business card design. Business has since closed.',
+    src: '/images/work/web-rubypetnanny.png',
+    srcFull: '/images/work/web-rubypetnanny-full.png',
+    url: null,
+    color: '#f9a825',
+    aspect: 'wide',
+    tags: [
+      'WordPress',
+      'Custom Design',
+      'Brand Identity',
+      'Wireframes',
+      'Pet Services',
+      'Business Cards',
+    ],
+    description:
+      'Ruby The Pet Nanny was a pet sitting and nanny service with a warm, personality-driven brand built around the genuine relationship between Ruby, her clients, and their animals. The full engagement included: hand-drawn logo concept sketches, a complete blue-coded sitemap and wireframes, custom WordPress build with warm pet photography as the hero, full mobile-responsive implementation, contact form, and yellow premium business card design. The site led with beautiful dog and cat photography to immediately communicate trust and warmth — exactly what pet owners need to feel before handing over their keys. The business has since closed, but the work stands as a complete website + brand identity package.',
+    features: [
+      {
+        title: 'Hand-Sketched Logo Concept',
+        body: 'Logo development started from hand-drawn sketch concepts — an organic, personal process that matched the warmth and authenticity of the Ruby The Pet Nanny brand.',
+      },
+      {
+        title: 'Wireframe & Sitemap Process',
+        body: 'Complete blue-coded sitemap and page-level wireframes delivered before design — covering Home, Services, About Us, Photo/Pricing, Contact, and Gallery pages.',
+      },
+      {
+        title: 'Photography-Led WordPress Build',
+        body: 'Warm, animal-forward hero photography anchors every page — desktop, tablet, and mobile — making the emotional connection with pet owners immediate and instinctive.',
+      },
+      {
+        title: 'Mobile-Responsive Design',
+        body: 'Fully responsive build across desktop, tablet, and phone — clean and consistent at every screen size, tested across modern devices and browsers.',
+      },
+      {
+        title: 'Contact & Booking Flow',
+        body: 'Integrated contact form and booking inquiry flow designed to convert pet owners into consultations — simple, friendly, and frictionless.',
+      },
+      {
+        title: 'Business Card Design',
+        body: 'Premium yellow business cards with the Ruby The Pet Nanny logo and contact details — print-ready mockup delivered alongside the website launch.',
+      },
+    ],
+  },
+
   // ── Logos ──────────────────────────────────────────────────────────────────
 
   {
-    id: 14,
+    id: 17,
     category: 'logos',
     title: 'Partizan Hoops',
     subtitle:
@@ -772,7 +919,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 15,
+    id: 18,
     category: 'logos',
     title: 'Bothell Select Basketball',
     subtitle:
@@ -820,7 +967,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 16,
+    id: 19,
     category: 'logos',
     title: 'Vector RE Corp',
     subtitle:
@@ -869,7 +1016,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 17,
+    id: 20,
     category: 'logos',
     title: 'Live Love Flow Studios',
     subtitle:
@@ -917,7 +1064,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 18,
+    id: 21,
     category: 'logos',
     title: 'Seattle Platinum Limo',
     subtitle:
@@ -966,7 +1113,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 19,
+    id: 22,
     category: 'logos',
     title: 'Fintech Startup',
     subtitle: 'Wordmark + Symbol',
@@ -977,7 +1124,7 @@ const WORK_ITEMS = [
     aspect: 'square',
   },
   {
-    id: 20,
+    id: 23,
     category: 'logos',
     title: 'Health & Wellness Brand',
     subtitle: 'Full Logo Suite',
@@ -991,7 +1138,7 @@ const WORK_ITEMS = [
   // ── Branding ──────────────────────────────────────────────────────────────
 
   {
-    id: 21,
+    id: 24,
     category: 'branding',
     title: 'Live Love Flow Studios',
     subtitle:
@@ -1039,7 +1186,7 @@ const WORK_ITEMS = [
     ],
   },
   {
-    id: 22,
+    id: 25,
     category: 'branding',
     title: 'Partizan Hoops',
     subtitle:
@@ -1088,7 +1235,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 23,
+    id: 26,
     category: 'branding',
     title: 'Bothell Select Basketball',
     subtitle:
@@ -1137,7 +1284,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 24,
+    id: 27,
     category: 'branding',
     title: 'Vector RE Corp',
     subtitle:
@@ -1186,7 +1333,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 25,
+    id: 28,
     category: 'branding',
     title: "Asha Women's Spa & Boutique",
     subtitle:
@@ -1234,10 +1381,110 @@ const WORK_ITEMS = [
     ],
   },
 
+  {
+    id: 29,
+    category: 'branding',
+    title: 'Alpha Construction',
+    subtitle:
+      'Brand identity system for a Greater Seattle custom home builder — built alongside the WordPress website, with an orange-forward identity representing modern design, precision craftsmanship, and residential/commercial capability.',
+    src: '/images/work/brand-alphawa.png',
+    srcFull: '/images/work/brand-alphawa-full.png',
+    url: 'https://www.alphawa.com',
+    color: '#e65100',
+    aspect: 'wide',
+    tags: [
+      'Brand Identity',
+      'Construction',
+      'Residential & Commercial',
+      'Digital + Print',
+      'Seattle WA',
+      'Home Building',
+    ],
+    description:
+      'Alpha Construction needed a brand that communicated the precision and confidence of a company that builds custom homes and handles commercial fit-outs for clients like Nike Town Seattle, Old Navy, and Abercrombie & Fitch — while still feeling approachable to homeowners planning a remodel or addition. The bold orange identity was designed to stand out in a market dominated by safe, generic contractor brands, and was applied across the full WordPress website, digital materials, and supporting collateral. The orange-and-dark palette communicates energy, craftsmanship, and ambition — a brand that looks as serious as the builds.',
+    features: [
+      {
+        title: 'Bold Orange Brand Identity',
+        body: 'High-visibility orange and dark color system — designed to stand out immediately against the beige-and-blue sameness of most residential construction brands.',
+      },
+      {
+        title: 'WordPress Site Brand Application',
+        body: 'Full identity rollout across the custom WordPress build — homepage hero, service pages, project gallery, and contact flows all carrying the Alpha mark and palette.',
+      },
+      {
+        title: 'Residential & Commercial Positioning',
+        body: 'Brand language and visual system that works equally for homeowners (custom homes, remodels, additions) and commercial clients (retail fit-outs, property management).',
+      },
+      {
+        title: 'Modern Home Design Aesthetic',
+        body: "Visual tone inspired by the architectural photography of Alpha's completed projects — clean, modern, and aspirational rather than utilitarian.",
+      },
+      {
+        title: 'Digital & Print Collateral',
+        body: 'Brand system applied across website, digital materials, and print collateral — consistent identity from business card to project proposal.',
+      },
+      {
+        title: 'Service Area Identity',
+        body: 'Brand presence designed to anchor authority across the full Greater Seattle service footprint — Woodinville, Kirkland, Bellevue, Redmond, Seattle, and surrounding Puget Sound communities.',
+      },
+    ],
+  },
+
   // ── Print ──────────────────────────────────────────────────────────────────
 
   {
-    id: 26,
+    id: 30,
+    category: 'branding',
+    title: 'Ruby The Pet Nanny',
+    subtitle:
+      'Brand identity for a pet sitting & nanny service — hand-sketched logo, warm yellow and teal palette, business card design, and full brand application across the WordPress website. Business has since closed.',
+    src: '/images/work/brand-rubypetnanny.png',
+    srcFull: '/images/work/brand-rubypetnanny-full.png',
+    url: null,
+    color: '#f9a825',
+    aspect: 'wide',
+    tags: [
+      'Brand Identity',
+      'Logo Design',
+      'Business Cards',
+      'Pet Services',
+      'Warm / Lifestyle',
+      'Business Closed',
+    ],
+    description:
+      "Ruby The Pet Nanny needed a brand that felt as personal and trustworthy as the service itself — something that would make a pet owner feel comfortable handing over their keys. The identity started from hand-drawn logo sketches, capturing the warmth and authenticity of Ruby's relationship with animals, before being developed into a full mark. The warm yellow, teal, and white palette was applied across the WordPress website and a premium business card design — yellow cards that stood out in a wallet and communicated the friendly, energetic personality of the brand. The business has since closed; the brand identity and website are our portfolio work.",
+    features: [
+      {
+        title: 'Hand-Sketched Logo Development',
+        body: 'Logo process began with hand-drawn sketches — an organic approach that captured the genuine personality of the Ruby The Pet Nanny brand before moving into digital refinement.',
+      },
+      {
+        title: 'Warm Yellow & Teal Palette',
+        body: 'Energetic yellow primary and teal accent — a combination that stands apart from the generic blues and greens of most pet service brands.',
+      },
+      {
+        title: 'Yellow Premium Business Cards',
+        body: 'Signature yellow business cards with the Ruby The Pet Nanny logo — bold, memorable, and instantly recognizable in any wallet or on any countertop.',
+      },
+      {
+        title: 'Full Website Brand Application',
+        body: 'Identity applied across every page of the WordPress build — homepage hero, services, about, gallery, and contact — with warm pet photography reinforcing the brand tone.',
+      },
+      {
+        title: 'Trust-First Brand Strategy',
+        body: 'Every design decision — colors, photography, logo style — was made to answer the fundamental question every pet owner asks: "Can I trust this person with my animal?"',
+      },
+      {
+        title: 'Complete Engagement Delivery',
+        body: 'From first sketch to live website and printed cards — a fully self-contained brand engagement covering identity, digital, and print in a single project.',
+      },
+    ],
+  },
+
+  // ── Print (old section header kept for clarity) ───────────────────────────
+
+  {
+    id: 31,
     category: 'print',
     title: 'Northville Cabinetry',
     subtitle:
@@ -1285,18 +1532,55 @@ const WORK_ITEMS = [
     ],
   },
   {
-    id: 27,
+    id: 32,
     category: 'print',
-    title: 'Business Card Suite',
-    subtitle: 'Premium Foil Print',
-    src: '/images/work/print-cards.png',
-    srcFull: '/images/work/print-cards-full.png',
+    title: 'Sarajevo Lounge',
+    subtitle:
+      'Nightclub event marketing suite for a Downtown Seattle club — dramatic themed flyers for Greek Nite, Balkan Night, Luda Turk, Eastern Night & Euro Saturdays, plus business cards and a full-scale poster.',
+    src: '/images/work/print-sarajevolounge.png',
+    srcFull: '/images/work/print-sarajevolounge-full.png',
     url: null,
-    color: '#0d1b2a',
+    color: '#8b1a1a',
     aspect: 'wide',
+    tags: [
+      'Print Design',
+      'Event Flyers',
+      'Nightclub Marketing',
+      'Poster Design',
+      'Business Cards',
+      'Seattle WA',
+    ],
+    description:
+      "Sarajevo Lounge is a late-night club in Downtown Seattle at 2332 1st Ave — one of the city's great nightlife venues and a fun and inspiring client to work with. We designed a full suite of event marketing materials: themed flyers for recurring nights including Greek Nite (DJ Shaka & DJ Yann), Balkan Night, Luda Turk, Eastern Night, and Euro Saturdays — each with its own dramatic visual identity — plus business cards and a full-scale poster. The work required designing for dark, high-energy contexts where photography, typography, and color had to command attention at a glance across social media, print, and in-venue display.",
+    features: [
+      {
+        title: 'Greek Nite Series',
+        body: 'Multiple flyer iterations for Greek Nite — anchored by a dramatic bronze helmet and angel-winged performer, featuring DJ Shaka & DJ Yann at Club Sarajevo Lounge.',
+      },
+      {
+        title: 'Multi-Night Event Suite',
+        body: 'Full series of themed flyer designs: Balkan Night, Luda Turk (with DJ), Eastern Night, Euro Saturdays — each with a distinct visual identity while maintaining venue branding.',
+      },
+      {
+        title: 'Full-Scale Poster Design',
+        body: 'Large-format Greek Nite poster — cinematic dark composition with hero typography, venue address, date, and DJ credits — designed for in-venue and street display.',
+      },
+      {
+        title: 'Business Card Design',
+        body: 'Club business cards with dark premium finish, city skyline mark, and venue contact details — consistent nightlife brand identity carried into physical collateral.',
+      },
+      {
+        title: 'Social Media Flyer Formats',
+        body: 'All event flyers designed to work across both print and social media distribution — sized and composed for Instagram and Facebook event promotion.',
+      },
+      {
+        title: 'High-Energy Visual Design',
+        body: 'Dark, cinematic aesthetic with dramatic photography, bold event typography, and color treatments that command attention in nightclub and social media contexts.',
+      },
+    ],
   },
   {
-    id: 28,
+    id: 33,
     category: 'print',
     title: 'Marketing Brochure',
     subtitle: 'Trifold · 4-color',
@@ -1307,7 +1591,7 @@ const WORK_ITEMS = [
     aspect: 'wide',
   },
   {
-    id: 29,
+    id: 34,
     category: 'print',
     title: 'Trade Show Displays',
     subtitle: 'Banner · Booth Graphics',
@@ -1321,7 +1605,7 @@ const WORK_ITEMS = [
   // ── Email ──────────────────────────────────────────────────────────────────
 
   {
-    id: 30,
+    id: 35,
     category: 'email',
     title: 'Welcome Series Template',
     subtitle: 'Email Design · HTML',
@@ -1332,7 +1616,7 @@ const WORK_ITEMS = [
     aspect: 'tall',
   },
   {
-    id: 31,
+    id: 36,
     category: 'email',
     title: 'Promotional Campaign',
     subtitle: 'E-commerce · Seasonal',
@@ -1343,7 +1627,7 @@ const WORK_ITEMS = [
     aspect: 'tall',
   },
   {
-    id: 32,
+    id: 37,
     category: 'email',
     title: 'Newsletter Template',
     subtitle: 'B2B · Monthly Send',
