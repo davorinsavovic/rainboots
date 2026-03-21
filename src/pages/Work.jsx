@@ -868,10 +868,206 @@ const WORK_ITEMS = [
     ],
   },
 
+  {
+    id: 17,
+    category: 'websites',
+    title: 'Classmates.com',
+    subtitle:
+      'UI/UX revamp and feature development for a subscription platform with 40M+ active subscribers and 100M+ unique members across corporate sites — A/B testing with Optimizely & Adobe Target, component design, and full template system.',
+    src: '/images/work/web-classmates.png',
+    srcFull: '/images/work/web-classmates-full.png',
+    url: 'https://www.classmates.com',
+    color: '#1a73e8',
+    aspect: 'wide',
+    tags: [
+      'UI/UX Design',
+      'Product Design',
+      'A/B Testing',
+      'Subscription Platform',
+      'Enterprise Scale',
+      'Optimizely / Adobe Target',
+    ],
+    description:
+      'Classmates.com is one of the longest-running social networking platforms in the United States — a subscription-based service connecting people with their school memories and former classmates, with over 40 million active subscribers and more than 100 million unique members across the corporate site network. The engagement involved revamping the UI and app interface at scale: designing and developing content, features, components, and templates across all corporate websites — then validating improvements through A/B tests using Optimizely and Adobe Target. Working at this level of scale means every design decision impacts tens of millions of real users, and every A/B test is a live experiment running against a massive subscriber base.',
+    features: [
+      {
+        title: 'UI/UX Revamp at Scale',
+        body: 'Full interface revamp across the Classmates subscription platform — new visual design, updated component library, and improved user flows affecting 40M+ active subscribers.',
+      },
+      {
+        title: 'Component & Template System',
+        body: 'Designed and developed reusable content components and page templates deployed across all corporate websites in the network — exceeding 100M unique members combined.',
+      },
+      {
+        title: 'A/B Testing with Optimizely',
+        body: 'Built and ran controlled A/B experiments using Optimizely — testing interface variations, feature presentations, and conversion flows against live subscriber traffic.',
+      },
+      {
+        title: 'A/B Testing with Adobe Target',
+        body: 'Parallel experimentation using Adobe Target for personalization and targeting — optimizing the subscription experience for different audience segments at enterprise scale.',
+      },
+      {
+        title: 'Subscription Conversion Optimization',
+        body: 'Feature and UI work focused on improving subscription conversion, retention, and engagement — metrics that directly affect revenue at a platform with millions of paid members.',
+      },
+      {
+        title: 'Enterprise-Scale Product Development',
+        body: 'Operated within a large-scale product team environment — designing, developing, and shipping features that reach tens of millions of users with the quality and rigor that scale demands.',
+      },
+    ],
+  },
+
+  {
+    id: 18,
+    category: 'websites',
+    title: 'Intelius',
+    subtitle:
+      'UI/UX revamp, feature development, and corporate blog design for a people search & background check subscription platform — part of the PeopleConnect family alongside Classmates.com, 40M+ subscribers, 100M+ unique members, A/B testing at enterprise scale.',
+    src: '/images/work/web-intelius.png',
+    srcFull: '/images/work/web-intelius-full.png',
+    url: 'https://www.intelius.com',
+    color: '#0d47a1',
+    aspect: 'wide',
+    tags: [
+      'UI/UX Design',
+      'Product Design',
+      'A/B Testing',
+      'People Search',
+      'Subscription Platform',
+      'Corporate Blog',
+    ],
+    description:
+      'Intelius is a people search and background check subscription platform based in Bellevue, WA — part of the PeopleConnect family alongside Classmates.com, serving over 40 million subscribers with access to public records, contact information, background reports, and identity data. The engagement mirrored the Classmates work in scope and tooling: UI/UX revamp across the subscription platform and app interface, designing and developing content, features, components, and templates across all corporate websites in the network (combined 100M+ unique members), and A/B testing using Optimizely and Adobe Target. Additionally, we designed and developed a full corporate blog for Intelius — a standalone 3-month project covering information architecture, visual design, content templates, and CMS integration.',
+    features: [
+      {
+        title: 'UI/UX Platform Revamp',
+        body: 'Full interface redesign across the Intelius subscription platform and app — updated component library, improved user flows, and a modern visual system for 40M+ active subscribers.',
+      },
+      {
+        title: 'Component & Template System',
+        body: 'Designed and developed reusable content components and page templates across all PeopleConnect corporate websites — a network exceeding 100M unique members combined.',
+      },
+      {
+        title: 'A/B Testing with Optimizely & Adobe Target',
+        body: 'Built and ran controlled experiments using both Optimizely and Adobe Target — testing subscription flows, feature presentations, and personalization strategies against live subscriber traffic.',
+      },
+      {
+        title: 'Corporate Blog — 3-Month Project',
+        body: 'Standalone blog design and development engagement spanning 3 months — information architecture, visual design system, article templates, category pages, and CMS integration for the Intelius editorial team.',
+      },
+      {
+        title: 'People Search & Background Check UX',
+        body: 'Interface design for a sensitive product category — balancing data density (public records, contact info, background reports) with a clean, trustworthy user experience.',
+      },
+      {
+        title: 'PeopleConnect Network Consistency',
+        body: 'Design work coordinated across the Intelius and Classmates product portfolios within the same parent company — shared component patterns, consistent quality bar, and unified enterprise tooling.',
+      },
+    ],
+  },
+
+  {
+    id: 19,
+    category: 'websites',
+    title: 'DCM Contractors',
+    subtitle:
+      'WordPress website and logo design for a specialty commercial general contractor — Dental, Medical & Commercial construction across the Greater Seattle area, with a project portfolio featuring dental offices, medical facilities, and public buildings.',
+    src: '/images/work/web-dcmcontractors.png',
+    srcFull: '/images/work/web-dcmcontractors-full.png',
+    url: 'http://dcmcontractors.com',
+    color: '#1a237e',
+    aspect: 'wide',
+    tags: [
+      'WordPress',
+      'Custom Theme',
+      'Logo Design',
+      'Construction',
+      'Dental / Medical',
+      'Seattle WA',
+    ],
+    description:
+      'DCM Contractors is a specialty commercial general contractor serving dental offices, medical facilities, and commercial clients across Greater Seattle — operating within the framework of integrity and craftsmanship. Their specialization in dental and medical construction sets them apart from general contractors: they understand the unique systems, regulations, and end-user needs of clinical environments. We designed the logo and built the custom WordPress site as a clean single-page experience with smooth anchor navigation — covering Services (Dental, Medical, Commercial), a filterable project Portfolio (Juanita Kids Dentistry, Signature Smiles, Dr. Matt Bagnulo, Dr. Brandon Johnson, Dentistry of Monroe, Dr. Bart Robison, Dr. Alex Kang, Lea Hill Police Substation), About, and Contact.',
+    features: [
+      {
+        title: 'Dental & Medical Construction Specialization',
+        body: "Site architecture and content built for DCM's niche: dental office fit-outs, medical facility construction, and commercial builds — each service section communicating industry-specific expertise.",
+      },
+      {
+        title: 'Single-Page Anchor Navigation',
+        body: 'Clean single-page WordPress build with smooth anchor scroll to Home, Services, Portfolio, and Our Company — minimal, fast, and distraction-free for prospective clients.',
+      },
+      {
+        title: 'Filterable Project Portfolio',
+        body: 'Project gallery with Dental and Commercial category filters — showcasing completed work for dental practices (Juanita Kids Dentistry, Signature Smiles, 5 dental offices) and commercial clients (Lea Hill Police Substation).',
+      },
+      {
+        title: 'Custom WordPress Theme',
+        body: "Fully custom theme with retina-ready logo (@2x), responsive layout, and a sliding contact bar — built to perform on any device and reflect the professionalism of DCM's work.",
+      },
+      {
+        title: 'Lead Generation Contact Form',
+        body: 'Integrated contact form with sliding panel — optimized for the project inquiry and consultation-booking process typical of commercial construction sales cycles.',
+      },
+      {
+        title: 'Logo Design',
+        body: 'Custom logo designed alongside the site — a professional mark that carries the DCM brand across the website header, business collateral, and construction site materials.',
+      },
+    ],
+  },
+
   // ── Logos ──────────────────────────────────────────────────────────────────
 
   {
-    id: 17,
+    id: 20,
+    category: 'logos',
+    title: 'DCM Contractors',
+    subtitle:
+      'Logo design for a specialty commercial general contractor — a professional mark built for dental, medical, and commercial construction in Greater Seattle.',
+    src: '/images/work/logo-dcmcontractors.png',
+    srcFull: '/images/work/logo-dcmcontractors-full.png',
+    url: 'http://dcmcontractors.com',
+    color: '#1a237e',
+    aspect: 'square',
+    tags: [
+      'Logo Design',
+      'Brand Identity',
+      'Construction',
+      'Dental / Medical',
+      'Corporate',
+      'Seattle WA',
+    ],
+    description:
+      'DCM Contractors specializes in dental office construction, medical facility build-outs, and commercial construction across Greater Seattle — a niche that demands a logo communicating precision, trust, and industry expertise. The mark needed to work across a WordPress website header, construction site signage, business cards, and proposal documents — credible enough to win bids from dental and medical practice owners who are investing significant capital in their facilities. Designed as part of a full engagement that included the custom WordPress website.',
+    features: [
+      {
+        title: 'Specialty Contractor Credibility',
+        body: 'A professional, clean mark that communicates the precision and trust required to win dental and medical construction contracts from practice owners and healthcare operators.',
+      },
+      {
+        title: 'Retina-Ready Delivery',
+        body: 'Logo delivered as standard and @2x retina-ready PNG files — crisp at all resolutions across the WordPress header, digital materials, and high-DPI displays.',
+      },
+      {
+        title: 'Construction Industry Positioning',
+        body: 'Visual identity that positions DCM above generic contractors — reflecting their niche expertise in Dental, Medical, and Commercial build environments.',
+      },
+      {
+        title: 'Multi-Format Application',
+        body: 'Mark applied across website header, business collateral, project portfolio pages, and construction documentation — consistent identity at every client touchpoint.',
+      },
+      {
+        title: 'Built Alongside the Website',
+        body: 'Logo and site designed as a unified engagement — the same mark used in the custom WordPress theme header, sliding contact bar, and all site imagery.',
+      },
+      {
+        title: 'Greater Seattle Market Presence',
+        body: "Identity built to establish DCM's brand authority across their service area — supporting business development with dental practices, medical clinics, and commercial property owners.",
+      },
+    ],
+  },
+
+  {
+    id: 21,
     category: 'logos',
     title: 'Partizan Hoops',
     subtitle:
@@ -919,7 +1115,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 18,
+    id: 22,
     category: 'logos',
     title: 'Bothell Select Basketball',
     subtitle:
@@ -967,7 +1163,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 19,
+    id: 23,
     category: 'logos',
     title: 'Vector RE Corp',
     subtitle:
@@ -1016,7 +1212,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 20,
+    id: 24,
     category: 'logos',
     title: 'Live Love Flow Studios',
     subtitle:
@@ -1064,7 +1260,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 21,
+    id: 25,
     category: 'logos',
     title: 'Seattle Platinum Limo',
     subtitle:
@@ -1113,7 +1309,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 22,
+    id: 26,
     category: 'logos',
     title: 'Fintech Startup',
     subtitle: 'Wordmark + Symbol',
@@ -1124,7 +1320,7 @@ const WORK_ITEMS = [
     aspect: 'square',
   },
   {
-    id: 23,
+    id: 27,
     category: 'logos',
     title: 'Health & Wellness Brand',
     subtitle: 'Full Logo Suite',
@@ -1138,7 +1334,7 @@ const WORK_ITEMS = [
   // ── Branding ──────────────────────────────────────────────────────────────
 
   {
-    id: 24,
+    id: 28,
     category: 'branding',
     title: 'Live Love Flow Studios',
     subtitle:
@@ -1186,7 +1382,7 @@ const WORK_ITEMS = [
     ],
   },
   {
-    id: 25,
+    id: 29,
     category: 'branding',
     title: 'Partizan Hoops',
     subtitle:
@@ -1235,7 +1431,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 26,
+    id: 30,
     category: 'branding',
     title: 'Bothell Select Basketball',
     subtitle:
@@ -1284,7 +1480,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 27,
+    id: 31,
     category: 'branding',
     title: 'Vector RE Corp',
     subtitle:
@@ -1333,7 +1529,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 28,
+    id: 32,
     category: 'branding',
     title: "Asha Women's Spa & Boutique",
     subtitle:
@@ -1382,7 +1578,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 29,
+    id: 33,
     category: 'branding',
     title: 'Alpha Construction',
     subtitle:
@@ -1433,7 +1629,7 @@ const WORK_ITEMS = [
   // ── Print ──────────────────────────────────────────────────────────────────
 
   {
-    id: 30,
+    id: 34,
     category: 'branding',
     title: 'Ruby The Pet Nanny',
     subtitle:
@@ -1484,7 +1680,7 @@ const WORK_ITEMS = [
   // ── Print (old section header kept for clarity) ───────────────────────────
 
   {
-    id: 31,
+    id: 35,
     category: 'print',
     title: 'Northville Cabinetry',
     subtitle:
@@ -1532,7 +1728,7 @@ const WORK_ITEMS = [
     ],
   },
   {
-    id: 32,
+    id: 36,
     category: 'print',
     title: 'Sarajevo Lounge',
     subtitle:
@@ -1580,7 +1776,7 @@ const WORK_ITEMS = [
     ],
   },
   {
-    id: 33,
+    id: 37,
     category: 'print',
     title: 'Marketing Brochure',
     subtitle: 'Trifold · 4-color',
@@ -1591,7 +1787,7 @@ const WORK_ITEMS = [
     aspect: 'wide',
   },
   {
-    id: 34,
+    id: 38,
     category: 'print',
     title: 'Trade Show Displays',
     subtitle: 'Banner · Booth Graphics',
@@ -1605,18 +1801,55 @@ const WORK_ITEMS = [
   // ── Email ──────────────────────────────────────────────────────────────────
 
   {
-    id: 35,
+    id: 39,
     category: 'email',
-    title: 'Welcome Series Template',
-    subtitle: 'Email Design · HTML',
-    src: '/images/work/email-welcome.png',
-    srcFull: '/images/work/email-welcome-full.png',
-    url: null,
-    color: '#2b5ce6',
+    title: 'Zulily',
+    subtitle:
+      "Email campaign design and UI/UX concepts for a flash-sale e-commerce platform with millions of subscribers — Mother's Day series, seasonal campaigns, mobile app checkout flows, and full email template system.",
+    src: '/images/work/email-zulily.png',
+    srcFull: '/images/work/email-zulily-full.png',
+    url: 'https://www.zulily.com',
+    color: '#6a1b9a',
     aspect: 'tall',
+    tags: [
+      'Email Design',
+      'UI/UX Concepts',
+      'E-Commerce',
+      'Seasonal Campaigns',
+      'Mobile App Design',
+      'Flash Sale',
+    ],
+    description:
+      "Zulily is a flash-sale e-commerce platform serving millions of subscribers with daily deals on women's, kids', and home products. The engagement covered email campaign design and UI/UX concept work: a Mother's Day campaign series (#SuperMom, MVM, MOM themes) with product-grid layouts and promotional pricing, seasonal email templates, mobile app UI concepts for the iOS checkout and browsing experience, tablet and desktop e-commerce page designs, full mobile product page layouts, and detailed email newsletter templates with Zulily's signature purple and teal brand — supported by wireframes and spec sheets for development handoff.",
+    features: [
+      {
+        title: "Mother's Day Campaign Series",
+        body: '#SuperMom, MVM, and MOM-themed email campaigns — product-grid layouts with promotional pricing ($100.98, $102.98), bold seasonal headers, and full mobile-responsive design.',
+      },
+      {
+        title: 'Mobile App UI Concepts',
+        body: 'iOS app screen concepts covering checkout flows, product browsing, and account screens — clean, conversion-focused designs built for the Zulily mobile shopping experience.',
+      },
+      {
+        title: 'Tablet & Desktop E-Commerce Pages',
+        body: 'Full product browsing page concepts for tablet and desktop — category navigation, product grid, and promotional banner placements in the Zulily brand system.',
+      },
+      {
+        title: 'Email Newsletter Template System',
+        body: "Full email newsletter template designs with Zulily's purple/teal palette — product feature sections, promotional banners, and category blocks designed for high-frequency daily send cadence.",
+      },
+      {
+        title: 'Wireframes & Dev Spec Sheets',
+        body: 'Detailed wireframe layouts and specification documents for developer handoff — ensuring pixel-accurate implementation across all email clients and screen sizes.',
+      },
+      {
+        title: 'Flash Sale Visual Language',
+        body: 'Design system built for urgency and conversion — price callouts, limited-time offer framing, and product photography layouts optimized for the flash-sale browse-and-buy behavior.',
+      },
+    ],
   },
   {
-    id: 36,
+    id: 40,
     category: 'email',
     title: 'Promotional Campaign',
     subtitle: 'E-commerce · Seasonal',
@@ -1627,7 +1860,7 @@ const WORK_ITEMS = [
     aspect: 'tall',
   },
   {
-    id: 37,
+    id: 41,
     category: 'email',
     title: 'Newsletter Template',
     subtitle: 'B2B · Monthly Send',
