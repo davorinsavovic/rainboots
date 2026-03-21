@@ -6,29 +6,29 @@ import './index.css';
 
 const rootElement = document.getElementById('root');
 
-// Dynamic pages with filters/modals shouldn't be hydrated from prerender
+// Routes that use client-side filters, modals, or dynamic state —
+// skip hydration entirely and do a fresh client render instead.
 const dynamicRoutes = ['/portfolio', '/work', '/blog-generator'];
 const isDynamic = dynamicRoutes.some((r) =>
   window.location.pathname.startsWith(r),
 );
 
-if (rootElement.hasChildNodes() && !isDynamic) {
-  hydrateRoot(
-    rootElement,
-    <React.StrictMode>
-      <HelmetProvider>
-        <App />
-      </HelmetProvider>
-    </React.StrictMode>,
-  );
-} else {
-  // Clear any prerendered content and render fresh
+const app = (
+  <React.StrictMode>
+    <HelmetProvider>
+      <App />
+    </HelmetProvider>
+  </React.StrictMode>
+);
+
+if (isDynamic) {
+  // Always fresh render — wipe any prerendered shell first
   rootElement.innerHTML = '';
-  createRoot(rootElement).render(
-    <React.StrictMode>
-      <HelmetProvider>
-        <App />
-      </HelmetProvider>
-    </React.StrictMode>,
-  );
+  createRoot(rootElement).render(app);
+} else if (rootElement.hasChildNodes()) {
+  // Static/SSR pages — hydrate the prerendered HTML
+  hydrateRoot(rootElement, app);
+} else {
+  // No prerendered content — plain client render
+  createRoot(rootElement).render(app);
 }
