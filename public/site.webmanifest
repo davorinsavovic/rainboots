@@ -1,0 +1,21 @@
+{
+  "name": "Rainboots Marketing",
+  "short_name": "Rainboots",
+  "description": "Seattle-based digital marketing agency specializing in email, SMS, lifecycle marketing, customer acquisition, web development and branding.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2b5ce6",
+  "icons": [
+    {
+      "src": "/favicon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-180x180.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

@@ -379,9 +379,10 @@
 .work-placeholder__icon {
   font-size: 2rem;
   color: rgba(255, 255, 255, 0.5);
-  animation: work-spin 16s linear infinite;
+  /* animation: work-spin 16s linear infinite; */
   position: relative;
   z-index: 2;
+  top: 14px;
 }
 @keyframes work-spin {
   to {

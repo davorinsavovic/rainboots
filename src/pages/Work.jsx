@@ -1652,10 +1652,250 @@ const WORK_ITEMS = [
     ],
   },
 
+  {
+    id: 34,
+    category: 'logos',
+    title: 'Maurer Mechanical',
+    subtitle:
+      'Logo design for a Heating & Air Conditioning company — clean spiral S mark in dark/green two-color variants.',
+    src: '/images/work/logo-maurermechanical.png',
+    srcFull: '/images/work/logo-maurermechanical-full.png',
+    url: null,
+    color: '#2e7d32',
+    aspect: 'square',
+    tags: [
+      'Logo Design',
+      'Brand Identity',
+      'HVAC',
+      'Trades / Mechanical',
+      'Two-Color System',
+    ],
+    description:
+      'Maurer Mechanical is a Heating & Air Conditioning company that needed a clean, professional mark communicating precision and reliability. The logo centers on a refined spiral S symbol — evoking airflow and mechanical precision — in dark charcoal and green variants. The "Maurer Mechanical / Heating & Air Conditioning" wordmark sits below in structured typography.',
+    features: [
+      {
+        title: 'Spiral S Airflow Mark',
+        body: 'The central spiral symbol evokes HVAC concepts — airflow, circulation, temperature control — in a mark that reads as both mechanical and refined.',
+      },
+      {
+        title: 'Dark & Green Two-Color System',
+        body: 'Dark charcoal variant for print and formal materials; green variant for signage, digital, and high-visibility applications.',
+      },
+      {
+        title: 'HVAC Industry Positioning',
+        body: 'Mark communicates precision and reliability — the two qualities homeowners and contractors look for when selecting a heating and cooling partner.',
+      },
+      {
+        title: 'Full Wordmark Lockup',
+        body: '"Maurer Mechanical / Heating & Air Conditioning" integrated cleanly below the symbol for complete identification at any size.',
+      },
+    ],
+  },
+
+  {
+    id: 35,
+    category: 'logos',
+    title: 'Puget Sound Painting Contractors',
+    subtitle:
+      'Logo design for a painting contractor — illustrated paint roller mark in blue and red color variants.',
+    src: '/images/work/logo-pugetsoundpainting.png',
+    srcFull: '/images/work/logo-pugetsoundpainting-full.png',
+    url: null,
+    color: '#1565c0',
+    aspect: 'square',
+    tags: [
+      'Logo Design',
+      'Brand Identity',
+      'Painting / Trades',
+      'Illustrated Mark',
+      'Two-Color System',
+    ],
+    description:
+      'Puget Sound Painting Contractors needed a mark that immediately communicated their trade. The solution is an illustrated paint roller in motion — dynamic, slightly angled, with a paint stroke sweeping behind it — in bold blue/navy and warm red/terracotta variants. Bold block lettering with a "Contractors" dark ribbon banner anchors the mark as a professional Pacific Northwest trades business.',
+    features: [
+      {
+        title: 'Illustrated Paint Roller Mark',
+        body: 'Dynamic illustrated roller with paint stroke sweep — immediately communicates the trade with the personality that generic type-only contractor logos lack.',
+      },
+      {
+        title: 'Blue & Red Color Variants',
+        body: 'Bold blue/navy variant for print and vehicle applications; warm red/terracotta variant for alternative uses.',
+      },
+      {
+        title: '"Contractors" Banner Ribbon',
+        body: 'Dark ribbon banner with "Contractors" in white caps — a classic trade identity device adding structure and hierarchy.',
+      },
+      {
+        title: 'Pacific Northwest Market Identity',
+        body: '"Puget Sound" anchors the brand geographically — building local recognition with homeowners and property managers across the Seattle/Tacoma region.',
+      },
+    ],
+  },
+
+  {
+    id: 36,
+    category: 'logos',
+    title: "Ariana's Closet",
+    subtitle:
+      "Logo design for a women's fashion boutique — elegant script logotype with a fashion silhouette in black/pink two-color variants.",
+    src: '/images/work/logo-arianascloset.png',
+    srcFull: '/images/work/logo-arianascloset-full.png',
+    url: null,
+    color: '#d81b8e',
+    aspect: 'square',
+    tags: [
+      'Logo Design',
+      'Brand Identity',
+      'Fashion / Boutique',
+      'Illustrated Mark',
+      'Feminine Brand',
+    ],
+    description:
+      "Ariana's Closet is a women's fashion boutique that needed a logo with the personality of high-end retail. The mark pairs a cursive script logotype with a silhouette illustration of a fashionable woman in a bow-tied hat — black on white for print, and on bold magenta for packaging and social media.",
+    features: [
+      {
+        title: 'Script Logotype',
+        body: 'Flowing cursive "Ariana\'s Closet" — feminine, aspirational, and distinct from the block lettering dominating generic fashion marks.',
+      },
+      {
+        title: 'Fashion Silhouette Illustration',
+        body: 'Chic woman silhouette in a statement hat — personality-forward illustration giving the brand immediate visual character beyond a wordmark.',
+      },
+      {
+        title: 'Black & Magenta Two-Color System',
+        body: 'Black/white for print and packaging; bold magenta background for social media, shopping bags, and retail display.',
+      },
+      {
+        title: 'Boutique Retail Positioning',
+        body: 'Communicates curated, personal fashion retail — clearly distinct from mass market and positioned as a personality-driven shopping experience.',
+      },
+    ],
+  },
+
+  {
+    id: 37,
+    category: 'logos',
+    title: 'Scout For Athletes',
+    subtitle:
+      'Logo design for a social network for athletes — SA circle monogram in red/gray two-color variants.',
+    src: '/images/work/logo-scoutforathletes.png',
+    srcFull: '/images/work/logo-scoutforathletes-full.png',
+    url: null,
+    color: '#c62828',
+    aspect: 'square',
+    tags: [
+      'Logo Design',
+      'Brand Identity',
+      'Sports / Athletics',
+      'Social Network',
+      'Circle Monogram',
+    ],
+    description:
+      'Scout For Athletes is a social network connecting players, scouts, and coaches. The SA circle monogram — interlocking S and A within a circle — communicates team structure and platform credibility. White-on-red for energy and brand presence; black-on-gray for professional, neutral contexts.',
+    features: [
+      {
+        title: 'SA Circle Monogram',
+        body: 'Interlocking S and A inside a solid circle — scalable from app icon to jersey patch without losing clarity.',
+      },
+      {
+        title: 'Red & Gray Two-Color System',
+        body: 'White/red for high-energy presence; black/gray for professional digital contexts — athletic energy and platform credibility in one system.',
+      },
+      {
+        title: '"Social Network for Athletes" Tagline',
+        body: 'Sub-tagline below the mark communicates platform purpose immediately to athletes, scouts, and coaches.',
+      },
+      {
+        title: 'App Icon Geometry',
+        body: 'Circle monogram designed to work cleanly at 60×60px app icon size and scale to large format without complexity loss.',
+      },
+    ],
+  },
+
+  {
+    id: 38,
+    category: 'logos',
+    title: 'Rain Nightclub',
+    subtitle:
+      'Logo design for a nightclub — illustrated umbrella-in-rain mark in black and blue/silver two-color variants.',
+    src: '/images/work/logo-rainnightclub.png',
+    srcFull: '/images/work/logo-rainnightclub-full.png',
+    url: null,
+    color: '#1a237e',
+    aspect: 'square',
+    tags: [
+      'Logo Design',
+      'Brand Identity',
+      'Nightclub / Entertainment',
+      'Illustrated Mark',
+      'Pacific Northwest',
+    ],
+    description:
+      'Rain Nightclub\'s mark features a stylized umbrella with rain streaks — a nod to Seattle\'s iconic weather rendered in dynamic hand-drawn illustration style — with flowing "Rain" script and "Nightclub" in bold caps. Black variant for drama; blue/silver for upscale venue contexts.',
+    features: [
+      {
+        title: 'Illustrated Umbrella Mark',
+        body: 'Dynamic umbrella-in-rain illustration with hand-drawn energy — immediate personality and Pacific Northwest authenticity.',
+      },
+      {
+        title: '"Rain" Script Logotype',
+        body: 'Flowing script "Rain" paired with bold caps "Nightclub" — fluid elegance meets strong presence.',
+      },
+      {
+        title: 'Black & Blue/Silver Variants',
+        body: 'High-contrast black for dark backgrounds and signage; blue/silver for premium print and VIP materials.',
+      },
+      {
+        title: 'Pacific Northwest Nightlife Identity',
+        body: "Turns Seattle's weather symbol into a memorable nightlife brand — local and aspirational simultaneously.",
+      },
+    ],
+  },
+
+  {
+    id: 39,
+    category: 'logos',
+    title: 'Snohomish Learning Tree Preschool',
+    subtitle:
+      'Logo design for a preschool — colorful illustrated alphabet tree with activity border tiles in white/sky-blue variants.',
+    src: '/images/work/logo-snohomishlearningtree.png',
+    srcFull: '/images/work/logo-snohomishlearningtree-full.png',
+    url: null,
+    color: '#f57f17',
+    aspect: 'square',
+    tags: [
+      'Logo Design',
+      'Brand Identity',
+      'Education / Preschool',
+      'Illustrated Mark',
+      'Colorful / Playful',
+    ],
+    description:
+      'Snohomish Learning Tree Preschool needed a logo communicating joy, learning, and childhood imagination. The mark is a richly illustrated alphabet tree — letters, numbers, and characters growing from its branches — surrounded by activity border tiles (crayon, apple, sun, rainbow, scissors, bus). White background for print; sky-blue background for a warm, welcoming feel.',
+    features: [
+      {
+        title: 'Illustrated Alphabet Tree',
+        body: 'Colorful tree with letters, numbers, and playful characters — communicating learning, growth, and childhood wonder in a single image.',
+      },
+      {
+        title: 'Activity Border Tile System',
+        body: 'Surrounding border of activity icons — crayon, apple, sun, rainbow, scissors, school bus — each tile representing a different aspect of the preschool day.',
+      },
+      {
+        title: 'White & Sky-Blue Variants',
+        body: 'White background for print materials and signage; sky-blue background for a warm, welcoming classroom and digital presence.',
+      },
+      {
+        title: 'Parent & Child Dual Appeal',
+        body: 'Complex enough to signal a rich curriculum to parents, playful enough to delight the children who will attend.',
+      },
+    ],
+  },
+
   // ── Branding ──────────────────────────────────────────────────────────────
 
   {
-    id: 34,
+    id: 40,
     category: 'branding',
     title: 'Dominis Stone',
     subtitle:
@@ -1704,7 +1944,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 35,
+    id: 41,
     category: 'branding',
     title: 'AM Ruyle LLC',
     subtitle:
@@ -1753,7 +1993,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 36,
+    id: 42,
     category: 'branding',
     title: 'Live Love Flow Studios',
     subtitle:
@@ -1801,7 +2041,7 @@ const WORK_ITEMS = [
     ],
   },
   {
-    id: 37,
+    id: 43,
     category: 'branding',
     title: 'Partizan Hoops',
     subtitle:
@@ -1850,7 +2090,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 38,
+    id: 44,
     category: 'branding',
     title: 'Bothell Select Basketball',
     subtitle:
@@ -1899,7 +2139,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 39,
+    id: 45,
     category: 'branding',
     title: 'Vector RE Corp',
     subtitle:
@@ -1948,7 +2188,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 40,
+    id: 46,
     category: 'branding',
     title: "Asha Women's Spa & Boutique",
     subtitle:
@@ -1997,7 +2237,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 41,
+    id: 47,
     category: 'branding',
     title: 'Alpha Construction',
     subtitle:
@@ -2048,7 +2288,7 @@ const WORK_ITEMS = [
   // ── Print ──────────────────────────────────────────────────────────────────
 
   {
-    id: 42,
+    id: 48,
     category: 'branding',
     title: 'Ruby The Pet Nanny',
     subtitle:
@@ -2099,7 +2339,7 @@ const WORK_ITEMS = [
   // ── Print (old section header kept for clarity) ───────────────────────────
 
   {
-    id: 43,
+    id: 49,
     category: 'print',
     title: 'Dominis Stone',
     subtitle:
@@ -2147,7 +2387,7 @@ const WORK_ITEMS = [
     ],
   },
   {
-    id: 44,
+    id: 50,
     category: 'print',
     title: 'Schippers & Crew',
     subtitle:
@@ -2195,7 +2435,7 @@ const WORK_ITEMS = [
     ],
   },
   {
-    id: 45,
+    id: 51,
     category: 'print',
     title: 'Northville Cabinetry',
     subtitle:
@@ -2243,7 +2483,7 @@ const WORK_ITEMS = [
     ],
   },
   {
-    id: 46,
+    id: 52,
     category: 'print',
     title: 'Sarajevo Lounge',
     subtitle:
@@ -2291,7 +2531,7 @@ const WORK_ITEMS = [
     ],
   },
   {
-    id: 47,
+    id: 53,
     category: 'print',
     title: 'GraphiCode Inc.',
     subtitle:
@@ -2339,7 +2579,7 @@ const WORK_ITEMS = [
     ],
   },
   {
-    id: 48,
+    id: 54,
     category: 'print',
     title: 'Schippers & Crew — Trade Show',
     subtitle:
@@ -2354,7 +2594,7 @@ const WORK_ITEMS = [
   // ── Email ──────────────────────────────────────────────────────────────────
 
   {
-    id: 49,
+    id: 55,
     category: 'email',
     title: 'Classmates.com',
     subtitle:
@@ -2403,7 +2643,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 50,
+    id: 56,
     category: 'email',
     title: 'Zulily',
     subtitle:
@@ -2451,7 +2691,7 @@ const WORK_ITEMS = [
     ],
   },
   {
-    id: 51,
+    id: 57,
     category: 'email',
     title: 'Promotional Campaign',
     subtitle: 'E-commerce · Seasonal',
@@ -2462,7 +2702,7 @@ const WORK_ITEMS = [
     aspect: 'tall',
   },
   {
-    id: 52,
+    id: 58,
     category: 'email',
     title: 'Newsletter Template',
     subtitle: 'B2B · Monthly Send',
@@ -2488,15 +2728,29 @@ function PlaceholderCard({ item }) {
   return (
     <div className='work-placeholder' style={{ '--ph-color': item.color }}>
       <div className='work-placeholder__icon'>
-        {item.category === 'websites'
-          ? '🖥'
-          : item.category === 'logos'
-            ? '◎'
-            : item.category === 'branding'
-              ? '🎨'
-              : item.category === 'print'
-                ? '📄'
-                : '✉'}
+        {item.category === 'websites' ? (
+          <img
+            src='/images/i_customDesign.png'
+            alt='Website Development'
+            height='42px'
+          />
+        ) : item.category === 'logos' ? (
+          <img
+            src='/images/rainboots_splashboot_icon.png'
+            alt='Logo Design'
+            height='32px'
+          />
+        ) : item.category === 'branding' ? (
+          <img src='/images/i_colorPalette.png' alt='Branding' height='48px' />
+        ) : item.category === 'print' ? (
+          <img
+            src='/images/i_marketingCollateral.png'
+            alt='Branding'
+            height='42px'
+          />
+        ) : (
+          '✉'
+        )}
       </div>
       <div className='work-placeholder__label'>{item.category}</div>
       <div className='work-placeholder__rings'>
