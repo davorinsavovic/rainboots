@@ -2749,7 +2749,7 @@ function PlaceholderCard({ item }) {
             height='42px'
           />
         ) : (
-          '✉'
+          <img src='/images/i_outbound.png' alt='Email' height='48px' />
         )}
       </div>
       <div className='work-placeholder__label'>{item.category}</div>
