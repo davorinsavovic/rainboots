@@ -56,7 +56,7 @@ const statsData = [
   { value: '25+', label: 'Years Combined Experience' },
   { value: '500+', label: 'Campaigns Launched' },
   { value: '98%', label: 'Client Retention Rate' },
-  { value: '$10M+', label: 'Revenue Generated' },
+  // { value: '$10M+', label: 'Revenue Generated' },
 ];
 
 const Home = ({
