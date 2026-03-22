@@ -1170,8 +1170,8 @@ const WORK_ITEMS = [
     title: 'DCM Contractors',
     subtitle:
       'Logo design for a specialty commercial general contractor — a professional mark built for dental, medical, and commercial construction in Greater Seattle.',
-    src: '/images/work/logo-dcmcontractors.png',
-    srcFull: '/images/work/logo-dcmcontractors-full.png',
+    src: '/images/portfolio/dcmContractors.jpg',
+    srcFull: '/images/portfolio/dcmContractors.jpg',
     url: 'http://dcmcontractors.com',
     color: '#1a237e',
     aspect: 'square',
@@ -1219,8 +1219,8 @@ const WORK_ITEMS = [
     title: 'Partizan Hoops',
     subtitle:
       'Logo design for a K-12 AAU basketball camp in the Pacific Northwest — a bold, dynamic mark for a program built on European fundamentals and elite coaching.',
-    src: '/images/work/logo-partizan.png',
-    srcFull: '/images/work/logo-partizan-full.png',
+    src: '/images/portfolio/partizanLogo.jpg',
+    srcFull: '/images/portfolio/partizanLogo-full.jpg',
     url: 'https://partizanhoops.com',
     color: '#E85D04',
     aspect: 'square',
@@ -1509,8 +1509,8 @@ const WORK_ITEMS = [
     title: 'AM Ruyle LLC',
     subtitle:
       'Logo design for a Seattle general contracting company — bold AM monogram on diamond-plate steel texture, white and blue, applied across business cards for two principals and all company materials.',
-    src: '/images/work/logo-amruyle.png',
-    srcFull: '/images/work/logo-amruyle-full.png',
+    src: '/images/portfolio/amruylellcLogo.jpg',
+    srcFull: '/images/portfolio/amruylellcLogo.jpg',
     url: 'https://www.amruylellc.com',
     color: '#1565c0',
     aspect: 'square',
@@ -1560,8 +1560,8 @@ const WORK_ITEMS = [
     title: 'AM Ruyle LLC',
     subtitle:
       'Full brand collateral system for a Seattle general contracting company — logo on diamond-plate steel, business cards for two principals (Aaron Ruyle & Shane Perkins), scattered card fan mockup, and complete identity system.',
-    src: '/images/work/brand-amruyle.png',
-    srcFull: '/images/work/brand-amruyle-full.png',
+    src: '/images/portfolio/amruylellc.jpg',
+    srcFull: '/images/portfolio/amruylellc.jpg',
     url: 'https://www.amruylellc.com',
     color: '#1565c0',
     aspect: 'wide',
@@ -1609,7 +1609,7 @@ const WORK_ITEMS = [
     title: 'Dominis Stone',
     subtitle:
       'Logo design for a premium natural stone company — elegant swirl monogram mark in black and white, positioned around a luxury stone tagline: "Going Green Has Never Looked Better."',
-    src: '/images/work/logo-dominisstone.png',
+    src: '/images/work/dominisstone.png',
     srcFull: '/images/work/logo-dominisstone-full.png',
     url: null,
     color: '#2d2d2d',
@@ -1900,8 +1900,8 @@ const WORK_ITEMS = [
     title: 'Dominis Stone',
     subtitle:
       'Complete brand identity system for a premium natural stone company — logo, trifold brochure (About Us, product grids for Pavers/Flooring/Surrounds, Where to Buy), and a luxury print system built around "Going Green Has Never Looked Better."',
-    src: '/images/work/brand-dominisstone.png',
-    srcFull: '/images/work/brand-dominisstone-full.png',
+    src: '/images/portfolio/dominisstone.jpg',
+    srcFull: '/images/portfolio/dominisstone.jpg',
     url: null,
     color: '#2d2d2d',
     aspect: 'wide',

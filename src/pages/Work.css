@@ -292,6 +292,7 @@
   transition:
     opacity 0.25s ease,
     transform 0.25s ease;
+  z-index: 999;
 }
 .work-card:hover .work-card__zoom {
   opacity: 1;
@@ -379,9 +380,10 @@
 .work-placeholder__icon {
   font-size: 2rem;
   color: rgba(255, 255, 255, 0.5);
-  animation: work-spin 16s linear infinite;
+  /* animation: work-spin 16s linear infinite; */
   position: relative;
   z-index: 2;
+  top: 12px;
 }
 @keyframes work-spin {
   to {
@@ -558,9 +560,9 @@
   object-fit: contain;
 }
 .lightbox__img.square {
-  max-width: 500px;
+  /* max-width: 500px; */
   width: 100%;
-  height: auto;
+  height: 100%;
 }
 .lightbox__img.tall {
   max-height: 100%;
@@ -651,10 +653,12 @@
   align-items: flex-start; /* anchor content to top */
   justify-content: flex-end; /* anchor content to right */
   overflow: hidden;
+  height: 100%;
 }
 
 /* Website screenshots in the side panel — cover top-right of the image */
-.lightbox__image-wrap--side .lightbox__img.wide {
+.lightbox__image-wrap--side .lightbox__img.wide,
+.lightbox__image-wrap--side img {
   width: 100%;
   height: 100%;
   object-fit: cover;
