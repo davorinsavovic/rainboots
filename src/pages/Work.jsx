@@ -1999,10 +1999,10 @@ const WORK_ITEMS = [
     subtitle:
       'Full brand collateral system for a Seattle hot yoga studio — event flyers, social media graphics, business cards, indoor signage, and promotional campaigns. Built around the logo and WordPress site we designed.',
     src: '/images/work/brand-liveloveflow.png',
-    srcFull: '/images/work/brand-liveloveflow-full.png',
-    url: 'https://www.liveloveflowstudios.com',
+    src: '/images/portfolio/liveloveflow.jpg',
+    srcFull: '/images/portfolio/liveloveflow-full.jpg',
     color: '#2a7ab5',
-    aspect: 'wide',
+    aspect: 'square',
     tags: [
       'Brand Collateral',
       'Event Flyers',
