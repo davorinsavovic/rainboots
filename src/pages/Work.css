@@ -292,7 +292,6 @@
   transition:
     opacity 0.25s ease,
     transform 0.25s ease;
-  z-index: 999;
 }
 .work-card:hover .work-card__zoom {
   opacity: 1;
@@ -380,10 +379,9 @@
 .work-placeholder__icon {
   font-size: 2rem;
   color: rgba(255, 255, 255, 0.5);
-  /* animation: work-spin 16s linear infinite; */
+  animation: work-spin 16s linear infinite;
   position: relative;
   z-index: 2;
-  top: 14px;
 }
 @keyframes work-spin {
   to {
@@ -650,6 +648,17 @@
   max-height: none;
   border-radius: 0;
   border-right: 1px solid rgba(0, 0, 0, 0.08);
+  align-items: flex-start; /* anchor content to top */
+  justify-content: flex-end; /* anchor content to right */
+  overflow: hidden;
+}
+
+/* Website screenshots in the side panel — cover top-right of the image */
+.lightbox__image-wrap--side .lightbox__img.wide {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top left;
 }
 
 /* Scrollable case-study panel */
@@ -792,6 +801,41 @@
   line-height: 1.55;
 }
 
+/* Ongoing project pulse dot on card title */
+.work-card__ongoing-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #1a6b3c;
+  margin-left: 7px;
+  vertical-align: middle;
+  position: relative;
+  top: -1px;
+  animation: ongoing-pulse 2s ease-in-out infinite;
+}
+@keyframes ongoing-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.75);
+  }
+}
+
+/* Ongoing tag variant in case study panel */
+.case-study__tag--ongoing {
+  background: rgba(26, 107, 60, 0.1);
+  color: #1a6b3c;
+  border-color: rgba(26, 107, 60, 0.3);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
 /* ── Case study referral badge ───────────────────────────────────────────── */
 .case-study__referral {
   margin-top: 20px;
@@ -814,6 +858,46 @@
   font-size: 0.78rem;
   line-height: 1.65;
   color: #5a6a7a;
+  margin: 0;
+}
+
+/* ── Platform migration badge (WooCommerce → Shopify etc.) ──────────────── */
+.case-study__migration {
+  margin-top: 20px;
+  background: #f8f7f4;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  padding: 14px 16px;
+}
+.case-study__migration-track {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 7px;
+}
+.case-study__migration-from {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #9aa8b8;
+  text-decoration: line-through;
+  text-decoration-color: rgba(0, 0, 0, 0.2);
+}
+.case-study__migration-arrow {
+  font-size: 0.85rem;
+  color: #c0cad4;
+  font-weight: 400;
+}
+.case-study__migration-to {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+.case-study__migration-note {
+  font-size: 0.72rem;
+  color: #7a8a9a;
+  line-height: 1.6;
   margin: 0;
 }
 

@@ -21,8 +21,8 @@ const WORK_ITEMS = [
     title: 'Partizan Hoops',
     subtitle:
       'Full-stack youth basketball platform — K-12 registration portal, coach profiles, tournament organizer & custom CMS for sports organizations.',
-    src: '/images/work/web-partizan.png',
-    srcFull: '/images/work/web-partizan-full.png',
+    src: '/images/portfolio/partizanWebsite.png',
+    srcFull: '/images/portfolio/partizanWebsite.png',
     url: 'https://partizanhoops.com',
     color: '#E85D04',
     aspect: 'wide',
@@ -1119,8 +1119,8 @@ const WORK_ITEMS = [
     title: 'Meraka',
     subtitle:
       'WordPress website for a Washington State real estate investment and property management company — transforming homes and revitalizing communities through strategic acquisitions, thoughtful renovations, and affordable housing. Designed by Rainboots Marketing.',
-    src: '/images/work/web-meraka.png',
-    srcFull: '/images/work/web-meraka-full.png',
+    src: '/images/portfolio/merakaWebsite.png',
+    srcFull: '/images/portfolio/merakaWebsite.png',
     url: 'https://meraka.com',
     color: '#2e7d32',
     aspect: 'wide',
