@@ -1411,9 +1411,9 @@ const WORK_ITEMS = [
     category: 'logos',
     title: 'Seattle Platinum Limo',
     subtitle:
-      "Logo design for Seattle's premier luxury chauffeured transport service — a premium dark mark trusted by Microsoft, Boeing, Google, Apple & Deloitte.",
-    src: '/images/work/logo-platinumlimo.png',
-    srcFull: '/images/work/logo-platinumlimo-full.png',
+      "Logo design for Seattle's premier luxury chauffeured transport service.",
+    src: '/images/portfolio/platinumlimoLogo.jpg',
+    srcFull: '/images/portfolio/platinumlimoLogo-full.jpg',
     url: 'https://seattleplatinumlimo.com',
     color: '#1a1a2e',
     aspect: 'square',
@@ -1508,7 +1508,7 @@ const WORK_ITEMS = [
     category: 'logos',
     title: 'AM Ruyle LLC',
     subtitle:
-      'Logo design for a Seattle general contracting company — bold AM monogram on diamond-plate steel texture, white and blue, applied across business cards for two principals and all company materials.',
+      'Logo design for a Seattle general contracting company — bold AM monogram, white and blue, applied across business cards and all company materials.',
     src: '/images/portfolio/amruylellcLogo.jpg',
     srcFull: '/images/portfolio/amruylellcLogo.jpg',
     url: 'https://www.amruylellc.com',
@@ -1523,7 +1523,7 @@ const WORK_ITEMS = [
       'Diamond Plate Texture',
     ],
     description:
-      'AM Ruyle LLC is a licensed general contracting company (License No: AMRUYLR872DJ) headed by Aaron Ruyle (President) and Shane Perkins (Project Superintendent) — operating out of the Seattle area (425.686.4319 / 1.206.086.4319, amruylellc.com). The logo centers on a bold AM monogram with a dynamic diagonal slash — white and electric blue on a dark diamond-plate steel background, communicating the toughness, precision, and industrial credibility of a general contracting operation. The mark needed to work equally on a clean white business card front and a dark textured card back — a dual-surface challenge the design handles with two polished variants.',
+      'AM Ruyle LLC is a licensed general contracting company headed by Aaron Ruyle and Shane Perkins — operating out of the Seattle area. The logo centers on a bold AM monogram with a dynamic diagonal slash — white and electric blue on a dark diamond-plate steel background, communicating the toughness, precision, and industrial credibility of a general contracting operation. The mark needed to work equally on a clean white business card front and a dark textured card back — a dual-surface challenge the design handles with two polished variants.',
     features: [
       {
         title: 'Bold AM Monogram Mark',
@@ -1538,16 +1538,8 @@ const WORK_ITEMS = [
         body: 'Clean white background version of the logo for print, proposals, and digital use — same mark, same authority, versatile across all professional contexts.',
       },
       {
-        title: 'Business Card — Aaron Ruyle (President)',
+        title: 'Business Card',
         body: 'Two-sided business card: white front with blueprint/site plan background, full contact details, and license number; dark diamond-plate back with large AM mark.',
-      },
-      {
-        title: 'Business Card — Shane Perkins (Project Superintendent)',
-        body: 'Matching card design for the second principal — same two-sided system, consistent identity across both the president and project superintendent roles.',
-      },
-      {
-        title: 'Multi-Principal Identity System',
-        body: 'Brand system designed to scale across both company leaders — AM Ruyle LLC operates with two named principals and the identity works cleanly for both without dilution.',
       },
     ],
   },
@@ -1559,7 +1551,7 @@ const WORK_ITEMS = [
     category: 'branding',
     title: 'AM Ruyle LLC',
     subtitle:
-      'Full brand collateral system for a Seattle general contracting company — logo on diamond-plate steel, business cards for two principals (Aaron Ruyle & Shane Perkins), scattered card fan mockup, and complete identity system.',
+      'Full brand collateral system for a Seattle general contracting company — logo, business cards, scattered card fan mockup, and complete identity system.',
     src: '/images/portfolio/amruylellc.jpg',
     srcFull: '/images/portfolio/amruylellc.jpg',
     url: 'https://www.amruylellc.com',
@@ -1574,11 +1566,11 @@ const WORK_ITEMS = [
       'Seattle WA',
     ],
     description:
-      'AM Ruyle LLC needed a brand that could represent a two-principal general contracting operation — President Aaron Ruyle and Project Superintendent Shane Perkins — with consistent professionalism across every handoff. We delivered the complete brand collateral system: the diamond-plate logo suite, two-sided business cards for both principals (white/blueprint front with full contact details and license number, dark textured back with the AM mark), a scattered multi-card fan mockup for presentation, and all materials print-ready for production. The dark, industrial aesthetic communicates the confidence of an experienced general contractor without looking generic.',
+      'AM Ruyle LLC needed a brand that could represent general contracting operation with consistent professionalism across every handoff. We delivered the complete brand collateral system: the diamond-plate logo suite, two-sided business cards for both principals (white/blueprint front with full contact details and license number, dark textured back with the AM mark), a scattered multi-card fan mockup for presentation, and all materials print-ready for production. The dark, industrial aesthetic communicates the confidence of an experienced general contractor without looking generic.',
     features: [
       {
         title: 'Two-Sided Business Cards — Both Principals',
-        body: 'Aaron Ruyle (President) and Shane Perkins (Project Superintendent) each have individual cards — white blueprint front, dark diamond-plate back, full contact details, license number AMRUYLR872DJ.',
+        body: 'Aaron Ruyle (President) and Shane Perkins (Project Superintendent) each have individual cards — white blueprint front, dark diamond-plate back, full contact details, license number.',
       },
       {
         title: 'Scattered Card Fan Presentation Mockup',
@@ -1946,55 +1938,6 @@ const WORK_ITEMS = [
   {
     id: 41,
     category: 'branding',
-    title: 'AM Ruyle LLC',
-    subtitle:
-      'Full brand collateral system for a Seattle general contracting company — logo on diamond-plate steel, business cards for two principals (Aaron Ruyle & Shane Perkins), scattered card fan mockup, and complete identity system.',
-    src: '/images/work/brand-amruyle.png',
-    srcFull: '/images/work/brand-amruyle-full.png',
-    url: 'https://www.amruylellc.com',
-    color: '#1565c0',
-    aspect: 'wide',
-    tags: [
-      'Brand Collateral',
-      'Business Cards',
-      'Construction / General Contracting',
-      'Multi-Principal',
-      'Print Design',
-      'Seattle WA',
-    ],
-    description:
-      'AM Ruyle LLC needed a brand that could represent a two-principal general contracting operation — President Aaron Ruyle and Project Superintendent Shane Perkins — with consistent professionalism across every handoff. We delivered the complete brand collateral system: the diamond-plate logo suite, two-sided business cards for both principals (white/blueprint front with full contact details and license number, dark textured back with the AM mark), a scattered multi-card fan mockup for presentation, and all materials print-ready for production. The dark, industrial aesthetic communicates the confidence of an experienced general contractor without looking generic.',
-    features: [
-      {
-        title: 'Two-Sided Business Cards — Both Principals',
-        body: 'Aaron Ruyle (President) and Shane Perkins (Project Superintendent) each have individual cards — white blueprint front, dark diamond-plate back, full contact details, license number AMRUYLR872DJ.',
-      },
-      {
-        title: 'Scattered Card Fan Presentation Mockup',
-        body: "Multiple cards fanned across the frame showing both sides of both principals' cards — a professional presentation mockup demonstrating the full identity system at once.",
-      },
-      {
-        title: 'Diamond-Plate Dark Card Back',
-        body: 'The card back features the AM mark at large scale on the dark diamond-plate texture — a tactile, memorable impression that stands out from standard contractor cards.',
-      },
-      {
-        title: 'Blueprint / Site Plan Card Front',
-        body: "White card front with subtle blueprint/architectural site plan background — connecting the brand's visual language to the literal work of general contracting.",
-      },
-      {
-        title: 'Logo on Textured Steel Application',
-        body: 'Brand identity applied at full scale on the diamond-plate steel background — showing the logo in its most powerful, material-authentic context.',
-      },
-      {
-        title: 'Print-Ready Production Files',
-        body: 'All materials delivered print-ready with correct CMYK profiles, bleed, and trim marks — ready for a premium card printer without additional file preparation.',
-      },
-    ],
-  },
-
-  {
-    id: 42,
-    category: 'branding',
     title: 'Live Love Flow Studios',
     subtitle:
       'Full brand collateral system for a Seattle hot yoga studio — event flyers, social media graphics, business cards, indoor signage, and promotional campaigns. Built around the logo and WordPress site we designed.',
@@ -2041,7 +1984,7 @@ const WORK_ITEMS = [
     ],
   },
   {
-    id: 43,
+    id: 42,
     category: 'branding',
     title: 'Partizan Hoops',
     subtitle:
@@ -2090,7 +2033,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 44,
+    id: 43,
     category: 'branding',
     title: 'Bothell Select Basketball',
     subtitle:
@@ -2139,7 +2082,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 45,
+    id: 44,
     category: 'branding',
     title: 'Vector RE Corp',
     subtitle:
@@ -2188,7 +2131,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 46,
+    id: 45,
     category: 'branding',
     title: "Asha Women's Spa & Boutique",
     subtitle:
@@ -2237,7 +2180,7 @@ const WORK_ITEMS = [
   },
 
   {
-    id: 47,
+    id: 46,
     category: 'branding',
     title: 'Alpha Construction',
     subtitle:
@@ -2281,6 +2224,55 @@ const WORK_ITEMS = [
       {
         title: 'Service Area Identity',
         body: 'Brand presence designed to anchor authority across the full Greater Seattle service footprint — Woodinville, Kirkland, Bellevue, Redmond, Seattle, and surrounding Puget Sound communities.',
+      },
+    ],
+  },
+
+  {
+    id: 47,
+    category: 'logos',
+    title: 'Seattle Platinum Limo',
+    subtitle:
+      "Logo design for Seattle's premier luxury chauffeured transport service.",
+    src: '/images/portfolio/platinumlimoBusinessCard.jpg',
+    srcFull: '/images/portfolio/platinumlimoBusinessCard-full.jpg',
+    url: 'https://seattleplatinumlimo.com',
+    color: '#1a1a2e',
+    aspect: 'square',
+    tags: [
+      'Logo Design',
+      'Brand Identity',
+      'Luxury / Premium',
+      'Transportation',
+      'Seattle WA',
+      'B2B & Corporate',
+    ],
+    description:
+      'Seattle Platinum Limo is the Pacific Northwest\'s premier chauffeured transportation service, trusted by corporate clients including Microsoft, Boeing, Google, Apple, Deloitte, GE, and Expedia. Their tagline — "You\'ve Tried the Rest, Now Try the Best" — set the design brief clearly: this logo needed to communicate elite, no-compromise luxury while remaining clean and versatile across a WordPress website, booking platform, vehicle livery, and business collateral. The result is a dark, refined mark that lives up to the fleet it represents: BMW 7 Series, Cadillac XTS, Cadillac Escalade, and Mercedes Sprinter.',
+    features: [
+      {
+        title: 'Premium Dark Identity',
+        body: 'Deep dark palette communicating luxury, exclusivity, and nighttime elegance — consistent with the high-end chauffeured service segment.',
+      },
+      {
+        title: 'Corporate & B2B Ready',
+        body: 'Mark works equally well on executive business cards, email signatures, and partner materials for Fortune 500 clients like Microsoft, Boeing, and Google.',
+      },
+      {
+        title: 'Vehicle Livery Application',
+        body: 'Designed to read clearly on dark vehicle exteriors — BMW 7 Series, Cadillac Escalade, and Mercedes Sprinter fleet branding.',
+      },
+      {
+        title: 'WordPress Website Header',
+        body: 'Delivered as a cropped transparent PNG optimized for WordPress — for crisp rendering at all screen sizes.',
+      },
+      {
+        title: 'Booking Platform Presence',
+        body: 'Mark used across the MyLimoBiz online reservation platform and all client-facing digital touchpoints.',
+      },
+      {
+        title: 'Trust Signal Design',
+        body: 'The visual weight and refinement of the mark directly supports the testimonials and client roster — a logo that looks as reliable as the service.',
       },
     ],
   },
@@ -2689,28 +2681,6 @@ const WORK_ITEMS = [
         body: 'Design system built for urgency and conversion — price callouts, limited-time offer framing, and product photography layouts optimized for the flash-sale browse-and-buy behavior.',
       },
     ],
-  },
-  {
-    id: 57,
-    category: 'email',
-    title: 'Promotional Campaign',
-    subtitle: 'E-commerce · Seasonal',
-    src: '/images/work/email-promo.png',
-    srcFull: '/images/work/email-promo-full.png',
-    url: null,
-    color: '#dc2626',
-    aspect: 'tall',
-  },
-  {
-    id: 58,
-    category: 'email',
-    title: 'Newsletter Template',
-    subtitle: 'B2B · Monthly Send',
-    src: '/images/work/email-newsletter.png',
-    srcFull: '/images/work/email-newsletter-full.png',
-    url: null,
-    color: '#059669',
-    aspect: 'tall',
   },
 ];
 
