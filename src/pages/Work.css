@@ -997,75 +997,67 @@
 
 /* ── Responsive ────────────────────────────────────────────────────────────── */
 @media (max-width: 780px) {
-  /* Enriched lightbox stacks vertically on mobile */
   .lightbox__enriched-body {
     grid-template-columns: 1fr;
-    overflow-y: auto;
+    display: block; /* ← kill grid, let children stack as normal blocks */
+    overflow: visible;
   }
+
   .lightbox__image-wrap--side {
+    display: block; /* ← kill flex centering that collapses the box */
     border-right: none;
     border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-    max-height: none; /* ← was 40vh — let image breathe */
     height: auto;
-    min-height: 0;
+    max-height: none;
+    overflow: visible;
+    width: 100%;
   }
-  /* Allow all image types to show fully — no cropping on mobile */
+
+  /* Image sizes itself from its own natural aspect ratio */
   .lightbox__image-wrap--side .lightbox__img.wide,
   .lightbox__image-wrap--side .lightbox__img.square,
   .lightbox__image-wrap--side .lightbox__img.tall,
   .lightbox__image-wrap--side img {
+    display: block;
     width: 100%;
-    height: auto; /* ← natural height, no cut-off */
-    object-fit: contain;
-    object-position: top center;
+    height: auto !important; /* ← override inline style={opacity} but keep height natural */
+    object-fit: unset;
+    object-position: unset;
   }
+
   .lightbox__case-panel {
     max-height: none;
     overflow-y: visible;
   }
+
   .case-study__features {
     grid-template-columns: 1fr;
   }
+
   .lightbox--enriched {
     max-width: 100%;
   }
 }
 
 @media (max-width: 768px) {
-  .work-page {
-    padding-top: 70px;
-  }
-  .work-hero {
-    padding: 100px 5% 60px;
-    min-height: 400px;
-  }
-  .work-filters {
-    top: 70px;
-  }
-  .work-filters__inner {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-  }
-  .work-grid-section {
-    padding: 36px 5% 56px;
-  }
   .lightbox {
     border-radius: 16px 16px 0 0;
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    width: 100%; /* ← ensures no left drift */
+    width: 100%;
     max-height: 92vh;
-    overflow-y: auto;
-    margin: 0; /* ← kill any inherited offset */
+    overflow-y: auto; /* ← the lightbox itself scrolls, not inner children */
+    overflow-x: hidden;
+    margin: 0;
+    display: block; /* ← break out of flex column so children stack freely */
   }
   .lightbox-overlay {
     padding: 0;
     align-items: flex-end;
-    justify-content: center; /* ← centers the sheet horizontally */
+    justify-content: center;
   }
-  /* Non-enriched image wrap — also let it breathe */
   .lightbox__image-wrap {
     max-height: none;
     height: auto;
