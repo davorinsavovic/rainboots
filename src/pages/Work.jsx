@@ -192,8 +192,8 @@ const WORK_ITEMS = [
     title: 'Oregon Rule Co.',
     subtitle:
       'WooCommerce → Shopify migration for a 40-year-old U.S. precision measurement manufacturer. 2,000+ SKUs, two market verticals, and clients like Boeing, Tesla & Nike.',
-    src: '/images/work/web-oregonrule.png',
-    srcFull: '/images/work/web-oregonrule-full.png',
+    src: '/images/portfolio/oregonruleWebsite.jpg',
+    srcFull: '/images/portfolio/oregonruleWebsite-full.jpg',
     url: 'https://oregonrule.com',
     color: '#2d6a2d',
     aspect: 'wide',
@@ -1070,8 +1070,8 @@ const WORK_ITEMS = [
     title: 'Dominis Stone',
     subtitle:
       "Website design and development for Seattle's & Boise's countertop destination — Quartz, Dekton, Porcelain, Quartzite, Granite, and Marble product pages, Cambria brand integration, kitchen design tools, installer network, two locations (Tukwila WA & Meridian ID).",
-    src: '/images/work/web-dominisstone.png',
-    srcFull: '/images/work/web-dominisstone-full.png',
+    src: '/images/portfolio/dominisstoneWebsite.jpg',
+    srcFull: '/images/portfolio/dominisstoneWebsite-full.jpg',
     url: 'https://dominisstone.com',
     color: '#4a4a4a',
     aspect: 'wide',
@@ -1461,8 +1461,8 @@ const WORK_ITEMS = [
     title: 'Muki Construction',
     subtitle:
       'Logo design for a Seattle tile & stone contractor — two-color system (navy/green and orange/white) built for van livery, business cards, signage, and digital use.',
-    src: '/images/work/logo-mukiconstruction.png',
-    srcFull: '/images/work/logo-mukiconstruction-full.png',
+    src: '/images/portfolio/mukiConstructionLogo.jpg',
+    srcFull: '/images/portfolio/mukiConstructionLogo.jpg',
     url: null,
     color: '#e65100',
     aspect: 'square',
