@@ -301,8 +301,8 @@ const WORK_ITEMS = [
     title: 'Live Love Flow Studios',
     subtitle:
       'WordPress website for a boutique hot yoga & fitness studio in Green Lake, Seattle — built alongside the custom logo we designed. Client has since migrated to Squarespace independently.',
-    src: '/images/work/web-liveloveflow.png',
-    srcFull: '/images/work/web-liveloveflow-full.png',
+    src: '/images/portfolio/llfWebsite.jpg',
+    srcFull: '/images/portfolio/llfWebsite-full.jpg',
     url: 'https://www.liveloveflowstudios.com',
     color: '#2a7ab5',
     aspect: 'wide',
