@@ -1170,8 +1170,8 @@ const WORK_ITEMS = [
     title: 'DCM Contractors',
     subtitle:
       'Logo design for a specialty commercial general contractor — a professional mark built for dental, medical, and commercial construction in Greater Seattle.',
-    src: '/images/portfolio/dcmContractors.jpg',
-    srcFull: '/images/portfolio/dcmContractors.jpg',
+    src: '/images/portfolio/dcmContractors-full.jpg',
+    srcFull: '/images/portfolio/dcmContractors-full.jpg',
     url: 'http://dcmcontractors.com',
     color: '#1a237e',
     aspect: 'square',
@@ -1462,7 +1462,7 @@ const WORK_ITEMS = [
     subtitle:
       'Logo design for a Seattle tile & stone contractor — two-color system (navy/green and orange/white) built for van livery, business cards, signage, and digital use.',
     src: '/images/portfolio/mukiConstructionLogo.jpg',
-    srcFull: '/images/portfolio/mukiConstructionLogo.jpg',
+    srcFull: '/images/portfolio/mukiConstructionLogo-full.jpg',
     url: null,
     color: '#e65100',
     aspect: 'square',
@@ -1510,7 +1510,7 @@ const WORK_ITEMS = [
     subtitle:
       'Logo design for a Seattle general contracting company — bold AM monogram, white and blue, applied across business cards and all company materials.',
     src: '/images/portfolio/amruylellcLogo.jpg',
-    srcFull: '/images/portfolio/amruylellcLogo.jpg',
+    srcFull: '/images/portfolio/amruylellcLogo-full.jpg',
     url: 'https://www.amruylellc.com',
     color: '#1565c0',
     aspect: 'square',
