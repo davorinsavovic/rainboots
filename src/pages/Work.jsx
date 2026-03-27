@@ -2890,8 +2890,48 @@ function CaseStudyPanel({ item }) {
   );
 }
 
+// ── Zoom overlay ────────────────────────────────────────────────────────────
+function ZoomOverlay({ src, alt, onClose }) {
+  useEffect(() => {
+    const handleKey = (e) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [onClose]);
+
+  // The outer div stops ALL click propagation so nothing reaches the
+  // lightbox overlay's onClick={onClose}. position:fixed means it renders
+  // above everything regardless of where it is in the DOM tree.
+  return (
+    <div
+      onClick={(e) => e.stopPropagation()}
+      style={{ position: 'fixed', inset: 0, zIndex: 9999 }}
+    >
+      <div className='lightbox__zoom-overlay' onClick={onClose}>
+        <button
+          className='lightbox__zoom-close'
+          onClick={(e) => {
+            e.stopPropagation();
+            onClose();
+          }}
+          aria-label='Close zoom'
+        >
+          ✕
+        </button>
+        <img src={src} alt={alt} onClick={(e) => e.stopPropagation()} />
+      </div>
+    </div>
+  );
+}
+
 // ── Lightbox ────────────────────────────────────────────────────────────────
 function Lightbox({ item, onClose, onPrev, onNext, total, current }) {
+  const [imgLoaded, setImgLoaded] = useState(false);
+  const [imgError, setImgError] = useState(false);
+  const [zoomed, setZoomed] = useState(false);
+  const isEnriched = Boolean(item.description && item.features);
+
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     const handleKey = (e) => {
@@ -2906,13 +2946,10 @@ function Lightbox({ item, onClose, onPrev, onNext, total, current }) {
     };
   }, [onClose, onNext, onPrev]);
 
-  const [imgLoaded, setImgLoaded] = useState(false);
-  const [imgError, setImgError] = useState(false);
-  const isEnriched = Boolean(item.description && item.features);
-
   useEffect(() => {
     setImgLoaded(false);
     setImgError(false);
+    setZoomed(false);
   }, [item.id]);
 
   return (
@@ -2965,6 +3002,10 @@ function Lightbox({ item, onClose, onPrev, onNext, total, current }) {
               className='lightbox__image-wrap lightbox__image-wrap--side'
               style={{ background: item.color + '12' }}
             >
+              <span className='lightbox__scroll-hint'>
+                ↕ scroll to see full image
+              </span>
+
               {!imgLoaded && !imgError && (
                 <div className='lightbox__loading'>
                   <div
@@ -2988,7 +3029,26 @@ function Lightbox({ item, onClose, onPrev, onNext, total, current }) {
                   style={{ opacity: imgLoaded ? 1 : 0 }}
                 />
               )}
+
+              {imgLoaded && !imgError && (
+                <button
+                  className='lightbox__zoom-btn'
+                  onClick={() => setZoomed(true)}
+                  aria-label='View full image'
+                >
+                  <svg width='13' height='13' viewBox='0 0 13 13' fill='none'>
+                    <path
+                      d='M1 1h4M1 1v4M12 1h-4M12 1v4M1 12h4M1 12v-4M12 12h-4M12 12v-4'
+                      stroke='currentColor'
+                      strokeWidth='1.6'
+                      strokeLinecap='round'
+                    />
+                  </svg>
+                  Full image
+                </button>
+              )}
             </div>
+
             <div className='lightbox__case-panel'>
               <CaseStudyPanel item={item} />
             </div>
@@ -3043,6 +3103,16 @@ function Lightbox({ item, onClose, onPrev, onNext, total, current }) {
           </button>
         </div>
       </motion.div>
+
+      {/* ZoomOverlay — the outer stopPropagation div prevents any click
+          from reaching the lightbox-overlay's onClick={onClose} */}
+      {zoomed && (
+        <ZoomOverlay
+          src={item.srcFull || item.src}
+          alt={item.title}
+          onClose={() => setZoomed(false)}
+        />
+      )}
     </motion.div>
   );
 }
