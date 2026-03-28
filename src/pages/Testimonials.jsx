@@ -230,7 +230,7 @@ const TESTIMONIALS = [
     quote:
       "Rainboots designed our logo and original WordPress site that captured the 'I Am' philosophy perfectly. The clean white-and-blue aesthetic reflects the grounding, confident energy we bring to every class. It was a pleasure working with them.",
     author: 'Live Love Flow Team',
-    role: 'Founder',
+    role: 'Indira Avdic (Founder)',
     rating: 5,
     projectType: 'Branding + WordPress',
   },
