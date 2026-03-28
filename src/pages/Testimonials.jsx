@@ -67,7 +67,7 @@ const TESTIMONIALS = [
     quote:
       'We needed a professional e-commerce presence for our ready-to-assemble cabinet company. Rainboots delivered a clean, modern website that showcases our product lines beautifully. They turned around our BuildExpo materials in 24 hours—we were blown away by the speed and quality. The trade show flyers and brochures were a huge hit at the expo.',
     author: 'Northville Team',
-    role: 'Owner',
+    role: 'Rachel',
     image: null,
     rating: 5,
     projectType: 'E-Commerce + Print Collateral',
@@ -266,7 +266,7 @@ const TESTIMONIALS = [
     quote:
       "Rainboots designed our event flyers, posters, and marketing materials for Greek Nite, Balkan Night, Euro Saturdays, and more. They captured the high-energy vibe of Seattle's #1 nightclub perfectly. The design work commands attention every time.",
     author: 'Sarajevo Team',
-    role: 'Owner',
+    role: 'Dino Slatina (Owner)',
     rating: 5,
     projectType: 'Branding',
   },
@@ -329,7 +329,7 @@ const TESTIMONIALS = [
     quote:
       "Rainboots built our dealer-exclusive e-commerce platform from the ground up. The custom system handles multiple cabinet lines (Elements, Northville, Prismora), free 3D kitchen design, and nationwide installer network. Our customers love the quality—we're getting 5-star reviews consistently. The Wayfair and AllModern integrations have expanded our reach dramatically.",
     author: 'Cabinets.Deals Team',
-    role: 'Owner',
+    role: 'Lei (President)',
     rating: 5,
     projectType: 'Custom E-Commerce Platform',
     featured: false,
