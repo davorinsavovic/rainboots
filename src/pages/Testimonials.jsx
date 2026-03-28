@@ -218,7 +218,7 @@ const TESTIMONIALS = [
     quote:
       'Rainboots migrated our 2,000+ SKU catalog from WooCommerce to Shopify seamlessly. The new site handles our dual-market needs—industrial/commercial and forensics—and the checkout experience is now fast and reliable. Clients like Boeing, Tesla, and Nike now have a premium experience.',
     author: 'Oregon Rule Co. Team',
-    role: 'Owner',
+    role: 'Amir Mesinovic (Owner)',
     rating: 5,
     projectType: 'E-Commerce + Migration',
   },
