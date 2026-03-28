@@ -1,128 +1,111 @@
-// services/leadCollector.js
+// services/leadCollector.js - Debug version
 const { chromium } = require('playwright');
+
+function cleanUrl(url) {
+  if (!url) return null;
+
+  let cleaned = url.trim();
+
+  // Remove spaces and junk like "+ //"
+  cleaned = cleaned.replace(/\s+/g, '');
+  cleaned = cleaned.replace(/\+\/*/g, '');
+
+  // 🔥 Normalize ALL protocol issues in one shot
+  cleaned = cleaned.replace(/^(https?:)?\/\/+/i, ''); // removes //, https//, http//
+  cleaned = cleaned.replace(/^(https?:)+/gi, ''); // removes repeated httpshttps
+
+  // Remove any remaining leading garbage slashes
+  cleaned = cleaned.replace(/^\/+/, '');
+
+  // Now rebuild properly
+  cleaned = 'https://' + cleaned;
+
+  // Remove trailing slashes
+  cleaned = cleaned.replace(/\/+$/, '');
+
+  return cleaned;
+}
+
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function scrapeYellowPages(category, location) {
   const browser = await chromium.launch({ headless: true });
-  const page = await browser.newPage();
 
-  // Format the search URL correctly
+  const context = await browser.newContext({
+    userAgent:
+      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+  });
+
+  const page = await context.newPage();
   const searchUrl = `https://www.yellowpages.com/search?search_terms=${encodeURIComponent(category)}&geo_location_terms=${encodeURIComponent(location)}`;
 
-  console.log(`   🌐 Visiting: ${searchUrl}`);
-
   try {
-    await page.goto(searchUrl, { waitUntil: 'networkidle', timeout: 30000 });
-
-    // Wait for results to load
+    await page.goto(searchUrl, {
+      waitUntil: 'domcontentloaded',
+      timeout: 30000,
+    });
     await page
-      .waitForSelector('.business-name, .info, .result', { timeout: 10000 })
-      .catch(() => {
-        console.log(`   ⚠️  No results found for ${category} in ${location}`);
-        return [];
-      });
+      .waitForSelector('.result, .business-name', { timeout: 10000 })
+      .catch(() => {});
 
-    // Updated selectors for Yellow Pages current structure
-    const businesses = await page.evaluate(() => {
-      const results = [];
+    const businesses = await page.evaluate(
+      ({ cat, loc }) => {
+        const results = [];
+        const listings = document.querySelectorAll('.result');
 
-      // Try different possible selectors
-      const items = document.querySelectorAll(
-        '.business-name, .info, .result, [data-business-name]',
-      );
+        listings.forEach((el) => {
+          let name = '';
+          const nameEl = el.querySelector('.business-name');
+          if (nameEl) name = nameEl.innerText?.trim() || '';
 
-      items.forEach((item) => {
-        // Get business name - try multiple selectors
-        let name = '';
-        const nameEl = item.querySelector(
-          '.business-name, .fn, [itemprop="name"], h2, h3',
-        );
-        if (nameEl) {
-          name = nameEl.innerText?.trim() || '';
-        } else if (item.getAttribute('data-business-name')) {
-          name = item.getAttribute('data-business-name');
-        } else if (item.innerText) {
-          // Sometimes the name is just the text
-          name = item.innerText.split('\n')[0]?.trim();
-        }
-
-        // Get website - try multiple selectors
-        let website = '';
-        const websiteEl = item.querySelector(
-          'a[href*="http"], .website a, .links a',
-        );
-        if (websiteEl) {
-          website = websiteEl.href;
-          if (website && !website.startsWith('http')) {
-            website = 'https://' + website;
+          let website = '';
+          const links = el.querySelectorAll('a');
+          for (const link of links) {
+            const href = link.href || '';
+            if (
+              href &&
+              href.includes('http') &&
+              !href.includes('yellowpages') &&
+              !href.includes('facebook') &&
+              !href.includes('twitter') &&
+              !href.includes('instagram')
+            ) {
+              website = href;
+              break;
+            }
           }
-        }
 
-        // Get phone
-        let phone = '';
-        const phoneEl = item.querySelector(
-          '.phone, .phones, [itemprop="telephone"]',
-        );
-        if (phoneEl) {
-          phone = phoneEl.innerText?.trim() || '';
-        }
-
-        // Get address
-        let address = '';
-        const addressEl = item.querySelector(
-          '.street-address, .address, [itemprop="address"]',
-        );
-        if (addressEl) {
-          address = addressEl.innerText?.trim() || '';
-        }
-
-        if (name && (website || phone)) {
-          results.push({
-            businessName: name,
-            website: website || null,
-            phone: phone,
-            address: address,
-          });
-        }
-      });
-
-      // Also try to get from structured data
-      const structuredItems = document.querySelectorAll(
-        '[itemtype="http://schema.org/LocalBusiness"]',
-      );
-      structuredItems.forEach((item) => {
-        const name =
-          item.querySelector('[itemprop="name"]')?.innerText?.trim() || '';
-        const website = item.querySelector('[itemprop="url"]')?.href || '';
-        const phone =
-          item.querySelector('[itemprop="telephone"]')?.innerText?.trim() || '';
-
-        if (name && (website || phone)) {
-          // Avoid duplicates
-          if (!results.find((r) => r.businessName === name)) {
+          if (name && website) {
             results.push({
               businessName: name,
-              website: website || null,
-              phone: phone,
-              address: '',
+              website: website,
+              category: cat,
+              location: loc,
             });
           }
-        }
-      });
+        });
 
-      return results;
-    });
+        return results;
+      },
+      { cat: category, loc: location },
+    );
 
     await browser.close();
 
-    // Filter out businesses without websites
-    const withWebsites = businesses.filter((b) => b.website);
-    console.log(
-      `      ✅ Found ${businesses.length} total, ${withWebsites.length} with websites`,
-    );
+    const cleaned = businesses
+      .map((b) => ({
+        ...b,
+        website: cleanUrl(b.website),
+      }))
+      .filter((b) => b.website);
 
-    return withWebsites;
+    if (cleaned.length > 0) {
+      console.log(`      ✅ Found ${cleaned.length} businesses with websites`);
+    }
+
+    return cleaned;
   } catch (error) {
-    console.error(`   ❌ Error scraping Yellow Pages: ${error.message}`);
+    console.log(`      ❌ Error: ${error.message}`);
     await browser.close();
     return [];
   }
@@ -130,105 +113,56 @@ async function scrapeYellowPages(category, location) {
 
 async function getLeads() {
   console.log('\n🚀 ========== LEAD DISCOVERY ENGINE ==========');
-  console.log('🎯 Finding businesses that need marketing help...\n');
-
-  const allLeads = [];
-
-  // Test with a single search first to verify it works
-  const testLeads = await scrapeYellowPages('contractors', 'Seattle');
-
-  if (testLeads.length === 0) {
-    console.log(
-      '\n⚠️  Yellow Pages scraping returned no results. Using sample leads for testing.\n',
-    );
-
-    // Return sample leads for testing
-    return [
-      {
-        businessName: 'Vector RE Corp',
-        website: 'https://vectorrecorp.com',
-        category: 'real estate',
-        location: 'Kirkland',
-      },
-      {
-        businessName: 'DCM Contractors',
-        website: 'http://dcmcontractors.com',
-        category: 'construction',
-        location: 'Seattle',
-      },
-      {
-        businessName: 'Partizan Hoops',
-        website: 'https://partizanhoops.com',
-        category: 'sports',
-        location: 'Seattle',
-      },
-      {
-        businessName: 'Bothell Select Basketball',
-        website: 'https://bothellselect.com',
-        category: 'sports',
-        location: 'Bothell',
-      },
-      {
-        businessName: 'Live Love Flow Studios',
-        website: 'https://www.liveloveflowstudios.com',
-        category: 'wellness',
-        location: 'Seattle',
-      },
-      {
-        businessName: 'Simply Sweet',
-        website: 'https://www.simplysweetwa.com',
-        category: 'bakery',
-        location: 'Snohomish',
-      },
-      {
-        businessName: 'Sarajevo Lounge',
-        website: 'https://www.sarajevonightclub.com',
-        category: 'nightlife',
-        location: 'Seattle',
-      },
-      {
-        businessName: 'GraphiCode Inc.',
-        website: 'https://www.graphicode.com',
-        category: 'software',
-        location: 'Redmond',
-      },
-      {
-        businessName: 'Oregon Rule Co.',
-        website: 'https://oregonrule.com',
-        category: 'manufacturing',
-        location: 'Oregon',
-      },
-      {
-        businessName: 'Alpha Construction',
-        website: 'http://www.alphawa.com',
-        category: 'construction',
-        location: 'Woodinville',
-      },
-      {
-        businessName: 'Nelson Cabinetry',
-        website: 'https://nelsonkb.com',
-        category: 'ecommerce',
-        location: 'Irving, TX',
-      },
-      {
-        businessName: 'Cabinets.Deals',
-        website: 'https://www.cabinets.deals',
-        category: 'ecommerce',
-        location: 'Houston, TX',
-      },
-    ];
-  }
-
-  allLeads.push(
-    ...testLeads.map((lead) => ({
-      ...lead,
-      category: 'contractor',
-      location: 'Seattle',
-    })),
+  console.log(
+    '🎯 Automatically finding businesses that need marketing help...\n',
   );
 
-  console.log(`\n📊 Total discovered: ${allLeads.length} leads`);
-  return allLeads;
+  const allLeads = [];
+  const seenUrls = new Set();
+
+  // Use fewer categories and locations for testing
+  const categories = ['contractor', 'roofing', 'plumbing'];
+  const locations = ['Seattle'];
+
+  let totalFound = 0;
+
+  try {
+    for (const location of locations) {
+      for (const category of categories) {
+        console.log(`   🔍 ${category} in ${location}`);
+        const leads = await scrapeYellowPages(category, location);
+        console.log(`      📦 Received ${leads.length} leads from scraper`);
+
+        for (const lead of leads) {
+          const key = lead.website;
+          if (!seenUrls.has(key)) {
+            seenUrls.add(key);
+            allLeads.push(lead);
+            totalFound++;
+          }
+        }
+
+        await delay(1500);
+      }
+    }
+
+    console.log(`\n📊 DISCOVERY COMPLETE:`);
+    console.log(`   🔍 Total unique leads discovered: ${totalFound}`);
+    console.log(`   📝 Returning ${allLeads.length} leads for processing\n`);
+
+    if (allLeads.length > 0) {
+      console.log(`📋 FIRST 3 LEADS:`);
+      allLeads.slice(0, 3).forEach((lead, i) => {
+        console.log(`   ${i + 1}. ${lead.businessName}`);
+        console.log(`      🌐 ${lead.website}`);
+      });
+    }
+
+    return allLeads;
+  } catch (error) {
+    console.error('🔥 ERROR in getLeads:', error);
+    return [];
+  }
 }
 
 module.exports = { getLeads };

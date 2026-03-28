@@ -4,17 +4,60 @@ const { runNow } = require('../jobs/dailyLeadJob');
 
 const router = express.Router();
 
-// Get all leads
+// Get all leads with pagination, filtering, and sorting
 router.get('/leads', async (req, res) => {
   try {
-    const { limit = 50, sort = '-score', status } = req.query;
+    const {
+      limit = 10,
+      page = 1,
+      sort = '-score',
+      status,
+      createdAfter,
+      createdBefore,
+      minScore,
+    } = req.query;
 
+    // Build filter object
     let filter = {};
     if (status && status !== 'all') filter.status = status;
+    if (minScore) filter.score = { $gte: parseInt(minScore) };
 
-    const leads = await Lead.find(filter).sort(sort).limit(parseInt(limit));
-    console.log(`📊 Fetched ${leads.length} leads`);
-    res.json({ success: true, leads });
+    // Date filtering
+    if (createdAfter) {
+      filter.createdAt = { $gte: new Date(createdAfter) };
+    }
+    if (createdBefore) {
+      filter.createdAt = { ...filter.createdAt, $lte: new Date(createdBefore) };
+    }
+
+    // Calculate pagination
+    const pageNum = parseInt(page);
+    const limitNum = parseInt(limit);
+    const skip = (pageNum - 1) * limitNum;
+
+    // Get total count for pagination
+    const total = await Lead.countDocuments(filter);
+    const totalPages = Math.ceil(total / limitNum);
+
+    // Get paginated and sorted results
+    const leads = await Lead.find(filter).sort(sort).skip(skip).limit(limitNum);
+
+    console.log(
+      `📊 Fetched ${leads.length} leads (page ${pageNum} of ${totalPages}, total: ${total})`,
+    );
+
+    res.json({
+      success: true,
+      leads,
+      pagination: {
+        currentPage: pageNum,
+        totalPages,
+        totalLeads: total,
+        limit: limitNum,
+        hasNext: pageNum < totalPages,
+        hasPrev: pageNum > 1,
+      },
+    });
   } catch (error) {
     console.error('Error fetching leads:', error);
     res.status(500).json({ error: error.message });
@@ -63,6 +106,13 @@ router.get('/stats/leads', async (req, res) => {
       { $group: { _id: null, avg: { $avg: '$score' } } },
     ]);
 
+    // Get leads created in last 7 days
+    const weekAgo = new Date();
+    weekAgo.setDate(weekAgo.getDate() - 7);
+    const newThisWeek = await Lead.countDocuments({
+      createdAt: { $gte: weekAgo },
+    });
+
     const stats = {
       total,
       new: newLeads,
@@ -70,6 +120,7 @@ router.get('/stats/leads', async (req, res) => {
       contacted,
       closed,
       avgScore: Math.round(avgResult[0]?.avg || 0),
+      newThisWeek,
     };
 
     res.json({ success: true, stats });

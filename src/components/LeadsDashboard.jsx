@@ -18,6 +18,24 @@ const STATUS_FILTERS = [
   { value: 'closed', label: 'Closed' },
 ];
 
+// Time range options
+const TIME_RANGES = [
+  { value: 'all', label: 'All Time' },
+  { value: 'today', label: 'Today' },
+  { value: 'week', label: 'This Week' },
+  { value: 'month', label: 'This Month' },
+  { value: 'year', label: 'This Year' },
+];
+
+// Sort options
+const SORT_OPTIONS = [
+  { value: '-score', label: 'Score (High to Low)' },
+  { value: 'score', label: 'Score (Low to High)' },
+  { value: '-createdAt', label: 'Newest First' },
+  { value: 'createdAt', label: 'Oldest First' },
+  { value: '-score', label: 'Best Opportunities' },
+];
+
 const API_BASE = 'http://localhost:5001';
 
 export default function LeadsDashboard() {
@@ -27,8 +45,16 @@ export default function LeadsDashboard() {
   const [loadingMsg, setLoadingMsg] = useState('');
   const [error, setError] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
+  const [timeRange, setTimeRange] = useState('all');
+  const [sortBy, setSortBy] = useState('-score');
   const [selectedLead, setSelectedLead] = useState(null);
   const [copyStatus, setCopyStatus] = useState('');
+
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalLeads, setTotalLeads] = useState(0);
+  const itemsPerPage = 10;
 
   const outputRef = useRef(null);
 
@@ -43,18 +69,68 @@ export default function LeadsDashboard() {
     return () => clearInterval(interval);
   };
 
-  // Fetch leads from API
+  // Helper to get date filter
+  const getDateFilter = () => {
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+    switch (timeRange) {
+      case 'today':
+        return { $gte: today.toISOString() };
+      case 'week':
+        const weekAgo = new Date(today);
+        weekAgo.setDate(today.getDate() - 7);
+        return { $gte: weekAgo.toISOString() };
+      case 'month':
+        const monthAgo = new Date(today);
+        monthAgo.setMonth(today.getMonth() - 1);
+        return { $gte: monthAgo.toISOString() };
+      case 'year':
+        const yearAgo = new Date(today);
+        yearAgo.setFullYear(today.getFullYear() - 1);
+        return { $gte: yearAgo.toISOString() };
+      default:
+        return {};
+    }
+  };
+
+  // Fetch leads from API with pagination and filters
   const fetchLeads = async () => {
     try {
-      let url = `${API_BASE}/api/leads`;
+      let url = `${API_BASE}/api/leads?limit=${itemsPerPage}&page=${currentPage}&sort=${sortBy}`;
+
       if (statusFilter !== 'all') {
-        url = `${API_BASE}/api/leads?status=${statusFilter}`;
+        url += `&status=${statusFilter}`;
       }
+
+      // Add date filter if not 'all'
+      if (timeRange !== 'all') {
+        const dateFilter = getDateFilter();
+        if (dateFilter.$gte) {
+          url += `&createdAfter=${encodeURIComponent(dateFilter.$gte)}`;
+        }
+      }
+
+      console.log('Fetching leads from:', url); // Debug log
 
       const res = await fetch(url);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
-      setLeads(data.leads || []);
+
+      console.log('Response data:', data); // Debug log
+
+      // Handle both old and new response formats
+      if (data.pagination) {
+        // New format with pagination
+        setLeads(data.leads || []);
+        setTotalPages(data.pagination.totalPages || 1);
+        setTotalLeads(data.pagination.totalLeads || 0);
+      } else {
+        // Old format - create pagination from array
+        setLeads(data.leads || []);
+        setTotalLeads(data.leads?.length || 0);
+        setTotalPages(Math.ceil((data.leads?.length || 0) / itemsPerPage));
+      }
     } catch (err) {
       console.error('Error fetching leads:', err);
       setError('Failed to load leads. Make sure backend is running.');
@@ -73,7 +149,7 @@ export default function LeadsDashboard() {
     }
   };
 
-  // Load data
+  // Load data when filters or page change
   useEffect(() => {
     const loadData = async () => {
       setLoading(true);
@@ -83,15 +159,20 @@ export default function LeadsDashboard() {
       setLoading(false);
     };
     loadData();
-  }, [statusFilter]);
+  }, [statusFilter, timeRange, sortBy, currentPage]);
 
+  // Reset to page 1 when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [statusFilter, timeRange, sortBy]);
+
+  // Escape key handler
   useEffect(() => {
     const handleEscape = (e) => {
       if (e.key === 'Escape' && selectedLead) {
         setSelectedLead(null);
       }
     };
-
     window.addEventListener('keydown', handleEscape);
     return () => window.removeEventListener('keydown', handleEscape);
   }, [selectedLead]);
@@ -150,6 +231,16 @@ export default function LeadsDashboard() {
     }
   };
 
+  // Format date
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+    });
+  };
+
   // Get score color
   const getScoreColor = (score) => {
     if (score >= 80) return '#10b981';
@@ -161,6 +252,34 @@ export default function LeadsDashboard() {
   // Get status badge class
   const getStatusClass = (status) => {
     return `status-badge status-${status}`;
+  };
+
+  // Pagination handlers
+  const goToPage = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  const nextPage = () => goToPage(currentPage + 1);
+  const prevPage = () => goToPage(currentPage - 1);
+
+  // Get page numbers to display
+  const getPageNumbers = () => {
+    const pages = [];
+    const maxVisible = 5;
+    let start = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+    let end = Math.min(totalPages, start + maxVisible - 1);
+
+    if (end - start + 1 < maxVisible) {
+      start = Math.max(1, end - maxVisible + 1);
+    }
+
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+    return pages;
   };
 
   return (
@@ -201,7 +320,7 @@ export default function LeadsDashboard() {
             <div className='stats-card'>
               <div className='stats-icon'>📋</div>
               <div className='stats-info'>
-                <h3>{stats.total || 0}</h3>
+                <h3>{totalLeads || stats.total || 0}</h3>
                 <p>Total Leads</p>
               </div>
             </div>
@@ -253,6 +372,36 @@ export default function LeadsDashboard() {
                 ))}
               </div>
             </div>
+
+            <div className='filter-group'>
+              <span className='filter-label'>Time Range</span>
+              <div className='filter-buttons'>
+                {TIME_RANGES.map((range) => (
+                  <button
+                    key={range.value}
+                    className={`filter-btn ${timeRange === range.value ? 'active' : ''}`}
+                    onClick={() => setTimeRange(range.value)}
+                  >
+                    {range.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className='filter-group'>
+              <span className='filter-label'>Sort By</span>
+              <select
+                className='sort-select'
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+              >
+                {SORT_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
           <button className='collect-btn' onClick={triggerCollection}>
             🔄 Collect New Leads
@@ -290,66 +439,135 @@ export default function LeadsDashboard() {
         )}
 
         {!loading && leads.length > 0 && (
-          <div className='leads-table-container'>
-            <table className='leads-table'>
-              <thead>
-                <tr>
-                  <th>Score</th>
-                  <th>Business</th>
-                  <th>Category</th>
-                  <th>Location</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {leads.map((lead) => (
-                  <tr key={lead._id} className='lead-row'>
-                    <td className='score-cell'>
-                      <span
-                        className='score-badge'
-                        style={{ background: getScoreColor(lead.score) }}
-                      >
-                        {lead.score}
-                      </span>
-                    </td>
-                    <td>
-                      <div className='business-info'>
-                        <strong>{lead.businessName}</strong>
-                        <small>{lead.website}</small>
-                      </div>
-                    </td>
-                    <td>{lead.category || '—'}</td>
-                    <td>{lead.location || '—'}</td>
-                    <td>
-                      <select
-                        value={lead.status}
-                        onChange={(e) => updateStatus(lead._id, e.target.value)}
-                        className={getStatusClass(lead.status)}
-                      >
-                        <option value='new'>🆕 New</option>
-                        <option value='reviewed'>👁️ Reviewed</option>
-                        <option value='contacted'>✉️ Contacted</option>
-                        <option value='closed'>✅ Closed</option>
-                      </select>
-                    </td>
-                    <td>
-                      <button
-                        className='view-btn'
-                        onClick={() => setSelectedLead(lead)}
-                      >
-                        View Report →
-                      </button>
-                    </td>
+          <>
+            <div className='leads-table-container'>
+              <table className='leads-table'>
+                <thead>
+                  <tr>
+                    <th>Score</th>
+                    <th>Business</th>
+                    <th>Category</th>
+                    <th>Location</th>
+                    <th>Created</th>
+                    <th>Status</th>
+                    <th>Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {leads.map((lead) => (
+                    <tr key={lead._id} className='lead-row'>
+                      <td className='score-cell'>
+                        <span
+                          className='score-badge'
+                          style={{ background: getScoreColor(lead.score) }}
+                        >
+                          {lead.score}
+                        </span>
+                      </td>
+                      <td>
+                        <div className='business-info'>
+                          <strong>{lead.businessName}</strong>
+                          <small>{lead.website}</small>
+                        </div>
+                      </td>
+                      <td>{lead.category || '—'}</td>
+                      <td>{lead.location || '—'}</td>
+                      <td className='date-cell'>
+                        {formatDate(lead.createdAt)}
+                      </td>
+                      <td>
+                        <select
+                          value={lead.status}
+                          onChange={(e) =>
+                            updateStatus(lead._id, e.target.value)
+                          }
+                          className={getStatusClass(lead.status)}
+                        >
+                          <option value='new'>🆕 New</option>
+                          <option value='reviewed'>👁️ Reviewed</option>
+                          <option value='contacted'>✉️ Contacted</option>
+                          <option value='closed'>✅ Closed</option>
+                        </select>
+                      </td>
+                      <td>
+                        <button
+                          className='view-btn'
+                          onClick={() => setSelectedLead(lead)}
+                        >
+                          View Report →
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className='pagination'>
+                <button
+                  className='pagination-btn'
+                  onClick={prevPage}
+                  disabled={currentPage === 1}
+                >
+                  ← Previous
+                </button>
+
+                <div className='pagination-pages'>
+                  {currentPage > 3 && totalPages > 5 && (
+                    <>
+                      <button
+                        className='pagination-page'
+                        onClick={() => goToPage(1)}
+                      >
+                        1
+                      </button>
+                      {currentPage > 4 && (
+                        <span className='pagination-dots'>...</span>
+                      )}
+                    </>
+                  )}
+
+                  {getPageNumbers().map((page) => (
+                    <button
+                      key={page}
+                      className={`pagination-page ${currentPage === page ? 'active' : ''}`}
+                      onClick={() => goToPage(page)}
+                    >
+                      {page}
+                    </button>
+                  ))}
+
+                  {currentPage < totalPages - 2 && totalPages > 5 && (
+                    <>
+                      {currentPage < totalPages - 3 && (
+                        <span className='pagination-dots'>...</span>
+                      )}
+                      <button
+                        className='pagination-page'
+                        onClick={() => goToPage(totalPages)}
+                      >
+                        {totalPages}
+                      </button>
+                    </>
+                  )}
+                </div>
+
+                <button
+                  className='pagination-btn'
+                  onClick={nextPage}
+                  disabled={currentPage === totalPages}
+                >
+                  Next →
+                </button>
+              </div>
+            )}
+          </>
         )}
       </div>
 
-      {/* Lead Detail Modal */}
+      {/* Lead Detail Modal - keep the same */}
       {selectedLead && (
         <div
           className='lead-modal-overlay'
@@ -371,6 +589,9 @@ export default function LeadsDashboard() {
               <div>
                 <h2>{selectedLead.businessName}</h2>
                 <p className='modal-website'>{selectedLead.website}</p>
+                <p className='modal-date'>
+                  Created: {formatDate(selectedLead.createdAt)}
+                </p>
               </div>
             </div>
 
@@ -436,7 +657,11 @@ export default function LeadsDashboard() {
                 Mark Contacted
               </button>
               <a
-                href={`https://${selectedLead.website}`}
+                href={
+                  selectedLead.website?.startsWith('http')
+                    ? selectedLead.website
+                    : `https://${selectedLead.website}`
+                }
                 target='_blank'
                 rel='noopener noreferrer'
                 className='visit-btn'
