@@ -242,7 +242,7 @@ const TESTIMONIALS = [
     quote:
       'Rainboots designed our website, product packaging, and marketing collateral for our GC-PowerPlatform CAM software suite. They understood our technical B2B audience and delivered a professional presence that serves our global electronics manufacturing customers.',
     author: 'GraphiCode Team',
-    role: 'Marketing Director',
+    role: 'Adam Brockman (Marketing Director)',
     rating: 5,
     projectType: 'Branding + Website Design and Development',
   },
