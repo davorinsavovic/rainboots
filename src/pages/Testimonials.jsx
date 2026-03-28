@@ -33,7 +33,7 @@ const TESTIMONIALS = [
     quote:
       'Rainboots built us a clean, modern website that reflects the quality of work we do. The single-page design with smooth anchor navigation is exactly what we needed—simple, professional, and effective. Our clients in the dental and medical fields immediately recognize the level of craftsmanship we bring to every project.',
     author: 'DCM Team',
-    role: 'Principal',
+    role: '',
     image: null,
     rating: 5,
     projectType: 'WordPress Website + Logo Design',
@@ -66,8 +66,8 @@ const TESTIMONIALS = [
     industry: 'Home Improvement',
     quote:
       'We needed a professional e-commerce presence for our ready-to-assemble cabinet company. Rainboots delivered a clean, modern website that showcases our product lines beautifully. They turned around our BuildExpo materials in 24 hours—we were blown away by the speed and quality. The trade show flyers and brochures were a huge hit at the expo.',
-    author: 'Northville Team',
-    role: 'Rachel',
+    author: 'Rachel',
+    role: 'Sales Director',
     image: null,
     rating: 5,
     projectType: 'E-Commerce + Print Collateral',
@@ -117,8 +117,8 @@ const TESTIMONIALS = [
     industry: 'Manufacturing',
     quote:
       'We needed a website that could handle our complex service catalog and communicate our certifications (ISO 9001, AS9100, ISO 13485, ITAR). Rainboots created an organized, clean site that makes it easy for OEM buyers to understand our capabilities. The trade show banners they designed have been a hit at industry events.',
-    author: 'Schippers Team',
-    role: 'Operations',
+    author: 'Amer Hadzikadunic',
+    role: 'President',
     image: null,
     rating: 5,
     projectType: 'WordPress + Trade Show Materials',
@@ -186,7 +186,7 @@ const TESTIMONIALS = [
     quote:
       'Rainboots built a clean, authoritative website for our industrial machinery company. We needed to communicate complex technical information to buyers across the global wood processing industry, and they delivered a site that balances technical depth with professional presentation. The timeline feature showing our 30+ years of innovation has been particularly effective.',
     author: 'TSI Team',
-    role: 'President',
+    role: '',
     image: null,
     rating: 5,
     projectType: 'WordPress Corporate Site',
@@ -202,7 +202,7 @@ const TESTIMONIALS = [
     industry: 'Real Estate',
     quote:
       'Rainboots designed and built our WordPress site from the ground up. They captured our mission—transforming homes and revitalizing communities—perfectly. The property listing pages and inquiry flow have already generated quality leads. The clean, community-focused design reflects who we are as a company.',
-    author: 'Meraka Team',
+    author: 'Jason Piper',
     role: 'Founder',
     image: null,
     rating: 5,
@@ -217,8 +217,8 @@ const TESTIMONIALS = [
     logo: '📏',
     quote:
       'Rainboots migrated our 2,000+ SKU catalog from WooCommerce to Shopify seamlessly. The new site handles our dual-market needs—industrial/commercial and forensics—and the checkout experience is now fast and reliable. Clients like Boeing, Tesla, and Nike now have a premium experience.',
-    author: 'Oregon Rule Co. Team',
-    role: 'Amir Mesinovic (Owner)',
+    author: 'Amir Mesinovic',
+    role: 'CEO',
     rating: 5,
     projectType: 'E-Commerce + Migration',
   },
@@ -229,8 +229,8 @@ const TESTIMONIALS = [
     logo: '🧘‍♀️',
     quote:
       "Rainboots designed our logo and original WordPress site that captured the 'I Am' philosophy perfectly. The clean white-and-blue aesthetic reflects the grounding, confident energy we bring to every class. It was a pleasure working with them.",
-    author: 'Live Love Flow Team',
-    role: 'Indira Avdic (Founder)',
+    author: 'Indira Avdic',
+    role: 'Founder',
     rating: 5,
     projectType: 'Branding + WordPress',
   },
@@ -241,8 +241,8 @@ const TESTIMONIALS = [
     logo: '💿',
     quote:
       'Rainboots designed our website, product packaging, and marketing collateral for our GC-PowerPlatform CAM software suite. They understood our technical B2B audience and delivered a professional presence that serves our global electronics manufacturing customers.',
-    author: 'GraphiCode Team',
-    role: 'Adam Brockman (Marketing Director)',
+    author: 'Adam Brockman',
+    role: 'Marketing Director',
     rating: 5,
     projectType: 'Branding + Website Design and Development',
   },
@@ -253,7 +253,7 @@ const TESTIMONIALS = [
     logo: '🧁',
     quote:
       'Rainboots built our original WordPress website that captured the warmth of our Snohomish bakery. The site handled our walk-in shop, custom wedding cakes, and party space beautifully. A true community partner since 2009!',
-    author: 'Simply Sweet Team',
+    author: 'Emily',
     role: 'Owner',
     rating: 5,
     projectType: 'WordPress Website ',
@@ -265,8 +265,8 @@ const TESTIMONIALS = [
     logo: '🎵',
     quote:
       "Rainboots designed our event flyers, posters, and marketing materials for Greek Nite, Balkan Night, Euro Saturdays, and more. They captured the high-energy vibe of Seattle's #1 nightclub perfectly. The design work commands attention every time.",
-    author: 'Sarajevo Team',
-    role: 'Dino Slatina (Owner)',
+    author: 'Dino Slatina',
+    role: 'Owner',
     rating: 5,
     projectType: 'Branding',
   },
@@ -278,7 +278,7 @@ const TESTIMONIALS = [
     quote:
       'Rainboots reorganized our complex technical content into a clean, navigable WordPress site. They understood our aerospace audience—Boeing, Northrop Grumman—and delivered a site that communicates engineering excellence without clutter.',
     author: 'Nova-Tech Team',
-    role: 'Engineering Director',
+    role: '',
     rating: 5,
     projectType: 'Corporate Website Design & Development',
   },
@@ -301,7 +301,7 @@ const TESTIMONIALS = [
     logo: '🌸',
     quote:
       "Rainboots delivered a complete brand identity—logo, trifold brochure, service menus, and business cards. The hot pink and black palette is elegant and confident, exactly what a women's spa needs to stand out.",
-    author: 'Asha Team',
+    author: 'Asha',
     role: 'Owner',
     rating: 5,
     projectType: 'Branding',
@@ -328,8 +328,8 @@ const TESTIMONIALS = [
     industry: 'Home Improvement',
     quote:
       "Rainboots built our dealer-exclusive e-commerce platform from the ground up. The custom system handles multiple cabinet lines (Elements, Northville, Prismora), free 3D kitchen design, and nationwide installer network. Our customers love the quality—we're getting 5-star reviews consistently. The Wayfair and AllModern integrations have expanded our reach dramatically.",
-    author: 'Cabinets.Deals Team',
-    role: 'Lei (President)',
+    author: 'Lei ',
+    role: 'President',
     rating: 5,
     projectType: 'Custom E-Commerce Platform',
     featured: false,
@@ -342,7 +342,7 @@ const TESTIMONIALS = [
     industry: 'Construction',
     quote:
       'Rainboots designed our WordPress website and brand identity from the ground up—full wireframes, sitemap, and custom design that stands out in the Seattle market. They captured our commitment to quality and precision perfectly. The site showcases our custom homes, remodels, and commercial work (including Nike Town Seattle) beautifully. Our clients love the clean, modern look.',
-    author: 'Alpha Construction Team',
+    author: 'Dino',
     role: 'Owner',
     rating: 5,
     projectType: 'WordPress Website + Branding',
