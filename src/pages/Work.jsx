@@ -2892,6 +2892,13 @@ function CaseStudyPanel({ item }) {
 
 // ── Zoom overlay ────────────────────────────────────────────────────────────
 function ZoomOverlay({ src, alt, onClose }) {
+  const [scale, setScale] = useState(1);
+  const [pos, setPos] = useState({ x: 0, y: 0 });
+  const [dragging, setDragging] = useState(false);
+  const dragStart = useRef(null);
+  const imgRef = useRef(null);
+
+  // Escape to close
   useEffect(() => {
     const handleKey = (e) => {
       if (e.key === 'Escape') onClose();
@@ -2900,30 +2907,351 @@ function ZoomOverlay({ src, alt, onClose }) {
     return () => window.removeEventListener('keydown', handleKey);
   }, [onClose]);
 
-  // The outer div stops ALL click propagation so nothing reaches the
-  // lightbox overlay's onClick={onClose}. position:fixed means it renders
-  // above everything regardless of where it is in the DOM tree.
+  // Scroll to zoom
+  const handleWheel = useCallback((e) => {
+    e.preventDefault();
+    setScale((prev) => {
+      const delta = e.deltaY > 0 ? 0.9 : 1.1;
+      return Math.min(Math.max(prev * delta, 1), 8);
+    });
+  }, []);
+
+  useEffect(() => {
+    const el = imgRef.current?.parentElement;
+    if (!el) return;
+    el.addEventListener('wheel', handleWheel, { passive: false });
+    return () => el.removeEventListener('wheel', handleWheel);
+  }, [handleWheel]);
+
+  // Drag to pan
+  const handleMouseDown = useCallback(
+    (e) => {
+      if (scale <= 1) return;
+      e.preventDefault();
+      setDragging(true);
+      dragStart.current = { x: e.clientX - pos.x, y: e.clientY - pos.y };
+    },
+    [scale, pos],
+  );
+
+  const handleMouseMove = useCallback(
+    (e) => {
+      if (!dragging || !dragStart.current) return;
+      setPos({
+        x: e.clientX - dragStart.current.x,
+        y: e.clientY - dragStart.current.y,
+      });
+    },
+    [dragging],
+  );
+
+  const handleMouseUp = useCallback(() => {
+    setDragging(false);
+    dragStart.current = null;
+  }, []);
+
+  // Touch drag
+  const handleTouchStart = useCallback(
+    (e) => {
+      if (e.touches.length !== 1 || scale <= 1) return;
+      const t = e.touches[0];
+      dragStart.current = { x: t.clientX - pos.x, y: t.clientY - pos.y };
+    },
+    [scale, pos],
+  );
+
+  const handleTouchMove = useCallback((e) => {
+    if (e.touches.length !== 1 || !dragStart.current) return;
+    e.preventDefault();
+    const t = e.touches[0];
+    setPos({
+      x: t.clientX - dragStart.current.x,
+      y: t.clientY - dragStart.current.y,
+    });
+  }, []);
+
+  // Double-click to reset
+  const handleDoubleClick = useCallback((e) => {
+    e.stopPropagation();
+    setScale(1);
+    setPos({ x: 0, y: 0 });
+  }, []);
+
+  // Reset pan when zooming back to 1
+  useEffect(() => {
+    if (scale <= 1) setPos({ x: 0, y: 0 });
+  }, [scale]);
+
+  // Zoom buttons
+  const zoomIn = (e) => {
+    e.stopPropagation();
+    setScale((s) => Math.min(s * 1.4, 8));
+  };
+  const zoomOut = (e) => {
+    e.stopPropagation();
+    setScale((s) => Math.max(s / 1.4, 1));
+  };
+  const zoomReset = (e) => {
+    e.stopPropagation();
+    setScale(1);
+    setPos({ x: 0, y: 0 });
+  };
+
   return (
     <div
-      onClick={(e) => e.stopPropagation()}
-      style={{ position: 'fixed', inset: 0, zIndex: 9999 }}
+      style={{
+        position: 'fixed',
+        inset: 0,
+        zIndex: 9999,
+        background: 'rgba(0,0,0,0.96)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        animation: 'zoom-overlay-in 0.18s ease',
+      }}
+      onClick={onClose}
     >
-      <div className='lightbox__zoom-overlay' onClick={onClose}>
-        <button
-          className='lightbox__zoom-close'
-          onClick={(e) => {
-            e.stopPropagation();
-            onClose();
+      {/* Image container — stops propagation, handles drag */}
+      <div
+        style={{
+          position: 'relative',
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          overflow: 'hidden',
+          cursor: scale > 1 ? (dragging ? 'grabbing' : 'grab') : 'zoom-in',
+        }}
+        onClick={(e) => e.stopPropagation()}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleMouseUp}
+      >
+        <img
+          ref={imgRef}
+          src={src}
+          alt={alt}
+          onDoubleClick={handleDoubleClick}
+          draggable={false}
+          style={{
+            maxWidth: '90vw',
+            maxHeight: '90vh',
+            objectFit: 'contain',
+            borderRadius: '4px',
+            transform: `scale(${scale}) translate(${pos.x / scale}px, ${pos.y / scale}px)`,
+            transformOrigin: 'center center',
+            transition: dragging ? 'none' : 'transform 0.15s ease',
+            userSelect: 'none',
+            pointerEvents: 'none', // let parent div handle all mouse events
+            display: 'block',
           }}
-          aria-label='Close zoom'
-        >
-          ✕
+        />
+
+        {/* Hint text */}
+        {scale === 1 && (
+          <div
+            style={{
+              position: 'absolute',
+              bottom: '80px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              color: 'rgba(255,255,255,0.4)',
+              fontFamily: 'Manrope, sans-serif',
+              fontSize: '0.72rem',
+              fontWeight: 600,
+              letterSpacing: '0.06em',
+              whiteSpace: 'nowrap',
+              pointerEvents: 'none',
+            }}
+          >
+            Scroll to zoom · Drag to pan · Double-click to reset
+          </div>
+        )}
+      </div>
+
+      {/* Close button */}
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          onClose();
+        }}
+        aria-label='Close'
+        style={{
+          position: 'fixed',
+          top: '16px',
+          right: '16px',
+          background: 'rgba(255,255,255,0.12)',
+          border: '1.5px solid rgba(255,255,255,0.25)',
+          color: '#fff',
+          width: '36px',
+          height: '36px',
+          borderRadius: '50%',
+          fontSize: '0.9rem',
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 10001,
+        }}
+      >
+        ✕
+      </button>
+
+      {/* Zoom controls */}
+      <div
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          position: 'fixed',
+          bottom: '20px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          background: 'rgba(0,0,0,0.6)',
+          backdropFilter: 'blur(8px)',
+          border: '1px solid rgba(255,255,255,0.15)',
+          borderRadius: '30px',
+          padding: '6px 12px',
+          zIndex: 10001,
+        }}
+      >
+        <button onClick={zoomOut} aria-label='Zoom out' style={zoomBtnStyle}>
+          <svg width='16' height='16' viewBox='0 0 16 16' fill='none'>
+            <circle
+              cx='7'
+              cy='7'
+              r='5'
+              stroke='currentColor'
+              strokeWidth='1.5'
+            />
+            <line
+              x1='11'
+              y1='11'
+              x2='14.5'
+              y2='14.5'
+              stroke='currentColor'
+              strokeWidth='1.5'
+              strokeLinecap='round'
+            />
+            <line
+              x1='4.5'
+              y1='7'
+              x2='9.5'
+              y2='7'
+              stroke='currentColor'
+              strokeWidth='1.5'
+              strokeLinecap='round'
+            />
+          </svg>
         </button>
-        <img src={src} alt={alt} onClick={(e) => e.stopPropagation()} />
+
+        <div
+          style={{
+            color: 'rgba(255,255,255,0.6)',
+            fontFamily: 'Manrope, sans-serif',
+            fontSize: '0.72rem',
+            fontWeight: 700,
+            minWidth: '44px',
+            textAlign: 'center',
+          }}
+        >
+          {Math.round(scale * 100)}%
+        </div>
+
+        <button onClick={zoomIn} aria-label='Zoom in' style={zoomBtnStyle}>
+          <svg width='16' height='16' viewBox='0 0 16 16' fill='none'>
+            <circle
+              cx='7'
+              cy='7'
+              r='5'
+              stroke='currentColor'
+              strokeWidth='1.5'
+            />
+            <line
+              x1='11'
+              y1='11'
+              x2='14.5'
+              y2='14.5'
+              stroke='currentColor'
+              strokeWidth='1.5'
+              strokeLinecap='round'
+            />
+            <line
+              x1='4.5'
+              y1='7'
+              x2='9.5'
+              y2='7'
+              stroke='currentColor'
+              strokeWidth='1.5'
+              strokeLinecap='round'
+            />
+            <line
+              x1='7'
+              y1='4.5'
+              x2='7'
+              y2='9.5'
+              stroke='currentColor'
+              strokeWidth='1.5'
+              strokeLinecap='round'
+            />
+          </svg>
+        </button>
+
+        <div
+          style={{
+            width: '1px',
+            height: '16px',
+            background: 'rgba(255,255,255,0.15)',
+            margin: '0 2px',
+          }}
+        />
+
+        <button
+          onClick={zoomReset}
+          aria-label='Reset zoom'
+          style={zoomBtnStyle}
+          title='Reset'
+        >
+          <svg width='16' height='16' viewBox='0 0 16 16' fill='none'>
+            <path
+              d='M3 8a5 5 0 1 0 1.5-3.5'
+              stroke='currentColor'
+              strokeWidth='1.5'
+              strokeLinecap='round'
+            />
+            <path
+              d='M3 4.5V8h3.5'
+              stroke='currentColor'
+              strokeWidth='1.5'
+              strokeLinecap='round'
+              strokeLinejoin='round'
+            />
+          </svg>
+        </button>
       </div>
     </div>
   );
 }
+
+// Shared style for zoom control buttons
+const zoomBtnStyle = {
+  background: 'transparent',
+  border: 'none',
+  color: 'rgba(255,255,255,0.8)',
+  cursor: 'pointer',
+  padding: '4px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  borderRadius: '6px',
+  transition: 'color 0.15s ease',
+};
 
 // ── Lightbox ────────────────────────────────────────────────────────────────
 function Lightbox({ item, onClose, onPrev, onNext, total, current }) {
@@ -2953,59 +3281,139 @@ function Lightbox({ item, onClose, onPrev, onNext, total, current }) {
   }, [item.id]);
 
   return (
-    <motion.div
-      className='lightbox-overlay'
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      onClick={onClose}
-    >
+    <>
       <motion.div
-        className={`lightbox${isEnriched ? ' lightbox--enriched' : ''}`}
-        initial={{ opacity: 0, scale: 0.94 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.94 }}
-        transition={{ type: 'spring', damping: 28, stiffness: 300 }}
-        onClick={(e) => e.stopPropagation()}
+        className='lightbox-overlay'
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={onClose}
       >
-        {/* Header */}
-        <div className='lightbox__header' style={{ '--lb-color': item.color }}>
-          <div className='lightbox__header-left'>
-            <span className='lightbox__cat'>{item.category}</span>
-            <h3 className='lightbox__title'>{item.title}</h3>
-            <p className='lightbox__subtitle'>{item.subtitle}</p>
+        <motion.div
+          className={`lightbox${isEnriched ? ' lightbox--enriched' : ''}`}
+          initial={{ opacity: 0, scale: 0.94 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.94 }}
+          transition={{ type: 'spring', damping: 28, stiffness: 300 }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Header */}
+          <div
+            className='lightbox__header'
+            style={{ '--lb-color': item.color }}
+          >
+            <div className='lightbox__header-left'>
+              <span className='lightbox__cat'>{item.category}</span>
+              <h3 className='lightbox__title'>{item.title}</h3>
+              <p className='lightbox__subtitle'>{item.subtitle}</p>
+            </div>
+            <div className='lightbox__header-right'>
+              <span className='lightbox__counter'>
+                {current + 1} / {total}
+              </span>
+              {item.url && (
+                <a
+                  href={item.url}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='lightbox__visit'
+                >
+                  Visit site ↗
+                </a>
+              )}
+              <button className='lightbox__close' onClick={onClose}>
+                ✕
+              </button>
+            </div>
           </div>
-          <div className='lightbox__header-right'>
-            <span className='lightbox__counter'>
-              {current + 1} / {total}
-            </span>
-            {item.url && (
-              <a
-                href={item.url}
-                target='_blank'
-                rel='noopener noreferrer'
-                className='lightbox__visit'
-              >
-                Visit site ↗
-              </a>
-            )}
-            <button className='lightbox__close' onClick={onClose}>
-              ✕
-            </button>
-          </div>
-        </div>
 
-        {/* Enriched: image left + case study right */}
-        {isEnriched ? (
-          <div className='lightbox__enriched-body'>
+          {/* Enriched: image left + case study right */}
+          {isEnriched ? (
+            <div className='lightbox__enriched-body'>
+              <div
+                className='lightbox__image-wrap lightbox__image-wrap--side'
+                style={{ background: item.color + '12' }}
+              >
+                {!imgLoaded && !imgError && (
+                  <div className='lightbox__loading'>
+                    <div
+                      className='lightbox__spinner'
+                      style={{ borderTopColor: item.color }}
+                    />
+                  </div>
+                )}
+                {imgError ? (
+                  <PlaceholderCard item={item} />
+                ) : (
+                  <img
+                    src={item.srcFull || item.src}
+                    alt={item.title}
+                    className={`lightbox__img ${item.aspect}`}
+                    onLoad={() => setImgLoaded(true)}
+                    onError={() => {
+                      setImgError(true);
+                      setImgLoaded(true);
+                    }}
+                    style={{ opacity: imgLoaded ? 1 : 0 }}
+                  />
+                )}
+
+                {imgLoaded && !imgError && (
+                  <button
+                    className='lightbox__zoom-btn'
+                    onClick={() => setZoomed(true)}
+                    aria-label='View full image'
+                  >
+                    <svg width='14' height='14' viewBox='0 0 14 14' fill='none'>
+                      <circle
+                        cx='6'
+                        cy='6'
+                        r='4.25'
+                        stroke='currentColor'
+                        strokeWidth='1.5'
+                      />
+                      <line
+                        x1='9.5'
+                        y1='9.5'
+                        x2='13'
+                        y2='13'
+                        stroke='currentColor'
+                        strokeWidth='1.5'
+                        strokeLinecap='round'
+                      />
+                      <line
+                        x1='4'
+                        y1='6'
+                        x2='8'
+                        y2='6'
+                        stroke='currentColor'
+                        strokeWidth='1.5'
+                        strokeLinecap='round'
+                      />
+                      <line
+                        x1='6'
+                        y1='4'
+                        x2='6'
+                        y2='8'
+                        stroke='currentColor'
+                        strokeWidth='1.5'
+                        strokeLinecap='round'
+                      />
+                    </svg>
+                    View full image
+                  </button>
+                )}
+              </div>
+
+              <div className='lightbox__case-panel'>
+                <CaseStudyPanel item={item} />
+              </div>
+            </div>
+          ) : (
             <div
-              className='lightbox__image-wrap lightbox__image-wrap--side'
+              className='lightbox__image-wrap'
               style={{ background: item.color + '12' }}
             >
-              <span className='lightbox__scroll-hint'>
-                ↕ scroll to see full image
-              </span>
-
               {!imgLoaded && !imgError && (
                 <div className='lightbox__loading'>
                   <div
@@ -3029,83 +3437,32 @@ function Lightbox({ item, onClose, onPrev, onNext, total, current }) {
                   style={{ opacity: imgLoaded ? 1 : 0 }}
                 />
               )}
-
-              {imgLoaded && !imgError && (
-                <button
-                  className='lightbox__zoom-btn'
-                  onClick={() => setZoomed(true)}
-                  aria-label='View full image'
-                >
-                  <svg width='13' height='13' viewBox='0 0 13 13' fill='none'>
-                    <path
-                      d='M1 1h4M1 1v4M12 1h-4M12 1v4M1 12h4M1 12v-4M12 12h-4M12 12v-4'
-                      stroke='currentColor'
-                      strokeWidth='1.6'
-                      strokeLinecap='round'
-                    />
-                  </svg>
-                  Full image
-                </button>
-              )}
             </div>
+          )}
 
-            <div className='lightbox__case-panel'>
-              <CaseStudyPanel item={item} />
-            </div>
-          </div>
-        ) : (
-          <div
-            className='lightbox__image-wrap'
-            style={{ background: item.color + '12' }}
-          >
-            {!imgLoaded && !imgError && (
-              <div className='lightbox__loading'>
-                <div
-                  className='lightbox__spinner'
-                  style={{ borderTopColor: item.color }}
+          {/* Nav */}
+          <div className='lightbox__nav'>
+            <button className='lightbox__nav-btn' onClick={onPrev}>
+              ← Prev
+            </button>
+            <div className='lightbox__dots'>
+              {Array.from({ length: Math.min(total, 7) }).map((_, i) => (
+                <span
+                  key={i}
+                  className={`lightbox__dot ${i === current % 7 ? 'active' : ''}`}
+                  style={i === current % 7 ? { background: item.color } : {}}
                 />
-              </div>
-            )}
-            {imgError ? (
-              <PlaceholderCard item={item} />
-            ) : (
-              <img
-                src={item.srcFull || item.src}
-                alt={item.title}
-                className={`lightbox__img ${item.aspect}`}
-                onLoad={() => setImgLoaded(true)}
-                onError={() => {
-                  setImgError(true);
-                  setImgLoaded(true);
-                }}
-                style={{ opacity: imgLoaded ? 1 : 0 }}
-              />
-            )}
+              ))}
+            </div>
+            <button className='lightbox__nav-btn' onClick={onNext}>
+              Next →
+            </button>
           </div>
-        )}
-
-        {/* Nav */}
-        <div className='lightbox__nav'>
-          <button className='lightbox__nav-btn' onClick={onPrev}>
-            ← Prev
-          </button>
-          <div className='lightbox__dots'>
-            {Array.from({ length: Math.min(total, 7) }).map((_, i) => (
-              <span
-                key={i}
-                className={`lightbox__dot ${i === current % 7 ? 'active' : ''}`}
-                style={i === current % 7 ? { background: item.color } : {}}
-              />
-            ))}
-          </div>
-          <button className='lightbox__nav-btn' onClick={onNext}>
-            Next →
-          </button>
-        </div>
+        </motion.div>
       </motion.div>
 
-      {/* ZoomOverlay — the outer stopPropagation div prevents any click
-          from reaching the lightbox-overlay's onClick={onClose} */}
+      {/* ZoomOverlay is OUTSIDE both motion.divs — completely separate React subtree.
+          No onClick ancestor can interfere. position:fixed puts it above everything. */}
       {zoomed && (
         <ZoomOverlay
           src={item.srcFull || item.src}
@@ -3113,7 +3470,7 @@ function Lightbox({ item, onClose, onPrev, onNext, total, current }) {
           onClose={() => setZoomed(false)}
         />
       )}
-    </motion.div>
+    </>
   );
 }
 
