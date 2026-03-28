@@ -9,24 +9,39 @@ const runAudit = async (req, res) => {
       return res.status(400).json({ error: 'URL is required' });
     }
 
+    console.log(`🔍 Starting audit for: ${url}`);
+
     const scraped = await scrapeWebsite(url);
 
     if (!scraped) {
-      return res.status(500).json({ error: 'Scraping failed' });
+      console.error(`❌ Scraping failed for: ${url}`);
+      return res.status(500).json({ error: 'Failed to scrape website' });
     }
 
-    const analysis = await analyzeWebsite(scraped.textContent);
+    console.log(`✅ Scraped successfully: ${scraped.title}`);
+    console.log(`📊 Content length: ${scraped.textContent.length} characters`);
 
+    // Pass both textContent AND url to the analyzer
+    const analysis = await analyzeWebsite(scraped.textContent, url);
+
+    console.log(`✅ Analysis complete`);
+
+    // Return the URL in the response
     res.json({
       success: true,
       data: {
-        ...scraped,
-        analysis,
+        url: url, // Add the URL here
+        title: scraped.title,
+        textContent: scraped.textContent, // Optional: you can keep or remove this
+        analysis: analysis,
       },
     });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Server error' });
+    console.error('❌ Audit error:', error);
+    res.status(500).json({
+      error: 'Server error',
+      details: error.message,
+    });
   }
 };
 

@@ -1,20 +1,11 @@
-const OpenAI = require('openai');
+const Anthropic = require('@anthropic-ai/sdk');
 
-// Check if API key exists
-if (!process.env.OPENAI_API_KEY) {
-  console.error('❌ OPENAI_API_KEY is not set in environment variables');
-  throw new Error(
-    'OPENAI_API_KEY is required. Please set it in your .env file',
-  );
-}
-
-const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+const anthropic = new Anthropic({
+  apiKey: process.env.ANTHROPIC_API_KEY,
 });
 
 async function analyzeWebsite(textContent) {
-  const prompt = `
-You are a website conversion and marketing expert.
+  const prompt = `You are a website conversion and marketing expert.
 
 Analyze this business website content.
 
@@ -32,14 +23,19 @@ Rules:
 - Be specific and actionable
 - Do not include any text outside JSON
 - Keep outreach message short and persuasive
+- Use the business name if found in the content
 
 Website content:
-${textContent}
-`;
+${textContent}`;
 
   try {
-    const response = await client.chat.completions.create({
-      model: 'gpt-4o-mini',
+    console.log('🤖 Sending to Claude for analysis...');
+
+    // Try the latest Claude 3.5 model
+    const response = await anthropic.messages.create({
+      model: 'claude-sonnet-4-5-20250929',
+      max_tokens: 4096,
+      temperature: 0.7,
       messages: [
         {
           role: 'user',
@@ -48,17 +44,28 @@ ${textContent}
       ],
     });
 
-    const raw = response.choices[0].message.content;
+    const raw = response.content[0].text;
+    console.log('📝 Received response from Claude, length:', raw.length);
 
-    // Try parsing JSON
-    try {
-      return JSON.parse(raw);
-    } catch (err) {
-      console.error('AI returned invalid JSON:', raw);
-      throw new Error('Failed to parse AI response');
+    // Try to extract JSON from the response
+    const jsonMatch = raw.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+      try {
+        const parsed = JSON.parse(jsonMatch[0]);
+        console.log('✅ Successfully parsed Claude response');
+        return parsed;
+      } catch (parseError) {
+        console.error('Failed to parse JSON:', parseError.message);
+        console.error('Raw response preview:', raw.substring(0, 200));
+        throw new Error('Invalid JSON format in Claude response');
+      }
+    } else {
+      console.error('No JSON found in response');
+      console.error('Raw response preview:', raw.substring(0, 200));
+      throw new Error('No JSON found in Claude response');
     }
   } catch (error) {
-    console.error('OpenAI API error:', error);
+    console.error('❌ Claude API error:', error.message);
     throw error;
   }
 }

@@ -2,10 +2,16 @@ require('dotenv').config();
 
 console.log('🔍 Checking environment:');
 console.log(
-  '  OPENAI_API_KEY:',
-  process.env.OPENAI_API_KEY ? '✅ Loaded' : '❌ Missing',
+  '  ANTHROPIC_API_KEY:',
+  process.env.ANTHROPIC_API_KEY ? '✅ Loaded' : '❌ Missing',
 );
 console.log('  PORT:', process.env.PORT || '5001');
+
+// Show preview of Anthropic key (for debugging)
+if (process.env.ANTHROPIC_API_KEY) {
+  const preview = process.env.ANTHROPIC_API_KEY.substring(0, 15) + '...';
+  console.log('  ANTHROPIC_API_KEY preview:', preview);
+}
 
 const express = require('express');
 const cors = require('cors');

@@ -162,7 +162,7 @@ const WebDevelopment = () => {
             <Link to='/contact' className='btn-primary'>
               Start Your Project
             </Link>
-            <Link to='/portfolio' className='btn-secondary'>
+            <Link to='/work' className='btn-secondary'>
               View Our Work
             </Link>
           </motion.div>
@@ -355,7 +355,7 @@ const WebDevelopment = () => {
               ))}
             </div>
 
-            <Link to='/portfolio' className='btn-primary'>
+            <Link to='/work' className='btn-primary'>
               See Our Work
             </Link>
           </motion.div>

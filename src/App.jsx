@@ -19,6 +19,7 @@ import Work from './pages/Work';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsConditions from './pages/TermsConditions';
 import BlogGenerator from './blogGenerator';
+import WebsiteAudit from './components/WebsiteAudit';
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
@@ -108,6 +109,7 @@ function App() {
           <Route path='/privacy' element={<PrivacyPolicy />} />
           <Route path='/terms' element={<TermsConditions />} />
           <Route path='/blog-generator' element={<BlogGenerator />} />
+          <Route path='/WebsiteAudit' element={<WebsiteAudit />} />
         </Routes>
         <Footer />
       </Router>
@@ -147,6 +149,7 @@ function App() {
             <Route path='/privacy' element={<PrivacyPolicy />} />
             <Route path='/terms' element={<TermsConditions />} />
             <Route path='/blog-generator' element={<BlogGenerator />} />
+            <Route path='/WebsiteAudit' element={<WebsiteAudit />} />
           </Routes>
           <Footer />
         </>
