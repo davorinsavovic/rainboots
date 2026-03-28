@@ -1,17 +1,23 @@
 require('dotenv').config();
 
+// Connect to MongoDB FIRST
+const mongoose = require('mongoose');
+
+const MONGODB_URI =
+  process.env.MONGODB_URI || 'mongodb://localhost:27017/rainboots-leads';
+
+mongoose
+  .connect(MONGODB_URI)
+  .then(() => console.log('✅ MongoDB Connected successfully'))
+  .catch((err) => console.error('❌ MongoDB Connection error:', err));
+
 console.log('🔍 Checking environment:');
 console.log(
   '  ANTHROPIC_API_KEY:',
   process.env.ANTHROPIC_API_KEY ? '✅ Loaded' : '❌ Missing',
 );
+console.log('  MONGODB_URI:', MONGODB_URI);
 console.log('  PORT:', process.env.PORT || '5001');
-
-// Show preview of Anthropic key (for debugging)
-if (process.env.ANTHROPIC_API_KEY) {
-  const preview = process.env.ANTHROPIC_API_KEY.substring(0, 15) + '...';
-  console.log('  ANTHROPIC_API_KEY preview:', preview);
-}
 
 const express = require('express');
 const cors = require('cors');
@@ -19,16 +25,7 @@ const cors = require('cors');
 // Import routes
 const auditRoutes = require('./routes/auditRoutes');
 const sendEmailRoutes = require('./routes/sendEmailRoutes');
-
-console.log('📦 Routes loaded:');
-console.log(
-  '  - auditRoutes:',
-  typeof auditRoutes === 'function' ? '✅ Router' : '❌ Not a router',
-);
-console.log(
-  '  - sendEmailRoutes:',
-  typeof sendEmailRoutes === 'function' ? '✅ Router' : '❌ Not a router',
-);
+const leadRoutes = require('./routes/leadRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5001;
@@ -37,7 +34,7 @@ const PORT = process.env.PORT || 5001;
 app.use(cors());
 app.use(express.json());
 
-// Debug middleware to log all requests
+// Debug middleware
 app.use((req, res, next) => {
   console.log(`📝 ${req.method} ${req.url}`);
   next();
@@ -47,6 +44,7 @@ app.use((req, res, next) => {
 console.log('🔄 Mounting routes...');
 app.use('/api', auditRoutes);
 app.use('/api', sendEmailRoutes);
+app.use('/api', leadRoutes);
 console.log('✅ Routes mounted');
 
 // 404 handler
@@ -62,4 +60,6 @@ app.listen(PORT, () => {
   console.log(`   GET  http://localhost:${PORT}/api/test`);
   console.log(`   POST http://localhost:${PORT}/api/send-email`);
   console.log(`   POST http://localhost:${PORT}/api/audit`);
+  console.log(`   GET  http://localhost:${PORT}/api/leads`);
+  console.log(`   POST http://localhost:${PORT}/api/leads/collect`);
 });

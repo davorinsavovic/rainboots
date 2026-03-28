@@ -4,38 +4,44 @@ const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 });
 
-async function analyzeWebsite(textContent) {
+async function analyzeWebsite(textContent, url) {
   const prompt = `You are a website conversion and marketing expert.
 
-Analyze this business website content.
+Analyze this business website.
 
-Return ONLY valid JSON in this format:
+Return ONLY valid JSON in this exact format:
 
 {
   "summary": "",
   "issues": [],
   "opportunities": [],
   "quickWins": [],
+  "score": 0,
   "outreachMessage": ""
 }
 
 Rules:
 - Be specific and actionable
-- Do not include any text outside JSON
-- Keep outreach message short and persuasive
-- Use the business name if found in the content
+- Do NOT include any text outside JSON
+- Score from 0–100 (higher = better opportunity for improvement / higher likelihood to convert)
+- Keep outreach message short, natural, and personalized
+- Mention the business name if identifiable
+- Focus on lead generation, conversions, and missed opportunities
+
+Website URL:
+${url}
 
 Website content:
-${textContent}`;
+${textContent}
+`;
 
   try {
     console.log('🤖 Sending to Claude for analysis...');
 
-    // Try the latest Claude 3.5 model
     const response = await anthropic.messages.create({
-      model: 'claude-sonnet-4-5-20250929',
+      model: 'claude-sonnet-4-5-20250929', // safer, valid model claude-sonnet-4-5-20250929
       max_tokens: 4096,
-      temperature: 0.7,
+      temperature: 0.4, // lower = more consistent JSON
       messages: [
         {
           role: 'user',
@@ -45,25 +51,45 @@ ${textContent}`;
     });
 
     const raw = response.content[0].text;
-    console.log('📝 Received response from Claude, length:', raw.length);
+    console.log('📝 Received response, length:', raw.length);
 
-    // Try to extract JSON from the response
-    const jsonMatch = raw.match(/\{[\s\S]*\}/);
-    if (jsonMatch) {
+    let parsed;
+
+    // First attempt: direct JSON parse
+    try {
+      parsed = JSON.parse(raw);
+    } catch (err) {
+      console.warn('⚠️ Direct JSON parse failed, trying extraction...');
+
+      // Fallback: extract JSON block
+      const match = raw.match(/\{[\s\S]*\}/);
+
+      if (!match) {
+        console.error('❌ No JSON found in response');
+        console.error(raw.substring(0, 300));
+        throw new Error('No JSON found in Claude response');
+      }
+
       try {
-        const parsed = JSON.parse(jsonMatch[0]);
-        console.log('✅ Successfully parsed Claude response');
-        return parsed;
+        parsed = JSON.parse(match[0]);
       } catch (parseError) {
-        console.error('Failed to parse JSON:', parseError.message);
-        console.error('Raw response preview:', raw.substring(0, 200));
+        console.error('❌ JSON parse failed after extraction');
+        console.error(match[0].substring(0, 300));
         throw new Error('Invalid JSON format in Claude response');
       }
-    } else {
-      console.error('No JSON found in response');
-      console.error('Raw response preview:', raw.substring(0, 200));
-      throw new Error('No JSON found in Claude response');
     }
+
+    console.log('✅ Successfully parsed Claude response');
+
+    // Ensure required fields exist (safety)
+    return {
+      summary: parsed.summary || '',
+      issues: parsed.issues || [],
+      opportunities: parsed.opportunities || [],
+      quickWins: parsed.quickWins || [],
+      score: parsed.score || 0,
+      outreachMessage: parsed.outreachMessage || '',
+    };
   } catch (error) {
     console.error('❌ Claude API error:', error.message);
     throw error;

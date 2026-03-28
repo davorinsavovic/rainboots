@@ -21,6 +21,7 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsConditions from './pages/TermsConditions';
 import BlogGenerator from './blogGenerator';
 import WebsiteAudit from './components/WebsiteAudit';
+import LeadsDashboard from './components/LeadsDashboard';
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
@@ -112,6 +113,7 @@ function App() {
           <Route path='/terms' element={<TermsConditions />} />
           <Route path='/blog-generator' element={<BlogGenerator />} />
           <Route path='/WebsiteAudit' element={<WebsiteAudit />} />
+          <Route path='/leads' element={<LeadsDashboard />} />
         </Routes>
         <Footer />
       </Router>
@@ -153,6 +155,7 @@ function App() {
             <Route path='/terms' element={<TermsConditions />} />
             <Route path='/blog-generator' element={<BlogGenerator />} />
             <Route path='/WebsiteAudit' element={<WebsiteAudit />} />
+            <Route path='/leads' element={<LeadsDashboard />} />
           </Routes>
           <Footer />
         </>
