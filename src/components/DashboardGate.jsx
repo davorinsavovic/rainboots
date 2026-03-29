@@ -18,20 +18,18 @@ export default function DashboardGate({ children }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Get password from environment variables (Vite uses import.meta.env)
+    // Get the correct password from environment variable
     const correctPassword = import.meta.env.VITE_DASHBOARD_PASSWORD;
 
-    // If no password is set in .env, use a default for development
-    if (!correctPassword) {
-      console.warn('⚠️ VITE_DASHBOARD_PASSWORD not set in .env');
-      console.warn('Using default password: admin123');
-      console.warn('Please set VITE_DASHBOARD_PASSWORD in your .env file');
+    // Log to help debug (remove in production)
+    console.log(
+      'Correct password from .env:',
+      correctPassword ? '✓ Set' : '✗ Not set',
+    );
 
-      if (password === 'admin123') {
-        authenticate();
-      } else {
-        showError();
-      }
+    if (!correctPassword) {
+      console.error('VITE_DASHBOARD_PASSWORD is not set in .env file');
+      setError('Configuration error. Please contact administrator.');
       return;
     }
 
@@ -99,10 +97,6 @@ export default function DashboardGate({ children }) {
               Unlock Dashboard →
             </button>
           </form>
-
-          <p className='gate-hint'>
-            Default password: admin123 (change in .env file)
-          </p>
         </div>
       </div>
     </div>
