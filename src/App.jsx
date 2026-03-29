@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -19,9 +24,10 @@ import Work from './pages/Work';
 import Testimonials from './pages/Testimonials';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsConditions from './pages/TermsConditions';
-import BlogGenerator from './blogGenerator';
+import BlogGenerator from './components/blogGenerator';
 import WebsiteAudit from './components/WebsiteAudit';
 import LeadsDashboard from './components/LeadsDashboard';
+import DashboardLayout from './components/DashboardLayout';
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
@@ -42,37 +48,25 @@ function App() {
       }
     };
 
-    // Check on initial load
     checkMobile();
-
-    // Check on resize
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   useEffect(() => {
-    // Only check sessionStorage if not mobile
     if (!isMobile) {
       const splashShown = sessionStorage.getItem('splashShown');
       const animationPlayed = sessionStorage.getItem('animationPlayed');
 
-      if (splashShown) {
-        setShowSplash(false);
-      }
-
-      if (animationPlayed) {
-        setHasAnimationPlayed(true);
-      }
+      if (splashShown) setShowSplash(false);
+      if (animationPlayed) setHasAnimationPlayed(true);
     }
   }, [isMobile]);
 
   const handleSplashClose = (savedState) => {
     setShowSplash(false);
     sessionStorage.setItem('splashShown', 'true');
-
-    if (savedState) {
-      setAnimationState(savedState);
-    }
+    if (savedState) setAnimationState(savedState);
   };
 
   const handleAnimationPlayed = () => {
@@ -80,47 +74,82 @@ function App() {
     sessionStorage.setItem('animationPlayed', 'true');
   };
 
-  // If mobile, never show splash screen
+  // Common routes that don't use dashboard layout
+  const publicRoutes = (
+    <>
+      <Route
+        path='/'
+        element={
+          <Home
+            initialAnimationState={animationState}
+            hasAnimationPlayed={hasAnimationPlayed}
+            onAnimationPlayed={handleAnimationPlayed}
+          />
+        }
+      />
+      <Route path='/services' element={<Services />} />
+      <Route path='/about' element={<About />} />
+      <Route path='/contact' element={<Contact />} />
+      <Route path='/outbound' element={<Outbound />} />
+      <Route path='/web-development' element={<WebDevelopment />} />
+      <Route path='/acquisition' element={<CustomerAcquisition />} />
+      <Route path='/lifecycle' element={<LifecycleStrategy />} />
+      <Route path='/social' element={<SocialMedia />} />
+      <Route path='/branding' element={<BrandIdentity />} />
+      <Route path='/portfolio' element={<Portfolio />} />
+      <Route path='/work' element={<Work />} />
+      <Route path='/testimonials' element={<Testimonials />} />
+      <Route path='/privacy' element={<PrivacyPolicy />} />
+      <Route path='/terms' element={<TermsConditions />} />
+    </>
+  );
+
+  // Dashboard routes (with sidebar layout)
+  const dashboardRoutes = (
+    <Route path='/dashboard' element={<DashboardLayout />}>
+      <Route index element={<Navigate to='/dashboard/leads' replace />} />
+      <Route path='leads' element={<LeadsDashboard />} />
+      <Route path='audit' element={<WebsiteAudit />} />
+      <Route path='blog' element={<BlogGenerator />} />
+    </Route>
+  );
+
+  // Legacy routes redirect to dashboard
+  const legacyRedirects = (
+    <>
+      <Route
+        path='/blog-generator'
+        element={<Navigate to='/dashboard/blog' replace />}
+      />
+      <Route
+        path='/WebsiteAudit'
+        element={<Navigate to='/dashboard/audit' replace />}
+      />
+      <Route
+        path='/leads'
+        element={<Navigate to='/dashboard/leads' replace />}
+      />
+    </>
+  );
+
+  // Mobile version (no splash screen)
   if (isMobile) {
     return (
       <Router>
         <ScrollToTop />
         <Header />
         <Routes>
-          <Route
-            path='/'
-            element={
-              <Home
-                initialAnimationState={null}
-                hasAnimationPlayed={true} // Treat as played on mobile
-                onAnimationPlayed={handleAnimationPlayed}
-              />
-            }
-          />
-          <Route path='/services' element={<Services />} />
-          <Route path='/about' element={<About />} />
-          <Route path='/contact' element={<Contact />} />
-          <Route path='/outbound' element={<Outbound />} />
-          <Route path='/web-development' element={<WebDevelopment />} />
-          <Route path='/acquisition' element={<CustomerAcquisition />} />
-          <Route path='/lifecycle' element={<LifecycleStrategy />} />
-          <Route path='/social' element={<SocialMedia />} />
-          <Route path='/branding' element={<BrandIdentity />} />
-          <Route path='/portfolio' element={<Portfolio />} />
-          <Route path='/work' element={<Work />} />
-          <Route path='/testimonials' element={<Testimonials />} />
-          <Route path='/privacy' element={<PrivacyPolicy />} />
-          <Route path='/terms' element={<TermsConditions />} />
-          <Route path='/blog-generator' element={<BlogGenerator />} />
-          <Route path='/WebsiteAudit' element={<WebsiteAudit />} />
-          <Route path='/leads' element={<LeadsDashboard />} />
+          {publicRoutes}
+          {dashboardRoutes}
+          {legacyRedirects}
+          <Route path='*' element={<Navigate to='/' replace />} />
         </Routes>
         <Footer />
       </Router>
     );
   }
 
-  // Desktop - show splash screen logic
+  // Desktop version (with splash screen)
   return (
     <Router>
       <ScrollToTop />
@@ -129,33 +158,10 @@ function App() {
         <>
           <Header />
           <Routes>
-            <Route
-              path='/'
-              element={
-                <Home
-                  initialAnimationState={animationState}
-                  hasAnimationPlayed={hasAnimationPlayed}
-                  onAnimationPlayed={handleAnimationPlayed}
-                />
-              }
-            />
-            <Route path='/services' element={<Services />} />
-            <Route path='/about' element={<About />} />
-            <Route path='/contact' element={<Contact />} />
-            <Route path='/outbound' element={<Outbound />} />
-            <Route path='/web-development' element={<WebDevelopment />} />
-            <Route path='/acquisition' element={<CustomerAcquisition />} />
-            <Route path='/lifecycle' element={<LifecycleStrategy />} />
-            <Route path='/social' element={<SocialMedia />} />
-            <Route path='/branding' element={<BrandIdentity />} />
-            <Route path='/portfolio' element={<Portfolio />} />
-            <Route path='/work' element={<Work />} />
-            <Route path='/testimonials' element={<Testimonials />} />
-            <Route path='/privacy' element={<PrivacyPolicy />} />
-            <Route path='/terms' element={<TermsConditions />} />
-            <Route path='/blog-generator' element={<BlogGenerator />} />
-            <Route path='/WebsiteAudit' element={<WebsiteAudit />} />
-            <Route path='/leads' element={<LeadsDashboard />} />
+            {publicRoutes}
+            {dashboardRoutes}
+            {legacyRedirects}
+            <Route path='*' element={<Navigate to='/' replace />} />
           </Routes>
           <Footer />
         </>
