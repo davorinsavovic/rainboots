@@ -517,7 +517,7 @@ const Work = () => {
       </Helmet>
 
       {/* Hero Section */}
-      <section className='work-hero'>
+      <section className='work-hero' data-header-theme='dark'>
         <div className='work-hero__bg' />
         <div className='work-hero__grid' />
         <div className='work-hero__content'>
@@ -552,23 +552,6 @@ const Work = () => {
             Websites, logos, brand identities, print collateral and email
             templates — built with intention and crafted for impact.
           </motion.p>
-          <motion.div
-            className='work-hero__pills'
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.65 }}
-          >
-            {CATEGORIES.slice(1).map((cat) => (
-              <button
-                key={cat.value}
-                className='work-hero__pill'
-                onClick={() => setActiveCategory(cat.value)}
-              >
-                <CategoryIcon icon={cat.icon} size={20} />
-                {cat.label}
-              </button>
-            ))}
-          </motion.div>
         </div>
         <div className='work-hero__drops'>
           {[...Array(10)].map((_, i) => (

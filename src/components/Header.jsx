@@ -1,25 +1,14 @@
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
+import useHeaderTheme from '../hooks/useHeaderTheme';
 import './Header.css';
 
 const Header = () => {
   const location = useLocation();
-  const [scrolled, setScrolled] = useState(false);
+  const { theme, scrolled } = useHeaderTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const menuRef = useRef(null);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const isScrolled = window.scrollY > 50;
-      if (isScrolled !== scrolled) {
-        setScrolled(isScrolled);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [scrolled]);
 
   // Close mobile menu when route changes
   useEffect(() => {
@@ -87,13 +76,18 @@ const Header = () => {
     { path: '/contact', label: 'Get Started', isCta: true, bold: true },
   ];
 
+  // Log for debugging
+  useEffect(() => {
+    console.log('Header state - scrolled:', scrolled, 'theme:', theme);
+  }, [scrolled, theme]);
+
   return (
     <>
       <motion.header
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
-        className={`header ${scrolled ? 'header-scrolled' : 'header-transparent'}`}
+        className={`header ${scrolled ? 'header-scrolled' : `header-${theme}`}`}
       >
         <Link to='/' className='logo' onClick={() => setMobileMenuOpen(false)}>
           <img
@@ -124,7 +118,7 @@ const Header = () => {
           </Link>
         </nav>
 
-        {/* Mobile Menu Button - Always visible with animation */}
+        {/* Mobile Menu Button */}
         <button
           className={`mobile-menu-btn ${mobileMenuOpen ? 'open' : ''}`}
           onClick={toggleMobileMenu}
@@ -136,7 +130,7 @@ const Header = () => {
         </button>
       </motion.header>
 
-      {/* Mobile Menu Overlay - Click to close */}
+      {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
@@ -161,14 +155,12 @@ const Header = () => {
             animate='open'
             exit='closed'
           >
-            {/* Decorative Elements */}
             <div className='menu-decoration'>
               <div className='decoration-circle'></div>
               <div className='decoration-dots'></div>
               <div className='decoration-wave'></div>
             </div>
 
-            {/* Menu Header */}
             <div className='mobile-menu-header'>
               <div className='menu-header-content'>
                 <span className='menu-title'>Menu</span>
@@ -176,7 +168,6 @@ const Header = () => {
               </div>
             </div>
 
-            {/* Menu Links */}
             <div className='mobile-menu-links'>
               {menuItems.map((item, index) => (
                 <motion.div
@@ -198,7 +189,6 @@ const Header = () => {
               ))}
             </div>
 
-            {/* Menu Footer */}
             <div className='mobile-menu-footer'>
               <div className='footer-content'>
                 <p className='footer-text'>

@@ -319,7 +319,7 @@ const Home = ({
       </Helmet>
 
       {/* Hero Section */}
-      <section className='hero'>
+      <section className='hero' data-header-theme='light'>
         <motion.div
           className='hero-content'
           initial={{ opacity: 0, y: 40 }}
