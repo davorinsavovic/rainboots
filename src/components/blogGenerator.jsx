@@ -47,7 +47,7 @@ function buildWordPressHTML(article) {
 ${article.html}`;
 }
 
-// Main Blog Generator Component (no password gate - dashboard handles it)
+// Main Blog Generator Component
 export default function BlogGenerator() {
   return <GeneratorApp />;
 }
@@ -202,48 +202,16 @@ CATEGORY: [category]
   };
 
   return (
-    <div style={s.page}>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap');
-        @keyframes fall { to { transform: translateY(110vh); } }
-        @keyframes bounce { 0%,100%{transform:scaleY(0.4);opacity:0.4} 50%{transform:scaleY(1);opacity:1} }
-        .rb-body h2{font-family:'DM Serif Display',serif;font-size:22px;color:#0d1b2a;margin:32px 0 12px;line-height:1.3}
-        .rb-body h3{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:#1a3a5c;margin:20px 0 8px}
-        .rb-body p{margin-bottom:16px;line-height:1.8}
-        .rb-body ul,.rb-body ol{padding-left:22px;margin-bottom:16px}
-        .rb-body li{margin-bottom:6px;line-height:1.7}
-        .rb-body a{color:#0e7a85;text-decoration:underline;text-underline-offset:3px;font-weight:500}
-        .rb-body blockquote{border-left:4px solid #0e9aa7;margin:20px 0;padding:14px 20px;background:rgba(14,154,167,0.07);border-radius:0 8px 8px 0;font-style:italic;color:#1a3a5c}
-        .rb-body .cta-box{background:#0d1b2a;border-radius:12px;padding:24px 28px;margin-top:32px;text-align:center}
-        .rb-body .cta-box p{font-family:'DM Serif Display',serif;font-size:18px;color:#f5f0e8;margin-bottom:12px;font-style:normal}
-        .rb-body .cta-box a{display:inline-block;background:#0e9aa7;color:#fff!important;text-decoration:none!important;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:11px 24px;border-radius:7px}
-        .rb-tone-btn:hover{border-color:#0e9aa7!important;color:#17c3d4!important}
-        .rb-action-btn:hover{background:rgba(14,154,167,0.15)!important;border-color:#0e9aa7!important;color:#17c3d4!important}
-        .rb-history-card:hover{border-color:#0e9aa7!important;background:rgba(14,154,167,0.08)!important}
-        .rb-wp-btn:hover{background:#16a34a!important}
-      `}</style>
-
-      {/* Rain */}
-      <div
-        style={{
-          position: 'fixed',
-          inset: 0,
-          pointerEvents: 'none',
-          zIndex: 0,
-          overflow: 'hidden',
-        }}
-      >
-        {Array.from({ length: 35 }).map((_, i) => (
+    <div className='blog-page'>
+      {/* Rain animation effect */}
+      <div className='blog-rain-container'>
+        {Array.from({ length: 40 }).map((_, i) => (
           <div
             key={i}
+            className='blog-rain-drop'
             style={{
-              position: 'absolute',
-              width: 1,
-              top: -100,
-              height: `${Math.random() * 60 + 30}px`,
               left: `${Math.random() * 100}%`,
-              background:
-                'linear-gradient(to bottom, transparent, rgba(14,154,167,0.3))',
+              height: `${Math.random() * 60 + 30}px`,
               animation: `fall ${Math.random() * 1.5 + 0.7}s linear ${Math.random() * 3}s infinite`,
               opacity: Math.random() * 0.3 + 0.05,
             }}
@@ -251,39 +219,43 @@ CATEGORY: [category]
         ))}
       </div>
 
-      <div style={s.app}>
+      <div className='blog-app'>
         {/* Header */}
-        <header style={s.header}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-            <div style={s.logoMark}>🌧️</div>
+        <header className='blog-header'>
+          <div className='blog-logo-section'>
+            <div className='blog-logo-mark'>🌧️</div>
             <div>
-              <div style={s.headerTitle}>Rainboots SEO Blog Generator</div>
-              <div style={s.headerSub}>
+              <div className='blog-header-title'>
+                Rainboots SEO Blog Generator
+              </div>
+              <div className='blog-header-sub'>
                 Internal tool · rainbootsmarketing.com
               </div>
             </div>
           </div>
         </header>
 
-        {/* Form */}
-        <div style={s.panel}>
-          <div style={s.sectionLabel}>Article Settings</div>
-          <div style={s.formGrid}>
-            <div style={{ ...s.field, gridColumn: '1 / -1' }}>
-              <label style={s.label}>Topic / Title</label>
+        {/* Form Panel */}
+        <div className='blog-panel'>
+          <div className='blog-section-label'>Article Settings</div>
+
+          <div className='blog-form-grid'>
+            <div className='blog-field-full'>
+              <label className='blog-label'>Topic / Title</label>
               <input
-                style={s.input}
                 type='text'
+                className='blog-input'
                 placeholder='e.g. How to improve email deliverability in 2026'
                 value={topic}
                 onChange={(e) => setTopic(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && generateArticle()}
               />
             </div>
-            <div style={s.field}>
-              <label style={s.label}>Target Service</label>
+
+            <div className='blog-field'>
+              <label className='blog-label'>Target Service</label>
               <select
-                style={s.input}
+                className='blog-select'
                 value={service}
                 onChange={(e) => setService(e.target.value)}
               >
@@ -294,10 +266,11 @@ CATEGORY: [category]
                 ))}
               </select>
             </div>
-            <div style={s.field}>
-              <label style={s.label}>Article Length</label>
+
+            <div className='blog-field'>
+              <label className='blog-label'>Article Length</label>
               <select
-                style={s.input}
+                className='blog-select'
                 value={length}
                 onChange={(e) => setLength(e.target.value)}
               >
@@ -308,27 +281,25 @@ CATEGORY: [category]
                 ))}
               </select>
             </div>
-            <div style={{ ...s.field, gridColumn: '1 / -1' }}>
-              <label style={s.label}>Focus Keywords (optional)</label>
+
+            <div className='blog-field-full'>
+              <label className='blog-label'>Focus Keywords (optional)</label>
               <input
-                style={s.input}
                 type='text'
+                className='blog-input'
                 placeholder='e.g. email open rates, inbox placement, sender reputation'
                 value={keywords}
                 onChange={(e) => setKeywords(e.target.value)}
               />
             </div>
-            <div style={{ ...s.field, gridColumn: '1 / -1' }}>
-              <label style={s.label}>Tone</label>
-              <div style={s.toneGrid}>
+
+            <div className='blog-field-full'>
+              <label className='blog-label'>Tone</label>
+              <div className='blog-tone-grid'>
                 {TONES.map((t) => (
                   <button
                     key={t.value}
-                    className='rb-tone-btn'
-                    style={{
-                      ...s.toneBtn,
-                      ...(tone === t.value ? s.toneBtnActive : {}),
-                    }}
+                    className={`blog-tone-btn ${tone === t.value ? 'active' : ''}`}
                     onClick={() => setTone(t.value)}
                   >
                     {t.label}
@@ -337,88 +308,60 @@ CATEGORY: [category]
               </div>
             </div>
           </div>
+
           <button
-            style={{
-              ...s.generateBtn,
-              ...(loading ? { opacity: 0.5, cursor: 'not-allowed' } : {}),
-            }}
+            className='blog-generate-btn'
             onClick={generateArticle}
             disabled={loading}
           >
-            ⚡ Generate SEO Article
+            {loading ? 'Generating...' : '⚡ Generate SEO Article'}
           </button>
-          {error && <div style={s.errorMsg}>{error}</div>}
+
+          {error && <div className='blog-error-msg'>{error}</div>}
         </div>
 
-        {/* Loading */}
+        {/* Loading State */}
         {loading && (
-          <div style={{ textAlign: 'center', padding: '50px 20px' }}>
-            <div
-              style={{
-                display: 'flex',
-                gap: 6,
-                justifyContent: 'center',
-                marginBottom: 18,
-              }}
-            >
+          <div className='blog-loading-container'>
+            <div className='blog-loading-bars'>
               {[0, 1, 2, 3, 4].map((i) => (
                 <span
                   key={i}
+                  className='blog-loading-bar'
                   style={{
-                    width: 3,
-                    height: 28,
-                    background: '#0e9aa7',
-                    borderRadius: 2,
-                    display: 'inline-block',
                     animation: `bounce 0.8s ease-in-out ${i * 0.1}s infinite`,
                   }}
                 />
               ))}
             </div>
-            <p
-              style={{
-                fontFamily: "'Syne',sans-serif",
-                fontSize: 13,
-                color: '#5a6b7a',
-                letterSpacing: '0.05em',
-              }}
-            >
-              {loadingMsg}
-            </p>
+            <p className='blog-loading-msg'>{loadingMsg}</p>
           </div>
         )}
 
-        {/* Output */}
+        {/* Article Output */}
         {article && (
           <div ref={outputRef}>
-            {/* Meta strip */}
-            <div style={s.metaStrip}>
+            {/* Meta Information */}
+            <div className='blog-meta-strip'>
               <div>
-                <div style={s.metaLabel}>SEO Title Tag</div>
-                <div style={s.metaValue}>{article.seoTitle}</div>
+                <div className='blog-meta-label'>SEO Title Tag</div>
+                <div className='blog-meta-value'>{article.seoTitle}</div>
               </div>
               <div>
-                <div style={s.metaLabel}>Read Time</div>
-                <div style={s.metaValue}>
+                <div className='blog-meta-label'>Read Time</div>
+                <div className='blog-meta-value'>
                   ~{article.readTime} min ({article.wordCount} words)
                 </div>
               </div>
               <div style={{ gridColumn: '1 / -1' }}>
-                <div style={s.metaLabel}>Meta Description</div>
-                <div style={s.metaValue}>{article.metaDesc}</div>
+                <div className='blog-meta-label'>Meta Description</div>
+                <div className='blog-meta-value'>{article.metaDesc}</div>
               </div>
               <div style={{ gridColumn: '1 / -1' }}>
-                <div style={s.metaLabel}>Target Keywords</div>
-                <div
-                  style={{
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    gap: 6,
-                    marginTop: 4,
-                  }}
-                >
+                <div className='blog-meta-label'>Target Keywords</div>
+                <div className='blog-tags-wrapper'>
                   {article.keywords.split(',').map((kw, i) => (
-                    <span key={i} style={s.tag}>
+                    <span key={i} className='blog-tag'>
                       {kw.trim()}
                     </span>
                   ))}
@@ -426,63 +369,35 @@ CATEGORY: [category]
               </div>
             </div>
 
-            {/* Article preview */}
-            <div style={s.articleOutput}>
-              <div style={s.articleHeader}>
-                <div style={s.articleCategory}>{article.category}</div>
-                <div style={s.articleTitle}>{article.seoTitle}</div>
-                <div
-                  style={{
-                    display: 'flex',
-                    gap: 18,
-                    flexWrap: 'wrap',
-                    fontFamily: "'Syne',sans-serif",
-                    fontSize: 12,
-                    color: '#5a6b7a',
-                  }}
-                >
+            {/* Article Preview */}
+            <div className='blog-article-output'>
+              <div className='blog-article-header'>
+                <div className='blog-article-category'>{article.category}</div>
+                <div className='blog-article-title'>{article.seoTitle}</div>
+                <div className='blog-article-meta'>
                   <span>✍️ Rainboots Marketing Team</span>
                   <span>📅 {article.date}</span>
                   <span>🏷️ {article.service}</span>
                 </div>
               </div>
               <div
-                className='rb-body'
-                style={s.articleBody}
+                className='blog-article-body'
                 dangerouslySetInnerHTML={{ __html: article.html }}
               />
             </div>
 
-            {/* Action bar */}
-            <div
-              style={{
-                display: 'flex',
-                gap: 10,
-                marginTop: 18,
-                flexWrap: 'wrap',
-              }}
-            >
-              <button
-                className='rb-wp-btn'
-                style={s.wpBtn}
-                onClick={copyForWordPress}
-              >
+            {/* Action Buttons */}
+            <div className='blog-actions'>
+              <button className='blog-wp-btn' onClick={copyForWordPress}>
                 {copyStatus === 'wordpress'
                   ? '✅ Copied! Paste into WordPress →'
                   : '🟢 Copy for WordPress'}
               </button>
-
-              <button
-                className='rb-action-btn'
-                style={s.actionBtn}
-                onClick={copyMetaTags}
-              >
+              <button className='blog-action-btn' onClick={copyMetaTags}>
                 {copyStatus === 'meta' ? '✅ Copied!' : '📝 Copy Meta Tags'}
               </button>
-
               <button
-                className='rb-action-btn'
-                style={s.actionBtn}
+                className='blog-action-btn'
                 onClick={() => {
                   setArticle(null);
                   setTopic('');
@@ -494,12 +409,12 @@ CATEGORY: [category]
               </button>
             </div>
 
-            {/* WordPress instructions */}
-            <div style={s.wpInstructions}>
-              <div style={s.wpInstructionsTitle}>
+            {/* WordPress Instructions */}
+            <div className='blog-wp-instructions'>
+              <div className='blog-wp-instructions-title'>
                 📋 How to publish in WordPress
               </div>
-              <ol style={s.wpInstructionsList}>
+              <ol className='blog-wp-instructions-list'>
                 <li>
                   Click <strong>Copy for WordPress</strong> above
                 </li>
@@ -516,7 +431,7 @@ CATEGORY: [category]
                 </li>
                 <li>
                   In <strong>Yoast / RankMath</strong>: paste the meta
-                  description and keywords (use Copy Meta Tags button)
+                  description and keywords
                 </li>
                 <li>
                   Add a <strong>featured image</strong>, assign a{' '}
@@ -527,39 +442,22 @@ CATEGORY: [category]
           </div>
         )}
 
-        {/* History */}
+        {/* History Section */}
         {history.length > 1 && (
-          <div style={{ marginTop: 48 }}>
-            <div style={s.sectionLabel}>Session History</div>
-            <div style={{ display: 'grid', gap: 10, marginTop: 14 }}>
+          <div className='blog-history-section'>
+            <div className='blog-section-label'>Session History</div>
+            <div className='blog-history-list'>
               {history.map((art, i) => (
                 <div
                   key={i}
-                  className='rb-history-card'
-                  style={s.historyCard}
+                  className='blog-history-card'
                   onClick={() => {
                     setArticle(art);
                     outputRef.current?.scrollIntoView({ behavior: 'smooth' });
                   }}
                 >
-                  <div
-                    style={{
-                      fontFamily: "'DM Serif Display',serif",
-                      fontSize: 15,
-                      color: '#f5f0e8',
-                      flex: 1,
-                    }}
-                  >
-                    {art.seoTitle}
-                  </div>
-                  <div
-                    style={{
-                      fontFamily: "'Syne',sans-serif",
-                      fontSize: 11,
-                      color: '#5a6b7a',
-                      whiteSpace: 'nowrap',
-                    }}
-                  >
+                  <div className='blog-history-title'>{art.seoTitle}</div>
+                  <div className='blog-history-meta'>
                     {art.service} · {art.date}
                   </div>
                 </div>
