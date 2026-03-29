@@ -10,7 +10,7 @@
 .dashboard-sidebar {
   position: fixed;
   left: 0;
-  top: 0;
+  top: 80px;
   bottom: 0;
   width: 280px;
   background: rgba(13, 27, 42, 0.95);
@@ -20,6 +20,7 @@
   flex-direction: column;
   transition: all 0.3s ease;
   z-index: 100;
+  background: #0d1b2a;
 }
 
 .dashboard-sidebar.collapsed {
@@ -39,10 +40,14 @@
   align-items: center;
 }
 
-.logo {
+.dashboard-sidebar .logo {
   display: flex;
   align-items: center;
   gap: 12px;
+  font-size: 2rem;
+  color: var(--primary);
+  font-weight: 700;
+  text-decoration: none;
 }
 
 .logo-icon {
@@ -168,30 +173,8 @@
   opacity: 0.6;
 }
 
-/* Mobile Menu Button */
-.mobile-menu-btn {
-  position: fixed;
-  top: 16px;
-  left: 16px;
-  z-index: 101;
-  background: rgba(14, 154, 167, 0.2);
-  border: 1px solid rgba(14, 154, 167, 0.3);
-  border-radius: 8px;
-  width: 40px;
-  height: 40px;
-  font-size: 20px;
-  cursor: pointer;
-  color: #f5f0e8;
-  display: none;
-  transition: all 0.2s;
-}
-
-.mobile-menu-btn:hover {
-  background: rgba(14, 154, 167, 0.3);
-}
-
 /* Mobile Overlay */
-.mobile-overlay {
+.dashboard-mobile-overlay {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.5);
@@ -206,6 +189,8 @@
   transition: margin-left 0.3s ease;
   min-height: 100vh;
   background: #0d1b2a;
+  position: relative;
+  top: 80px;
 }
 
 .dashboard-sidebar.collapsed ~ .dashboard-main {
@@ -312,15 +297,10 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .mobile-menu-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
   .dashboard-sidebar {
     transform: translateX(-100%);
     transition: transform 0.3s ease;
+    top: 70px;
   }
 
   .dashboard-sidebar.mobile-open {
@@ -329,11 +309,11 @@
 
   .dashboard-main {
     margin-left: 0 !important;
+    top: 70px;
   }
 
   .dashboard-header {
     padding: 16px 20px;
-    margin-left: 48px;
   }
 
   .page-title {
@@ -344,7 +324,7 @@
     padding: 20px;
   }
 
-  .mobile-overlay {
+  .dashboard-mobile-overlay {
     display: block;
   }
 

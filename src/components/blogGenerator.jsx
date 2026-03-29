@@ -130,7 +130,7 @@ CATEGORY: [category]
 [full article HTML]`;
 
     try {
-      const response = await fetch('/api/generate', {
+      const response = await fetch('http://localhost:5001/api/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

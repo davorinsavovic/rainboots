@@ -35,7 +35,6 @@ const SORT_OPTIONS = [
   { value: 'score', label: 'Score (Low to High)' },
   { value: '-createdAt', label: 'Newest First' },
   { value: 'createdAt', label: 'Oldest First' },
-  { value: '-score', label: 'Best Opportunities' },
 ];
 
 const API_BASE = 'http://localhost:5001';

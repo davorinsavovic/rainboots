@@ -26,6 +26,7 @@ const cors = require('cors');
 const auditRoutes = require('./routes/auditRoutes');
 const sendEmailRoutes = require('./routes/sendEmailRoutes');
 const leadRoutes = require('./routes/leadRoutes');
+const blogRoutes = require('./routes/blogRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5001;
@@ -45,6 +46,7 @@ console.log('🔄 Mounting routes...');
 app.use('/api', auditRoutes);
 app.use('/api', sendEmailRoutes);
 app.use('/api', leadRoutes);
+app.use('/api', blogRoutes);
 console.log('✅ Routes mounted');
 
 // 404 handler
