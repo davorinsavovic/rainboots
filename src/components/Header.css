@@ -486,11 +486,13 @@
 .nav-staff:hover,
 .nav-staff.active {
   opacity: 0.75;
-  background: none;
+  background: none !important ;
 }
 
-.header-dark .nav-desktop a.nav-staff:not(.cta-button)::after {
-  background: none;
+.nav-desktop a.nav-staff:not(.cta-button)::after,
+.header-dark .nav-desktop a.nav-staff:not(.cta-button)::after,
+.header-scrolled .nav-desktop a.nav-staff:not(.cta-button)::after {
+  background: none !important;
 }
 
 /* Mobile equivalent */
