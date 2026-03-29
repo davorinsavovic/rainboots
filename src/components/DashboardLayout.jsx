@@ -168,14 +168,6 @@ export default function DashboardLayout() {
               <p className='page-description'>{activeItem.description}</p>
             </div>
             <div className='header-right'>
-              {stats && (
-                <div className='quick-stats'>
-                  <div className='stat-badge'>
-                    <span>🎯</span>
-                    <span>{stats.new || 0}</span>
-                  </div>
-                </div>
-              )}
               <div className='user-info'>
                 <span className='user-avatar'>👤</span>
                 <span className='user-name'>Admin</span>

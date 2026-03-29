@@ -164,6 +164,7 @@ const Header = () => {
             <div className='mobile-menu-header'>
               <div className='menu-header-content'>
                 <span className='menu-title'>Menu</span>
+                <br />
                 <span className='menu-subtitle'>NAVIGATE</span>
               </div>
             </div>
