@@ -10,7 +10,7 @@
 .dashboard-sidebar {
   position: fixed;
   left: 0;
-  top: 80px;
+  top: 100px;
   bottom: 0;
   width: 280px;
   background: rgba(13, 27, 42, 0.95);
