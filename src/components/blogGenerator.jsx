@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import './BlogGenerator.css';
 
 const SERVICES = [
   { value: 'email marketing', label: 'Email Marketing' },
@@ -35,29 +36,6 @@ const LOADING_MESSAGES = [
   'Almost ready...',
 ];
 
-// All styles needed for the article when pasted into WordPress
-const WP_ARTICLE_STYLES = `
-<style>
-.rb-wp-article { font-family: 'DM Sans', 'Helvetica Neue', sans-serif; font-size: 16px; line-height: 1.8; color: #2a2a3a; max-width: 780px; margin: 0 auto; }
-.rb-wp-article h2 { font-family: Georgia, 'Times New Roman', serif; font-size: 26px; color: #0d1b2a; margin: 40px 0 14px; line-height: 1.3; font-weight: 700; border-left: 4px solid #0e9aa7; padding-left: 16px; }
-.rb-wp-article h3 { font-family: 'Helvetica Neue', sans-serif; font-size: 18px; font-weight: 700; color: #1a3a5c; margin: 28px 0 10px; letter-spacing: 0.01em; }
-.rb-wp-article p { margin-bottom: 20px; }
-.rb-wp-article ul, .rb-wp-article ol { padding-left: 28px; margin-bottom: 20px; }
-.rb-wp-article li { margin-bottom: 8px; line-height: 1.7; }
-.rb-wp-article a { color: #0e7a85; text-decoration: underline; text-underline-offset: 3px; font-weight: 600; }
-.rb-wp-article a:hover { color: #0d1b2a; }
-.rb-wp-article blockquote { border-left: 5px solid #0e9aa7; margin: 28px 0; padding: 18px 24px; background: #f0fafa; border-radius: 0 10px 10px 0; font-style: italic; color: #1a3a5c; font-size: 17px; }
-.rb-wp-article strong { color: #0d1b2a; font-weight: 700; }
-.rb-wp-article .rb-category-tag { display: inline-block; background: #0d1b2a; color: #17c3d4; font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; padding: 5px 14px; border-radius: 20px; margin-bottom: 20px; font-family: 'Helvetica Neue', sans-serif; }
-.rb-wp-article .rb-article-meta { display: flex; gap: 20px; flex-wrap: wrap; font-size: 13px; color: #8a96a3; margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid #e8edf2; font-family: 'Helvetica Neue', sans-serif; }
-.rb-wp-article .rb-article-meta span { display: flex; align-items: center; gap: 5px; }
-.rb-wp-article .cta-box { background: linear-gradient(135deg, #0d1b2a 0%, #1a3a5c 100%); border-radius: 16px; padding: 36px 40px; margin-top: 48px; text-align: center; }
-.rb-wp-article .cta-box p { font-family: Georgia, serif; font-size: 22px; color: #f5f0e8; margin-bottom: 16px; font-style: normal; line-height: 1.3; }
-.rb-wp-article .cta-box a { display: inline-block; background: #0e9aa7; color: #ffffff !important; text-decoration: none !important; font-family: 'Helvetica Neue', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 14px 32px; border-radius: 8px; transition: background 0.2s; }
-.rb-wp-article .rb-divider { border: none; border-top: 1px solid #e8edf2; margin: 40px 0; }
-</style>
-`;
-
 // Generates the full WordPress-ready HTML block
 function buildWordPressHTML(article) {
   return `<!-- PASTE INTO: Posts > Add New > Code Editor (top-right ⋮ menu) -->
@@ -69,172 +47,11 @@ function buildWordPressHTML(article) {
 ${article.html}`;
 }
 
-// ─── Password Gate ────────────────────────────────────────────────────────────
-function PasswordGate({ onUnlock }) {
-  const [input, setInput] = useState('');
-  const [shake, setShake] = useState(false);
-  const [error, setError] = useState('');
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const correct = process.env.REACT_APP_BLOG_PASSWORD;
-    if (!correct) {
-      onUnlock();
-      return;
-    }
-    if (input === correct) {
-      sessionStorage.setItem('rb_blog_auth', 'true');
-      onUnlock();
-    } else {
-      setError('Incorrect password.');
-      setShake(true);
-      setTimeout(() => setShake(false), 500);
-      setInput('');
-    }
-  };
-
-  return (
-    <div style={gateStyles.page}>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
-        @keyframes fall { to { transform: translateY(110vh); } }
-        @keyframes shake { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-8px)} 40%,80%{transform:translateX(8px)} }
-        @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
-        .rb-gate-card { animation: fadeUp 0.5s ease both; }
-        .rb-gate-card.shake { animation: shake 0.4s ease; }
-        .rb-gate-input:focus { border-color: #0e9aa7 !important; outline: none; }
-        .rb-gate-btn:hover { background: #17c3d4 !important; }
-      `}</style>
-      <div
-        style={{
-          position: 'fixed',
-          inset: 0,
-          pointerEvents: 'none',
-          overflow: 'hidden',
-        }}
-      >
-        {Array.from({ length: 30 }).map((_, i) => (
-          <div
-            key={i}
-            style={{
-              position: 'absolute',
-              width: 1,
-              top: -80,
-              height: `${Math.random() * 60 + 30}px`,
-              left: `${Math.random() * 100}%`,
-              background:
-                'linear-gradient(to bottom, transparent, rgba(14,154,167,0.3))',
-              animation: `fall ${Math.random() * 1.5 + 0.7}s linear ${Math.random() * 3}s infinite`,
-              opacity: Math.random() * 0.3 + 0.05,
-            }}
-          />
-        ))}
-      </div>
-      <form
-        onSubmit={handleSubmit}
-        className={`rb-gate-card${shake ? ' shake' : ''}`}
-        style={gateStyles.card}
-      >
-        <div style={gateStyles.logo}>🌧️</div>
-        <h1 style={gateStyles.title}>Rainboots Blog Generator</h1>
-        <p style={gateStyles.sub}>Internal tool — team access only</p>
-        <input
-          className='rb-gate-input'
-          type='password'
-          placeholder='Enter access password'
-          value={input}
-          onChange={(e) => {
-            setInput(e.target.value);
-            setError('');
-          }}
-          style={gateStyles.input}
-          autoFocus
-        />
-        {error && <p style={gateStyles.error}>{error}</p>}
-        <button type='submit' className='rb-gate-btn' style={gateStyles.btn}>
-          Unlock →
-        </button>
-        <p style={gateStyles.hint}>Contact your team admin for the password.</p>
-      </form>
-    </div>
-  );
-}
-
-const gateStyles = {
-  page: {
-    background: '#0d1b2a',
-    minHeight: '100vh',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontFamily: "'DM Sans', sans-serif",
-    padding: 24,
-  },
-  card: {
-    background: 'rgba(255,255,255,0.05)',
-    border: '1px solid rgba(14,154,167,0.25)',
-    borderRadius: 20,
-    padding: '48px 40px',
-    width: '100%',
-    maxWidth: 400,
-    textAlign: 'center',
-    backdropFilter: 'blur(12px)',
-    position: 'relative',
-    zIndex: 1,
-  },
-  logo: { fontSize: 40, marginBottom: 16 },
-  title: {
-    fontFamily: "'Syne', sans-serif",
-    fontSize: 20,
-    fontWeight: 700,
-    color: '#f5f0e8',
-    marginBottom: 8,
-  },
-  sub: { fontSize: 13, color: '#5a6b7a', marginBottom: 32 },
-  input: {
-    width: '100%',
-    background: 'rgba(255,255,255,0.06)',
-    border: '1px solid rgba(255,255,255,0.12)',
-    borderRadius: 10,
-    color: '#f5f0e8',
-    fontFamily: "'DM Sans', sans-serif",
-    fontSize: 15,
-    padding: '13px 16px',
-    textAlign: 'center',
-    letterSpacing: '0.1em',
-    boxSizing: 'border-box',
-    marginBottom: 12,
-  },
-  error: { color: '#ff8080', fontSize: 13, marginBottom: 10 },
-  btn: {
-    width: '100%',
-    background: '#0e9aa7',
-    border: 'none',
-    borderRadius: 10,
-    color: '#fff',
-    cursor: 'pointer',
-    fontFamily: "'Syne', sans-serif",
-    fontSize: 13,
-    fontWeight: 700,
-    letterSpacing: '0.08em',
-    textTransform: 'uppercase',
-    padding: 14,
-    transition: 'background 0.2s',
-  },
-  hint: { fontSize: 12, color: '#3a4a56', marginTop: 20 },
-};
-
-// ─── Root ─────────────────────────────────────────────────────────────────────
+// Main Blog Generator Component (no password gate - dashboard handles it)
 export default function BlogGenerator() {
-  const [unlocked, setUnlocked] = useState(false);
-  useEffect(() => {
-    if (sessionStorage.getItem('rb_blog_auth') === 'true') setUnlocked(true);
-  }, []);
-  if (!unlocked) return <PasswordGate onUnlock={() => setUnlocked(true)} />;
   return <GeneratorApp />;
 }
 
-// ─── Generator App ────────────────────────────────────────────────────────────
 function GeneratorApp() {
   const [topic, setTopic] = useState('');
   const [service, setService] = useState('email marketing');
@@ -370,7 +187,6 @@ CATEGORY: [category]
     });
   };
 
-  // ★ The main new feature — single button WordPress export
   const copyForWordPress = () => {
     if (!article) return;
     copy(buildWordPressHTML(article), 'wordpress');
@@ -383,11 +199,6 @@ CATEGORY: [category]
       `<title>${article.seoTitle}</title>\n<meta name="description" content="${article.metaDesc}">\n<meta name="keywords" content="${article.keywords}">\n<link rel="canonical" href="https://rainbootsmarketing.com/blog/${slug}">`,
       'meta',
     );
-  };
-
-  const logout = () => {
-    sessionStorage.removeItem('rb_blog_auth');
-    window.location.reload();
   };
 
   return (
@@ -409,7 +220,6 @@ CATEGORY: [category]
         .rb-tone-btn:hover{border-color:#0e9aa7!important;color:#17c3d4!important}
         .rb-action-btn:hover{background:rgba(14,154,167,0.15)!important;border-color:#0e9aa7!important;color:#17c3d4!important}
         .rb-history-card:hover{border-color:#0e9aa7!important;background:rgba(14,154,167,0.08)!important}
-        .rb-logout:hover{border-color:rgba(255,255,255,0.25)!important;color:#f5f0e8!important}
         .rb-wp-btn:hover{background:#16a34a!important}
       `}</style>
 
@@ -453,9 +263,6 @@ CATEGORY: [category]
               </div>
             </div>
           </div>
-          <button className='rb-logout' onClick={logout} style={s.logoutBtn}>
-            Sign out
-          </button>
         </header>
 
         {/* Form */}
@@ -646,7 +453,7 @@ CATEGORY: [category]
               />
             </div>
 
-            {/* ★ Action bar with WordPress button */}
+            {/* Action bar */}
             <div
               style={{
                 display: 'flex',
@@ -655,7 +462,6 @@ CATEGORY: [category]
                 flexWrap: 'wrap',
               }}
             >
-              {/* PRIMARY: WordPress one-click export */}
               <button
                 className='rb-wp-btn'
                 style={s.wpBtn}
@@ -666,7 +472,6 @@ CATEGORY: [category]
                   : '🟢 Copy for WordPress'}
               </button>
 
-              {/* SECONDARY: just meta tags */}
               <button
                 className='rb-action-btn'
                 style={s.actionBtn}
@@ -675,7 +480,6 @@ CATEGORY: [category]
                 {copyStatus === 'meta' ? '✅ Copied!' : '📝 Copy Meta Tags'}
               </button>
 
-              {/* Reset */}
               <button
                 className='rb-action-btn'
                 style={s.actionBtn}
@@ -767,276 +571,3 @@ CATEGORY: [category]
     </div>
   );
 }
-
-const s = {
-  page: {
-    background: '#0d1b2a',
-    minHeight: '100vh',
-    position: 'relative',
-    overflowX: 'hidden',
-    fontFamily: "'DM Sans', sans-serif",
-  },
-  app: {
-    position: 'relative',
-    zIndex: 1,
-    maxWidth: 860,
-    margin: '0 auto',
-    padding: '40px 24px 80px',
-  },
-  header: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 48,
-    paddingBottom: 28,
-    borderBottom: '1px solid rgba(14,154,167,0.2)',
-  },
-  logoMark: {
-    width: 44,
-    height: 44,
-    background: '#0e9aa7',
-    borderRadius: 11,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontSize: 22,
-    flexShrink: 0,
-  },
-  headerTitle: {
-    fontFamily: "'Syne',sans-serif",
-    fontSize: 13,
-    fontWeight: 700,
-    textTransform: 'uppercase',
-    letterSpacing: '0.12em',
-    color: '#17c3d4',
-  },
-  headerSub: { fontSize: 12, color: '#5a6b7a', marginTop: 2 },
-  logoutBtn: {
-    background: 'transparent',
-    border: '1px solid rgba(255,255,255,0.12)',
-    borderRadius: 7,
-    color: '#5a6b7a',
-    cursor: 'pointer',
-    fontFamily: "'Syne',sans-serif",
-    fontSize: 11,
-    fontWeight: 600,
-    letterSpacing: '0.08em',
-    textTransform: 'uppercase',
-    padding: '7px 14px',
-    transition: 'all 0.15s',
-  },
-  panel: {
-    background: 'rgba(255,255,255,0.04)',
-    border: '1px solid rgba(14,154,167,0.2)',
-    borderRadius: 20,
-    padding: 30,
-    marginBottom: 28,
-  },
-  sectionLabel: {
-    fontFamily: "'Syne',sans-serif",
-    fontSize: 11,
-    fontWeight: 700,
-    textTransform: 'uppercase',
-    letterSpacing: '0.15em',
-    color: '#0e9aa7',
-    marginBottom: 18,
-  },
-  formGrid: {
-    display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
-    gap: 14,
-    marginBottom: 4,
-  },
-  field: { display: 'flex', flexDirection: 'column', gap: 7 },
-  label: {
-    fontFamily: "'Syne',sans-serif",
-    fontSize: 11,
-    fontWeight: 600,
-    textTransform: 'uppercase',
-    letterSpacing: '0.1em',
-    color: '#5a6b7a',
-  },
-  input: {
-    background: 'rgba(255,255,255,0.05)',
-    border: '1px solid rgba(255,255,255,0.1)',
-    borderRadius: 10,
-    color: '#f5f0e8',
-    fontFamily: "'DM Sans',sans-serif",
-    fontSize: 14,
-    padding: '11px 14px',
-    outline: 'none',
-    width: '100%',
-  },
-  toneGrid: { display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 8 },
-  toneBtn: {
-    background: 'rgba(255,255,255,0.04)',
-    border: '1px solid rgba(255,255,255,0.1)',
-    borderRadius: 8,
-    color: '#5a6b7a',
-    cursor: 'pointer',
-    fontFamily: "'Syne',sans-serif",
-    fontSize: 12,
-    fontWeight: 600,
-    padding: '9px 6px',
-    transition: 'all 0.15s',
-  },
-  toneBtnActive: {
-    background: 'rgba(14,154,167,0.18)',
-    borderColor: '#0e9aa7',
-    color: '#17c3d4',
-  },
-  generateBtn: {
-    width: '100%',
-    marginTop: 22,
-    background: '#0e9aa7',
-    border: 'none',
-    borderRadius: 12,
-    color: '#fff',
-    cursor: 'pointer',
-    fontFamily: "'Syne',sans-serif",
-    fontSize: 13,
-    fontWeight: 700,
-    letterSpacing: '0.08em',
-    textTransform: 'uppercase',
-    padding: 15,
-    transition: 'background 0.2s',
-  },
-  errorMsg: {
-    background: 'rgba(220,50,50,0.1)',
-    border: '1px solid rgba(220,50,50,0.3)',
-    borderRadius: 10,
-    color: '#ff8080',
-    fontSize: 13,
-    padding: '13px 16px',
-    marginTop: 14,
-  },
-  metaStrip: {
-    background: 'rgba(14,154,167,0.08)',
-    border: '1px solid rgba(14,154,167,0.2)',
-    borderRadius: 16,
-    padding: '22px 26px',
-    marginBottom: 20,
-    display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
-    gap: 14,
-  },
-  metaLabel: {
-    fontFamily: "'Syne',sans-serif",
-    fontSize: 10,
-    fontWeight: 700,
-    textTransform: 'uppercase',
-    letterSpacing: '0.12em',
-    color: '#0e9aa7',
-    marginBottom: 4,
-  },
-  metaValue: { fontSize: 13, color: '#f5f0e8', lineHeight: 1.5 },
-  tag: {
-    background: 'rgba(14,154,167,0.2)',
-    border: '1px solid #0e9aa7',
-    borderRadius: 20,
-    color: '#17c3d4',
-    fontFamily: "'Syne',sans-serif",
-    fontSize: 11,
-    fontWeight: 600,
-    padding: '3px 10px',
-  },
-  articleOutput: {
-    background: '#f5f0e8',
-    borderRadius: 20,
-    overflow: 'hidden',
-  },
-  articleHeader: {
-    background: '#0d1b2a',
-    padding: '28px 36px',
-    borderBottom: '3px solid #0e9aa7',
-  },
-  articleCategory: {
-    fontFamily: "'Syne',sans-serif",
-    fontSize: 11,
-    fontWeight: 700,
-    textTransform: 'uppercase',
-    letterSpacing: '0.15em',
-    color: '#17c3d4',
-    marginBottom: 10,
-  },
-  articleTitle: {
-    fontFamily: "'DM Serif Display',serif",
-    fontSize: 28,
-    color: '#f5f0e8',
-    lineHeight: 1.2,
-    marginBottom: 14,
-  },
-  articleBody: {
-    padding: '36px 40px',
-    fontSize: 15,
-    lineHeight: 1.8,
-    color: '#2a2a3a',
-  },
-  // ★ WordPress button — green to stand out
-  wpBtn: {
-    background: '#16a34a',
-    border: 'none',
-    borderRadius: 8,
-    color: '#fff',
-    cursor: 'pointer',
-    fontFamily: "'Syne',sans-serif",
-    fontSize: 12,
-    fontWeight: 700,
-    letterSpacing: '0.06em',
-    textTransform: 'uppercase',
-    padding: '11px 20px',
-    transition: 'background 0.2s',
-    display: 'flex',
-    alignItems: 'center',
-    gap: 6,
-  },
-  actionBtn: {
-    background: 'rgba(255,255,255,0.07)',
-    border: '1px solid rgba(255,255,255,0.12)',
-    borderRadius: 8,
-    color: '#f5f0e8',
-    cursor: 'pointer',
-    fontFamily: "'Syne',sans-serif",
-    fontSize: 12,
-    fontWeight: 600,
-    letterSpacing: '0.06em',
-    textTransform: 'uppercase',
-    padding: '10px 16px',
-    transition: 'all 0.15s',
-  },
-  // ★ WordPress instructions panel
-  wpInstructions: {
-    background: 'rgba(22,163,74,0.08)',
-    border: '1px solid rgba(22,163,74,0.25)',
-    borderRadius: 12,
-    padding: '20px 24px',
-    marginTop: 14,
-  },
-  wpInstructionsTitle: {
-    fontFamily: "'Syne',sans-serif",
-    fontSize: 12,
-    fontWeight: 700,
-    color: '#4ade80',
-    marginBottom: 12,
-    letterSpacing: '0.05em',
-  },
-  wpInstructionsList: {
-    margin: 0,
-    paddingLeft: 20,
-    color: '#a0b0a8',
-    fontSize: 13,
-    lineHeight: 2,
-  },
-  historyCard: {
-    background: 'rgba(255,255,255,0.04)',
-    border: '1px solid rgba(14,154,167,0.2)',
-    borderRadius: 12,
-    padding: '14px 18px',
-    cursor: 'pointer',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: 14,
-    transition: 'all 0.15s',
-  },
-};

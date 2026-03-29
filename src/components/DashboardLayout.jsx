@@ -1,7 +1,7 @@
-// DashboardLayout.jsx - Updated
 import { useState, useEffect } from 'react';
 import { Link, useLocation, Outlet } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import DashboardGate from './DashboardGate';
 import './DashboardLayout.css';
 
 // Navigation items
@@ -72,128 +72,133 @@ export default function DashboardLayout() {
     setMobileMenuOpen(false);
   }, [location]);
 
+  // Wrap everything in DashboardGate
   return (
-    <div className='dashboard-layout'>
-      {/* Mobile Menu Button */}
-      <button
-        className='mobile-menu-btn'
-        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-      >
-        ☰
-      </button>
+    <DashboardGate>
+      <div className='dashboard-layout'>
+        {/* Mobile Menu Button */}
+        <button
+          className='mobile-menu-btn'
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        >
+          ☰
+        </button>
 
-      {/* Sidebar */}
-      <aside
-        className={`dashboard-sidebar ${sidebarCollapsed ? 'collapsed' : ''} ${mobileMenuOpen ? 'mobile-open' : ''}`}
-      >
-        <div className='sidebar-header'>
-          <div className='logo'>
-            <span className='logo-icon'>🌧️</span>
-            {!sidebarCollapsed && (
-              <span className='logo-text'>Rainboots Tools</span>
-            )}
-          </div>
-          <button
-            className='sidebar-toggle'
-            onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-          >
-            {sidebarCollapsed ? '→' : '←'}
-          </button>
-        </div>
-
-        <nav className='sidebar-nav'>
-          {NAV_ITEMS.map((item) => {
-            const isActive = currentPath.includes(item.path);
-            return (
-              <Link
-                key={item.id}
-                to={item.path}
-                className={`nav-item ${isActive ? 'active' : ''}`}
-                style={isActive ? { '--active-color': item.color } : {}}
-              >
-                <span className='nav-icon'>{item.icon}</span>
-                {!sidebarCollapsed && (
-                  <div className='nav-content'>
-                    <span className='nav-label'>{item.label}</span>
-                    <span className='nav-description'>{item.description}</span>
-                  </div>
-                )}
-                {isActive && (
-                  <span
-                    className='active-indicator'
-                    style={{ background: item.color }}
-                  />
-                )}
-              </Link>
-            );
-          })}
-        </nav>
-
-        <div className='sidebar-footer'>
-          {!sidebarCollapsed && (
-            <div className='footer-info'>
-              <div className='footer-stats'>
-                <span>⚡ AI-Powered</span>
-                <span>🎯 Real-time Analysis</span>
-              </div>
-              <div className='footer-version'>v1.0.0</div>
+        {/* Sidebar */}
+        <aside
+          className={`dashboard-sidebar ${sidebarCollapsed ? 'collapsed' : ''} ${mobileMenuOpen ? 'mobile-open' : ''}`}
+        >
+          <div className='sidebar-header'>
+            <div className='logo'>
+              <span className='logo-icon'>🌧️</span>
+              {!sidebarCollapsed && (
+                <span className='logo-text'>Rainboots Tools</span>
+              )}
             </div>
-          )}
-          {sidebarCollapsed && (
-            <div className='footer-icons'>
-              <span>⚡</span>
-              <span>🎯</span>
-            </div>
-          )}
-        </div>
-      </aside>
-
-      {/* Overlay for mobile */}
-      {mobileMenuOpen && (
-        <div
-          className='mobile-overlay'
-          onClick={() => setMobileMenuOpen(false)}
-        />
-      )}
-
-      {/* Main Content */}
-      <main className='dashboard-main'>
-        <div className='dashboard-header'>
-          <div className='header-left'>
-            <h1 className='page-title'>{activeItem.label}</h1>
-            <p className='page-description'>{activeItem.description}</p>
-          </div>
-          <div className='header-right'>
-            {stats && (
-              <div className='quick-stats'>
-                <div className='stat-badge'>
-                  <span>🎯</span>
-                  <span>{stats.new || 0}</span>
-                </div>
-              </div>
-            )}
-            <div className='user-info'>
-              <span className='user-avatar'>👤</span>
-              <span className='user-name'>Admin</span>
-            </div>
-          </div>
-        </div>
-
-        <div className='dashboard-content'>
-          <AnimatePresence mode='wait'>
-            <motion.div
-              key={location.pathname}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-              className='content-wrapper'
+            <button
+              className='sidebar-toggle'
+              onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
             >
-              <Outlet />
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      </main>
-    </div>
+              {sidebarCollapsed ? '→' : '←'}
+            </button>
+          </div>
+
+          <nav className='sidebar-nav'>
+            {NAV_ITEMS.map((item) => {
+              const isActive = currentPath.includes(item.path);
+              return (
+                <Link
+                  key={item.id}
+                  to={item.path}
+                  className={`nav-item ${isActive ? 'active' : ''}`}
+                  style={isActive ? { '--active-color': item.color } : {}}
+                >
+                  <span className='nav-icon'>{item.icon}</span>
+                  {!sidebarCollapsed && (
+                    <div className='nav-content'>
+                      <span className='nav-label'>{item.label}</span>
+                      <span className='nav-description'>
+                        {item.description}
+                      </span>
+                    </div>
+                  )}
+                  {isActive && (
+                    <span
+                      className='active-indicator'
+                      style={{ background: item.color }}
+                    />
+                  )}
+                </Link>
+              );
+            })}
+          </nav>
+
+          <div className='sidebar-footer'>
+            {!sidebarCollapsed && (
+              <div className='footer-info'>
+                <div className='footer-stats'>
+                  <span>⚡ AI-Powered</span>
+                  <span>🎯 Real-time Analysis</span>
+                </div>
+                <div className='footer-version'>v1.0.0</div>
+              </div>
+            )}
+            {sidebarCollapsed && (
+              <div className='footer-icons'>
+                <span>⚡</span>
+                <span>🎯</span>
+              </div>
+            )}
+          </div>
+        </aside>
+
+        {/* Overlay for mobile */}
+        {mobileMenuOpen && (
+          <div
+            className='mobile-overlay'
+            onClick={() => setMobileMenuOpen(false)}
+          />
+        )}
+
+        {/* Main Content */}
+        <main className='dashboard-main'>
+          <div className='dashboard-header'>
+            <div className='header-left'>
+              <h1 className='page-title'>{activeItem.label}</h1>
+              <p className='page-description'>{activeItem.description}</p>
+            </div>
+            <div className='header-right'>
+              {stats && (
+                <div className='quick-stats'>
+                  <div className='stat-badge'>
+                    <span>🎯</span>
+                    <span>{stats.new || 0}</span>
+                  </div>
+                </div>
+              )}
+              <div className='user-info'>
+                <span className='user-avatar'>👤</span>
+                <span className='user-name'>Admin</span>
+              </div>
+            </div>
+          </div>
+
+          <div className='dashboard-content'>
+            <AnimatePresence mode='wait'>
+              <motion.div
+                key={location.pathname}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+                className='content-wrapper'
+              >
+                <Outlet />
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </main>
+      </div>
+    </DashboardGate>
   );
 }
