@@ -18,12 +18,15 @@ export default function DashboardGate({ children }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Get password from environment variable
-    const correctPassword = process.env.REACT_APP_DASHBOARD_PASSWORD;
+    // Get password from environment variables (Vite uses import.meta.env)
+    const correctPassword = import.meta.env.VITE_DASHBOARD_PASSWORD;
 
+    // If no password is set in .env, use a default for development
     if (!correctPassword) {
-      console.warn('REACT_APP_DASHBOARD_PASSWORD not set in environment');
-      // For development, you can set a default
+      console.warn('⚠️ VITE_DASHBOARD_PASSWORD not set in .env');
+      console.warn('Using default password: admin123');
+      console.warn('Please set VITE_DASHBOARD_PASSWORD in your .env file');
+
       if (password === 'admin123') {
         authenticate();
       } else {
@@ -97,7 +100,9 @@ export default function DashboardGate({ children }) {
             </button>
           </form>
 
-          <p className='gate-hint'>Contact your team admin for the password.</p>
+          <p className='gate-hint'>
+            Default password: admin123 (change in .env file)
+          </p>
         </div>
       </div>
     </div>
