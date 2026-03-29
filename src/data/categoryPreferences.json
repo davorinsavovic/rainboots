@@ -1,0 +1,23 @@
+{
+  "selectedCategories": [
+    "contractor",
+    "roofing",
+    "plumbing",
+    "electrical",
+    "landscaping",
+    "real estate agent",
+    "dentist",
+    "restaurant",
+    "yoga studio",
+    "spa"
+  ],
+  "locations": [
+    "Seattle",
+    "Bellevue",
+    "Kirkland",
+    "Redmond",
+    "Bothell",
+    "Woodinville"
+  ],
+  "lastUpdated": "2026-03-28T00:00:00.000Z"
+}

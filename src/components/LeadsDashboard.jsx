@@ -1,4 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
+import CategorySelector from './CategorySelector';
+import LocationSelector from './LocationSelector';
 import './LeadsDashboard.css';
 
 // Loading messages for better UX
@@ -49,6 +51,9 @@ export default function LeadsDashboard() {
   const [sortBy, setSortBy] = useState('-score');
   const [selectedLead, setSelectedLead] = useState(null);
   const [copyStatus, setCopyStatus] = useState('');
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [preferencesLoaded, setPreferencesLoaded] = useState(false);
+  const [selectedLocations, setSelectedLocations] = useState([]);
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -177,6 +182,11 @@ export default function LeadsDashboard() {
     return () => window.removeEventListener('keydown', handleEscape);
   }, [selectedLead]);
 
+  useEffect(() => {
+    loadPreferences();
+    loadLocationPreferences();
+  }, []);
+
   // Update lead status
   const updateStatus = async (id, newStatus) => {
     try {
@@ -280,6 +290,45 @@ export default function LeadsDashboard() {
       pages.push(i);
     }
     return pages;
+  };
+
+  // Load preferences
+  const loadPreferences = async () => {
+    try {
+      const res = await fetch(`${API_BASE}/api/preferences/categories`);
+      const data = await res.json();
+      if (data.success && data.preferences) {
+        setSelectedCategories(data.preferences.selectedCategories || []);
+      }
+    } catch (error) {
+      console.error('Error loading preferences:', error);
+    } finally {
+      setPreferencesLoaded(true);
+    }
+  };
+
+  // Handle category save
+  const handleCategorySave = (categories) => {
+    setSelectedCategories(categories);
+    // Optional: You can show a success message or trigger new collection
+    console.log('Categories saved:', categories);
+  };
+
+  const loadLocationPreferences = async () => {
+    try {
+      const res = await fetch(`${API_BASE}/api/preferences/locations`);
+      const data = await res.json();
+      if (data.success && data.preferences) {
+        setSelectedLocations(data.preferences.locations || []);
+      }
+    } catch (error) {
+      console.error('Error loading location preferences:', error);
+    }
+  };
+
+  const handleLocationSave = (locations) => {
+    setSelectedLocations(locations);
+    console.log('Locations saved:', locations);
   };
 
   return (
@@ -403,9 +452,19 @@ export default function LeadsDashboard() {
               </select>
             </div>
           </div>
-          <button className='collect-btn' onClick={triggerCollection}>
-            🔄 Collect New Leads
-          </button>
+          <div className='leads-actions'>
+            <CategorySelector
+              onSave={handleCategorySave}
+              initialCategories={selectedCategories}
+            />
+            <LocationSelector
+              onSave={handleLocationSave}
+              initialLocations={selectedLocations}
+            />
+            <button className='collect-btn' onClick={triggerCollection}>
+              🔄 Collect New Leads
+            </button>
+          </div>
         </div>
 
         {/* Loading State */}
