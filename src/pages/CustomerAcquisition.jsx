@@ -121,7 +121,7 @@ const CustomerAcquisition = () => {
         />
       </Helmet>
       {/* Hero Section */}
-      <section className='acquisition-hero'>
+      <section className='acquisition-hero' data-header-theme='light'>
         <motion.div
           className='acquisition-hero-content'
           initial={{ opacity: 0, y: 40 }}

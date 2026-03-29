@@ -60,7 +60,7 @@ const About = () => {
       </Helmet>
 
       {/* Hero Section */}
-      <section className='about-hero'>
+      <section className='about-hero' data-header-theme='light'>
         <motion.div
           className='about-hero-content'
           initial={{ opacity: 0, y: 40 }}

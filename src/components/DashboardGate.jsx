@@ -58,7 +58,7 @@ export default function DashboardGate({ children }) {
   }
 
   return (
-    <div className='dashboard-gate'>
+    <div className='dashboard-gate' data-header-theme='dark'>
       <div className='gate-rain-container'>
         {Array.from({ length: 40 }).map((_, i) => (
           <div

@@ -144,7 +144,7 @@ const BrandIdentity = () => {
         <link rel='canonical' href='https://rainbootsmarketing.com/branding' />
       </Helmet>
       {/* Hero Section */}
-      <section className='brand-hero'>
+      <section className='brand-hero' data-header-theme='light'>
         <motion.div
           className='brand-hero-content'
           initial={{ opacity: 0, y: 40 }}

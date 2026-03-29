@@ -1,41 +1,15 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
+import { useLocation } from 'react-router-dom';
 
 export default function useHeaderTheme() {
   const [theme, setTheme] = useState('light');
   const [scrolled, setScrolled] = useState(false);
   const themeRef = useRef(theme);
-  const scrollTimeoutRef = useRef(null);
+  const location = useLocation();
 
-  // Track scroll state with debounce for better performance
-  useEffect(() => {
-    const handleScroll = () => {
-      const isScrolled = window.scrollY > 50;
-      if (isScrolled !== scrolled) {
-        setScrolled(isScrolled);
-      }
-
-      // Force theme update when scrolling back to top
-      if (window.scrollY <= 50) {
-        if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
-        scrollTimeoutRef.current = setTimeout(() => {
-          updateThemeBasedOnBackground();
-        }, 50);
-      }
-    };
-
-    handleScroll();
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
-    };
-  }, [scrolled]);
-
-  const fallbackBrightnessDetection = () => {
-    const headerHeight = 80;
+  const fallbackBrightnessDetection = useCallback(() => {
     const x = window.innerWidth / 2;
-    const y = headerHeight;
-
+    const y = 80;
     const el = document.elementFromPoint(x, y);
     if (!el) return;
 
@@ -46,77 +20,86 @@ export default function useHeaderTheme() {
     while (currentEl && attempts < 15) {
       const style = window.getComputedStyle(currentEl);
       bgColor = style.backgroundColor;
-
-      if (bgColor !== 'rgba(0, 0, 0, 0)' && bgColor !== 'transparent') {
-        break;
-      }
-
+      if (bgColor !== 'rgba(0, 0, 0, 0)' && bgColor !== 'transparent') break;
       currentEl = currentEl.parentElement;
       attempts++;
     }
 
-    if (bgColor) {
-      const rgb = bgColor.match(/\d+/g);
-      if (rgb && rgb.length >= 3) {
-        const brightness =
-          (parseInt(rgb[0]) * 299 +
-            parseInt(rgb[1]) * 587 +
-            parseInt(rgb[2]) * 114) /
-          1000;
+    if (!bgColor) return;
+    const rgb = bgColor.match(/\d+/g);
+    if (!rgb || rgb.length < 3) return;
 
-        const newTheme = brightness < 140 ? 'dark' : 'light';
+    const brightness =
+      (parseInt(rgb[0]) * 299 +
+        parseInt(rgb[1]) * 587 +
+        parseInt(rgb[2]) * 114) /
+      1000;
+    const newTheme = brightness < 140 ? 'dark' : 'light';
 
-        if (themeRef.current !== newTheme) {
-          themeRef.current = newTheme;
-          setTheme(newTheme);
-        }
-      }
+    if (themeRef.current !== newTheme) {
+      themeRef.current = newTheme;
+      setTheme(newTheme);
     }
-  };
+  }, []);
 
-  const updateThemeBasedOnBackground = () => {
+  const updateThemeBasedOnBackground = useCallback(() => {
     if (window.scrollY > 50) return;
 
     const headerHeight = 80;
-
-    // Get all sections that can control header theme
     const sections = document.querySelectorAll('[data-header-theme]');
-
     let activeTheme = null;
 
     sections.forEach((section) => {
       const rect = section.getBoundingClientRect();
-
-      // Check if section is under header area
       if (rect.top <= headerHeight && rect.bottom >= headerHeight) {
         activeTheme = section.dataset.headerTheme;
       }
     });
 
-    if (activeTheme && themeRef.current !== activeTheme) {
-      themeRef.current = activeTheme;
-      setTheme(activeTheme);
+    if (activeTheme) {
+      if (themeRef.current !== activeTheme) {
+        themeRef.current = activeTheme;
+        setTheme(activeTheme);
+      }
       return;
     }
 
-    // Fallback to brightness detection ONLY if no section found
     fallbackBrightnessDetection();
-  };
+  }, [fallbackBrightnessDetection]);
 
-  // Update theme on mount and when dependencies change
+  // Re-run after every route change, using rAF to wait for paint
   useEffect(() => {
-    updateThemeBasedOnBackground();
+    // Scroll to top first (if you do this on nav), then detect
+    // Two rAF calls: first fires before paint, second fires after
+    let rafId = requestAnimationFrame(() => {
+      rafId = requestAnimationFrame(() => {
+        updateThemeBasedOnBackground();
+      });
+    });
 
+    return () => cancelAnimationFrame(rafId);
+  }, [location.pathname, updateThemeBasedOnBackground]);
+
+  // Scroll + resize listeners (unchanged)
+  useEffect(() => {
+    const handleScroll = () => {
+      const isScrolled = window.scrollY > 50;
+      setScrolled(isScrolled);
+      if (!isScrolled) {
+        updateThemeBasedOnBackground();
+      }
+    };
+
+    handleScroll();
+
+    window.addEventListener('scroll', handleScroll);
     window.addEventListener('resize', updateThemeBasedOnBackground);
-    window.addEventListener('load', updateThemeBasedOnBackground);
-    // Also update on any scroll that might change background elements
-    window.addEventListener('scroll', updateThemeBasedOnBackground);
 
     return () => {
+      window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', updateThemeBasedOnBackground);
-      window.removeEventListener('load', updateThemeBasedOnBackground);
     };
-  }, []);
+  }, [updateThemeBasedOnBackground]);
 
   return { theme, scrolled };
 }

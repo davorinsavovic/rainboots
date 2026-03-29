@@ -109,7 +109,7 @@ const Outbound = () => {
         <link rel='canonical' href='https://rainbootsmarketing.com/outbound' />
       </Helmet>
       {/* Hero Section */}
-      <section className='outbound-hero'>
+      <section className='outbound-hero' data-header-theme='light'>
         <motion.div
           className='outbound-hero-content'
           initial={{ opacity: 0, y: 40 }}

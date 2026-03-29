@@ -568,7 +568,7 @@ export default function Testimonials() {
       </Helmet>
 
       {/* Hero Section */}
-      <section className='testimonials-hero'>
+      <section className='testimonials-hero' data-header-theme='dark'>
         <div className='testimonials-hero__bg' />
         <div className='testimonials-hero__grid' />
         <div className='testimonials-hero__content'>

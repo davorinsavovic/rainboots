@@ -3,6 +3,7 @@ import {
   Routes,
   Route,
   Navigate,
+  useLocation,
 } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Header from './components/Header';
@@ -29,7 +30,9 @@ import WebsiteAudit from './components/WebsiteAudit';
 import LeadsDashboard from './components/LeadsDashboard';
 import DashboardLayout from './components/DashboardLayout';
 
-function App() {
+// Wrapper component to handle splash screen logic
+function AppContent() {
+  const location = useLocation();
   const [showSplash, setShowSplash] = useState(true);
   const [animationState, setAnimationState] = useState(null);
   const [hasAnimationPlayed, setHasAnimationPlayed] = useState(false);
@@ -40,12 +43,6 @@ function App() {
     const checkMobile = () => {
       const mobile = window.innerWidth <= 768;
       setIsMobile(mobile);
-
-      // If mobile, never show splash screen
-      if (mobile) {
-        setShowSplash(false);
-        sessionStorage.setItem('splashShown', 'true');
-      }
     };
 
     checkMobile();
@@ -53,15 +50,20 @@ function App() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  // Check if splash should show (only on homepage and not mobile)
   useEffect(() => {
-    if (!isMobile) {
-      const splashShown = sessionStorage.getItem('splashShown');
-      const animationPlayed = sessionStorage.getItem('animationPlayed');
+    const isHomePage = location.pathname === '/';
+    const splashShown = sessionStorage.getItem('splashShown');
+    const animationPlayed = sessionStorage.getItem('animationPlayed');
 
-      if (splashShown) setShowSplash(false);
-      if (animationPlayed) setHasAnimationPlayed(true);
+    if (isMobile || !isHomePage || splashShown) {
+      setShowSplash(false);
     }
-  }, [isMobile]);
+
+    if (animationPlayed) {
+      setHasAnimationPlayed(true);
+    }
+  }, [location.pathname, isMobile]);
 
   const handleSplashClose = (savedState) => {
     setShowSplash(false);
@@ -132,40 +134,31 @@ function App() {
     </>
   );
 
-  // Mobile version (no splash screen)
-  if (isMobile) {
-    return (
-      <Router>
-        <ScrollToTop />
-        <Header />
-        <Routes>
-          {publicRoutes}
-          {dashboardRoutes}
-          {legacyRedirects}
-          <Route path='*' element={<Navigate to='/' replace />} />
-        </Routes>
-        <Footer />
-      </Router>
-    );
+  // Show splash screen only on homepage, not mobile, and not already shown
+  if (showSplash && !isMobile && location.pathname === '/') {
+    return <SplashScreen onClose={handleSplashClose} />;
   }
 
-  // Desktop version (with splash screen)
+  // Normal app view
+  return (
+    <>
+      <Header />
+      <Routes>
+        {publicRoutes}
+        {dashboardRoutes}
+        {legacyRedirects}
+        <Route path='*' element={<Navigate to='/' replace />} />
+      </Routes>
+      <Footer />
+    </>
+  );
+}
+
+function App() {
   return (
     <Router>
       <ScrollToTop />
-      {showSplash && <SplashScreen onClose={handleSplashClose} />}
-      {!showSplash && (
-        <>
-          <Header />
-          <Routes>
-            {publicRoutes}
-            {dashboardRoutes}
-            {legacyRedirects}
-            <Route path='*' element={<Navigate to='/' replace />} />
-          </Routes>
-          <Footer />
-        </>
-      )}
+      <AppContent />
     </Router>
   );
 }

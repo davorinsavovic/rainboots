@@ -75,7 +75,7 @@ export default function DashboardLayout() {
   // Wrap everything in DashboardGate
   return (
     <DashboardGate>
-      <div className='dashboard-layout'>
+      <div className='dashboard-layout' data-header-theme='dark'>
         {/* Mobile Menu Button */}
         <button
           className='mobile-menu-btn'

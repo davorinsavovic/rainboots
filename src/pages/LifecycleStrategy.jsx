@@ -144,7 +144,7 @@ const LifecycleStrategy = () => {
         <link rel='canonical' href='https://rainbootsmarketing.com/lifecycle' />
       </Helmet>
       {/* Hero Section */}
-      <section className='lifecycle-hero'>
+      <section className='lifecycle-hero' data-header-theme='light'>
         <motion.div
           className='lifecycle-hero-content'
           initial={{ opacity: 0, y: 40 }}

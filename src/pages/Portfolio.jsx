@@ -440,7 +440,7 @@ const Portfolio = () => {
         <link rel='canonical' href='https://rainbootsmarketing.com/portfolio' />
       </Helmet>
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
-      <section className='portfolio-hero'>
+      <section className='portfolio-hero' data-header-theme='dark'>
         <div className='portfolio-hero__bg' />
         <div className='portfolio-hero__grid' />
 

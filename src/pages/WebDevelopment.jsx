@@ -133,7 +133,7 @@ const WebDevelopment = () => {
         />
       </Helmet>
       {/* Hero Section */}
-      <section className='webdev-hero'>
+      <section className='webdev-hero' data-header-theme='light'>
         <motion.div
           className='webdev-hero-content'
           initial={{ opacity: 0, y: 40 }}

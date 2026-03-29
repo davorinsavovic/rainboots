@@ -74,6 +74,7 @@ const Header = () => {
     { path: '/services', label: 'Services', bold: true },
     { path: '/about', label: 'About', bold: true },
     { path: '/contact', label: 'Get Started', isCta: true, bold: true },
+    { path: '/dashboard', label: 'Dashboard', isStaff: true, bold: false },
   ];
 
   // Log for debugging
@@ -115,6 +116,12 @@ const Header = () => {
           </Link>
           <Link to='/contact' className='cta-button'>
             Get Started
+          </Link>
+          <Link
+            to='/dashboard'
+            className={`nav-staff ${location.pathname.startsWith('/dashboard') ? 'active' : ''}`}
+          >
+            Dashboard
           </Link>
         </nav>
 
@@ -179,7 +186,7 @@ const Header = () => {
                 >
                   <Link
                     to={item.path}
-                    className={`menu-link ${location.pathname === item.path ? 'active' : ''} ${item.isCta ? 'menu-cta' : ''}`}
+                    className={`menu-link ${location.pathname.startsWith(item.path) ? 'active' : ''} ${item.isCta ? 'menu-cta' : ''} ${item.isStaff ? 'menu-staff' : ''}`}
                     onClick={toggleMobileMenu}
                   >
                     <span className={`menu-label ${item.bold ? 'bold' : ''}`}>

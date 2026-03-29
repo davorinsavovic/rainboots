@@ -331,7 +331,7 @@ export default function LeadsDashboard() {
   };
 
   return (
-    <div className='leads-page'>
+    <div className='leads-page' data-header-theme='dark'>
       {/* Rain animation effect */}
       <div className='leads-rain-container'>
         {Array.from({ length: 40 }).map((_, i) => (

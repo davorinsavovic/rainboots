@@ -202,7 +202,7 @@ CATEGORY: [category]
   };
 
   return (
-    <div className='blog-page'>
+    <div className='blog-page' data-header-theme='dark'>
       {/* Rain animation effect */}
       <div className='blog-rain-container'>
         {Array.from({ length: 40 }).map((_, i) => (

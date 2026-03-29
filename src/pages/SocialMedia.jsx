@@ -156,7 +156,7 @@ const SocialMedia = () => {
         <link rel='canonical' href='https://rainbootsmarketing.com/social' />
       </Helmet>
       {/* Hero Section */}
-      <section className='social-hero'>
+      <section className='social-hero' data-header-theme='light'>
         <motion.div
           className='social-hero-content'
           initial={{ opacity: 0, y: 40 }}
