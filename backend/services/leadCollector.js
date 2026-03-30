@@ -17,23 +17,25 @@ function cleanUrl(url) {
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function scrapeYellowPages(category, location) {
+  const apiKey = process.env.SCRAPER_API_KEY;
+  if (!apiKey) {
+    console.error('❌ SCRAPER_API_KEY not set');
+    return [];
+  }
+
   const searchUrl = `https://www.yellowpages.com/search?search_terms=${encodeURIComponent(category)}&geo_location_terms=${encodeURIComponent(location)}`;
 
   try {
     console.log(`   🌐 Fetching: ${searchUrl}`);
 
-    const response = await axios.get(searchUrl, {
-      timeout: 15000,
-      headers: {
-        'User-Agent':
-          'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        Accept:
-          'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-        'Accept-Language': 'en-US,en;q=0.5',
-        'Accept-Encoding': 'gzip, deflate',
-        Connection: 'keep-alive',
+    const response = await axios.get('http://api.scraperapi.com', {
+      params: {
+        api_key: apiKey,
+        url: searchUrl,
+        render: true,
+        country_code: 'us',
       },
-      maxRedirects: 5,
+      timeout: 60000,
     });
 
     const $ = cheerio.load(response.data);
@@ -42,7 +44,6 @@ async function scrapeYellowPages(category, location) {
     $('.result').each((_, el) => {
       const name = $(el).find('.business-name').text().trim();
 
-      // Find external website link
       let website = '';
       $(el)
         .find('a')
