@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
-import './WebsiteAudit.css'; // Import the CSS file
+import { API_BASE } from '../config';
+import './WebsiteAudit.css';
 
 // Loading messages for better UX
 const LOADING_MESSAGES = [
@@ -71,8 +72,7 @@ export default function WebsiteAudit() {
     const stopMessages = startLoadingMessages();
 
     try {
-      // CHANGE THIS LINE - use full URL
-      const response = await fetch('http://localhost:5001/api/audit', {
+      const response = await fetch(`${API_BASE}/api/audit`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ url: formattedUrl }),
@@ -81,7 +81,6 @@ export default function WebsiteAudit() {
       console.log('Response status:', response.status);
 
       if (!response.ok) {
-        // Try to get error text if JSON parsing fails
         const text = await response.text();
         try {
           const errorData = JSON.parse(text);

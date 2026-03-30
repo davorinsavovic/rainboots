@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import CategorySelector from './CategorySelector';
 import LocationSelector from './LocationSelector';
+import { API_BASE } from '../config';
 import './LeadsDashboard.css';
 
 // Loading messages for better UX
@@ -36,8 +37,6 @@ const SORT_OPTIONS = [
   { value: '-createdAt', label: 'Newest First' },
   { value: 'createdAt', label: 'Oldest First' },
 ];
-
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5001';
 
 export default function LeadsDashboard() {
   const [leads, setLeads] = useState([]);

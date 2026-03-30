@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
+import { API_BASE } from '../config';
 import './LocationSelector.css';
-
-const API_BASE = 'http://localhost:5001';
 
 // Predefined locations data
 const LOCATION_DATA = {

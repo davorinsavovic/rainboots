@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation, Outlet } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import DashboardGate from './DashboardGate';
+import { API_BASE } from '../config';
 import './DashboardLayout.css';
 
 // Navigation items
@@ -50,9 +51,7 @@ export default function DashboardLayout() {
 
   const fetchStats = async () => {
     try {
-      const res = await fetch(
-        `${import.meta.env.VITE_API_URL || 'http://localhost:5001'}/api/stats/leads`,
-      );
+      const res = await fetch(`${API_BASE}/api/stats/leads`);
       const data = await res.json();
       setStats(data.stats);
     } catch (error) {

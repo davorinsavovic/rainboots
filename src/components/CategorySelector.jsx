@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
+import { API_BASE } from '../config';
 import './CategorySelector.css';
-
-const API_BASE = 'http://localhost:5001';
 
 export default function CategorySelector({ onSave, initialCategories = [] }) {
   const [categories, setCategories] = useState([]);

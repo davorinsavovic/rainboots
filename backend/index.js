@@ -34,8 +34,13 @@ const PORT = process.env.PORT || 5001;
 // Middleware
 app.use(
   cors({
-    origin: ['http://localhost:5173', 'https://rainbootsmarketing.com'],
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    origin: [
+      'http://localhost:3000',
+      'http://localhost:5173',
+      'https://rainbootsmarketing.com',
+      'https://www.rainbootsmarketing.com',
+    ],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
   }),
 );
