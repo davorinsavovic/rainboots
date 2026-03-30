@@ -32,12 +32,23 @@ const app = express();
 const PORT = process.env.PORT || 5001;
 
 // Middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: ['http://localhost:5173', 'https://rainbootsmarketing.com'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  }),
+);
 app.use(express.json());
 
 // Debug middleware
 app.use((req, res, next) => {
   console.log(`📝 ${req.method} ${req.url}`);
+  next();
+});
+
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Private-Network', 'true');
   next();
 });
 
