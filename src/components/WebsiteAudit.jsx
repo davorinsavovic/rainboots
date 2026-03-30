@@ -1,8 +1,7 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { API_BASE } from '../config';
 import './WebsiteAudit.css';
 
-// Loading messages for better UX
 const LOADING_MESSAGES = [
   'Launching browser to analyze website...',
   'Extracting content and structure...',
@@ -12,7 +11,6 @@ const LOADING_MESSAGES = [
   'Almost ready...',
 ];
 
-// Service categories for filtering
 const SERVICE_CATEGORIES = [
   { value: 'all', label: 'All Websites' },
   { value: 'local-business', label: 'Local Business' },
@@ -38,7 +36,20 @@ export default function WebsiteAudit() {
 
   const outputRef = useRef(null);
 
-  // Handle loading messages rotation
+  // Load history from MongoDB on mount
+  useEffect(() => {
+    const loadHistory = async () => {
+      try {
+        const res = await fetch(`${API_BASE}/api/audit/history`);
+        const data = await res.json();
+        if (data.success) setHistory(data.audits);
+      } catch (err) {
+        console.error('Failed to load audit history:', err);
+      }
+    };
+    loadHistory();
+  }, []);
+
   const startLoadingMessages = () => {
     let i = 0;
     setLoadingMsg(LOADING_MESSAGES[0]);
@@ -55,7 +66,6 @@ export default function WebsiteAudit() {
       return;
     }
 
-    // Validate URL format
     let formattedUrl = url.trim();
     if (
       !formattedUrl.startsWith('http://') &&
@@ -78,8 +88,6 @@ export default function WebsiteAudit() {
         body: JSON.stringify({ url: formattedUrl }),
       });
 
-      console.log('Response status:', response.status);
-
       if (!response.ok) {
         const text = await response.text();
         try {
@@ -93,7 +101,6 @@ export default function WebsiteAudit() {
       }
 
       const data = await response.json();
-      console.log('Audit result:', data);
 
       if (data.success) {
         const result = {
@@ -104,7 +111,23 @@ export default function WebsiteAudit() {
         };
 
         setAuditResult(result);
-        setHistory((prev) => [result, ...prev].slice(0, 10));
+
+        // Save to MongoDB and refresh history
+        try {
+          await fetch(`${API_BASE}/api/audit/save`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(result),
+          });
+          // Refresh history from DB after save
+          const histRes = await fetch(`${API_BASE}/api/audit/history`);
+          const histData = await histRes.json();
+          if (histData.success) setHistory(histData.audits);
+        } catch (err) {
+          console.error('Failed to save audit to DB:', err);
+          // Still update local history if DB save fails
+          setHistory((prev) => [result, ...prev].slice(0, 20));
+        }
 
         setTimeout(() => {
           outputRef.current?.scrollIntoView({
@@ -180,7 +203,6 @@ ${auditResult.analysis.outreachMessage}
 
   return (
     <div className='audit-page' data-header-theme='dark'>
-      {/* Rain animation effect */}
       <div className='audit-rain-container'>
         {Array.from({ length: 40 }).map((_, i) => (
           <div
@@ -197,7 +219,6 @@ ${auditResult.analysis.outreachMessage}
       </div>
 
       <div className='audit-app'>
-        {/* Header */}
         <header className='audit-header'>
           <div className='audit-logo-section'>
             <div className='audit-logo-mark'>🔍</div>
@@ -210,10 +231,8 @@ ${auditResult.analysis.outreachMessage}
           </div>
         </header>
 
-        {/* Input Section */}
         <div className='audit-panel'>
           <div className='audit-section-label'>Analyze Any Website</div>
-
           <div className='audit-input-group'>
             <input
               type='text'
@@ -240,11 +259,9 @@ ${auditResult.analysis.outreachMessage}
               {loading ? 'Analyzing...' : 'Run Audit →'}
             </button>
           </div>
-
           {error && <div className='audit-error-msg'>{error}</div>}
         </div>
 
-        {/* Loading State */}
         {loading && (
           <div className='audit-loading-container'>
             <div className='audit-loading-bars'>
@@ -262,10 +279,8 @@ ${auditResult.analysis.outreachMessage}
           </div>
         )}
 
-        {/* Audit Results */}
         {auditResult && !loading && (
           <div ref={outputRef}>
-            {/* Header Info */}
             <div className='audit-result-header'>
               <div className='audit-url-badge'>
                 <span className='audit-url-icon'>🌐</span>
@@ -280,7 +295,6 @@ ${auditResult.analysis.outreachMessage}
               </div>
             </div>
 
-            {/* Summary Section */}
             <div className='audit-summary-card'>
               <div className='audit-summary-icon'>📊</div>
               <div className='audit-summary-content'>
@@ -291,7 +305,6 @@ ${auditResult.analysis.outreachMessage}
               </div>
             </div>
 
-            {/* Issues Section */}
             <div className='audit-section-card'>
               <div
                 className='audit-section-header'
@@ -320,7 +333,6 @@ ${auditResult.analysis.outreachMessage}
               )}
             </div>
 
-            {/* Opportunities Section */}
             <div className='audit-section-card'>
               <div
                 className='audit-section-header'
@@ -349,7 +361,6 @@ ${auditResult.analysis.outreachMessage}
               )}
             </div>
 
-            {/* Quick Wins Section */}
             <div className='audit-section-card'>
               <div
                 className='audit-section-header'
@@ -378,7 +389,6 @@ ${auditResult.analysis.outreachMessage}
               )}
             </div>
 
-            {/* Outreach Message Section */}
             <div className='audit-outreach-card'>
               <div className='audit-outreach-header'>
                 <span className='audit-outreach-icon'>✉️</span>
@@ -409,26 +419,28 @@ ${auditResult.analysis.outreachMessage}
           </div>
         )}
 
-        {/* History Section */}
-        {history.length > 1 && (
+        {/* History Section — now shows all DB history, not just current session */}
+        {history.length > 0 && (
           <div className='audit-history-section'>
             <div className='audit-section-label'>Recent Audits</div>
             <div className='audit-history-list'>
-              {history.slice(1).map((item, idx) => (
-                <div
-                  key={idx}
-                  className='audit-history-item'
-                  onClick={() => {
-                    setAuditResult(item);
-                    outputRef.current?.scrollIntoView({ behavior: 'smooth' });
-                  }}
-                >
-                  <div className='audit-history-url'>{item.url}</div>
-                  <div className='audit-history-date'>
-                    {new Date(item.timestamp).toLocaleDateString()}
+              {history
+                .filter((item) => item.url !== auditResult?.url)
+                .map((item, idx) => (
+                  <div
+                    key={idx}
+                    className='audit-history-item'
+                    onClick={() => {
+                      setAuditResult(item);
+                      outputRef.current?.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                  >
+                    <div className='audit-history-url'>{item.url}</div>
+                    <div className='audit-history-date'>
+                      {new Date(item.timestamp).toLocaleDateString()}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
             </div>
           </div>
         )}
