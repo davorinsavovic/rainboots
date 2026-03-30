@@ -1,56 +1,53 @@
 const express = require('express');
 const Lead = require('../models/Lead');
+const Preferences = require('../models/Preferences');
 const { runNow } = require('../jobs/dailyLeadJob');
-const fs = require('fs');
-const path = require('path');
 
 const router = express.Router();
 
-const preferencesPath = path.join(
-  __dirname,
-  '../data/categoryPreferences.json',
-);
+const DEFAULT_PREFERENCES = {
+  selectedCategories: [
+    'contractor',
+    'roofing',
+    'plumbing',
+    'electrical',
+    'landscaping',
+    'real estate agent',
+    'dentist',
+    'restaurant',
+    'yoga studio',
+    'spa',
+  ],
+  locations: [
+    'Seattle',
+    'Bellevue',
+    'Kirkland',
+    'Redmond',
+    'Bothell',
+    'Woodinville',
+  ],
+};
 
-const readPreferences = () => {
+const readPreferences = async () => {
   try {
-    const data = fs.readFileSync(preferencesPath, 'utf8');
-    return JSON.parse(data);
+    const prefs = await Preferences.findOne({ key: 'main' });
+    return prefs || DEFAULT_PREFERENCES;
   } catch (error) {
-    return {
-      selectedCategories: [
-        'contractor',
-        'roofing',
-        'plumbing',
-        'electrical',
-        'landscaping',
-        'real estate agent',
-        'dentist',
-        'restaurant',
-        'yoga studio',
-        'spa',
-      ],
-      locations: [
-        'Seattle',
-        'Bellevue',
-        'Kirkland',
-        'Redmond',
-        'Bothell',
-        'Woodinville',
-      ],
-      lastUpdated: new Date().toISOString(),
-    };
+    return DEFAULT_PREFERENCES;
   }
 };
 
-const savePreferences = (preferences) => {
-  const dir = path.dirname(preferencesPath);
-  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-  fs.writeFileSync(preferencesPath, JSON.stringify(preferences, null, 2));
+const savePreferences = async (data) => {
+  await Preferences.findOneAndUpdate(
+    { key: 'main' },
+    { ...data, key: 'main', lastUpdated: new Date() },
+    { upsert: true, new: true },
+  );
 };
 
 router.get('/preferences/locations', async (req, res) => {
   try {
-    const prefs = readPreferences();
+    const prefs = await readPreferences();
     res.json({
       success: true,
       preferences: { locations: prefs.locations || [] },
@@ -63,11 +60,9 @@ router.get('/preferences/locations', async (req, res) => {
 router.post('/preferences/locations', async (req, res) => {
   try {
     const { locations } = req.body;
-    const prefs = readPreferences();
-    prefs.locations = locations;
-    prefs.lastUpdated = new Date().toISOString();
-    savePreferences(prefs);
-    res.json({ success: true, preferences: prefs });
+    const prefs = await readPreferences();
+    await savePreferences({ ...(prefs._doc || prefs), locations });
+    res.json({ success: true });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -75,7 +70,7 @@ router.post('/preferences/locations', async (req, res) => {
 
 router.get('/preferences/categories', async (req, res) => {
   try {
-    const prefs = readPreferences();
+    const prefs = await readPreferences();
     res.json({ success: true, preferences: prefs });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -85,13 +80,14 @@ router.get('/preferences/categories', async (req, res) => {
 router.post('/preferences/categories', async (req, res) => {
   try {
     const { selectedCategories, locations } = req.body;
-    const prefs = readPreferences();
-    if (selectedCategories !== undefined)
-      prefs.selectedCategories = selectedCategories;
-    if (locations !== undefined) prefs.locations = locations;
-    prefs.lastUpdated = new Date().toISOString();
-    savePreferences(prefs);
-    res.json({ success: true, preferences: prefs });
+    const prefs = await readPreferences();
+    const current = prefs._doc || prefs;
+    await savePreferences({
+      ...current,
+      ...(selectedCategories !== undefined && { selectedCategories }),
+      ...(locations !== undefined && { locations }),
+    });
+    res.json({ success: true });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -406,14 +402,10 @@ router.get('/stats/leads', async (req, res) => {
   }
 });
 
-// FIX: Fire and forget — respond immediately, collect in background
 router.post('/leads/collect', async (req, res) => {
   console.log('\n🔧 ========== MANUAL COLLECTION TRIGGERED ==========');
-
-  // Respond immediately so frontend doesn't time out
   res.json({ success: true, message: 'Collection started' });
 
-  // Run in background
   runNow()
     .then((result) => {
       console.log('✅ Background collection complete:', JSON.stringify(result));
