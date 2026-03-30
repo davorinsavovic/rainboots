@@ -329,15 +329,15 @@ const Home = ({
           <h1>
             Making <span className='highlight'>Waves</span> in Marketing
           </h1>
-          <motion.h2
-            initial={{ opacity: 0, y: 40 }}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
           >
             We help businesses consistently get new customers and keep them
-            coming back.
-          </motion.h2>
-          <motion.p
+            coming&nbsp;back.
+          </motion.p>
+          {/* <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.9 }}
@@ -345,12 +345,12 @@ const Home = ({
             We're not your typical marketing agency. We dive deep into strategy,
             make waves with execution, and keep your business dry when things
             get stormy.
-          </motion.p>
+          </motion.p> */}
           <motion.div
             className='hero-buttons'
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.2 }}
+            transition={{ duration: 0.8, delay: 0.9 }}
           >
             <Link to='/contact' className='btn-primary'>
               Start Your Journey
