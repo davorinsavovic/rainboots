@@ -50,7 +50,9 @@ export default function DashboardLayout() {
 
   const fetchStats = async () => {
     try {
-      const res = await fetch('http://localhost:5001/api/stats/leads');
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL || 'http://localhost:5001'}/api/stats/leads`,
+      );
       const data = await res.json();
       setStats(data.stats);
     } catch (error) {

@@ -37,7 +37,7 @@ const SORT_OPTIONS = [
   { value: 'createdAt', label: 'Oldest First' },
 ];
 
-const API_BASE = 'http://localhost:5001';
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5001';
 
 export default function LeadsDashboard() {
   const [leads, setLeads] = useState([]);
