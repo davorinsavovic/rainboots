@@ -30,9 +30,9 @@ const runAudit = async (req, res) => {
     res.json({
       success: true,
       data: {
-        url: url, // Add the URL here
+        url: url,
         title: scraped.title,
-        textContent: scraped.textContent, // Optional: you can keep or remove this
+        textContent: scraped.textContent,
         analysis: analysis,
       },
     });
