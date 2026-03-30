@@ -73,6 +73,7 @@ const Header = () => {
     { path: '/', label: 'Home', bold: true },
     { path: '/services', label: 'Services', bold: true },
     { path: '/about', label: 'About', bold: true },
+    { path: '/work', label: 'Portfolio', bold: true },
     { path: '/contact', label: 'Get Started', isCta: true, bold: true },
     { path: '/dashboard', label: 'Dashboard', isStaff: true, bold: false },
   ];
@@ -113,6 +114,12 @@ const Header = () => {
             className={location.pathname === '/about' ? 'active' : ''}
           >
             About
+          </Link>
+          <Link
+            to='/work'
+            className={location.pathname === '/work' ? 'active' : ''}
+          >
+            Portfolio
           </Link>
           <Link to='/contact' className='cta-button'>
             Get Started
