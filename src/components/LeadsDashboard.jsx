@@ -206,22 +206,32 @@ export default function LeadsDashboard() {
   const triggerCollection = async () => {
     try {
       setError('');
+      setCollecting(true);
+
       const res = await fetch(`${API_BASE}/api/leads/collect`, {
         method: 'POST',
       });
-      if (res.ok) {
-        alert('Lead collection started! Check back in a few minutes.');
-        setTimeout(() => {
-          fetchLeads();
-          fetchStats();
-        }, 5000);
-      } else {
-        const error = await res.text();
-        alert(`Error: ${error}`);
+      if (!res.ok) {
+        setError('Failed to start collection');
+        setCollecting(false);
+        return;
       }
+
+      // Poll every 15 seconds, max 12 times (3 minutes)
+      let attempts = 0;
+      const poll = setInterval(async () => {
+        attempts++;
+        // Only fetch leads and stats — not categories/preferences
+        await Promise.all([fetchLeads(), fetchStats()]);
+
+        if (attempts >= 12) {
+          clearInterval(poll);
+          setCollecting(false);
+        }
+      }, 15000);
     } catch (err) {
-      console.error('Error triggering collection:', err);
-      alert('Failed to start collection. Is backend running?');
+      setError('Failed to start collection.');
+      setCollecting(false);
     }
   };
 
