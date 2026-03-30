@@ -52,6 +52,7 @@ export default function LeadsDashboard() {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [preferencesLoaded, setPreferencesLoaded] = useState(false);
   const [selectedLocations, setSelectedLocations] = useState([]);
+  const [collecting, setCollecting] = useState(false);
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
