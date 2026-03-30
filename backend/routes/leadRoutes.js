@@ -6,13 +6,11 @@ const path = require('path');
 
 const router = express.Router();
 
-// Path to category preferences file
 const preferencesPath = path.join(
   __dirname,
   '../data/categoryPreferences.json',
 );
 
-// Helper to read preferences
 const readPreferences = () => {
   try {
     const data = fs.readFileSync(preferencesPath, 'utf8');
@@ -44,7 +42,12 @@ const readPreferences = () => {
   }
 };
 
-// Get location preferences
+const savePreferences = (preferences) => {
+  const dir = path.dirname(preferencesPath);
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(preferencesPath, JSON.stringify(preferences, null, 2));
+};
+
 router.get('/preferences/locations', async (req, res) => {
   try {
     const prefs = readPreferences();
@@ -53,12 +56,10 @@ router.get('/preferences/locations', async (req, res) => {
       preferences: { locations: prefs.locations || [] },
     });
   } catch (error) {
-    console.error('Error reading location preferences:', error);
     res.status(500).json({ error: error.message });
   }
 });
 
-// Update location preferences
 router.post('/preferences/locations', async (req, res) => {
   try {
     const { locations } = req.body;
@@ -68,55 +69,36 @@ router.post('/preferences/locations', async (req, res) => {
     savePreferences(prefs);
     res.json({ success: true, preferences: prefs });
   } catch (error) {
-    console.error('Error saving location preferences:', error);
     res.status(500).json({ error: error.message });
   }
 });
 
-// Helper to save preferences
-const savePreferences = (preferences) => {
-  const dir = path.dirname(preferencesPath);
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
-  }
-  fs.writeFileSync(preferencesPath, JSON.stringify(preferences, null, 2));
-};
-
-// Get category preferences
 router.get('/preferences/categories', async (req, res) => {
   try {
     const prefs = readPreferences();
     res.json({ success: true, preferences: prefs });
   } catch (error) {
-    console.error('Error reading preferences:', error);
     res.status(500).json({ error: error.message });
   }
 });
 
-// Update category preferences
 router.post('/preferences/categories', async (req, res) => {
   try {
     const { selectedCategories, locations } = req.body;
     const prefs = readPreferences();
-
     if (selectedCategories !== undefined)
       prefs.selectedCategories = selectedCategories;
     if (locations !== undefined) prefs.locations = locations;
     prefs.lastUpdated = new Date().toISOString();
-
     savePreferences(prefs);
-
     res.json({ success: true, preferences: prefs });
   } catch (error) {
-    console.error('Error saving preferences:', error);
     res.status(500).json({ error: error.message });
   }
 });
 
-// Get all available categories
 router.get('/categories/all', async (req, res) => {
   const allCategories = [
-    // Construction & Trades
     {
       id: 'contractor',
       label: 'General Contractor',
@@ -142,8 +124,6 @@ router.get('/categories/all', async (req, res) => {
     { id: 'hvac', label: 'HVAC', icon: '❄️', group: 'Construction' },
     { id: 'masonry', label: 'Masonry', icon: '🧱', group: 'Construction' },
     { id: 'carpentry', label: 'Carpentry', icon: '🪚', group: 'Construction' },
-
-    // Real Estate & Property
     {
       id: 'real estate agent',
       label: 'Real Estate Agent',
@@ -168,8 +148,6 @@ router.get('/categories/all', async (req, res) => {
       icon: '🏭',
       group: 'Real Estate',
     },
-
-    // Health & Wellness
     { id: 'dentist', label: 'Dentist', icon: '🦷', group: 'Healthcare' },
     {
       id: 'chiropractor',
@@ -193,16 +171,12 @@ router.get('/categories/all', async (req, res) => {
       icon: '💆‍♂️',
       group: 'Wellness',
     },
-
-    // Food & Beverage
     { id: 'restaurant', label: 'Restaurant', icon: '🍽️', group: 'Food' },
     { id: 'cafe', label: 'Cafe', icon: '☕', group: 'Food' },
     { id: 'bakery', label: 'Bakery', icon: '🥐', group: 'Food' },
     { id: 'food truck', label: 'Food Truck', icon: '🚚', group: 'Food' },
     { id: 'brewery', label: 'Brewery', icon: '🍺', group: 'Food' },
     { id: 'winery', label: 'Winery', icon: '🍷', group: 'Food' },
-
-    // Professional Services
     {
       id: 'accounting',
       label: 'Accounting',
@@ -234,8 +208,6 @@ router.get('/categories/all', async (req, res) => {
       icon: '💻',
       group: 'Professional',
     },
-
-    // Automotive
     {
       id: 'auto repair',
       label: 'Auto Repair',
@@ -255,8 +227,6 @@ router.get('/categories/all', async (req, res) => {
       icon: '🚙',
       group: 'Automotive',
     },
-
-    // Home Services
     {
       id: 'cleaning service',
       label: 'Cleaning Service',
@@ -281,8 +251,6 @@ router.get('/categories/all', async (req, res) => {
       icon: '📦',
       group: 'Home Services',
     },
-
-    // Pet Services
     {
       id: 'pet grooming',
       label: 'Pet Grooming',
@@ -301,8 +269,6 @@ router.get('/categories/all', async (req, res) => {
       icon: '🐩',
       group: 'Pet Services',
     },
-
-    // Education
     { id: 'daycare', label: 'Daycare', icon: '👶', group: 'Education' },
     { id: 'tutoring', label: 'Tutoring', icon: '📚', group: 'Education' },
     {
@@ -312,8 +278,6 @@ router.get('/categories/all', async (req, res) => {
       group: 'Education',
     },
     { id: 'art studio', label: 'Art Studio', icon: '🎨', group: 'Education' },
-
-    // Entertainment
     { id: 'nightclub', label: 'Nightclub', icon: '🎵', group: 'Entertainment' },
     {
       id: 'event planning',
@@ -332,7 +296,6 @@ router.get('/categories/all', async (req, res) => {
   res.json({ success: true, categories: allCategories });
 });
 
-// Get all leads with pagination, filtering, and sorting
 router.get('/leads', async (req, res) => {
   try {
     const {
@@ -345,29 +308,19 @@ router.get('/leads', async (req, res) => {
       minScore,
     } = req.query;
 
-    // Build filter object
     let filter = {};
     if (status && status !== 'all') filter.status = status;
     if (minScore) filter.score = { $gte: parseInt(minScore) };
-
-    // Date filtering
-    if (createdAfter) {
-      filter.createdAt = { $gte: new Date(createdAfter) };
-    }
-    if (createdBefore) {
+    if (createdAfter) filter.createdAt = { $gte: new Date(createdAfter) };
+    if (createdBefore)
       filter.createdAt = { ...filter.createdAt, $lte: new Date(createdBefore) };
-    }
 
-    // Calculate pagination
     const pageNum = parseInt(page);
     const limitNum = parseInt(limit);
     const skip = (pageNum - 1) * limitNum;
 
-    // Get total count for pagination
     const total = await Lead.countDocuments(filter);
     const totalPages = Math.ceil(total / limitNum);
-
-    // Get paginated and sorted results
     const leads = await Lead.find(filter).sort(sort).skip(skip).limit(limitNum);
 
     console.log(
@@ -392,7 +345,6 @@ router.get('/leads', async (req, res) => {
   }
 });
 
-// Get single lead
 router.get('/leads/:id', async (req, res) => {
   try {
     const lead = await Lead.findById(req.params.id);
@@ -403,7 +355,6 @@ router.get('/leads/:id', async (req, res) => {
   }
 });
 
-// Update lead status
 router.patch('/leads/:id', async (req, res) => {
   try {
     const { status, notes } = req.body;
@@ -421,7 +372,6 @@ router.patch('/leads/:id', async (req, res) => {
   }
 });
 
-// Get lead statistics
 router.get('/stats/leads', async (req, res) => {
   try {
     const total = await Lead.countDocuments();
@@ -429,60 +379,48 @@ router.get('/stats/leads', async (req, res) => {
     const reviewed = await Lead.countDocuments({ status: 'reviewed' });
     const contacted = await Lead.countDocuments({ status: 'contacted' });
     const closed = await Lead.countDocuments({ status: 'closed' });
-
     const avgResult = await Lead.aggregate([
       { $group: { _id: null, avg: { $avg: '$score' } } },
     ]);
 
-    // Get leads created in last 7 days
     const weekAgo = new Date();
     weekAgo.setDate(weekAgo.getDate() - 7);
     const newThisWeek = await Lead.countDocuments({
       createdAt: { $gte: weekAgo },
     });
 
-    const stats = {
-      total,
-      new: newLeads,
-      reviewed,
-      contacted,
-      closed,
-      avgScore: Math.round(avgResult[0]?.avg || 0),
-      newThisWeek,
-    };
-
-    res.json({ success: true, stats });
+    res.json({
+      success: true,
+      stats: {
+        total,
+        new: newLeads,
+        reviewed,
+        contacted,
+        closed,
+        avgScore: Math.round(avgResult[0]?.avg || 0),
+        newThisWeek,
+      },
+    });
   } catch (error) {
-    console.error('Error fetching stats:', error);
     res.status(500).json({ error: error.message });
   }
 });
 
-// Manually trigger lead collection - RUN SYNC to see output
+// FIX: Fire and forget — respond immediately, collect in background
 router.post('/leads/collect', async (req, res) => {
   console.log('\n🔧 ========== MANUAL COLLECTION TRIGGERED ==========');
 
-  try {
-    // Run the job and WAIT for it to complete
-    console.log('⏳ Running lead collection (this may take a few minutes)...');
+  // Respond immediately so frontend doesn't time out
+  res.json({ success: true, message: 'Collection started' });
 
-    const result = await runNow();
-
-    console.log('✅ Collection completed. Sending response...');
-
-    res.json({
-      success: true,
-      message: 'Lead collection completed',
-      result,
+  // Run in background
+  runNow()
+    .then((result) => {
+      console.log('✅ Background collection complete:', JSON.stringify(result));
+    })
+    .catch((err) => {
+      console.error('🔥 Background collection error:', err.message);
     });
-  } catch (error) {
-    console.error('🔥 Collection error:', error);
-    res.status(500).json({
-      success: false,
-      error: error.message,
-      stack: error.stack,
-    });
-  }
 });
 
 module.exports = router;
