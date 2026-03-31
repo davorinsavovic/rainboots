@@ -10,6 +10,12 @@ const auditSchema = new mongoose.Schema({
     opportunities: [String],
     quickWins: [String],
     outreachMessage: String,
+    socialAnalysis: {
+      score: Number,
+      summary: String,
+      missingPlatforms: [String],
+      recommendations: [String],
+    },
   },
   timestamp: { type: Date, default: Date.now },
 });

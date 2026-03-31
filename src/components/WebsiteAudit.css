@@ -611,6 +611,59 @@
   color: #5a6b7a;
 }
 
+.social-found {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.social-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.social-badge.found {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.social-badge.found:hover {
+  background: rgba(16, 185, 129, 0.25);
+}
+
+.social-badge.missing {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.social-missing-label {
+  font-size: 13px;
+  color: #5a6b7a;
+  margin-bottom: 8px;
+}
+
+.social-missing-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.social-recommendations {
+  margin-top: 8px;
+  border-top: 1px solid rgba(14, 154, 167, 0.1);
+  padding-top: 12px;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .audit-app {

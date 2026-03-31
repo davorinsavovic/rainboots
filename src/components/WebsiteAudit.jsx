@@ -19,6 +19,16 @@ const SERVICE_CATEGORIES = [
   { value: 'nonprofit', label: 'Nonprofit' },
 ];
 
+const SOCIAL_ICONS = {
+  facebook: '👥',
+  instagram: '📸',
+  twitter: '🐦',
+  linkedin: '💼',
+  youtube: '▶️',
+  tiktok: '🎵',
+  yelp: '⭐',
+};
+
 export default function WebsiteAudit() {
   const [url, setUrl] = useState('');
   const [category, setCategory] = useState('all');
@@ -32,11 +42,11 @@ export default function WebsiteAudit() {
     issues: true,
     opportunities: true,
     quickWins: true,
+    social: true,
   });
 
   const outputRef = useRef(null);
 
-  // Load history from MongoDB on mount
   useEffect(() => {
     const loadHistory = async () => {
       try {
@@ -112,20 +122,17 @@ export default function WebsiteAudit() {
 
         setAuditResult(result);
 
-        // Save to MongoDB and refresh history
         try {
           await fetch(`${API_BASE}/api/audit/save`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(result),
           });
-          // Refresh history from DB after save
           const histRes = await fetch(`${API_BASE}/api/audit/history`);
           const histData = await histRes.json();
           if (histData.success) setHistory(histData.audits);
         } catch (err) {
           console.error('Failed to save audit to DB:', err);
-          // Still update local history if DB save fails
           setHistory((prev) => [result, ...prev].slice(0, 20));
         }
 
@@ -162,6 +169,10 @@ export default function WebsiteAudit() {
 
   const copyFullReport = () => {
     if (auditResult) {
+      const socialSection = auditResult.socialLinks
+        ? `\nSOCIAL MEDIA\nFound: ${Object.keys(auditResult.socialLinks).join(', ') || 'none'}\nMissing: ${auditResult.analysis.socialAnalysis?.missingPlatforms?.join(', ') || 'none'}`
+        : '';
+
       const report = `
 Website Audit Report
 ====================
@@ -180,6 +191,7 @@ ${auditResult.analysis.opportunities.map((opp, i) => `${i + 1}. ${opp}`).join('\
 
 QUICK WINS
 ${auditResult.analysis.quickWins.map((win, i) => `${i + 1}. ${win}`).join('\n')}
+${socialSection}
 
 OUTREACH MESSAGE
 ${auditResult.analysis.outreachMessage}
@@ -189,16 +201,19 @@ ${auditResult.analysis.outreachMessage}
   };
 
   const toggleSection = (section) => {
-    setExpandedSections((prev) => ({
-      ...prev,
-      [section]: !prev[section],
-    }));
+    setExpandedSections((prev) => ({ ...prev, [section]: !prev[section] }));
   };
 
   const handleKeyPress = (e) => {
-    if (e.key === 'Enter' && !loading) {
-      runAudit();
+    if (e.key === 'Enter' && !loading) runAudit();
+  };
+
+  const getSocialEntries = () => {
+    if (!auditResult?.socialLinks) return [];
+    if (auditResult.socialLinks instanceof Map) {
+      return Array.from(auditResult.socialLinks.entries());
     }
+    return Object.entries(auditResult.socialLinks);
   };
 
   return (
@@ -305,6 +320,7 @@ ${auditResult.analysis.outreachMessage}
               </div>
             </div>
 
+            {/* Issues */}
             <div className='audit-section-card'>
               <div
                 className='audit-section-header'
@@ -333,6 +349,7 @@ ${auditResult.analysis.outreachMessage}
               )}
             </div>
 
+            {/* Opportunities */}
             <div className='audit-section-card'>
               <div
                 className='audit-section-header'
@@ -361,6 +378,7 @@ ${auditResult.analysis.outreachMessage}
               )}
             </div>
 
+            {/* Quick Wins */}
             <div className='audit-section-card'>
               <div
                 className='audit-section-header'
@@ -389,6 +407,94 @@ ${auditResult.analysis.outreachMessage}
               )}
             </div>
 
+            {/* Social Media */}
+            <div className='audit-section-card'>
+              <div
+                className='audit-section-header'
+                onClick={() => toggleSection('social')}
+              >
+                <div className='audit-section-title-wrapper'>
+                  <span className='audit-section-icon'>📱</span>
+                  <h3 className='audit-section-title'>Social Media Presence</h3>
+                  <span className='audit-issue-count'>
+                    ({getSocialEntries().length} found)
+                  </span>
+                </div>
+                <span className='audit-expand-icon'>
+                  {expandedSections.social ? '▼' : '▶'}
+                </span>
+              </div>
+
+              {expandedSections.social && (
+                <div className='audit-section-content'>
+                  {/* Found Social Links */}
+                  {getSocialEntries().length > 0 && (
+                    <div className='social-found'>
+                      {getSocialEntries().map(([platform, socialUrl]) => (
+                        <a
+                          key={platform}
+                          href={socialUrl}
+                          target='_blank'
+                          rel='noopener noreferrer'
+                          className='social-badge found'
+                        >
+                          {SOCIAL_ICONS[platform] || '🔗'} {platform}
+                        </a>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* No Social Found */}
+                  {getSocialEntries().length === 0 && (
+                    <p className='social-missing-label'>
+                      No social media profiles found on this website.
+                    </p>
+                  )}
+
+                  {/* Missing Platforms */}
+                  {auditResult.analysis.socialAnalysis?.missingPlatforms
+                    ?.length > 0 && (
+                    <div className='social-missing'>
+                      <p className='social-missing-label'>
+                        ❌ Missing platforms:
+                      </p>
+                      <div className='social-missing-list'>
+                        {auditResult.analysis.socialAnalysis.missingPlatforms.map(
+                          (platform) => (
+                            <span
+                              key={platform}
+                              className='social-badge missing'
+                            >
+                              {SOCIAL_ICONS[platform.toLowerCase()] || '🔗'}{' '}
+                              {platform}
+                            </span>
+                          ),
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Recommendations */}
+                  {auditResult.analysis.socialAnalysis?.recommendations
+                    ?.length > 0 && (
+                    <div className='social-recommendations'>
+                      {auditResult.analysis.socialAnalysis.recommendations.map(
+                        (rec, idx) => (
+                          <div key={idx} className='audit-opportunity-item'>
+                            <span className='audit-opportunity-icon'>💡</span>
+                            <span className='audit-opportunity-text'>
+                              {rec}
+                            </span>
+                          </div>
+                        ),
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Outreach */}
             <div className='audit-outreach-card'>
               <div className='audit-outreach-header'>
                 <span className='audit-outreach-icon'>✉️</span>
@@ -419,7 +525,6 @@ ${auditResult.analysis.outreachMessage}
           </div>
         )}
 
-        {/* History Section — now shows all DB history, not just current session */}
         {history.length > 0 && (
           <div className='audit-history-section'>
             <div className='audit-section-label'>Recent Audits</div>

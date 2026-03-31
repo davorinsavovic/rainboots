@@ -14,34 +14,34 @@ const runAudit = async (req, res) => {
     const scraped = await scrapeWebsite(url);
 
     if (!scraped) {
-      console.error(`❌ Scraping failed for: ${url}`);
       return res.status(500).json({ error: 'Failed to scrape website' });
     }
 
-    console.log(`✅ Scraped successfully: ${scraped.title}`);
-    console.log(`📊 Content length: ${scraped.textContent.length} characters`);
+    console.log(`✅ Scraped: ${scraped.title}`);
+    console.log(
+      `📱 Social links: ${Object.keys(scraped.socialLinks || {}).join(', ') || 'none'}`,
+    );
 
-    // Pass both textContent AND url to the analyzer
-    const analysis = await analyzeWebsite(scraped.textContent, url);
+    const analysis = await analyzeWebsite(
+      scraped.textContent,
+      url,
+      scraped.socialLinks,
+    );
 
     console.log(`✅ Analysis complete`);
 
-    // Return the URL in the response
     res.json({
       success: true,
       data: {
-        url: url,
+        url,
         title: scraped.title,
-        textContent: scraped.textContent,
-        analysis: analysis,
+        socialLinks: scraped.socialLinks || {},
+        analysis,
       },
     });
   } catch (error) {
     console.error('❌ Audit error:', error);
-    res.status(500).json({
-      error: 'Server error',
-      details: error.message,
-    });
+    res.status(500).json({ error: 'Server error', details: error.message });
   }
 };
 
