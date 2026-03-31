@@ -4,15 +4,30 @@ const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 });
 
-async function analyzeWebsite(textContent, url, socialLinks = {}) {
+async function analyzeWebsite(
+  textContent,
+  url,
+  socialLinks = {},
+  emailReputation = null,
+) {
   const socialSummary =
     Object.keys(socialLinks).length > 0
       ? `Found: ${Object.keys(socialLinks).join(', ')}`
-      : 'No social media profiles detected on website';
+      : 'No social media profiles detected';
+
+  const emailSummary = emailReputation
+    ? `
+  Domain: ${emailReputation.domain}
+  MX Records: ${emailReputation.mx.exists ? `✅ ${emailReputation.mx.provider}` : '❌ Missing'}
+  SPF: ${emailReputation.spf.exists ? '✅ Configured' : '❌ Missing'}
+  DKIM: ${emailReputation.dkim.exists ? '✅ Configured' : '❌ Missing'}
+  DMARC: ${emailReputation.dmarc.exists ? `✅ Policy: ${emailReputation.dmarc.policy}` : '❌ Missing'}
+  Email Score: ${emailReputation.score}/100`
+    : 'Email reputation check unavailable';
 
   const prompt = `You are a website conversion and marketing expert.
 
-Analyze this business website and its social media presence.
+Analyze this business website, its social media presence, and email reputation.
 
 Return ONLY valid JSON in this exact format:
 
@@ -28,26 +43,30 @@ Return ONLY valid JSON in this exact format:
     "summary": "",
     "missingPlatforms": [],
     "recommendations": []
+  },
+  "emailAnalysis": {
+    "summary": "",
+    "issues": [],
+    "recommendations": []
   }
 }
 
 Rules:
 - Be specific and actionable
 - Do NOT include any text outside JSON
-- Website score 0–100 (higher = better opportunity for improvement)
-- Social score 0–100 (higher = worse social presence = bigger opportunity)
-- missingPlatforms: list platforms this business SHOULD have but doesn't
-- Keep outreach message short, natural, personalized
-- Factor social media gaps into the overall outreach message
+- Website score 0-100 (higher = more opportunity)
+- Factor email and social gaps into outreach message
+- Keep outreach message short and personalized
 
 Website URL: ${url}
 
-Social media detected on website:
-${socialSummary}
+Social media: ${socialSummary}
+
+Email reputation:
+${emailSummary}
 
 Website content:
-${textContent}
-`;
+${textContent}`;
 
   try {
     console.log('🤖 Sending to Claude for analysis...');

@@ -494,6 +494,124 @@ ${auditResult.analysis.outreachMessage}
               )}
             </div>
 
+            {/* Email Reputation Section */}
+            {auditResult.emailReputation && (
+              <div className='audit-section-card'>
+                <div
+                  className='audit-section-header'
+                  onClick={() => toggleSection('email')}
+                >
+                  <div className='audit-section-title-wrapper'>
+                    <span className='audit-section-icon'>📧</span>
+                    <h3 className='audit-section-title'>Email Reputation</h3>
+                    <span className='audit-issue-count'>
+                      Score: {auditResult.emailReputation.score}/100
+                    </span>
+                  </div>
+                  <span className='audit-expand-icon'>
+                    {expandedSections.email ? '▼' : '▶'}
+                  </span>
+                </div>
+                {expandedSections.email && (
+                  <div className='audit-section-content'>
+                    <div className='email-checks'>
+                      <div
+                        className={`email-check ${auditResult.emailReputation.mx.exists ? 'pass' : 'fail'}`}
+                      >
+                        <span className='email-check-icon'>
+                          {auditResult.emailReputation.mx.exists ? '✅' : '❌'}
+                        </span>
+                        <div className='email-check-info'>
+                          <strong>MX Records</strong>
+                          <span>
+                            {auditResult.emailReputation.mx.exists
+                              ? auditResult.emailReputation.mx.provider
+                              : 'No email configured'}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div
+                        className={`email-check ${auditResult.emailReputation.spf.exists ? 'pass' : 'fail'}`}
+                      >
+                        <span className='email-check-icon'>
+                          {auditResult.emailReputation.spf.exists ? '✅' : '❌'}
+                        </span>
+                        <div className='email-check-info'>
+                          <strong>SPF Record</strong>
+                          <span>
+                            {auditResult.emailReputation.spf.exists
+                              ? auditResult.emailReputation.spf.strict
+                                ? 'Strict policy (-all)'
+                                : 'Soft policy (~all)'
+                              : 'Missing — emails may be spoofed'}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div
+                        className={`email-check ${auditResult.emailReputation.dkim.exists ? 'pass' : 'fail'}`}
+                      >
+                        <span className='email-check-icon'>
+                          {auditResult.emailReputation.dkim.exists
+                            ? '✅'
+                            : '❌'}
+                        </span>
+                        <div className='email-check-info'>
+                          <strong>DKIM</strong>
+                          <span>
+                            {auditResult.emailReputation.dkim.exists
+                              ? `Configured (selector: ${auditResult.emailReputation.dkim.selector})`
+                              : 'Missing — emails not cryptographically signed'}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div
+                        className={`email-check ${auditResult.emailReputation.dmarc.exists ? 'pass' : 'fail'}`}
+                      >
+                        <span className='email-check-icon'>
+                          {auditResult.emailReputation.dmarc.exists
+                            ? '✅'
+                            : '❌'}
+                        </span>
+                        <div className='email-check-info'>
+                          <strong>DMARC Policy</strong>
+                          <span>
+                            {auditResult.emailReputation.dmarc.exists
+                              ? `Policy: ${auditResult.emailReputation.dmarc.policy}`
+                              : 'Missing — no email policy set'}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {auditResult.analysis.emailAnalysis?.summary && (
+                      <p className='email-summary'>
+                        {auditResult.analysis.emailAnalysis.summary}
+                      </p>
+                    )}
+
+                    {auditResult.analysis.emailAnalysis?.recommendations
+                      ?.length > 0 && (
+                      <div className='social-recommendations'>
+                        {auditResult.analysis.emailAnalysis.recommendations.map(
+                          (rec, idx) => (
+                            <div key={idx} className='audit-opportunity-item'>
+                              <span className='audit-opportunity-icon'>💡</span>
+                              <span className='audit-opportunity-text'>
+                                {rec}
+                              </span>
+                            </div>
+                          ),
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
+
             {/* Outreach */}
             <div className='audit-outreach-card'>
               <div className='audit-outreach-header'>
