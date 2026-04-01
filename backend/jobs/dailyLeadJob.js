@@ -1,7 +1,16 @@
 const { scrapeWebsite } = require('../services/scraper');
 const { analyzeWebsite } = require('../services/analyzer');
 const { getLeads } = require('../services/leadCollector');
+const { checkEmailReputation } = require('../services/emailReputation');
 const Lead = require('../models/Lead');
+
+// Normalize URLs to prevent duplicates
+function normalizeUrl(url) {
+  return url
+    ?.toLowerCase()
+    .replace(/^https?:\/\//, '')
+    .replace(/\/$/, '');
+}
 
 // Function to run the job manually or via cron
 async function runNow() {
@@ -19,6 +28,7 @@ async function runNow() {
 
     for (const lead of leads) {
       processed++;
+
       console.log(
         `\n[${processed}/${leads.length}] Processing: ${lead.businessName}`,
       );
@@ -34,8 +44,13 @@ async function runNow() {
           continue;
         }
 
-        // Check if already exists in database
-        const existing = await Lead.findOne({ website: lead.website });
+        const normalizedWebsite = normalizeUrl(lead.website);
+
+        // Check if already exists (normalized match)
+        const existing = await Lead.findOne({
+          website: { $regex: new RegExp(`^https?:\/\/${normalizedWebsite}`) },
+        });
+
         if (existing) {
           console.log(
             `   📌 Already exists (created: ${existing.createdAt.toLocaleDateString()}), skipping`,
@@ -49,9 +64,7 @@ async function runNow() {
         const scraped = await scrapeWebsite(lead.website);
 
         if (!scraped) {
-          console.log(
-            `   ❌ Scraping failed - website may be down or doesn't exist`,
-          );
+          console.log(`   ❌ Scraping failed - website may be down or invalid`);
           failed++;
           continue;
         }
@@ -64,12 +77,17 @@ async function runNow() {
           `   📊 Content length: ${scraped.textContent?.length || 0} chars`,
         );
 
-        // Analyze with AI
-        console.log(`   🤖 Analyzing with Claude...`);
-        const analysis = await analyzeWebsite(
-          scraped.textContent,
-          lead.website,
-        );
+        // Run AI analysis + Email reputation in parallel
+        console.log(`   🤖 Running analysis + email check...`);
+
+        const [analysis, emailReputation] = await Promise.all([
+          analyzeWebsite(
+            scraped.textContent,
+            lead.website,
+            scraped.socialLinks || {},
+          ),
+          checkEmailReputation(lead.website),
+        ]);
 
         if (!analysis) {
           console.log(`   ❌ Analysis failed - API error`);
@@ -77,8 +95,8 @@ async function runNow() {
           continue;
         }
 
-        // Calculate score
-        const score = analysis.score || 50; // Default score if missing
+        const score = analysis.score || 50;
+
         console.log(`   📊 Opportunity Score: ${score}/100`);
 
         // Save to database
@@ -88,22 +106,29 @@ async function runNow() {
           category: lead.category,
           location: lead.location,
           title: scraped.title || lead.businessName,
+          socialLinks: scraped.socialLinks || {},
+          emailReputation: emailReputation || null,
           analysis: {
-            summary: analysis.summary || 'No summary available',
+            summary: analysis.summary || '',
             issues: analysis.issues || [],
             opportunities: analysis.opportunities || [],
             quickWins: analysis.quickWins || [],
             outreachMessage: analysis.outreachMessage || '',
             score: score,
+            socialAnalysis: analysis.socialAnalysis || null,
+            emailAnalysis: analysis.emailAnalysis || null,
           },
           score: score,
           status: 'new',
         });
 
         saved++;
+
         console.log(`   ✅ SAVED! (ID: ${newLead._id})`);
         console.log(
-          `   📝 Issues: ${analysis.issues?.length || 0} | Opportunities: ${analysis.opportunities?.length || 0} | Quick Wins: ${analysis.quickWins?.length || 0}`,
+          `   📝 Issues: ${analysis.issues?.length || 0} | Opportunities: ${
+            analysis.opportunities?.length || 0
+          } | Quick Wins: ${analysis.quickWins?.length || 0}`,
         );
       } catch (err) {
         console.log(`   ❌ ERROR: ${err.message}`);
@@ -113,7 +138,7 @@ async function runNow() {
         failed++;
       }
 
-      // Small delay to avoid rate limits
+      // Delay to avoid rate limits
       if (processed < leads.length) {
         console.log(`   ⏳ Waiting 2 seconds before next...`);
         await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -121,6 +146,7 @@ async function runNow() {
     }
 
     const duration = ((Date.now() - startTime) / 1000).toFixed(1);
+
     console.log('\n' + '='.repeat(50));
     console.log('📊 ========== DAILY JOB COMPLETE ==========');
     console.log(`   ✅ Processed: ${processed}`);
@@ -137,8 +163,9 @@ async function runNow() {
   }
 }
 
-// For cron job (not used yet, but ready for future)
+// Optional cron setup
 const cron = require('node-cron');
+
 if (process.env.ENABLE_CRON === 'true') {
   cron.schedule('0 6 * * *', async () => {
     console.log('⏰ Cron: Running daily lead job at 6 AM');

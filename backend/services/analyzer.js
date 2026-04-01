@@ -107,6 +107,11 @@ ${textContent}`;
         missingPlatforms: [],
         recommendations: [],
       },
+      emailAnalysis: parsed.emailAnalysis || {
+        summary: '',
+        issues: [],
+        recommendations: [],
+      },
     };
   } catch (error) {
     console.error('❌ Claude API error:', error.message);

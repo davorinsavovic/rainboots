@@ -696,6 +696,115 @@ export default function LeadsDashboard() {
               </ul>
             </div>
 
+            {/* Social Media in Modal */}
+            {selectedLead.socialLinks &&
+              Object.keys(selectedLead.socialLinks).length > 0 && (
+                <div className='modal-section'>
+                  <h3>📱 Social Media</h3>
+                  <div className='social-found'>
+                    {Object.entries(selectedLead.socialLinks).map(
+                      ([platform, socialUrl]) => (
+                        <a
+                          key={platform}
+                          href={socialUrl}
+                          target='_blank'
+                          rel='noopener noreferrer'
+                          className='social-badge found'
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          {platform}
+                        </a>
+                      ),
+                    )}
+                  </div>
+                </div>
+              )}
+
+            {/* Email Reputation in Modal */}
+            {selectedLead.emailReputation && (
+              <div className='modal-section'>
+                <h3>
+                  📧 Email Health — {selectedLead.emailReputation.score}/100
+                </h3>
+
+                <div className='email-checks'>
+                  <div
+                    className={`email-check ${
+                      selectedLead.emailReputation.mx.exists ? 'pass' : 'fail'
+                    }`}
+                  >
+                    <span>
+                      {selectedLead.emailReputation.mx.exists ? '✅' : '❌'}
+                    </span>
+                    <div className='email-check-info'>
+                      <strong>MX</strong>
+                      <span>
+                        {selectedLead.emailReputation.mx.exists
+                          ? selectedLead.emailReputation.mx.provider
+                          : 'No email configured'}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div
+                    className={`email-check ${
+                      selectedLead.emailReputation.spf.exists ? 'pass' : 'fail'
+                    }`}
+                  >
+                    <span>
+                      {selectedLead.emailReputation.spf.exists ? '✅' : '❌'}
+                    </span>
+                    <div className='email-check-info'>
+                      <strong>SPF</strong>
+                      <span>
+                        {selectedLead.emailReputation.spf.exists
+                          ? 'Configured'
+                          : 'Missing'}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div
+                    className={`email-check ${
+                      selectedLead.emailReputation.dkim.exists ? 'pass' : 'fail'
+                    }`}
+                  >
+                    <span>
+                      {selectedLead.emailReputation.dkim.exists ? '✅' : '❌'}
+                    </span>
+                    <div className='email-check-info'>
+                      <strong>DKIM</strong>
+                      <span>
+                        {selectedLead.emailReputation.dkim.exists
+                          ? `Selector: ${selectedLead.emailReputation.dkim.selector}`
+                          : 'Missing'}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div
+                    className={`email-check ${
+                      selectedLead.emailReputation.dmarc.exists
+                        ? 'pass'
+                        : 'fail'
+                    }`}
+                  >
+                    <span>
+                      {selectedLead.emailReputation.dmarc.exists ? '✅' : '❌'}
+                    </span>
+                    <div className='email-check-info'>
+                      <strong>DMARC</strong>
+                      <span>
+                        {selectedLead.emailReputation.dmarc.exists
+                          ? `Policy: ${selectedLead.emailReputation.dmarc.policy}`
+                          : 'Missing'}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
             <div className='modal-section outreach-section'>
               <h3>✉️ Outreach Message</h3>
               <div className='outreach-message'>
