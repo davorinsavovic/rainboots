@@ -27,6 +27,8 @@ const auditRoutes = require('./routes/auditRoutes');
 const sendEmailRoutes = require('./routes/sendEmailRoutes');
 const leadRoutes = require('./routes/leadRoutes');
 const blogRoutes = require('./routes/blogRoutes');
+const emailTemplateRoutes = require('./routes/emailTemplates');
+const emailRoutes = require('./routes/email');
 
 const app = express();
 const PORT = process.env.PORT || 5001;
@@ -63,6 +65,8 @@ app.use('/api', auditRoutes);
 app.use('/api', sendEmailRoutes);
 app.use('/api', leadRoutes);
 app.use('/api', blogRoutes);
+app.use('/api/email-templates', emailTemplateRoutes);
+app.use('/api/email', emailRoutes);
 console.log('✅ Routes mounted');
 
 // 404 handler
