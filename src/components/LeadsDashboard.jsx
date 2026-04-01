@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import CategorySelector from './CategorySelector';
 import LocationSelector from './LocationSelector';
 import { API_BASE } from '../config';
+import { leadService } from '../services/leadService';
 import './LeadsDashboard.css';
 
 const LOADING_MESSAGES = [
@@ -418,6 +419,7 @@ export default function LeadsDashboard() {
                 ))}
               </div>
             </div>
+
             <div className='filter-group'>
               <span className='filter-label'>Time Range</span>
               <div className='filter-buttons'>
@@ -432,7 +434,8 @@ export default function LeadsDashboard() {
                 ))}
               </div>
             </div>
-            <div className='filter-group'>
+
+            <div className='filter-group '>
               <span className='filter-label'>Sort By</span>
               <select
                 className='sort-select'
@@ -447,6 +450,7 @@ export default function LeadsDashboard() {
               </select>
             </div>
           </div>
+
           <div className='leads-actions'>
             <CategorySelector
               onSave={handleCategorySave}

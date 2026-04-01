@@ -31,6 +31,33 @@ const NAV_ITEMS = [
     description: 'Create SEO-optimized blog articles',
     color: '#8b5cf6',
   },
+  {
+    id: 'email-campaigns',
+    label: 'Email Campaigns',
+    icon: '📧',
+    path: '/dashboard/email-campaigns',
+    description: 'Manage email marketing campaigns',
+    color: '#3b82f6',
+    isParent: true,
+    children: [
+      {
+        id: 'templates',
+        label: 'Email Templates',
+        icon: '✉️',
+        path: '/dashboard/email-campaigns/templates',
+        description: 'Create and manage email templates for campaigns',
+        color: '#3b82f6',
+      },
+      {
+        id: 'marketing',
+        label: 'Send Campaign',
+        icon: '📬',
+        path: '/dashboard/email-campaigns/send',
+        description: 'Send email marketing campaigns to leads',
+        color: '#bf2ad1',
+      },
+    ],
+  },
 ];
 
 export default function DashboardLayout() {

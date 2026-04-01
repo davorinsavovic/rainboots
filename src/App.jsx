@@ -28,7 +28,10 @@ import TermsConditions from './pages/TermsConditions';
 import BlogGenerator from './components/blogGenerator';
 import WebsiteAudit from './components/WebsiteAudit';
 import LeadsDashboard from './components/LeadsDashboard';
+import EmailTemplatesPage from './components/EmailTemplatesPage';
+import { EmailTemplateSelector } from './components/EmailTemplateSelector';
 import DashboardLayout from './components/DashboardLayout';
+import EmailCampaigns from './components/EmailCampaigns'; // New parent component
 
 // Wrapper component to handle splash screen logic
 function AppContent() {
@@ -113,6 +116,28 @@ function AppContent() {
       <Route path='leads' element={<LeadsDashboard />} />
       <Route path='audit' element={<WebsiteAudit />} />
       <Route path='blog' element={<BlogGenerator />} />
+
+      {/* Email Campaigns - Parent Route with Submenu */}
+      <Route path='email-campaigns' element={<EmailCampaigns />}>
+        <Route
+          index
+          element={
+            <Navigate to='/dashboard/email-campaigns/templates' replace />
+          }
+        />
+        <Route path='templates' element={<EmailTemplatesPage />} />
+        <Route path='send' element={<EmailTemplateSelector />} />
+      </Route>
+
+      {/* Legacy routes - redirect to new structure */}
+      <Route
+        path='templates'
+        element={<Navigate to='/dashboard/email-campaigns/templates' replace />}
+      />
+      <Route
+        path='marketing'
+        element={<Navigate to='/dashboard/email-campaigns/send' replace />}
+      />
     </Route>
   );
 
@@ -130,6 +155,14 @@ function AppContent() {
       <Route
         path='/leads'
         element={<Navigate to='/dashboard/leads' replace />}
+      />
+      <Route
+        path='/templates'
+        element={<Navigate to='/dashboard/email-campaigns/templates' replace />}
+      />
+      <Route
+        path='/marketing'
+        element={<Navigate to='/dashboard/email-campaigns/send' replace />}
       />
     </>
   );
