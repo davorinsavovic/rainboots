@@ -2,6 +2,7 @@ const express = require('express');
 const Lead = require('../models/Lead');
 const Preferences = require('../models/Preferences');
 const { runNow } = require('../jobs/dailyLeadJob');
+const progressEmitter = require('../services/progressEmitter');
 
 const router = express.Router();
 
@@ -27,6 +28,31 @@ const DEFAULT_PREFERENCES = {
     'Woodinville',
   ],
 };
+
+// SSE endpoint for real-time collection progress
+router.get('/leads/collect/progress', (req, res) => {
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.flushHeaders();
+
+  const sendEvent = (data) => {
+    res.write(`data: ${JSON.stringify(data)}\n\n`);
+  };
+
+  // Listen for progress events
+  const onProgress = (data) => sendEvent(data);
+  progressEmitter.on('progress', onProgress);
+
+  // Send initial ping
+  sendEvent({ type: 'connected', message: 'Connected to progress stream' });
+
+  // Cleanup on disconnect
+  req.on('close', () => {
+    progressEmitter.off('progress', onProgress);
+  });
+});
 
 const readPreferences = async () => {
   try {
@@ -408,10 +434,17 @@ router.post('/leads/collect', async (req, res) => {
 
   runNow()
     .then((result) => {
-      console.log('✅ Background collection complete:', JSON.stringify(result));
+      progressEmitter.emit('progress', {
+        type: 'complete',
+        message: '✅ Collection complete!',
+        result,
+      });
     })
     .catch((err) => {
-      console.error('🔥 Background collection error:', err.message);
+      progressEmitter.emit('progress', {
+        type: 'error',
+        message: `❌ Error: ${err.message}`,
+      });
     });
 });
 

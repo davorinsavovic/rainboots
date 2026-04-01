@@ -249,6 +249,12 @@
   transform: translateY(-2px);
 }
 
+.collect-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
 /* Loading State */
 .leads-loading-container {
   text-align: center;
@@ -766,6 +772,150 @@
   color: #5a6b7a;
   margin-top: 4px;
   font-family: monospace;
+}
+
+.collection-progress-panel {
+  background: rgba(13, 27, 42, 0.9);
+  border: 1px solid rgba(14, 154, 167, 0.3);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.progress-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #17c3d4;
+}
+
+.progress-spinner {
+  animation: spin 2s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.progress-counts {
+  display: flex;
+  gap: 12px;
+}
+
+.prog-stat {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 12px;
+}
+
+.prog-stat.saved {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+}
+
+.prog-stat.skipped {
+  background: rgba(245, 158, 11, 0.15);
+  color: #f59e0b;
+}
+
+.prog-stat.failed {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+}
+
+.progress-bar-wrapper {
+  position: relative;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  margin-bottom: 14px;
+  overflow: visible;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #0e9aa7, #17c3d4);
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+.progress-bar-label {
+  position: absolute;
+  right: 0;
+  top: 12px;
+  font-size: 11px;
+  color: #5a6b7a;
+}
+
+.progress-log {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+  font-family: monospace;
+  font-size: 12px;
+}
+
+.progress-log-entry {
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: #5a6b7a;
+  transition: all 0.2s;
+}
+
+.progress-log-entry:last-child {
+  color: #f5f0e8;
+  background: rgba(14, 154, 167, 0.08);
+}
+
+.progress-log-entry.saved {
+  color: #10b981;
+}
+
+.progress-log-entry.error,
+.progress-log-entry.failed {
+  color: #ef4444;
+}
+
+.progress-log-entry.complete {
+  color: #10b981;
+  font-weight: 600;
+}
+
+.progress-log-entry.skipped {
+  color: #f59e0b;
+}
+
+.progress-log-entry.found {
+  color: #17c3d4;
+}
+.progress-log-entry.start,
+.progress-log-entry.scraping {
+  color: #8b5cf6;
+}
+.progress-log-entry.processing {
+  color: #9aa8b8;
+}
+.progress-log-entry.connected {
+  color: #5a6b7a;
+  font-style: italic;
 }
 
 /* Responsive pagination */

@@ -4,7 +4,6 @@ import LocationSelector from './LocationSelector';
 import { API_BASE } from '../config';
 import './LeadsDashboard.css';
 
-// Loading messages for better UX
 const LOADING_MESSAGES = [
   'Loading leads from database...',
   'Ranking opportunities...',
@@ -12,7 +11,6 @@ const LOADING_MESSAGES = [
   'Almost ready...',
 ];
 
-// Status options for filtering
 const STATUS_FILTERS = [
   { value: 'all', label: 'All Leads' },
   { value: 'new', label: 'New' },
@@ -21,7 +19,6 @@ const STATUS_FILTERS = [
   { value: 'closed', label: 'Closed' },
 ];
 
-// Time range options
 const TIME_RANGES = [
   { value: 'all', label: 'All Time' },
   { value: 'today', label: 'Today' },
@@ -30,7 +27,6 @@ const TIME_RANGES = [
   { value: 'year', label: 'This Year' },
 ];
 
-// Sort options
 const SORT_OPTIONS = [
   { value: '-score', label: 'Score (High to Low)' },
   { value: 'score', label: 'Score (Low to High)' },
@@ -53,16 +49,18 @@ export default function LeadsDashboard() {
   const [preferencesLoaded, setPreferencesLoaded] = useState(false);
   const [selectedLocations, setSelectedLocations] = useState([]);
   const [collecting, setCollecting] = useState(false);
+  const [progressLog, setProgressLog] = useState([]);
+  const [progressStats, setProgressStats] = useState(null);
 
-  // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalLeads, setTotalLeads] = useState(0);
   const itemsPerPage = 10;
 
   const outputRef = useRef(null);
+  const eventSourceRef = useRef(null);
+  const progressLogRef = useRef(null);
 
-  // Handle loading messages rotation
   const startLoadingMessages = () => {
     let i = 0;
     setLoadingMsg(LOADING_MESSAGES[0]);
@@ -73,64 +71,49 @@ export default function LeadsDashboard() {
     return () => clearInterval(interval);
   };
 
-  // Helper to get date filter
   const getDateFilter = () => {
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-
     switch (timeRange) {
       case 'today':
         return { $gte: today.toISOString() };
-      case 'week':
+      case 'week': {
         const weekAgo = new Date(today);
         weekAgo.setDate(today.getDate() - 7);
         return { $gte: weekAgo.toISOString() };
-      case 'month':
+      }
+      case 'month': {
         const monthAgo = new Date(today);
         monthAgo.setMonth(today.getMonth() - 1);
         return { $gte: monthAgo.toISOString() };
-      case 'year':
+      }
+      case 'year': {
         const yearAgo = new Date(today);
         yearAgo.setFullYear(today.getFullYear() - 1);
         return { $gte: yearAgo.toISOString() };
+      }
       default:
         return {};
     }
   };
 
-  // Fetch leads from API with pagination and filters
   const fetchLeads = async () => {
     try {
       let url = `${API_BASE}/api/leads?limit=${itemsPerPage}&page=${currentPage}&sort=${sortBy}`;
-
-      if (statusFilter !== 'all') {
-        url += `&status=${statusFilter}`;
-      }
-
-      // Add date filter if not 'all'
+      if (statusFilter !== 'all') url += `&status=${statusFilter}`;
       if (timeRange !== 'all') {
         const dateFilter = getDateFilter();
-        if (dateFilter.$gte) {
+        if (dateFilter.$gte)
           url += `&createdAfter=${encodeURIComponent(dateFilter.$gte)}`;
-        }
       }
-
-      console.log('Fetching leads from:', url); // Debug log
-
       const res = await fetch(url);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
-
-      console.log('Response data:', data); // Debug log
-
-      // Handle both old and new response formats
       if (data.pagination) {
-        // New format with pagination
         setLeads(data.leads || []);
         setTotalPages(data.pagination.totalPages || 1);
         setTotalLeads(data.pagination.totalLeads || 0);
       } else {
-        // Old format - create pagination from array
         setLeads(data.leads || []);
         setTotalLeads(data.leads?.length || 0);
         setTotalPages(Math.ceil((data.leads?.length || 0) / itemsPerPage));
@@ -141,7 +124,6 @@ export default function LeadsDashboard() {
     }
   };
 
-  // Fetch stats
   const fetchStats = async () => {
     try {
       const res = await fetch(`${API_BASE}/api/stats/leads`);
@@ -153,7 +135,6 @@ export default function LeadsDashboard() {
     }
   };
 
-  // Load data when filters or page change
   useEffect(() => {
     const loadData = async () => {
       setLoading(true);
@@ -165,17 +146,13 @@ export default function LeadsDashboard() {
     loadData();
   }, [statusFilter, timeRange, sortBy, currentPage]);
 
-  // Reset to page 1 when filters change
   useEffect(() => {
     setCurrentPage(1);
   }, [statusFilter, timeRange, sortBy]);
 
-  // Escape key handler
   useEffect(() => {
     const handleEscape = (e) => {
-      if (e.key === 'Escape' && selectedLead) {
-        setSelectedLead(null);
-      }
+      if (e.key === 'Escape' && selectedLead) setSelectedLead(null);
     };
     window.addEventListener('keydown', handleEscape);
     return () => window.removeEventListener('keydown', handleEscape);
@@ -186,7 +163,20 @@ export default function LeadsDashboard() {
     loadLocationPreferences();
   }, []);
 
-  // Update lead status
+  // Auto-scroll progress log to bottom
+  useEffect(() => {
+    if (progressLogRef.current) {
+      progressLogRef.current.scrollTop = progressLogRef.current.scrollHeight;
+    }
+  }, [progressLog]);
+
+  // Cleanup SSE on unmount
+  useEffect(() => {
+    return () => {
+      if (eventSourceRef.current) eventSourceRef.current.close();
+    };
+  }, []);
+
   const updateStatus = async (id, newStatus) => {
     try {
       const res = await fetch(`${API_BASE}/api/leads/${id}`, {
@@ -203,40 +193,65 @@ export default function LeadsDashboard() {
     }
   };
 
-  // Trigger manual lead collection
   const triggerCollection = async () => {
     try {
       setError('');
       setCollecting(true);
+      setProgressLog([]);
+      setProgressStats(null);
 
+      // Open SSE connection for real-time progress
+      const es = new EventSource(`${API_BASE}/api/leads/collect/progress`);
+      eventSourceRef.current = es;
+
+      es.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data);
+
+          setProgressLog((prev) => [...prev.slice(-100), data]);
+
+          if (data.total !== undefined) {
+            setProgressStats({
+              current: data.current || 0,
+              total: data.total,
+              saved: data.saved || 0,
+              skipped: data.skipped || 0,
+              failed: data.failed || 0,
+              percent: data.percent || 0,
+            });
+          }
+
+          if (data.type === 'complete' || data.type === 'error') {
+            es.close();
+            setCollecting(false);
+            fetchLeads();
+            fetchStats();
+          }
+        } catch (e) {
+          console.error('SSE parse error:', e);
+        }
+      };
+
+      es.onerror = () => {
+        es.close();
+        setCollecting(false);
+      };
+
+      // Trigger the collection after SSE is set up
       const res = await fetch(`${API_BASE}/api/leads/collect`, {
         method: 'POST',
       });
       if (!res.ok) {
-        setError('Failed to start collection');
+        es.close();
         setCollecting(false);
-        return;
+        setError('Failed to start collection');
       }
-
-      // Poll every 15 seconds, max 12 times (3 minutes)
-      let attempts = 0;
-      const poll = setInterval(async () => {
-        attempts++;
-        // Only fetch leads and stats — not categories/preferences
-        await Promise.all([fetchLeads(), fetchStats()]);
-
-        if (attempts >= 12) {
-          clearInterval(poll);
-          setCollecting(false);
-        }
-      }, 15000);
     } catch (err) {
-      setError('Failed to start collection.');
       setCollecting(false);
+      setError('Failed to start collection.');
     }
   };
 
-  // Copy to clipboard
   const copyToClipboard = (text, label) => {
     navigator.clipboard.writeText(text).then(() => {
       setCopyStatus(label);
@@ -250,17 +265,14 @@ export default function LeadsDashboard() {
     }
   };
 
-  // Format date
   const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
+    return new Date(dateString).toLocaleDateString('en-US', {
       month: 'short',
       day: 'numeric',
       year: 'numeric',
     });
   };
 
-  // Get score color
   const getScoreColor = (score) => {
     if (score >= 80) return '#10b981';
     if (score >= 60) return '#f59e0b';
@@ -268,12 +280,8 @@ export default function LeadsDashboard() {
     return '#6b7280';
   };
 
-  // Get status badge class
-  const getStatusClass = (status) => {
-    return `status-badge status-${status}`;
-  };
+  const getStatusClass = (status) => `status-badge status-${status}`;
 
-  // Pagination handlers
   const goToPage = (page) => {
     if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
@@ -284,24 +292,16 @@ export default function LeadsDashboard() {
   const nextPage = () => goToPage(currentPage + 1);
   const prevPage = () => goToPage(currentPage - 1);
 
-  // Get page numbers to display
   const getPageNumbers = () => {
     const pages = [];
     const maxVisible = 5;
     let start = Math.max(1, currentPage - Math.floor(maxVisible / 2));
     let end = Math.min(totalPages, start + maxVisible - 1);
-
-    if (end - start + 1 < maxVisible) {
-      start = Math.max(1, end - maxVisible + 1);
-    }
-
-    for (let i = start; i <= end; i++) {
-      pages.push(i);
-    }
+    if (end - start + 1 < maxVisible) start = Math.max(1, end - maxVisible + 1);
+    for (let i = start; i <= end; i++) pages.push(i);
     return pages;
   };
 
-  // Load preferences
   const loadPreferences = async () => {
     try {
       const res = await fetch(`${API_BASE}/api/preferences/categories`);
@@ -316,12 +316,7 @@ export default function LeadsDashboard() {
     }
   };
 
-  // Handle category save
-  const handleCategorySave = (categories) => {
-    setSelectedCategories(categories);
-    // Optional: You can show a success message or trigger new collection
-    console.log('Categories saved:', categories);
-  };
+  const handleCategorySave = (categories) => setSelectedCategories(categories);
 
   const loadLocationPreferences = async () => {
     try {
@@ -335,14 +330,10 @@ export default function LeadsDashboard() {
     }
   };
 
-  const handleLocationSave = (locations) => {
-    setSelectedLocations(locations);
-    console.log('Locations saved:', locations);
-  };
+  const handleLocationSave = (locations) => setSelectedLocations(locations);
 
   return (
     <div className='leads-page' data-header-theme='dark'>
-      {/* Rain animation effect */}
       <div className='leads-rain-container'>
         {Array.from({ length: 40 }).map((_, i) => (
           <div
@@ -359,7 +350,6 @@ export default function LeadsDashboard() {
       </div>
 
       <div className='leads-app'>
-        {/* Header */}
         <header className='leads-header'>
           <div className='leads-logo-section'>
             <div className='leads-logo-mark'>📊</div>
@@ -372,7 +362,6 @@ export default function LeadsDashboard() {
           </div>
         </header>
 
-        {/* Stats Panel */}
         {stats && (
           <div className='leads-stats-grid'>
             <div className='stats-card'>
@@ -413,7 +402,6 @@ export default function LeadsDashboard() {
           </div>
         )}
 
-        {/* Control Panel */}
         <div className='leads-control-panel'>
           <div className='leads-filters'>
             <div className='filter-group'>
@@ -430,7 +418,6 @@ export default function LeadsDashboard() {
                 ))}
               </div>
             </div>
-
             <div className='filter-group'>
               <span className='filter-label'>Time Range</span>
               <div className='filter-buttons'>
@@ -445,7 +432,6 @@ export default function LeadsDashboard() {
                 ))}
               </div>
             </div>
-
             <div className='filter-group'>
               <span className='filter-label'>Sort By</span>
               <select
@@ -470,13 +456,62 @@ export default function LeadsDashboard() {
               onSave={handleLocationSave}
               initialLocations={selectedLocations}
             />
-            <button className='collect-btn' onClick={triggerCollection}>
-              🔄 Collect New Leads
+            <button
+              className='collect-btn'
+              onClick={triggerCollection}
+              disabled={collecting}
+            >
+              {collecting ? '⏳ Collecting...' : '🔄 Collect New Leads'}
             </button>
           </div>
         </div>
 
-        {/* Loading State */}
+        {/* Collection Progress Panel */}
+        {collecting && (
+          <div className='collection-progress-panel'>
+            <div className='progress-header'>
+              <div className='progress-title'>
+                <span className='progress-spinner'>⚙️</span>
+                <span>Collecting Leads...</span>
+              </div>
+              {progressStats && (
+                <div className='progress-counts'>
+                  <span className='prog-stat saved'>
+                    ✅ {progressStats.saved} saved
+                  </span>
+                  <span className='prog-stat skipped'>
+                    ⏭️ {progressStats.skipped} skipped
+                  </span>
+                  <span className='prog-stat failed'>
+                    ❌ {progressStats.failed} failed
+                  </span>
+                </div>
+              )}
+            </div>
+
+            {progressStats && (
+              <div className='progress-bar-wrapper'>
+                <div
+                  className='progress-bar-fill'
+                  style={{ width: `${progressStats.percent}%` }}
+                />
+                <span className='progress-bar-label'>
+                  {progressStats.current} / {progressStats.total} (
+                  {progressStats.percent}%)
+                </span>
+              </div>
+            )}
+
+            <div className='progress-log' ref={progressLogRef}>
+              {progressLog.map((entry, idx) => (
+                <div key={idx} className={`progress-log-entry ${entry.type}`}>
+                  {entry.message}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {loading && (
           <div className='leads-loading-container'>
             <div className='leads-loading-bars'>
@@ -494,10 +529,8 @@ export default function LeadsDashboard() {
           </div>
         )}
 
-        {/* Error Message */}
         {error && !loading && <div className='leads-error-msg'>{error}</div>}
 
-        {/* Leads Table */}
         {!loading && leads.length === 0 && !error && (
           <div className='leads-empty-state'>
             <div className='empty-icon'>📭</div>
@@ -571,7 +604,6 @@ export default function LeadsDashboard() {
               </table>
             </div>
 
-            {/* Pagination */}
             {totalPages > 1 && (
               <div className='pagination'>
                 <button
@@ -581,7 +613,6 @@ export default function LeadsDashboard() {
                 >
                   ← Previous
                 </button>
-
                 <div className='pagination-pages'>
                   {currentPage > 3 && totalPages > 5 && (
                     <>
@@ -596,7 +627,6 @@ export default function LeadsDashboard() {
                       )}
                     </>
                   )}
-
                   {getPageNumbers().map((page) => (
                     <button
                       key={page}
@@ -606,7 +636,6 @@ export default function LeadsDashboard() {
                       {page}
                     </button>
                   ))}
-
                   {currentPage < totalPages - 2 && totalPages > 5 && (
                     <>
                       {currentPage < totalPages - 3 && (
@@ -621,7 +650,6 @@ export default function LeadsDashboard() {
                     </>
                   )}
                 </div>
-
                 <button
                   className='pagination-btn'
                   onClick={nextPage}
@@ -635,7 +663,6 @@ export default function LeadsDashboard() {
         )}
       </div>
 
-      {/* Lead Detail Modal - keep the same */}
       {selectedLead && (
         <div
           className='lead-modal-overlay'
@@ -673,30 +700,41 @@ export default function LeadsDashboard() {
               </span>
             </div>
 
+            {/* Summary */}
             <div className='modal-section'>
               <h3>📊 Summary</h3>
               <p>{selectedLead.analysis?.summary || 'No summary available'}</p>
             </div>
 
+            {/* Issues */}
             <div className='modal-section'>
               <h3>⚠️ Critical Issues</h3>
               <ul>
-                {selectedLead.analysis?.issues?.map((issue, i) => (
-                  <li key={i}>{issue}</li>
-                )) || <li>No issues identified</li>}
+                {selectedLead.analysis?.issues?.length > 0 ? (
+                  selectedLead.analysis.issues.map((issue, i) => (
+                    <li key={i}>{issue}</li>
+                  ))
+                ) : (
+                  <li>No issues identified</li>
+                )}
               </ul>
             </div>
 
+            {/* Quick Wins */}
             <div className='modal-section'>
               <h3>⚡ Quick Wins</h3>
               <ul>
-                {selectedLead.analysis?.quickWins?.map((win, i) => (
-                  <li key={i}>{win}</li>
-                )) || <li>No quick wins identified</li>}
+                {selectedLead.analysis?.quickWins?.length > 0 ? (
+                  selectedLead.analysis.quickWins.map((win, i) => (
+                    <li key={i}>{win}</li>
+                  ))
+                ) : (
+                  <li>No quick wins identified</li>
+                )}
               </ul>
             </div>
 
-            {/* Social Media in Modal */}
+            {/* Social */}
             {selectedLead.socialLinks &&
               Object.keys(selectedLead.socialLinks).length > 0 && (
                 <div className='modal-section'>
@@ -720,7 +758,7 @@ export default function LeadsDashboard() {
                 </div>
               )}
 
-            {/* Email Reputation in Modal */}
+            {/* Email Reputation */}
             {selectedLead.emailReputation && (
               <div className='modal-section'>
                 <h3>
@@ -728,89 +766,45 @@ export default function LeadsDashboard() {
                 </h3>
 
                 <div className='email-checks'>
-                  <div
-                    className={`email-check ${
-                      selectedLead.emailReputation.mx.exists ? 'pass' : 'fail'
-                    }`}
-                  >
-                    <span>
-                      {selectedLead.emailReputation.mx.exists ? '✅' : '❌'}
-                    </span>
-                    <div className='email-check-info'>
-                      <strong>MX</strong>
-                      <span>
-                        {selectedLead.emailReputation.mx.exists
-                          ? selectedLead.emailReputation.mx.provider
-                          : 'No email configured'}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div
-                    className={`email-check ${
-                      selectedLead.emailReputation.spf.exists ? 'pass' : 'fail'
-                    }`}
-                  >
-                    <span>
-                      {selectedLead.emailReputation.spf.exists ? '✅' : '❌'}
-                    </span>
-                    <div className='email-check-info'>
-                      <strong>SPF</strong>
-                      <span>
-                        {selectedLead.emailReputation.spf.exists
-                          ? 'Configured'
-                          : 'Missing'}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div
-                    className={`email-check ${
-                      selectedLead.emailReputation.dkim.exists ? 'pass' : 'fail'
-                    }`}
-                  >
-                    <span>
-                      {selectedLead.emailReputation.dkim.exists ? '✅' : '❌'}
-                    </span>
-                    <div className='email-check-info'>
-                      <strong>DKIM</strong>
-                      <span>
-                        {selectedLead.emailReputation.dkim.exists
-                          ? `Selector: ${selectedLead.emailReputation.dkim.selector}`
-                          : 'Missing'}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div
-                    className={`email-check ${
-                      selectedLead.emailReputation.dmarc.exists
-                        ? 'pass'
-                        : 'fail'
-                    }`}
-                  >
-                    <span>
-                      {selectedLead.emailReputation.dmarc.exists ? '✅' : '❌'}
-                    </span>
-                    <div className='email-check-info'>
-                      <strong>DMARC</strong>
-                      <span>
-                        {selectedLead.emailReputation.dmarc.exists
-                          ? `Policy: ${selectedLead.emailReputation.dmarc.policy}`
-                          : 'Missing'}
-                      </span>
-                    </div>
-                  </div>
+                  {['mx', 'spf', 'dkim', 'dmarc'].map((key) => {
+                    const item = selectedLead.emailReputation[key];
+                    return (
+                      <div
+                        key={key}
+                        className={`email-check ${
+                          item?.exists ? 'pass' : 'fail'
+                        }`}
+                      >
+                        <span>{item?.exists ? '✅' : '❌'}</span>
+                        <div className='email-check-info'>
+                          <strong>{key.toUpperCase()}</strong>
+                          <span>
+                            {item?.exists
+                              ? key === 'mx'
+                                ? item.provider
+                                : key === 'dkim'
+                                  ? `Selector: ${item.selector}`
+                                  : key === 'dmarc'
+                                    ? `Policy: ${item.policy}`
+                                    : 'Configured'
+                              : 'Missing'}
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             )}
 
+            {/* Outreach */}
             <div className='modal-section outreach-section'>
               <h3>✉️ Outreach Message</h3>
               <div className='outreach-message'>
                 {selectedLead.analysis?.outreachMessage ||
                   'No outreach message generated'}
               </div>
+
               <button
                 className='copy-btn'
                 onClick={(e) => {
@@ -822,6 +816,7 @@ export default function LeadsDashboard() {
               </button>
             </div>
 
+            {/* Actions */}
             <div className='modal-actions'>
               <button
                 className='contact-btn'
@@ -833,6 +828,7 @@ export default function LeadsDashboard() {
               >
                 Mark Contacted
               </button>
+
               <a
                 href={
                   selectedLead.website?.startsWith('http')
