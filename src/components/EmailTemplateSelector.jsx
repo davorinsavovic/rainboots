@@ -7,7 +7,8 @@ export const EmailTemplateSelector = () => {
   const [templates, setTemplates] = useState([]);
   const [selectedTemplate, setSelectedTemplate] = useState(null);
   const [leads, setLeads] = useState([]);
-  const [selectedLeads, setSelectedLeads] = useState([]);
+  // Use an object to store selected lead IDs (faster lookups and cross-page persistence)
+  const [selectedLeadsMap, setSelectedLeadsMap] = useState({});
   const [loading, setLoading] = useState({
     templates: true,
     leads: false,
@@ -29,7 +30,6 @@ export const EmailTemplateSelector = () => {
     totalPages: 1,
     totalLeads: 0,
   });
-  const [selectAllMode, setSelectAllMode] = useState(false);
   const [includeReport, setIncludeReport] = useState(true);
   const [reportFormat, setReportFormat] = useState('inline');
 
@@ -233,15 +233,9 @@ export const EmailTemplateSelector = () => {
     } finally {
       setLoading((prev) => ({ ...prev, leads: false }));
     }
-  }, [
-    leadsPagination.currentPage,
-    statusFilter,
-    minScore,
-    searchTerm,
-    API_BASE_URL,
-  ]);
+  }, [leadsPagination.currentPage, statusFilter, minScore, searchTerm]);
 
-  // Load leads on mount and when filters change
+  // Load leads when template is selected or filters change
   useEffect(() => {
     if (selectedTemplate) {
       loadLeads();
@@ -259,134 +253,221 @@ export const EmailTemplateSelector = () => {
     const template = templates.find((t) => t._id === templateId) || null;
     setSelectedTemplate(template);
     setShowPreview(false);
-    setSelectedLeads([]);
-    setSelectAllMode(false);
+    setSelectedLeadsMap({}); // Clear selections when template changes
   };
 
-  // Manual checkbox toggle
+  // Toggle single lead selection (preserves selections across pages)
   const toggleLeadSelection = (leadId) => {
-    setSelectedLeads((prev) => {
-      const newSelection = prev.includes(leadId)
-        ? prev.filter((id) => id !== leadId)
-        : [...prev, leadId];
-
-      // Update selectAllMode based on selection
-      if (newSelection.length === leads.length && leads.length > 0) {
-        setSelectAllMode(true);
-      } else if (newSelection.length !== leads.length) {
-        setSelectAllMode(false);
+    setSelectedLeadsMap((prev) => {
+      const newMap = { ...prev };
+      if (newMap[leadId]) {
+        delete newMap[leadId];
+      } else {
+        newMap[leadId] = true;
       }
-
-      return newSelection;
+      return newMap;
     });
   };
 
-  // Select all leads in current page
-  const selectAllLeads = () => {
-    const allLeadIds = leads.map((lead) => lead._id);
-    setSelectedLeads(allLeadIds);
-    setSelectAllMode(true);
+  // Select all leads on the CURRENT page
+  const selectAllOnCurrentPage = () => {
+    setSelectedLeadsMap((prev) => {
+      const newMap = { ...prev };
+      leads.forEach((lead) => {
+        newMap[lead._id] = true;
+      });
+      return newMap;
+    });
   };
 
-  // Select all leads that have email addresses
-  const selectAllWithEmail = () => {
-    const leadsWithEmail = leads
-      .filter((lead) => lead.contactEmail)
-      .map((lead) => lead._id);
-    setSelectedLeads(leadsWithEmail);
-    if (leadsWithEmail.length === leads.length) {
-      setSelectAllMode(true);
-    } else {
-      setSelectAllMode(false);
+  // Select all leads that have email addresses (across all pages - this selects ALL leads in DB)
+  const selectAllWithEmailAcrossAllPages = async () => {
+    setLoading((prev) => ({ ...prev, leads: true }));
+    try {
+      const token = localStorage.getItem('token');
+      // Fetch ALL leads (not just current page) to get their IDs
+      let url = `${API_BASE_URL}/api/leads?limit=10000&sort=-score`;
+      if (statusFilter !== 'all') {
+        url += `&status=${statusFilter}`;
+      }
+      if (minScore > 0) {
+        url += `&minScore=${minScore}`;
+      }
+      if (searchTerm) {
+        url += `&search=${encodeURIComponent(searchTerm)}`;
+      }
+
+      const response = await fetch(url, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await response.json();
+      const allLeads = data.leads || [];
+
+      const newMap = {};
+      allLeads.forEach((lead) => {
+        if (lead.contactEmail) {
+          newMap[lead._id] = true;
+        }
+      });
+      setSelectedLeadsMap(newMap);
+    } catch (err) {
+      console.error('Error selecting all leads:', err);
+      setError('Failed to select all leads');
+    } finally {
+      setLoading((prev) => ({ ...prev, leads: false }));
     }
   };
 
-  // Select high score leads (score >= 70)
-  const selectHighScoreLeads = () => {
-    const highScoreLeads = leads
-      .filter((lead) => lead.score >= 70)
-      .map((lead) => lead._id);
-    setSelectedLeads(highScoreLeads);
-    setSelectAllMode(false);
+  // Select high score leads (score >= 70) across ALL pages
+  const selectHighScoreLeadsAcrossAllPages = async () => {
+    setLoading((prev) => ({ ...prev, leads: true }));
+    try {
+      const token = localStorage.getItem('token');
+      let url = `${API_BASE_URL}/api/leads?limit=10000&sort=-score&minScore=70`;
+      if (statusFilter !== 'all') {
+        url += `&status=${statusFilter}`;
+      }
+      if (searchTerm) {
+        url += `&search=${encodeURIComponent(searchTerm)}`;
+      }
+
+      const response = await fetch(url, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await response.json();
+      const allLeads = data.leads || [];
+
+      const newMap = {};
+      allLeads.forEach((lead) => {
+        newMap[lead._id] = true;
+      });
+      setSelectedLeadsMap(newMap);
+    } catch (err) {
+      console.error('Error selecting high score leads:', err);
+      setError('Failed to select high score leads');
+    } finally {
+      setLoading((prev) => ({ ...prev, leads: false }));
+    }
   };
 
-  // Select leads by custom score threshold
-  const selectLeadsByScore = (threshold) => {
-    const filteredLeads = leads
-      .filter((lead) => lead.score >= threshold)
-      .map((lead) => lead._id);
-    setSelectedLeads(filteredLeads);
-    setSelectAllMode(false);
+  // Select leads by custom score threshold across ALL pages
+  const selectLeadsByScoreAcrossAllPages = async (threshold) => {
+    setLoading((prev) => ({ ...prev, leads: true }));
+    try {
+      const token = localStorage.getItem('token');
+      let url = `${API_BASE_URL}/api/leads?limit=10000&sort=-score&minScore=${threshold}`;
+      if (statusFilter !== 'all') {
+        url += `&status=${statusFilter}`;
+      }
+      if (searchTerm) {
+        url += `&search=${encodeURIComponent(searchTerm)}`;
+      }
+
+      const response = await fetch(url, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await response.json();
+      const allLeads = data.leads || [];
+
+      const newMap = {};
+      allLeads.forEach((lead) => {
+        newMap[lead._id] = true;
+      });
+      setSelectedLeadsMap(newMap);
+    } catch (err) {
+      console.error('Error selecting leads by score:', err);
+      setError('Failed to select leads by score');
+    } finally {
+      setLoading((prev) => ({ ...prev, leads: false }));
+    }
   };
 
-  // Clear all selections
-  const clearSelection = () => {
-    setSelectedLeads([]);
-    setSelectAllMode(false);
+  // Clear ALL selections
+  const clearAllSelections = () => {
+    setSelectedLeadsMap({});
   };
 
-  // Invert selection (select unselected, unselect selected)
-  const invertSelection = () => {
-    const allLeadIds = leads.map((lead) => lead._id);
-    const inverted = allLeadIds.filter((id) => !selectedLeads.includes(id));
-    setSelectedLeads(inverted);
-    setSelectAllMode(inverted.length === leads.length);
+  // Invert selection on current page only
+  const invertCurrentPageSelection = () => {
+    setSelectedLeadsMap((prev) => {
+      const newMap = { ...prev };
+      leads.forEach((lead) => {
+        if (newMap[lead._id]) {
+          delete newMap[lead._id];
+        } else {
+          newMap[lead._id] = true;
+        }
+      });
+      return newMap;
+    });
   };
 
   // Get selected leads count
-  const getSelectedCount = () => selectedLeads.length;
+  const getSelectedCount = () => {
+    return Object.keys(selectedLeadsMap).length;
+  };
 
   // Get selected leads with emails count
   const getSelectedWithEmailCount = () => {
-    return selectedLeads.filter((id) => {
-      const lead = leads.find((l) => l._id === id);
-      return lead && lead.contactEmail;
-    }).length;
+    let count = 0;
+    leads.forEach((lead) => {
+      if (selectedLeadsMap[lead._id] && lead.contactEmail) {
+        count++;
+      }
+    });
+    return count;
   };
 
+  // Get selected lead emails for the current page
   const getSelectedLeadEmails = () => {
-    return leads
-      .filter((lead) => selectedLeads.includes(lead._id))
-      .map((lead) => lead.contactEmail)
-      .filter((email) => email);
+    const emails = [];
+    leads.forEach((lead) => {
+      if (selectedLeadsMap[lead._id] && lead.contactEmail) {
+        emails.push(lead.contactEmail);
+      }
+    });
+    return emails;
   };
 
-  const handleSendCampaign = async () => {
+  // Get all selected lead IDs (for API call)
+  const getAllSelectedLeadIds = () => {
+    return Object.keys(selectedLeadsMap);
+  };
+
+  const handleSendCampaignWithReport = async () => {
     if (!selectedTemplate) {
       alert('Please select an email template');
       return;
     }
 
-    if (selectedLeads.length === 0) {
+    const selectedIds = getAllSelectedLeadIds();
+    if (selectedIds.length === 0) {
       alert('Please select at least one lead to send the campaign to');
       return;
     }
 
-    const selectedEmails = getSelectedLeadEmails();
-    if (selectedEmails.length === 0) {
-      alert(
-        'Selected leads do not have email addresses. Please ensure leads have contactEmail populated.',
-      );
-      return;
-    }
-
     setSendingStatus('sending');
-    setSendProgress({ total: selectedLeads.length, sent: 0, failed: 0 });
+    setSendProgress({ total: selectedIds.length, sent: 0, failed: 0 });
 
     try {
       const token = localStorage.getItem('token');
 
-      const response = await fetch(`${API_BASE_URL}/api/email/send-campaign`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+      const response = await fetch(
+        `${API_BASE_URL}/api/email/send-campaign-with-report`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            templateId: selectedTemplate._id,
+            leadIds: selectedIds,
+            includeReport,
+            reportFormat,
+          }),
         },
-        body: JSON.stringify({
-          templateId: selectedTemplate._id,
-          leadIds: selectedLeads,
-        }),
-      });
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -401,13 +482,13 @@ export const EmailTemplateSelector = () => {
         sent: result.sent,
         failed: result.failed,
       });
+
       setSuccessMessage(
-        `Campaign sent! ${result.sent} emails delivered, ${result.failed} failed.`,
+        `Campaign sent! ${result.sent} emails delivered, ${result.failed} failed. Report format: ${reportFormat}`,
       );
 
       setTimeout(() => {
-        setSelectedLeads([]);
-        setSelectAllMode(false);
+        setSelectedLeadsMap({});
         setSuccessMessage(null);
         setSendingStatus('idle');
       }, 3000);
@@ -487,63 +568,6 @@ export const EmailTemplateSelector = () => {
       unsubscribed: 'status-unsubscribed',
     };
     return classes[status] || 'status-new';
-  };
-
-  const handleSendCampaignWithReport = async () => {
-    if (!selectedTemplate) {
-      alert('Please select an email template');
-      return;
-    }
-
-    if (selectedLeads.length === 0) {
-      alert('Please select at least one lead to send the campaign to');
-      return;
-    }
-
-    const selectedEmails = getSelectedLeadEmails();
-    if (selectedEmails.length === 0) {
-      alert(
-        'Selected leads do not have email addresses. Please ensure leads have contactEmail populated.',
-      );
-      return;
-    }
-
-    setSendingStatus('sending');
-    setSendProgress({ total: selectedLeads.length, sent: 0, failed: 0 });
-
-    try {
-      const token = localStorage.getItem('token');
-      const { campaignService } = await import('../services/campaignService');
-
-      const result = await campaignService.sendCampaignWithReport(
-        selectedTemplate._id,
-        selectedLeads,
-        { includeReport, reportFormat },
-      );
-
-      setSendingStatus('success');
-      setSendProgress({
-        total: result.totalLeads,
-        sent: result.sent,
-        failed: result.failed,
-      });
-
-      setSuccessMessage(
-        `Campaign sent! ${result.sent} emails delivered, ${result.failed} failed. Report format: ${reportFormat}`,
-      );
-
-      setTimeout(() => {
-        setSelectedLeads([]);
-        setSelectAllMode(false);
-        setSuccessMessage(null);
-        setSendingStatus('idle');
-      }, 3000);
-    } catch (error) {
-      console.error('Campaign send error:', error);
-      setSendingStatus('error');
-      setError(`Failed to send campaign: ${error.message}`);
-      setTimeout(() => setError(null), 5000);
-    }
   };
 
   const isLoading = loading.templates;
@@ -664,7 +688,7 @@ export const EmailTemplateSelector = () => {
                     {leads.length > 0 && (
                       <span className='leads-count'>
                         <i className='lead-icon'>📊</i> {leads.length} leads
-                        shown
+                        shown (Total selected: {getSelectedCount()})
                       </span>
                     )}
                   </div>
@@ -804,49 +828,52 @@ export const EmailTemplateSelector = () => {
               {/* Lead Selection */}
               <div className='leads-section'>
                 <div className='leads-header'>
-                  <h4>Select Leads ({leadsPagination.totalLeads} total)</h4>
+                  <h4>
+                    Select Leads ({leadsPagination.totalLeads} total in
+                    database)
+                  </h4>
                   <div className='selection-actions'>
                     <button
-                      onClick={selectAllLeads}
+                      onClick={selectAllOnCurrentPage}
                       className='btn-sm btn-secondary'
                       title='Select all leads on current page'
                     >
-                      Select All
+                      Select Current Page
                     </button>
                     <button
-                      onClick={selectAllWithEmail}
+                      onClick={selectAllWithEmailAcrossAllPages}
                       className='btn-sm btn-secondary'
-                      title='Select only leads with email addresses'
+                      title='Select ALL leads with email addresses (across all pages)'
                     >
-                      With Email
+                      All with Email
                     </button>
                     <button
-                      onClick={selectHighScoreLeads}
+                      onClick={selectHighScoreLeadsAcrossAllPages}
                       className='btn-sm btn-secondary'
-                      title='Select leads with score 70+'
+                      title='Select leads with score 70+ (across all pages)'
                     >
                       High Score (70+)
                     </button>
                     <button
-                      onClick={() => selectLeadsByScore(50)}
+                      onClick={() => selectLeadsByScoreAcrossAllPages(50)}
                       className='btn-sm btn-secondary'
-                      title='Select leads with score 50+'
+                      title='Select leads with score 50+ (across all pages)'
                     >
                       Medium Score (50+)
                     </button>
                     <button
-                      onClick={invertSelection}
+                      onClick={invertCurrentPageSelection}
                       className='btn-sm btn-secondary'
-                      title='Invert current selection'
+                      title='Invert selection on current page'
                     >
-                      Invert
+                      Invert Page
                     </button>
                     <button
-                      onClick={clearSelection}
+                      onClick={clearAllSelections}
                       className='btn-sm btn-secondary'
                       title='Clear all selections'
                     >
-                      Clear
+                      Clear All
                     </button>
                   </div>
                 </div>
@@ -866,7 +893,7 @@ export const EmailTemplateSelector = () => {
                             <div className='lead-checkbox'>
                               <input
                                 type='checkbox'
-                                checked={selectedLeads.includes(lead._id)}
+                                checked={!!selectedLeadsMap[lead._id]}
                                 onChange={() => toggleLeadSelection(lead._id)}
                                 disabled={!lead.contactEmail}
                                 id={`lead-${lead._id}`}
@@ -997,20 +1024,13 @@ export const EmailTemplateSelector = () => {
               </div>
 
               {/* Selected Leads Summary */}
-              {selectedLeads.length > 0 && (
+              {getSelectedCount() > 0 && (
                 <div className='selected-summary'>
-                  <strong>{getSelectedCount()} leads selected</strong>
-                  {getSelectedWithEmailCount() < selectedLeads.length && (
-                    <span className='warning'>
-                      ({selectedLeads.length - getSelectedWithEmailCount()}{' '}
-                      leads missing emails - will be skipped)
-                    </span>
-                  )}
-                  {getSelectedWithEmailCount() > 0 && (
-                    <span className='email-count'>
-                      ✓ {getSelectedWithEmailCount()} ready to send
-                    </span>
-                  )}
+                  <strong>{getSelectedCount()} leads selected total</strong>
+                  <span className='email-count'>
+                    ✓ {getSelectedWithEmailCount()} on current page ready to
+                    send
+                  </span>
                 </div>
               )}
 
@@ -1108,15 +1128,13 @@ export const EmailTemplateSelector = () => {
                 <button
                   onClick={handleSendCampaignWithReport}
                   disabled={
-                    sendingStatus === 'sending' ||
-                    selectedLeads.length === 0 ||
-                    getSelectedWithEmailCount() === 0
+                    sendingStatus === 'sending' || getSelectedCount() === 0
                   }
                   className='send-campaign-btn'
                 >
                   {sendingStatus === 'sending'
                     ? 'Sending Campaign...'
-                    : `Send to ${getSelectedWithEmailCount()} Lead${getSelectedWithEmailCount() !== 1 ? 's' : ''}${includeReport ? ' with Report' : ''}`}
+                    : `Send to ${getSelectedCount()} Lead${getSelectedCount() !== 1 ? 's' : ''}${includeReport ? ' with Report' : ''}`}
                 </button>
               </div>
 

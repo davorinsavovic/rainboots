@@ -15,7 +15,6 @@ function extractSocialLinks(html, baseUrl) {
   const $ = cheerio.load(html);
   const found = {};
 
-  // Check all anchor tags for social links
   $('a[href]').each((_, el) => {
     const href = $(el).attr('href') || '';
     for (const [platform, pattern] of Object.entries(SOCIAL_PATTERNS)) {
@@ -25,7 +24,6 @@ function extractSocialLinks(html, baseUrl) {
     }
   });
 
-  // Also check meta tags and other attributes
   $('[content], [data-href], [data-url]').each((_, el) => {
     const val =
       $(el).attr('content') ||
@@ -39,7 +37,6 @@ function extractSocialLinks(html, baseUrl) {
     }
   });
 
-  // Check page text for social mentions
   const pageText = $.html();
   for (const [platform, pattern] of Object.entries(SOCIAL_PATTERNS)) {
     if (!found[platform]) {
@@ -63,7 +60,7 @@ async function scrapeWebsite(url) {
       timeout: 15000,
       headers: {
         'User-Agent':
-          'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+          'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
         Accept:
           'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
         'Accept-Language': 'en-US,en;q=0.5',
@@ -73,7 +70,7 @@ async function scrapeWebsite(url) {
 
     const $ = cheerio.load(response.data);
 
-    // Extract social links BEFORE removing elements
+    // Extract social links
     const socialLinks = extractSocialLinks(response.data, url);
     console.log(
       `📱 Social links found:`,
@@ -84,7 +81,6 @@ async function scrapeWebsite(url) {
     $('script, style, noscript, iframe, nav, footer, header').remove();
 
     const title = $('title').text().trim() || url;
-
     const textParts = [];
 
     const metaDesc = $('meta[name="description"]').attr('content');

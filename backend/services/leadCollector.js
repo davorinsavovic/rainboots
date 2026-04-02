@@ -44,6 +44,7 @@ async function scrapeYellowPages(category, location) {
     $('.result').each((_, el) => {
       const name = $(el).find('.business-name').text().trim();
 
+      // Get website
       let website = '';
       $(el)
         .find('a')
@@ -62,18 +63,30 @@ async function scrapeYellowPages(category, location) {
           }
         });
 
+      // Get phone
+      const phone = $(el).find('.phones').text().trim() || '';
+
+      // Get address/location
+      let locationText = '';
+      $(el)
+        .find('.address')
+        .each((_, addr) => {
+          locationText += $(addr).text().trim() + ' ';
+        });
+
       if (name && website) {
         results.push({
           businessName: name,
           website: cleanUrl(website),
-          category,
-          location,
+          category: category,
+          location: locationText || location,
+          phone: phone,
         });
       }
     });
 
     console.log(`      ✅ Found ${results.length} businesses`);
-    return results.filter((b) => b.website);
+    return results;
   } catch (error) {
     console.log(
       `      ❌ Error scraping ${category} in ${location}: ${error.message}`,
@@ -92,6 +105,13 @@ async function getLeads(preferences = null) {
     'contractor',
     'roofing',
     'plumbing',
+    'electrical',
+    'landscaping',
+    'real estate agent',
+    'dentist',
+    'restaurant',
+    'yoga studio',
+    'spa',
   ];
   const locations = preferences?.locations || ['Seattle'];
 
