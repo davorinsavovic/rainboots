@@ -306,4 +306,153 @@ router.post('/preview', async (req, res) => {
   }
 });
 
+// Send campaign with full audit report attached or embedded
+router.post(
+  '/send-campaign-with-report',
+  [
+    body('templateId').notEmpty().withMessage('templateId required'),
+    body('leadIds')
+      .isArray({ min: 1 })
+      .withMessage('leadIds must be a non-empty array'),
+    body('includeReport').optional().isBoolean(),
+    body('reportFormat').optional().isIn(['inline', 'attachment', 'both']),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ success: false, errors: errors.array() });
+    }
+
+    const {
+      templateId,
+      leadIds,
+      includeReport = true,
+      reportFormat = 'inline',
+    } = req.body;
+
+    try {
+      const template = await EmailTemplate.findById(templateId);
+      if (!template) {
+        return res
+          .status(404)
+          .json({ success: false, error: 'Template not found' });
+      }
+
+      const leads = await Lead.find({
+        _id: { $in: leadIds },
+        status: { $ne: 'unsubscribed' },
+      });
+
+      if (leads.length === 0) {
+        return res
+          .status(400)
+          .json({ success: false, error: 'No eligible leads found' });
+      }
+
+      const baseHtml =
+        template.completeContent || template.getCompleteEmailHTML();
+      const attachments = await buildAttachments(template.attachments);
+      const { generateReportHTML } = require('../services/reportGenerator');
+
+      const results = await Promise.allSettled(
+        leads.map(async (lead) => {
+          if (!lead.contactEmail) {
+            return {
+              success: false,
+              leadId: lead._id,
+              error: 'No email address',
+            };
+          }
+
+          let html = personaliseForLead(baseHtml, lead);
+          let reportAttachments = [...attachments];
+
+          // Generate and add report if requested
+          if (includeReport && lead.analysis) {
+            const reportHtml = generateReportHTML(lead, {
+              includeSocial: true,
+              includeEmailReputation: true,
+            });
+
+            if (reportFormat === 'inline' || reportFormat === 'both') {
+              // Add report as a collapsible section in the email
+              const reportSection = `
+                <div style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #eaeaea;">
+                  <details style="margin-top: 20px;">
+                    <summary style="cursor: pointer; font-weight: bold; color: #0e9aa7; padding: 10px; background: #f5f5f5; border-radius: 8px;">
+                      📊 Click to view your full Website Audit Report
+                    </summary>
+                    <div style="margin-top: 20px;">
+                      ${reportHtml}
+                    </div>
+                  </details>
+                </div>
+              `;
+              html = html.replace('</body>', `${reportSection}</body>`);
+            }
+
+            if (reportFormat === 'attachment' || reportFormat === 'both') {
+              // Add report as HTML attachment
+              reportAttachments.push({
+                filename: `audit-report-${lead.businessName?.replace(/[^a-z0-9]/gi, '_').toLowerCase() || 'report'}.html`,
+                content: Buffer.from(reportHtml),
+                contentType: 'text/html',
+              });
+            }
+          }
+
+          const result = await sendOne({
+            to: lead.contactEmail,
+            subject: template.subject,
+            html,
+            attachments: reportAttachments,
+          });
+
+          if (result.success) {
+            await Lead.findByIdAndUpdate(lead._id, {
+              $push: {
+                campaignsSent: {
+                  templateId: template._id,
+                  subject: template.subject,
+                  sentAt: new Date(),
+                },
+              },
+              $set: {
+                lastContactedAt: new Date(),
+                status: lead.status === 'new' ? 'contacted' : lead.status,
+              },
+            });
+          }
+
+          return {
+            ...result,
+            leadId: lead._id,
+            email: lead.contactEmail,
+            businessName: lead.businessName,
+            reportSent: includeReport,
+            reportFormat,
+          };
+        }),
+      );
+
+      const formatted = results.map((r) =>
+        r.status === 'fulfilled'
+          ? r.value
+          : { success: false, error: r.reason },
+      );
+
+      res.json({
+        success: true,
+        totalLeads: leads.length,
+        sent: formatted.filter((r) => r.success).length,
+        failed: formatted.filter((r) => !r.success).length,
+        results: formatted,
+      });
+    } catch (err) {
+      console.error('Campaign with report error:', err);
+      res.status(500).json({ success: false, error: err.message });
+    }
+  },
+);
+
 module.exports = router;

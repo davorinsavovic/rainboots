@@ -30,6 +30,8 @@ export const EmailTemplateSelector = () => {
     totalLeads: 0,
   });
   const [selectAllMode, setSelectAllMode] = useState(false);
+  const [includeReport, setIncludeReport] = useState(true);
+  const [reportFormat, setReportFormat] = useState('inline');
 
   // Email styling function
   const addEmailStyles = (html) => {
@@ -485,6 +487,63 @@ export const EmailTemplateSelector = () => {
       unsubscribed: 'status-unsubscribed',
     };
     return classes[status] || 'status-new';
+  };
+
+  const handleSendCampaignWithReport = async () => {
+    if (!selectedTemplate) {
+      alert('Please select an email template');
+      return;
+    }
+
+    if (selectedLeads.length === 0) {
+      alert('Please select at least one lead to send the campaign to');
+      return;
+    }
+
+    const selectedEmails = getSelectedLeadEmails();
+    if (selectedEmails.length === 0) {
+      alert(
+        'Selected leads do not have email addresses. Please ensure leads have contactEmail populated.',
+      );
+      return;
+    }
+
+    setSendingStatus('sending');
+    setSendProgress({ total: selectedLeads.length, sent: 0, failed: 0 });
+
+    try {
+      const token = localStorage.getItem('token');
+      const { campaignService } = await import('../services/campaignService');
+
+      const result = await campaignService.sendCampaignWithReport(
+        selectedTemplate._id,
+        selectedLeads,
+        { includeReport, reportFormat },
+      );
+
+      setSendingStatus('success');
+      setSendProgress({
+        total: result.totalLeads,
+        sent: result.sent,
+        failed: result.failed,
+      });
+
+      setSuccessMessage(
+        `Campaign sent! ${result.sent} emails delivered, ${result.failed} failed. Report format: ${reportFormat}`,
+      );
+
+      setTimeout(() => {
+        setSelectedLeads([]);
+        setSelectAllMode(false);
+        setSuccessMessage(null);
+        setSendingStatus('idle');
+      }, 3000);
+    } catch (error) {
+      console.error('Campaign send error:', error);
+      setSendingStatus('error');
+      setError(`Failed to send campaign: ${error.message}`);
+      setTimeout(() => setError(null), 5000);
+    }
   };
 
   const isLoading = loading.templates;
@@ -955,6 +1014,86 @@ export const EmailTemplateSelector = () => {
                 </div>
               )}
 
+              {/* Report Options */}
+              <div className='report-options-section'>
+                <div className='report-toggle'>
+                  <label
+                    className='form-label'
+                    style={{ marginBottom: '10px' }}
+                  >
+                    <i className='filter-icon'>📊</i> Include Audit Report
+                  </label>
+                  <div className='toggle-switch'>
+                    <button
+                      type='button'
+                      className={`toggle-btn ${includeReport ? 'active' : ''}`}
+                      onClick={() => setIncludeReport(true)}
+                    >
+                      Yes
+                    </button>
+                    <button
+                      type='button'
+                      className={`toggle-btn ${!includeReport ? 'active' : ''}`}
+                      onClick={() => setIncludeReport(false)}
+                    >
+                      No
+                    </button>
+                  </div>
+                </div>
+
+                {includeReport && (
+                  <div className='report-format-section'>
+                    <label
+                      className='form-label'
+                      style={{ marginBottom: '10px' }}
+                    >
+                      <i className='filter-icon'>📎</i> Report Format
+                    </label>
+                    <div className='format-options'>
+                      <label className='format-option'>
+                        <input
+                          type='radio'
+                          name='reportFormat'
+                          value='inline'
+                          checked={reportFormat === 'inline'}
+                          onChange={(e) => setReportFormat(e.target.value)}
+                        />
+                        <span>
+                          <strong>📧 Inline</strong>
+                          <small>Report embedded in email (collapsible)</small>
+                        </span>
+                      </label>
+                      <label className='format-option'>
+                        <input
+                          type='radio'
+                          name='reportFormat'
+                          value='attachment'
+                          checked={reportFormat === 'attachment'}
+                          onChange={(e) => setReportFormat(e.target.value)}
+                        />
+                        <span>
+                          <strong>📎 Attachment</strong>
+                          <small>Report as separate HTML file</small>
+                        </span>
+                      </label>
+                      <label className='format-option'>
+                        <input
+                          type='radio'
+                          name='reportFormat'
+                          value='both'
+                          checked={reportFormat === 'both'}
+                          onChange={(e) => setReportFormat(e.target.value)}
+                        />
+                        <span>
+                          <strong>📧 + 📎 Both</strong>
+                          <small>Inline and attachment</small>
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+                )}
+              </div>
+
               {/* Action Buttons */}
               <div className='action-buttons'>
                 <button
@@ -967,7 +1106,7 @@ export const EmailTemplateSelector = () => {
                     : 'Send Test Email'}
                 </button>
                 <button
-                  onClick={handleSendCampaign}
+                  onClick={handleSendCampaignWithReport}
                   disabled={
                     sendingStatus === 'sending' ||
                     selectedLeads.length === 0 ||
@@ -977,7 +1116,7 @@ export const EmailTemplateSelector = () => {
                 >
                   {sendingStatus === 'sending'
                     ? 'Sending Campaign...'
-                    : `Send to ${getSelectedWithEmailCount()} Lead${getSelectedWithEmailCount() !== 1 ? 's' : ''}`}
+                    : `Send to ${getSelectedWithEmailCount()} Lead${getSelectedWithEmailCount() !== 1 ? 's' : ''}${includeReport ? ' with Report' : ''}`}
                 </button>
               </div>
 
