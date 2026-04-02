@@ -52,7 +52,7 @@ export default function EmailTemplatesPage() {
 
   // R2 Logo URL
   const R2_LOGO_URL =
-    'https://pub-3eb0901007e24e51b6ed1bde149cb0bb.r2.dev/logo/rainboots-logo.png';
+    'https://www.rainbootsmarketing.com/images/rainboots_logo.png';
 
   // Apply email-friendly styles to HTML content
   const addEmailStyles = (html) => {
@@ -199,8 +199,8 @@ export default function EmailTemplatesPage() {
       <div class="container" style="max-width: 600px; margin: 0 auto;">
         <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); overflow: hidden;">
           <tr><td style="padding: 30px 30px 0;">
-            <div style="border-bottom: 1px solid #eaeaea; padding-bottom: 20px;">
-              <img src="${R2_LOGO_URL}" alt="Rainboots Marketing" height="36" style="display: block; height: 36px;" />
+             <div style="border-bottom: 1px solid #eaeaea; padding-bottom: 20px; text-align: center;">
+              <img src="${R2_LOGO_URL}" alt="Rainboots Marketing" height="80" style="display: block; margin: 0 auto; height: 80px;" />
             </div>
              </td>
            </tr>

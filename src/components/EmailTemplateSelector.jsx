@@ -108,7 +108,11 @@ export const EmailTemplateSelector = () => {
       styledContent += generateSignatureHTML(signatureConfig);
     }
 
-    const logoUrl = 'https://rainbootsmarketing.com/images/rainboots_logo.png';
+    // Use multiple reliable logo sources
+    const primaryLogo =
+      'https://www.rainbootsmarketing.com/images/rainboots_logo.png';
+    const fallbackLogo =
+      'https://www.rainbootsmarketing.com/images/rainboots_logo.png';
 
     return `<!DOCTYPE html>
 <html lang="en">
@@ -128,6 +132,31 @@ export const EmailTemplateSelector = () => {
       margin: 0;
       padding: 0;
     }
+    .logo-container {
+      text-align: center;
+      border-bottom: 1px solid #eaeaea;
+      padding-bottom: 20px;
+    }
+    .logo-img {
+      display: block;
+      margin: 0 auto;
+      height: 80px;
+      max-width: 100%;
+    }
+    .logo-text {
+      font-family: 'Syne', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      color: #0e9aa7;
+      margin: 0;
+      letter-spacing: 2px;
+    }
+    .logo-sub {
+      font-size: 11px;
+      color: #5a6b7a;
+      margin: 5px 0 0;
+      letter-spacing: 3px;
+    }
   </style>
 </head>
 <body style="margin: 0; padding: 0; background: #f6f6f6;">
@@ -135,13 +164,19 @@ export const EmailTemplateSelector = () => {
     <tr><td align="center">
       <div class="container" style="max-width: 600px; margin: 0 auto;">
         <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); overflow: hidden;">
-          <tr><td style="padding: 30px 30px 0;">
-            <div style="border-bottom: 1px solid #eaeaea; padding-bottom: 20px; text-align: center;">
-              <img src="${logoUrl}" alt="Rainboots Marketing" height="80" style="display: block; margin: 0 auto; height: 80px;" />
-            </div>
-            </td>
-          </tr>
           <tr>
+            <td style="padding: 30px 30px 0;">
+              <div class="logo-container">
+                <img 
+                  src="${primaryLogo}" 
+                  alt="Rainboots Marketing" 
+                  class="logo-img"
+                  onerror="this.onerror=null; this.src='${fallbackLogo}'; this.onerror=null; this.parentElement.innerHTML='<h1 class=\\\'logo-text\\\'>RAINBOOTS<br><span class=\\\'logo-sub\\\'>MARKETING</span></h1>';"
+                />
+              </div>
+             </td>
+           </tr>
+           <tr>
             <td class="email-body" style="padding: 30px;">
               <div style="max-width: 100%;">${styledContent}</div>
             </td>

@@ -226,7 +226,7 @@ export default async function handler(req, res) {
 
           <!-- Hero Header with Rainboots Gradient -->
           <div style="background:linear-gradient(135deg, #fff 0%, #fff 100%);padding:40px 30px;text-align:center;">
-            <img src="https://rainbootsmarketing.com/images/rainboots_logo.png" 
+            <img src="https://www.rainbootsmarketing.com/images/rainboots_logo.png" 
                  alt="Rainboots Marketing"
                  style="max-width:180px;height:auto;margin-bottom:16px;"
                  onerror="this.onerror=null;this.src='https://via.placeholder.com/180x60/ffffff/2b5ce6?text=Rainboots';" />
@@ -359,7 +359,7 @@ export default async function handler(req, res) {
 
           <!-- Hero Header with Rainboots Gradient -->
           <div style="background:linear-gradient(135deg, #fff 0%, #fff 100%);padding:40px 30px;text-align:center;">
-            <img src="https://rainbootsmarketing.com/images/rainboots_logo.png" 
+            <img src="https://www.rainbootsmarketing.com/images/rainboots_logo.png" 
                  alt="Rainboots Marketing"
                  style="max-width:180px;height:auto;margin-bottom:16px;"
                  onerror="this.onerror=null;this.src='https://via.placeholder.com/180x60/ffffff/2b5ce6?text=Rainboots';" />

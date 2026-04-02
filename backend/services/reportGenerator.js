@@ -25,9 +25,10 @@ const generateReportHTML = (lead, options = {}) => {
     theme = 'dark',
   } = options;
 
-  const logoUrl = process.env.R2_PUBLIC_URL
-    ? `${process.env.R2_PUBLIC_URL}/logo/rainboots-logo.png`
-    : 'https://rainbootsmarketing.com/images/rainboots_logo.png';
+  const logoUrl =
+    'https://www.rainbootsmarketing.com/images/rainboots_logo.png';
+  const fallbackLogo =
+    'https://www.rainbootsmarketing.com/images/rainboots_logo.png';
 
   const bgColor = theme === 'dark' ? '#0d1b2a' : '#ffffff';
   const textColor = theme === 'dark' ? '#f5f0e8' : '#333333';
@@ -268,13 +269,22 @@ const generateReportHTML = (lead, options = {}) => {
 <body>
   <div class="report-container">
     <div class="report-header">
-      <h1>📊 Website Audit Report</h1>
-      <div class="business-name">${lead.businessName || 'Business'}</div>
-      <div class="score-section">
-        <span class="score-value">${lead.score || 0}</span>
-        <span class="score-label">/ 100 - ${getScoreLabel(lead.score || 0)}</span>
-      </div>
-    </div>
+  <div style="margin-bottom: 20px;">
+    <img 
+      src="${logoUrl}" 
+      alt="Rainboots Marketing" 
+      height="50" 
+      style="display: block; margin: 0 auto; height: 50px;"
+      onerror="this.onerror=null; this.src='${fallbackLogo}'; this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<h2 style=\\\'color:white;margin:0;font-family:Syne,sans-serif;\\\'>RAINBOOTS MARKETING</h2>';"
+    />
+  </div>
+  <h1>📊 Website Audit Report</h1>
+  <div class="business-name">${lead.businessName || 'Business'}</div>
+  <div class="score-section">
+    <span class="score-value">${lead.score || 0}</span>
+    <span class="score-label">/ 100 - ${getScoreLabel(lead.score || 0)}</span>
+  </div>
+</div>
     
     <div class="report-section">
       <div class="section-title">

@@ -101,10 +101,13 @@ emailTemplateSchema.index({ category: 1, status: 1 });
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 const getR2PublicUrl = () =>
-  process.env.R2_PUBLIC_URL ||
-  'https://pub-3eb0901007e24e51b6ed1bde149cb0bb.r2.dev';
+  process.env.R2_PUBLIC_URL || 'https://www.rainbootsmarketing.com/images';
 
-const getLogoUrl = () => `${getR2PublicUrl()}/logo/rainboots-logo.png`;
+const getLogoUrl = () => {
+  const primaryLogo = 'rainboots_logo.png';
+  const fallbackLogo = 'rainboots_logo.png';
+  return primaryLogo; // Return primary, the onerror will handle fallback
+};
 
 const addEmailStyles = (html) => {
   if (!html) return '';
@@ -218,11 +221,16 @@ emailTemplateSchema.methods.getCompleteEmailHTML = function () {
         <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#fff;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,0.05);overflow:hidden;">
           <tr>
             <td style="padding:30px 30px 0;">
-              <div style="border-bottom:1px solid #eaeaea;padding-bottom:20px;">
-                <img src="${logoUrl}" alt="Rainboots Marketing" height="36" style="display:block;height:36px;"
-                     onerror="this.onerror=null;this.src='https://rainbootsmarketing.com/assets/img/logo.png';" />
-              </div>
-             </td>
+  <div style="border-bottom:1px solid #eaeaea;padding-bottom:20px;text-align:center;">
+    <img 
+      src="${logoUrl}" 
+      alt="Rainboots Marketing" 
+      height="80" 
+      style="display:block;margin:0 auto;height:80px;max-width:100%;"
+      onerror="this.onerror=null;this.src='https://www.rainbootsmarketing.com/images/rainboots_logo.png';this.onerror=null;this.style.display='none';this.parentElement.innerHTML='<h1 style=\\\'font-family:Syne,sans-serif;font-size:28px;font-weight:800;color:#0e9aa7;margin:0;\\\'>RAINBOOTS<br><span style=\\\'font-size:11px;color:#5a6b7a;letter-spacing:3px;\\\'>MARKETING</span></h1>';"
+    />
+  </div>
+</td>
            </tr>
            <tr>
             <td class="email-body" style="padding:30px;">
