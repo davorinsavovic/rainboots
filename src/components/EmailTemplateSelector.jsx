@@ -7,7 +7,6 @@ export const EmailTemplateSelector = () => {
   const [templates, setTemplates] = useState([]);
   const [selectedTemplate, setSelectedTemplate] = useState(null);
   const [leads, setLeads] = useState([]);
-  // Use an object to store selected lead IDs (faster lookups and cross-page persistence)
   const [selectedLeadsMap, setSelectedLeadsMap] = useState({});
   const [loading, setLoading] = useState({
     templates: true,
@@ -40,7 +39,6 @@ export const EmailTemplateSelector = () => {
   const addEmailStyles = (html) => {
     if (!html) return '';
     let styledHtml = html;
-
     styledHtml = styledHtml.replace(
       /<p(\s[^>]*)?>/g,
       '<p style="margin: 0 0 16px; padding: 0; line-height: 1.6; color: #333;"$1>',
@@ -73,13 +71,11 @@ export const EmailTemplateSelector = () => {
       /<a(\s[^>]*)?>/g,
       '<a style="color: #212d51; text-decoration: none; border-bottom: 1px solid #212d51; padding-bottom: 1px;"$1>',
     );
-
     return styledHtml;
   };
 
   const generateSignatureHTML = (signatureConfig) => {
     if (!signatureConfig) return '';
-
     const {
       organizationName = 'Rainboots Marketing',
       title = '',
@@ -89,7 +85,6 @@ export const EmailTemplateSelector = () => {
       website = 'https://rainbootsmarketing.com',
       additionalInfo = '',
     } = signatureConfig;
-
     return `
 <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #eaeaea;">
   <strong style="color: #222; font-size: 16px; display: block; margin-bottom: 8px;">${organizationName}</strong>
@@ -106,12 +101,9 @@ export const EmailTemplateSelector = () => {
 
   const getCompleteEmailHTML = (content, includeSignature, signatureConfig) => {
     let styledContent = addEmailStyles(content);
-
     if (includeSignature && signatureConfig) {
       styledContent += generateSignatureHTML(signatureConfig);
     }
-
-    // Use multiple reliable logo sources
     const primaryLogo =
       'https://www.rainbootsmarketing.com/images/rainboots_logo.png';
     const fallbackLogo =
@@ -146,20 +138,6 @@ export const EmailTemplateSelector = () => {
       height: 80px;
       max-width: 100%;
     }
-    .logo-text {
-      font-family: 'Syne', sans-serif;
-      font-size: 28px;
-      font-weight: 800;
-      color: #0e9aa7;
-      margin: 0;
-      letter-spacing: 2px;
-    }
-    .logo-sub {
-      font-size: 11px;
-      color: #5a6b7a;
-      margin: 5px 0 0;
-      letter-spacing: 3px;
-    }
   </style>
 </head>
 <body style="margin: 0; padding: 0; background: #f6f6f6;">
@@ -170,21 +148,14 @@ export const EmailTemplateSelector = () => {
           <tr>
             <td style="padding: 30px 30px 0;">
               <div class="logo-container">
-                <img 
-                  src="${primaryLogo}" 
-                  alt="Rainboots Marketing" 
-                  class="logo-img"
-                  onerror="this.onerror=null; this.src='${fallbackLogo}'; this.onerror=null; this.parentElement.innerHTML='<h1 class=\\\'logo-text\\\'>RAINBOOTS<br><span class=\\\'logo-sub\\\'>MARKETING</span></h1>';"
-                />
+                <img src="${primaryLogo}" alt="Rainboots Marketing" class="logo-img" onerror="this.onerror=null; this.src='${fallbackLogo}';" />
               </div>
              </td>
            </tr>
-           <tr>
             <td class="email-body" style="padding: 30px;">
               <div style="max-width: 100%;">${styledContent}</div>
             </td>
           </tr>
-          <tr>
             <td style="padding: 0 30px;">
               <div style="text-align: center; font-size: 13px; color: #666; padding: 30px 0 20px; margin-top: 40px; border-top: 1px solid #eaeaea;">
                 <p style="margin: 0 0 8px;">You're receiving this email from <strong style="color: #333;">Rainboots Marketing</strong>.</p>
@@ -198,16 +169,13 @@ export const EmailTemplateSelector = () => {
           </tr>
         </table>
         <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-top: 20px;">
-          <tr>
-            <td align="center" style="padding: 20px 0;">
-              <p style="margin: 0; font-size: 12px; color: #999;">&copy; ${new Date().getFullYear()} Rainboots Marketing. All rights reserved.</p>
-            </td>
-          </tr>
+          <tr><td align="center" style="padding: 20px 0;">
+            <p style="margin: 0; font-size: 12px; color: #999;">&copy; ${new Date().getFullYear()} Rainboots Marketing. All rights reserved.</p>
+          </td></tr>
         </table>
       </div>
-      </td>
-    </tr>
-  </table>
+    </td>
+  </tr>
 </body>
 </html>`;
   };
@@ -227,7 +195,6 @@ export const EmailTemplateSelector = () => {
         setLoading((prev) => ({ ...prev, templates: false }));
       }
     };
-
     loadTemplates();
   }, []);
 
@@ -237,33 +204,18 @@ export const EmailTemplateSelector = () => {
     try {
       const token = localStorage.getItem('token');
       let url = `${API_BASE_URL}/api/leads?page=${leadsPagination.currentPage}&limit=20&sort=-score`;
-
-      if (statusFilter !== 'all') {
-        url += `&status=${statusFilter}`;
-      }
-      if (minScore > 0) {
-        url += `&minScore=${minScore}`;
-      }
-      if (searchTerm) {
-        url += `&search=${encodeURIComponent(searchTerm)}`;
-      }
+      if (statusFilter !== 'all') url += `&status=${statusFilter}`;
+      if (minScore > 0) url += `&minScore=${minScore}`;
+      if (searchTerm) url += `&search=${encodeURIComponent(searchTerm)}`;
 
       const response = await fetch(url, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
-
       if (!response.ok) throw new Error('Failed to load leads');
-
       const data = await response.json();
       setLeads(data.leads || []);
       setLeadsPagination(
-        data.pagination || {
-          currentPage: 1,
-          totalPages: 1,
-          totalLeads: 0,
-        },
+        data.pagination || { currentPage: 1, totalPages: 1, totalLeads: 0 },
       );
     } catch (err) {
       console.error('Error loading leads:', err);
@@ -273,11 +225,8 @@ export const EmailTemplateSelector = () => {
     }
   }, [leadsPagination.currentPage, statusFilter, minScore, searchTerm]);
 
-  // Load leads when template is selected or filters change
   useEffect(() => {
-    if (selectedTemplate) {
-      loadLeads();
-    }
+    if (selectedTemplate) loadLeads();
   }, [
     selectedTemplate,
     loadLeads,
@@ -291,23 +240,116 @@ export const EmailTemplateSelector = () => {
     const template = templates.find((t) => t._id === templateId) || null;
     setSelectedTemplate(template);
     setShowPreview(false);
-    setSelectedLeadsMap({}); // Clear selections when template changes
+    setSelectedLeadsMap({});
+    setSelectedLeadForPreview(null);
+    setPersonalizedPreviewHtml('');
   };
 
-  // Toggle single lead selection (preserves selections across pages)
+  // Complete personalization function - replaces ALL variables
+  const personalizeContent = (content, lead) => {
+    if (!lead) return content;
+
+    let personalized = content;
+
+    // Basic fields
+    personalized = personalized.replace(
+      /\[lead\.businessName\]/g,
+      lead.businessName || '',
+    );
+    personalized = personalized.replace(
+      /\[lead\.contactName\]/g,
+      lead.contactName || '',
+    );
+    personalized = personalized.replace(
+      /\[lead\.contactEmail\]/g,
+      lead.contactEmail || '',
+    );
+    personalized = personalized.replace(
+      /\[lead\.website\]/g,
+      lead.website || '',
+    );
+    personalized = personalized.replace(/\[lead\.domain\]/g, lead.domain || '');
+    personalized = personalized.replace(
+      /\[lead\.category\]/g,
+      lead.category || '',
+    );
+    personalized = personalized.replace(
+      /\[lead\.location\]/g,
+      lead.location || '',
+    );
+    personalized = personalized.replace(/\[lead\.score\]/g, lead.score || '0');
+    personalized = personalized.replace(
+      /\[lead\.outreachMessage\]/g,
+      lead.analysis?.outreachMessage || '',
+    );
+    personalized = personalized.replace(
+      /\[lead\.analysis\.summary\]/g,
+      lead.analysis?.summary || '',
+    );
+
+    // Issues array - [lead.analysis.issues.0], [lead.analysis.issues.1], etc.
+    const issues = lead.analysis?.issues || [];
+    issues.forEach((issue, index) => {
+      personalized = personalized.replace(
+        new RegExp(`\\[lead\\.analysis\\.issues\\.${index}\\]`, 'g'),
+        issue,
+      );
+    });
+
+    // Quick Wins array - [lead.analysis.quickWins.0], etc.
+    const quickWins = lead.analysis?.quickWins || [];
+    quickWins.forEach((win, index) => {
+      personalized = personalized.replace(
+        new RegExp(`\\[lead\\.analysis\\.quickWins\\.${index}\\]`, 'g'),
+        win,
+      );
+    });
+
+    // Opportunities array - [lead.analysis.opportunities.0], etc.
+    const opportunities = lead.analysis?.opportunities || [];
+    opportunities.forEach((opp, index) => {
+      personalized = personalized.replace(
+        new RegExp(`\\[lead\\.analysis\\.opportunities\\.${index}\\]`, 'g'),
+        opp,
+      );
+    });
+
+    // List versions
+    personalized = personalized.replace(
+      /\[lead\.issues\.list\]/g,
+      issues.map((i) => `<li style="margin-bottom: 8px;">${i}</li>`).join('') ||
+        '<li>No issues identified</li>',
+    );
+    personalized = personalized.replace(
+      /\[lead\.quickWins\.list\]/g,
+      quickWins
+        .map((w) => `<li style="margin-bottom: 8px;">${w}</li>`)
+        .join('') || '<li>No quick wins identified</li>',
+    );
+    personalized = personalized.replace(
+      /\[lead\.opportunities\.list\]/g,
+      opportunities
+        .map((o) => `<li style="margin-bottom: 8px;">${o}</li>`)
+        .join('') || '<li>No opportunities identified</li>',
+    );
+
+    // Clean up any remaining unfilled variables
+    personalized = personalized.replace(/\[lead\.[^\]]+\]/g, '');
+
+    return personalized;
+  };
+
+  // Toggle single lead selection
   const toggleLeadSelection = (leadId) => {
     setSelectedLeadsMap((prev) => {
       const newMap = { ...prev };
-      if (newMap[leadId]) {
-        delete newMap[leadId];
-      } else {
-        newMap[leadId] = true;
-      }
+      if (newMap[leadId]) delete newMap[leadId];
+      else newMap[leadId] = true;
       return newMap;
     });
   };
 
-  // Select all leads on the CURRENT page
+  // Select all leads on current page
   const selectAllOnCurrentPage = () => {
     setSelectedLeadsMap((prev) => {
       const newMap = { ...prev };
@@ -318,34 +360,23 @@ export const EmailTemplateSelector = () => {
     });
   };
 
-  // Select all leads that have email addresses (across all pages - this selects ALL leads in DB)
+  // Select all leads with email across all pages
   const selectAllWithEmailAcrossAllPages = async () => {
     setLoading((prev) => ({ ...prev, leads: true }));
     try {
       const token = localStorage.getItem('token');
-      // Fetch ALL leads (not just current page) to get their IDs
       let url = `${API_BASE_URL}/api/leads?limit=10000&sort=-score`;
-      if (statusFilter !== 'all') {
-        url += `&status=${statusFilter}`;
-      }
-      if (minScore > 0) {
-        url += `&minScore=${minScore}`;
-      }
-      if (searchTerm) {
-        url += `&search=${encodeURIComponent(searchTerm)}`;
-      }
-
+      if (statusFilter !== 'all') url += `&status=${statusFilter}`;
+      if (minScore > 0) url += `&minScore=${minScore}`;
+      if (searchTerm) url += `&search=${encodeURIComponent(searchTerm)}`;
       const response = await fetch(url, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await response.json();
       const allLeads = data.leads || [];
-
       const newMap = {};
       allLeads.forEach((lead) => {
-        if (lead.contactEmail) {
-          newMap[lead._id] = true;
-        }
+        if (lead.contactEmail) newMap[lead._id] = true;
       });
       setSelectedLeadsMap(newMap);
     } catch (err) {
@@ -356,25 +387,19 @@ export const EmailTemplateSelector = () => {
     }
   };
 
-  // Select high score leads (score >= 70) across ALL pages
+  // Select high score leads (70+)
   const selectHighScoreLeadsAcrossAllPages = async () => {
     setLoading((prev) => ({ ...prev, leads: true }));
     try {
       const token = localStorage.getItem('token');
       let url = `${API_BASE_URL}/api/leads?limit=10000&sort=-score&minScore=70`;
-      if (statusFilter !== 'all') {
-        url += `&status=${statusFilter}`;
-      }
-      if (searchTerm) {
-        url += `&search=${encodeURIComponent(searchTerm)}`;
-      }
-
+      if (statusFilter !== 'all') url += `&status=${statusFilter}`;
+      if (searchTerm) url += `&search=${encodeURIComponent(searchTerm)}`;
       const response = await fetch(url, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await response.json();
       const allLeads = data.leads || [];
-
       const newMap = {};
       allLeads.forEach((lead) => {
         newMap[lead._id] = true;
@@ -388,25 +413,19 @@ export const EmailTemplateSelector = () => {
     }
   };
 
-  // Select leads by custom score threshold across ALL pages
+  // Select leads by custom score threshold
   const selectLeadsByScoreAcrossAllPages = async (threshold) => {
     setLoading((prev) => ({ ...prev, leads: true }));
     try {
       const token = localStorage.getItem('token');
       let url = `${API_BASE_URL}/api/leads?limit=10000&sort=-score&minScore=${threshold}`;
-      if (statusFilter !== 'all') {
-        url += `&status=${statusFilter}`;
-      }
-      if (searchTerm) {
-        url += `&search=${encodeURIComponent(searchTerm)}`;
-      }
-
+      if (statusFilter !== 'all') url += `&status=${statusFilter}`;
+      if (searchTerm) url += `&search=${encodeURIComponent(searchTerm)}`;
       const response = await fetch(url, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await response.json();
       const allLeads = data.leads || [];
-
       const newMap = {};
       allLeads.forEach((lead) => {
         newMap[lead._id] = true;
@@ -420,76 +439,45 @@ export const EmailTemplateSelector = () => {
     }
   };
 
-  // Clear ALL selections
-  const clearAllSelections = () => {
-    setSelectedLeadsMap({});
-  };
+  const clearAllSelections = () => setSelectedLeadsMap({});
 
-  // Invert selection on current page only
   const invertCurrentPageSelection = () => {
     setSelectedLeadsMap((prev) => {
       const newMap = { ...prev };
       leads.forEach((lead) => {
-        if (newMap[lead._id]) {
-          delete newMap[lead._id];
-        } else {
-          newMap[lead._id] = true;
-        }
+        if (newMap[lead._id]) delete newMap[lead._id];
+        else newMap[lead._id] = true;
       });
       return newMap;
     });
   };
 
-  // Get selected leads count
-  const getSelectedCount = () => {
-    return Object.keys(selectedLeadsMap).length;
-  };
+  const getSelectedCount = () => Object.keys(selectedLeadsMap).length;
 
-  // Get selected leads with emails count
   const getSelectedWithEmailCount = () => {
     let count = 0;
     leads.forEach((lead) => {
-      if (selectedLeadsMap[lead._id] && lead.contactEmail) {
-        count++;
-      }
+      if (selectedLeadsMap[lead._id] && lead.contactEmail) count++;
     });
     return count;
   };
 
-  // Get selected lead emails for the current page
-  const getSelectedLeadEmails = () => {
-    const emails = [];
-    leads.forEach((lead) => {
-      if (selectedLeadsMap[lead._id] && lead.contactEmail) {
-        emails.push(lead.contactEmail);
-      }
-    });
-    return emails;
-  };
-
-  // Get all selected lead IDs (for API call)
-  const getAllSelectedLeadIds = () => {
-    return Object.keys(selectedLeadsMap);
-  };
+  const getAllSelectedLeadIds = () => Object.keys(selectedLeadsMap);
 
   const handleSendCampaignWithReport = async () => {
     if (!selectedTemplate) {
       alert('Please select an email template');
       return;
     }
-
     const selectedIds = getAllSelectedLeadIds();
     if (selectedIds.length === 0) {
       alert('Please select at least one lead to send the campaign to');
       return;
     }
-
     setSendingStatus('sending');
     setSendProgress({ total: selectedIds.length, sent: 0, failed: 0 });
-
     try {
       const token = localStorage.getItem('token');
-
       const response = await fetch(
         `${API_BASE_URL}/api/email/send-campaign-with-report`,
         {
@@ -506,25 +494,20 @@ export const EmailTemplateSelector = () => {
           }),
         },
       );
-
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.error || 'Failed to send campaign');
       }
-
       const result = await response.json();
-
       setSendingStatus('success');
       setSendProgress({
         total: result.totalLeads,
         sent: result.sent,
         failed: result.failed,
       });
-
       setSuccessMessage(
         `Campaign sent! ${result.sent} emails delivered, ${result.failed} failed. Report format: ${reportFormat}`,
       );
-
       setTimeout(() => {
         setSelectedLeadsMap({});
         setSuccessMessage(null);
@@ -543,13 +526,10 @@ export const EmailTemplateSelector = () => {
       alert('Please select an email template');
       return;
     }
-
     const testEmail = prompt('Enter test email address:', 'test@example.com');
     if (!testEmail) return;
-
     setSendingStatus('sending');
     setSendProgress({ total: 1, sent: 0, failed: 0 });
-
     try {
       const token = localStorage.getItem('token');
       const completeHtml = getCompleteEmailHTML(
@@ -557,7 +537,6 @@ export const EmailTemplateSelector = () => {
         selectedTemplate.includeSignature,
         selectedTemplate.signatureConfig,
       );
-
       const response = await fetch(`${API_BASE_URL}/api/email/send-manual`, {
         method: 'POST',
         headers: {
@@ -570,13 +549,10 @@ export const EmailTemplateSelector = () => {
           htmlContent: completeHtml,
         }),
       });
-
       if (!response.ok) throw new Error('Failed to send test email');
-
       setSendingStatus('success');
       setSendProgress({ total: 1, sent: 1, failed: 0 });
       setSuccessMessage(`Test email sent to ${testEmail}!`);
-
       setTimeout(() => setSuccessMessage(null), 3000);
     } catch (error) {
       console.error('Test email send error:', error);
@@ -608,58 +584,7 @@ export const EmailTemplateSelector = () => {
     return classes[status] || 'status-new';
   };
 
-  const generatePersonalizedPreview = (lead) => {
-    if (!selectedTemplate || !lead) return;
-
-    let personalizedContent = selectedTemplate.content;
-
-    // Replace all variables with lead data
-    personalizedContent = personalizedContent.replace(
-      /\[lead\.businessName\]/g,
-      lead.businessName || '',
-    );
-    personalizedContent = personalizedContent.replace(
-      /\[lead\.contactName\]/g,
-      lead.contactName || '',
-    );
-    personalizedContent = personalizedContent.replace(
-      /\[lead\.contactEmail\]/g,
-      lead.contactEmail || '',
-    );
-    personalizedContent = personalizedContent.replace(
-      /\[lead\.website\]/g,
-      lead.website || '',
-    );
-    personalizedContent = personalizedContent.replace(
-      /\[lead\.category\]/g,
-      lead.category || '',
-    );
-    personalizedContent = personalizedContent.replace(
-      /\[lead\.location\]/g,
-      lead.location || '',
-    );
-    personalizedContent = personalizedContent.replace(
-      /\[lead\.score\]/g,
-      lead.score || '',
-    );
-    personalizedContent = personalizedContent.replace(
-      /\[lead\.outreachMessage\]/g,
-      lead.analysis?.outreachMessage || '',
-    );
-
-    const completeHtml = getCompleteEmailHTML(
-      personalizedContent,
-      selectedTemplate.includeSignature,
-      selectedTemplate.signatureConfig,
-    );
-
-    setPersonalizedPreviewHtml(completeHtml);
-    setSelectedLeadForPreview(lead);
-    setShowPersonalizedPreview(true);
-  };
-
   const isLoading = loading.templates;
-
   if (isLoading) {
     return (
       <div className='email-selector-loading'>
@@ -678,7 +603,6 @@ export const EmailTemplateSelector = () => {
           </button>
         </div>
       )}
-
       {error && (
         <div className='alert-error'>
           {error}
@@ -718,7 +642,7 @@ export const EmailTemplateSelector = () => {
 
           {selectedTemplate && (
             <>
-              {/* Template Preview */}
+              {/* Template Preview Section */}
               <div className='template-preview-section'>
                 <div className='preview-header'>
                   <h5>Preview</h5>
@@ -732,7 +656,7 @@ export const EmailTemplateSelector = () => {
 
                 {showPreview && (
                   <div className='preview-container'>
-                    {/* Optional: Add a selector to choose which lead to preview */}
+                    {/* Lead Selector for Personalized Preview */}
                     <div
                       className='preview-lead-selector'
                       style={{ marginBottom: '15px' }}
@@ -748,21 +672,10 @@ export const EmailTemplateSelector = () => {
                           );
                           if (lead) {
                             setSelectedLeadForPreview(lead);
-                            // Generate personalized content here
-                            let personalizedContent = selectedTemplate.content;
-                            personalizedContent = personalizedContent.replace(
-                              /\[lead\.businessName\]/g,
-                              lead.businessName || '',
+                            const personalizedContent = personalizeContent(
+                              selectedTemplate.content,
+                              lead,
                             );
-                            personalizedContent = personalizedContent.replace(
-                              /\[lead\.contactName\]/g,
-                              lead.contactName || '',
-                            );
-                            personalizedContent = personalizedContent.replace(
-                              /\[lead\.outreachMessage\]/g,
-                              lead.analysis?.outreachMessage || '',
-                            );
-                            // ... add other replacements as needed
                             setPersonalizedPreviewHtml(
                               getCompleteEmailHTML(
                                 personalizedContent,
@@ -823,96 +736,19 @@ export const EmailTemplateSelector = () => {
                     />
                     {selectedTemplate.includeSignature && (
                       <div className='signature-note'>
-                        <span className='signature-icon'>✍️</span>
-                        Includes email signature
+                        <span className='signature-icon'>✍️</span> Includes
+                        email signature
                       </div>
                     )}
                   </div>
                 )}
               </div>
 
-              {selectedTemplate && leads.length > 0 && (
-                <div className='personalized-preview-section'>
-                  <div className='preview-header'>
-                    <h5>🔍 Preview for Specific Lead</h5>
-                    <select
-                      className='lead-preview-select'
-                      value={selectedLeadForPreview?._id || ''}
-                      onChange={(e) => {
-                        const lead = leads.find(
-                          (l) => l._id === e.target.value,
-                        );
-                        if (lead) generatePersonalizedPreview(lead);
-                      }}
-                    >
-                      <option value=''>
-                        Select a lead to preview personalized email...
-                      </option>
-                      {leads.map((lead) => (
-                        <option key={lead._id} value={lead._id}>
-                          {lead.businessName}{' '}
-                          {lead.contactName ? `(${lead.contactName})` : ''}
-                        </option>
-                      ))}
-                    </select>
-                    {selectedLeadForPreview && (
-                      <button
-                        className='close-preview-btn'
-                        onClick={() => setShowPersonalizedPreview(false)}
-                      >
-                        ×
-                      </button>
-                    )}
-                  </div>
-
-                  {showPersonalizedPreview && personalizedPreviewHtml && (
-                    <div className='preview-container'>
-                      <div className='personalized-preview-info'>
-                        <div className='lead-info-badge'>
-                          <strong>Previewing for:</strong>{' '}
-                          {selectedLeadForPreview?.businessName}
-                          {selectedLeadForPreview?.contactName &&
-                            ` - Contact: ${selectedLeadForPreview.contactName}`}
-                        </div>
-                        {selectedLeadForPreview?.analysis?.outreachMessage && (
-                          <div className='outreach-message-preview'>
-                            <strong>📝 AI Outreach Message:</strong>
-                            <div className='outreach-message-content'>
-                              {selectedLeadForPreview.analysis.outreachMessage}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                      <div className='email-preview'>
-                        <iframe
-                          title='Personalized Email Preview'
-                          srcDoc={personalizedPreviewHtml}
-                          className='preview-iframe'
-                        />
-                      </div>
-                      <div className='preview-note'>
-                        <span className='info-icon'>ℹ️</span>
-                        This is how the email will look when sent to this lead
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )}
-
               {/* Filters Section */}
               <div className='filters-section'>
                 <div className='filters-header'>
                   <h4>Filter Leads</h4>
-                  <div className='filters-stats'>
-                    {leads.length > 0 && (
-                      <span className='leads-count'>
-                        <i className='lead-icon'>📊</i> {leads.length} leads
-                        shown (Total selected: {getSelectedCount()})
-                      </span>
-                    )}
-                  </div>
                 </div>
-
                 <div className='filters-grid'>
                   <div className='filter-group'>
                     <label className='form-label'>
@@ -930,7 +766,6 @@ export const EmailTemplateSelector = () => {
                       <option value='qualified'>Qualified</option>
                     </select>
                   </div>
-
                   <div className='filter-group'>
                     <label className='form-label'>
                       <i className='filter-icon'>⭐</i> Min Score
@@ -965,7 +800,6 @@ export const EmailTemplateSelector = () => {
                       <span>Top</span>
                     </div>
                   </div>
-
                   <div className='filter-group'>
                     <label className='form-label'>
                       <i className='filter-icon'>🔍</i> Search
@@ -991,7 +825,6 @@ export const EmailTemplateSelector = () => {
                   </div>
                 </div>
 
-                {/* Active Filters Display */}
                 {(statusFilter !== 'all' || minScore > 0 || searchTerm) && (
                   <div className='active-filters'>
                     <span className='active-filters-label'>
@@ -1062,21 +895,21 @@ export const EmailTemplateSelector = () => {
                     <button
                       onClick={selectAllWithEmailAcrossAllPages}
                       className='btn-sm btn-secondary'
-                      title='Select ALL leads with email addresses (across all pages)'
+                      title='Select ALL leads with email addresses'
                     >
                       All with Email
                     </button>
                     <button
                       onClick={selectHighScoreLeadsAcrossAllPages}
                       className='btn-sm btn-secondary'
-                      title='Select leads with score 70+ (across all pages)'
+                      title='Select leads with score 70+'
                     >
                       High Score (70+)
                     </button>
                     <button
                       onClick={() => selectLeadsByScoreAcrossAllPages(50)}
                       className='btn-sm btn-secondary'
-                      title='Select leads with score 50+ (across all pages)'
+                      title='Select leads with score 50+'
                     >
                       Medium Score (50+)
                     </button>
@@ -1193,18 +1026,16 @@ export const EmailTemplateSelector = () => {
                             ...Array(Math.min(5, leadsPagination.totalPages)),
                           ].map((_, i) => {
                             let pageNum;
-                            if (leadsPagination.totalPages <= 5) {
+                            if (leadsPagination.totalPages <= 5)
                               pageNum = i + 1;
-                            } else if (leadsPagination.currentPage <= 3) {
+                            else if (leadsPagination.currentPage <= 3)
                               pageNum = i + 1;
-                            } else if (
+                            else if (
                               leadsPagination.currentPage >=
                               leadsPagination.totalPages - 2
-                            ) {
+                            )
                               pageNum = leadsPagination.totalPages - 4 + i;
-                            } else {
-                              pageNum = leadsPagination.currentPage - 2 + i;
-                            }
+                            else pageNum = leadsPagination.currentPage - 2 + i;
                             return (
                               <button
                                 key={pageNum}
@@ -1279,7 +1110,6 @@ export const EmailTemplateSelector = () => {
                     </button>
                   </div>
                 </div>
-
                 {includeReport && (
                   <div className='report-format-section'>
                     <label

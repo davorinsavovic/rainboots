@@ -836,4 +836,28 @@ router.get('/variables', (req, res) => {
   });
 });
 
+// TEMPORARY DEBUG ROUTE
+router.get('/debug-lead/:id', async (req, res) => {
+  try {
+    const lead = await Lead.findById(req.params.id);
+    if (!lead) {
+      return res.status(404).json({ error: 'Lead not found' });
+    }
+
+    res.json({
+      success: true,
+      id: lead._id,
+      businessName: lead.businessName,
+      contactName: lead.contactName,
+      contactEmail: lead.contactEmail,
+      hasAnalysis: !!lead.analysis,
+      analysis: lead.analysis || null,
+      score: lead.score,
+    });
+  } catch (err) {
+    console.error('Debug error:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 module.exports = router;
