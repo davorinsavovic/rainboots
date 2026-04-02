@@ -721,6 +721,383 @@
   border-left: 3px solid rgba(14, 154, 167, 0.4);
 }
 
+/* Add to your WebsiteAudit.css file */
+
+/* Email Card Styles */
+.audit-email-card {
+  background: linear-gradient(
+    135deg,
+    rgba(16, 185, 129, 0.1) 0%,
+    rgba(14, 154, 167, 0.08) 100%
+  );
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: 16px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  animation: slideIn 0.4s ease-out 0.02s both;
+}
+
+.audit-email-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 24px;
+  background: rgba(16, 185, 129, 0.08);
+  border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.audit-email-icon {
+  font-size: 24px;
+}
+
+.audit-email-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #10b981;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+/* Email Loading State */
+.audit-email-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 32px 24px;
+  color: #5a6b7a;
+  font-size: 14px;
+}
+
+.audit-email-loading .spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(14, 154, 167, 0.2);
+  border-top-color: #0e9aa7;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Email Content */
+.audit-email-content {
+  padding: 20px 24px;
+}
+
+.audit-email-address {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  border-left: 3px solid #10b981;
+}
+
+.audit-email-address strong {
+  font-size: 16px;
+  color: #10b981;
+  font-family: monospace;
+  word-break: break-all;
+}
+
+.audit-email-source {
+  font-size: 12px;
+  color: #5a6b7a;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.audit-email-contact {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 10px 0;
+  margin-bottom: 16px;
+  font-size: 14px;
+  color: #f5f0e8;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.audit-email-contact::before {
+  content: '👤';
+  font-size: 16px;
+  opacity: 0.7;
+}
+
+/* Email Actions */
+.audit-email-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.audit-save-lead-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-family: 'Syne', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.audit-save-lead-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.audit-copy-email-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(14, 154, 167, 0.3);
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-family: 'Syne', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #f5f0e8;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.audit-copy-email-btn:hover {
+  background: rgba(14, 154, 167, 0.2);
+  border-color: #0e9aa7;
+  transform: translateY(-1px);
+}
+
+/* Modal Styles (for Save Lead modal) */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(13, 27, 42, 0.95);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modal-container {
+  background: #0d1b2a;
+  border: 1px solid rgba(14, 154, 167, 0.3);
+  border-radius: 24px;
+  max-width: 500px;
+  width: 100%;
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: slideIn 0.3s ease-out;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(14, 154, 167, 0.2);
+}
+
+.modal-header h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #f5f0e8;
+  margin: 0;
+}
+
+.modal-close {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  color: #9aa8b8;
+}
+
+.modal-close:hover {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+}
+
+.modal-body {
+  padding: 24px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.modal-body p {
+  color: #f5f0e8;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.lead-preview {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(14, 154, 167, 0.2);
+  border-radius: 12px;
+  padding: 16px;
+  margin: 16px 0;
+  font-size: 13px;
+  line-height: 1.8;
+  color: #9aa8b8;
+}
+
+.lead-preview strong {
+  color: #17c3d4;
+  font-weight: 600;
+}
+
+.save-lead-message {
+  padding: 12px;
+  border-radius: 10px;
+  margin-top: 16px;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.save-lead-message.success {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.save-lead-message.error {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 20px 24px;
+  border-top: 1px solid rgba(14, 154, 167, 0.2);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(14, 154, 167, 0.3);
+  border-radius: 30px;
+  padding: 10px 24px;
+  font-family: 'Syne', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #9aa8b8;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #0e9aa7;
+  color: #17c3d4;
+}
+
+.btn-primary {
+  background: #0e9aa7;
+  border: none;
+  border-radius: 30px;
+  padding: 10px 24px;
+  font-family: 'Syne', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #17c3d4;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(14, 154, 167, 0.3);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Responsive styles for email card */
+@media (max-width: 768px) {
+  .audit-email-header {
+    padding: 14px 18px;
+  }
+
+  .audit-email-content {
+    padding: 16px 18px;
+  }
+
+  .audit-email-address {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .audit-email-address strong {
+    font-size: 14px;
+    word-break: break-all;
+  }
+
+  .audit-email-actions {
+    flex-direction: column;
+  }
+
+  .audit-save-lead-btn,
+  .audit-copy-email-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .modal-container {
+    margin: 16px;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+  }
+
+  .btn-secondary,
+  .btn-primary {
+    width: 100%;
+    text-align: center;
+  }
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .audit-app {

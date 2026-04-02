@@ -1,3 +1,4 @@
+// backend/models/Audit.js
 const mongoose = require('mongoose');
 
 const auditSchema = new mongoose.Schema({
@@ -16,6 +17,17 @@ const auditSchema = new mongoose.Schema({
       missingPlatforms: [String],
       recommendations: [String],
     },
+  },
+  socialLinks: { type: Map, of: String },
+  emailReputation: Object,
+  scrapedEmail: {
+    email: String,
+    source: String,
+    confidence: Number,
+    firstName: String,
+    lastName: String,
+    position: String,
+    timestamp: Date,
   },
   timestamp: { type: Date, default: Date.now },
 });

@@ -31,6 +31,11 @@ const SOCIAL_ICONS = {
   yelp: '⭐',
 };
 
+const STORAGE_KEYS = {
+  SCRAPED_EMAILS: 'audit_scraped_emails',
+  AUDIT_DATA: 'audit_data',
+};
+
 export default function WebsiteAudit() {
   const [url, setUrl] = useState('');
   const [category, setCategory] = useState('all');
@@ -70,6 +75,20 @@ export default function WebsiteAudit() {
     loadHistory();
   }, []);
 
+  useEffect(() => {
+    if (auditResult?.url && !scrapedEmail && !scrapingEmail) {
+      const domain = auditResult.url
+        .replace(/^https?:\/\//, '')
+        .replace(/\/.*$/, '')
+        .replace(/^www\./, '');
+
+      const savedEmail = loadScrapedEmailFromStorage(domain);
+      if (savedEmail) {
+        setScrapedEmail(savedEmail);
+      }
+    }
+  }, [auditResult]);
+
   const startLoadingMessages = () => {
     let i = 0;
     setLoadingMsg(LOADING_MESSAGES[0]);
@@ -92,6 +111,10 @@ export default function WebsiteAudit() {
       const data = await response.json();
       if (data.success && data.data) {
         setScrapedEmail(data.data);
+
+        // Use the dedicated function instead of inline code
+        saveScrapedEmailToStorage(domain, data.data);
+
         return data.data;
       }
       return null;
@@ -237,14 +260,22 @@ export default function WebsiteAudit() {
           .replace(/^https?:\/\//, '')
           .replace(/\/.*$/, '')
           .replace(/^www\./, '');
-        await scrapeEmailForDomain(domain);
 
+        const scrapedEmailResult = await scrapeEmailForDomain(domain);
+
+        // Save audit to database with the scraped email
         try {
+          const auditWithEmail = {
+            ...result,
+            scrapedEmail: scrapedEmailResult, // Include the scraped email
+          };
+
           await fetch(`${API_BASE_URL}/api/audit/save`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(result),
+            body: JSON.stringify(auditWithEmail),
           });
+
           const histRes = await fetch(`${API_BASE_URL}/api/audit/history`);
           const histData = await histRes.json();
           if (histData.success) setHistory(histData.audits);
@@ -337,6 +368,86 @@ ${auditResult.analysis.outreachMessage}
       return Array.from(auditResult.socialLinks.entries());
     }
     return Object.entries(auditResult.socialLinks);
+  };
+
+  const saveScrapedEmailToStorage = (url, emailData) => {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEYS.SCRAPED_EMAILS);
+      const emails = stored ? JSON.parse(stored) : {};
+      emails[url] = {
+        ...emailData,
+        savedAt: new Date().toISOString(),
+      };
+      localStorage.setItem(STORAGE_KEYS.SCRAPED_EMAILS, JSON.stringify(emails));
+    } catch (err) {
+      console.error('Failed to save email to localStorage:', err);
+    }
+  };
+
+  const loadScrapedEmailFromStorage = (url) => {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEYS.SCRAPED_EMAILS);
+      if (stored) {
+        const emails = JSON.parse(stored);
+        return emails[url] || null;
+      }
+      return null;
+    } catch (err) {
+      console.error('Failed to load email from localStorage:', err);
+      return null;
+    }
+  };
+
+  // Update the saveAuditToDB function to include scraped email
+  const saveAuditToDB = async (auditData, scrapedEmailData) => {
+    try {
+      const auditWithEmail = {
+        ...auditData,
+        scrapedEmail: scrapedEmailData,
+      };
+
+      const response = await fetch(`${API_BASE_URL}/api/audit/save`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(auditWithEmail),
+      });
+
+      const result = await response.json();
+      return result;
+    } catch (err) {
+      console.error('Failed to save audit to DB:', err);
+      return null;
+    }
+  };
+
+  // Update the loadAuditFromHistory function
+  const loadAuditFromHistory = (audit) => {
+    setAuditResult(audit);
+
+    // Try to load scraped email from multiple sources
+    let email = null;
+
+    // 1. Check if audit already has scrapedEmail
+    if (audit.scrapedEmail && audit.scrapedEmail.email) {
+      email = audit.scrapedEmail;
+    }
+    // 2. Check localStorage
+    else {
+      email = loadScrapedEmailFromStorage(audit.url);
+    }
+
+    if (email) {
+      setScrapedEmail(email);
+    } else {
+      // 3. If no email found, optionally re-scrape
+      const domain = audit.url
+        .replace(/^https?:\/\//, '')
+        .replace(/\/.*$/, '')
+        .replace(/^www\./, '');
+      scrapeEmailForDomain(domain);
+    }
+
+    outputRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -825,10 +936,7 @@ ${auditResult.analysis.outreachMessage}
                   <div
                     key={idx}
                     className='audit-history-item'
-                    onClick={() => {
-                      setAuditResult(item);
-                      outputRef.current?.scrollIntoView({ behavior: 'smooth' });
-                    }}
+                    onClick={() => loadAuditFromHistory(item)}
                   >
                     <div className='audit-history-url'>{item.url}</div>
                     <div className='audit-history-date'>
