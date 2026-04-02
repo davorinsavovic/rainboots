@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import CategorySelector from './CategorySelector';
 import LocationSelector from './LocationSelector';
-import { API_BASE } from '../config';
+import { API_BASE_URL } from '../config';
 import { leadService } from '../services/leadService';
 import './LeadsDashboard.css';
 
@@ -100,7 +100,7 @@ export default function LeadsDashboard() {
 
   const fetchLeads = async () => {
     try {
-      let url = `${API_BASE}/api/leads?limit=${itemsPerPage}&page=${currentPage}&sort=${sortBy}`;
+      let url = `${API_BASE_URL}/api/leads?limit=${itemsPerPage}&page=${currentPage}&sort=${sortBy}`;
       if (statusFilter !== 'all') url += `&status=${statusFilter}`;
       if (timeRange !== 'all') {
         const dateFilter = getDateFilter();
@@ -127,7 +127,7 @@ export default function LeadsDashboard() {
 
   const fetchStats = async () => {
     try {
-      const res = await fetch(`${API_BASE}/api/stats/leads`);
+      const res = await fetch(`${API_BASE_URL}/api/stats/leads`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       setStats(data.stats);
@@ -180,7 +180,7 @@ export default function LeadsDashboard() {
 
   const updateStatus = async (id, newStatus) => {
     try {
-      const res = await fetch(`${API_BASE}/api/leads/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/api/leads/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: newStatus }),
@@ -202,7 +202,7 @@ export default function LeadsDashboard() {
       setProgressStats(null);
 
       // Open SSE connection for real-time progress
-      const es = new EventSource(`${API_BASE}/api/leads/collect/progress`);
+      const es = new EventSource(`${API_BASE_URL}/api/leads/collect/progress`);
       eventSourceRef.current = es;
 
       es.onmessage = (event) => {
@@ -239,7 +239,7 @@ export default function LeadsDashboard() {
       };
 
       // Trigger the collection after SSE is set up
-      const res = await fetch(`${API_BASE}/api/leads/collect`, {
+      const res = await fetch(`${API_BASE_URL}/api/leads/collect`, {
         method: 'POST',
       });
       if (!res.ok) {
@@ -305,7 +305,7 @@ export default function LeadsDashboard() {
 
   const loadPreferences = async () => {
     try {
-      const res = await fetch(`${API_BASE}/api/preferences/categories`);
+      const res = await fetch(`${API_BASE_URL}/api/preferences/categories`);
       const data = await res.json();
       if (data.success && data.preferences) {
         setSelectedCategories(data.preferences.selectedCategories || []);
@@ -321,7 +321,7 @@ export default function LeadsDashboard() {
 
   const loadLocationPreferences = async () => {
     try {
-      const res = await fetch(`${API_BASE}/api/preferences/locations`);
+      const res = await fetch(`${API_BASE_URL}/api/preferences/locations`);
       const data = await res.json();
       if (data.success && data.preferences) {
         setSelectedLocations(data.preferences.locations || []);

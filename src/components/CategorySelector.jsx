@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { API_BASE } from '../config';
+import { API_BASE_URL } from '../config';
 import './CategorySelector.css';
 
 export default function CategorySelector({ onSave, initialCategories = [] }) {
@@ -23,7 +23,7 @@ export default function CategorySelector({ onSave, initialCategories = [] }) {
 
   const fetchCategories = async () => {
     try {
-      const res = await fetch(`${API_BASE}/api/categories/all`);
+      const res = await fetch(`${API_BASE_URL}/api/categories/all`);
       const data = await res.json();
       setCategories(data.categories || []);
 
@@ -81,7 +81,7 @@ export default function CategorySelector({ onSave, initialCategories = [] }) {
   const savePreferences = async () => {
     setSaving(true);
     try {
-      const res = await fetch(`${API_BASE}/api/preferences/categories`, {
+      const res = await fetch(`${API_BASE_URL}/api/preferences/categories`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ selectedCategories }),

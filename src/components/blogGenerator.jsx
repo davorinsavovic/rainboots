@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { API_BASE } from '../config';
+import { API_BASE_URL } from '../config';
 import './BlogGenerator.css';
 
 const SERVICES = [
@@ -131,7 +131,7 @@ CATEGORY: [category]
 [full article HTML]`;
 
     try {
-      const response = await fetch(`${API_BASE}/api/generate`, {
+      const response = await fetch(`${API_BASE_URL}/api/generate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

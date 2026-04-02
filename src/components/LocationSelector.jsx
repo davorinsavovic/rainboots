@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { API_BASE } from '../config';
+import { API_BASE_URL } from '../config';
 import './LocationSelector.css';
 
 // Predefined locations data
@@ -107,7 +107,7 @@ export default function LocationSelector({ onSave, initialLocations = [] }) {
 
   const loadLocationPreferences = async () => {
     try {
-      const res = await fetch(`${API_BASE}/api/preferences/locations`);
+      const res = await fetch(`${API_BASE_URL}/api/preferences/locations`);
       const data = await res.json();
       if (data.success && data.preferences) {
         setSelectedLocations(data.preferences.locations || []);
@@ -206,7 +206,7 @@ export default function LocationSelector({ onSave, initialLocations = [] }) {
   const savePreferences = async () => {
     setSaving(true);
     try {
-      const res = await fetch(`${API_BASE}/api/preferences/locations`, {
+      const res = await fetch(`${API_BASE_URL}/api/preferences/locations`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ locations: selectedLocations }),

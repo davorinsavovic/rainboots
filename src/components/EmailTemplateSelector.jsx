@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { emailTemplateService } from '../services/emailTemplateService';
+import { API_BASE_URL } from '../config';
 import './EmailTemplateSelector.css';
 
 export const EmailTemplateSelector = () => {
@@ -28,10 +29,7 @@ export const EmailTemplateSelector = () => {
     totalPages: 1,
     totalLeads: 0,
   });
-  const [selectAllMode, setSelectAllMode] = useState(false); // Track if "Select All" is active
-
-  const API_BASE_URL =
-    import.meta.env.VITE_API_BASE_URL || 'https://rainboots.onrender.com';
+  const [selectAllMode, setSelectAllMode] = useState(false);
 
   // Email styling function
   const addEmailStyles = (html) => {

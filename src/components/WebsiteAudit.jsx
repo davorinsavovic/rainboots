@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { API_BASE } from '../config';
+import { API_BASE_URL } from '../config';
 import './WebsiteAudit.css';
 
 const LOADING_MESSAGES = [
@@ -50,7 +50,7 @@ export default function WebsiteAudit() {
   useEffect(() => {
     const loadHistory = async () => {
       try {
-        const res = await fetch(`${API_BASE}/api/audit/history`);
+        const res = await fetch(`${API_BASE_URL}/api/audit/history`);
         const data = await res.json();
         if (data.success) setHistory(data.audits);
       } catch (err) {
@@ -92,7 +92,7 @@ export default function WebsiteAudit() {
     const stopMessages = startLoadingMessages();
 
     try {
-      const response = await fetch(`${API_BASE}/api/audit`, {
+      const response = await fetch(`${API_BASE_URL}/api/audit`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ url: formattedUrl }),
@@ -123,12 +123,12 @@ export default function WebsiteAudit() {
         setAuditResult(result);
 
         try {
-          await fetch(`${API_BASE}/api/audit/save`, {
+          await fetch(`${API_BASE_URL}/api/audit/save`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(result),
           });
-          const histRes = await fetch(`${API_BASE}/api/audit/history`);
+          const histRes = await fetch(`${API_BASE_URL}/api/audit/history`);
           const histData = await histRes.json();
           if (histData.success) setHistory(histData.audits);
         } catch (err) {

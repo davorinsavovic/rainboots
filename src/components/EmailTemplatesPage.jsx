@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { API_BASE } from '../config';
+import { API_BASE_URL } from '../config';
 import './EmailTemplatesPage.css';
 
 export default function EmailTemplatesPage() {
@@ -265,7 +265,7 @@ export default function EmailTemplatesPage() {
   // Refresh templates list
   const refreshTemplates = async () => {
     try {
-      const response = await axios.get(`${API_BASE}/api/email-templates`);
+      const response = await axios.get(`${API_BASE_URL}/api/email-templates`);
       const templatesData = Array.isArray(response.data?.data)
         ? response.data.data
         : [];
@@ -280,7 +280,7 @@ export default function EmailTemplatesPage() {
   useEffect(() => {
     const fetchTemplates = async () => {
       try {
-        const response = await axios.get(`${API_BASE}/api/email-templates`);
+        const response = await axios.get(`${API_BASE_URL}/api/email-templates`);
         const templatesData = Array.isArray(response.data?.data)
           ? response.data.data
           : [];
@@ -393,7 +393,7 @@ export default function EmailTemplatesPage() {
         signatureConfig: newTemplate.signatureConfig,
       };
 
-      await axios.post(`${API_BASE}/api/email-templates`, payload);
+      await axios.post(`${API_BASE_URL}/api/email-templates`, payload);
       await refreshTemplates();
       setShowAddModal(false);
       setSuccessMessage('Template created successfully!');
@@ -427,7 +427,7 @@ export default function EmailTemplatesPage() {
       };
 
       await axios.put(
-        `${API_BASE}/api/email-templates/${editingTemplate._id}`,
+        `${API_BASE_URL}/api/email-templates/${editingTemplate._id}`,
         payload,
       );
       await refreshTemplates();
@@ -449,7 +449,9 @@ export default function EmailTemplatesPage() {
   const confirmDelete = async () => {
     if (!templateToDelete) return;
     try {
-      await axios.delete(`${API_BASE}/api/email-templates/${templateToDelete}`);
+      await axios.delete(
+        `${API_BASE_URL}/api/email-templates/${templateToDelete}`,
+      );
       await refreshTemplates();
       setShowDeleteModal(false);
       setTemplateToDelete(null);
