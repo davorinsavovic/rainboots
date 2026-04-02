@@ -7,6 +7,8 @@ const LOADING_MESSAGES = [
   'Extracting content and structure...',
   'Analyzing conversion opportunities...',
   'Identifying quick wins...',
+  'Scraping contact emails...',
+  'Discovering social media profiles...',
   'Generating outreach message...',
   'Almost ready...',
 ];
@@ -43,7 +45,15 @@ export default function WebsiteAudit() {
     opportunities: true,
     quickWins: true,
     social: true,
+    email: true,
   });
+
+  // Lead saving states
+  const [showSaveLeadModal, setShowSaveLeadModal] = useState(false);
+  const [savingLead, setSavingLead] = useState(false);
+  const [leadSaveMessage, setLeadSaveMessage] = useState('');
+  const [scrapedEmail, setScrapedEmail] = useState(null);
+  const [scrapingEmail, setScrapingEmail] = useState(false);
 
   const outputRef = useRef(null);
 
@@ -70,6 +80,105 @@ export default function WebsiteAudit() {
     return () => clearInterval(interval);
   };
 
+  const scrapeEmailForDomain = async (domain) => {
+    setScrapingEmail(true);
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/leads/scrape-email`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ domain, includeGuess: true }),
+      });
+
+      const data = await response.json();
+      if (data.success && data.data) {
+        setScrapedEmail(data.data);
+        return data.data;
+      }
+      return null;
+    } catch (err) {
+      console.error('Email scraping failed:', err);
+      return null;
+    } finally {
+      setScrapingEmail(false);
+    }
+  };
+
+  const saveLeadFromAudit = async () => {
+    if (!auditResult) return;
+
+    setSavingLead(true);
+    setLeadSaveMessage('');
+
+    try {
+      // Extract domain from URL
+      const domain = auditResult.url
+        .replace(/^https?:\/\//, '')
+        .replace(/\/.*$/, '')
+        .replace(/^www\./, '');
+
+      const leadData = {
+        businessName: auditResult.title || domain,
+        website: auditResult.url,
+        domain: domain,
+        category: category !== 'all' ? category : auditResult.category || '',
+        location: '',
+        analysis: {
+          summary: auditResult.analysis?.summary,
+          issues: auditResult.analysis?.issues,
+          opportunities: auditResult.analysis?.opportunities,
+          quickWins: auditResult.analysis?.quickWins,
+          outreachMessage: auditResult.analysis?.outreachMessage,
+          socialAnalysis: auditResult.analysis?.socialAnalysis,
+          emailAnalysis: auditResult.analysis?.emailAnalysis,
+        },
+        socialLinks: auditResult.socialLinks || {},
+        emailReputation: auditResult.emailReputation,
+        score: auditResult.analysis?.score || 50,
+        status: 'new',
+        source: 'website_audit',
+        tags: [category, 'audited'],
+        notes: `Audited on ${new Date().toLocaleString()}\n\nOutreach Message:\n${auditResult.analysis?.outreachMessage}`,
+      };
+
+      // Add scraped email if found
+      if (scrapedEmail?.email) {
+        leadData.contactEmail = scrapedEmail.email;
+        leadData.emailSource = scrapedEmail.source;
+        leadData.emailVerified = scrapedEmail.confidence >= 70;
+        if (scrapedEmail.firstName || scrapedEmail.lastName) {
+          leadData.contactName = [scrapedEmail.firstName, scrapedEmail.lastName]
+            .filter(Boolean)
+            .join(' ');
+        }
+        if (scrapedEmail.position)
+          leadData.contactTitle = scrapedEmail.position;
+      }
+
+      const response = await fetch(`${API_BASE_URL}/api/leads`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(leadData),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setLeadSaveMessage('✅ Lead saved successfully!');
+        setTimeout(() => {
+          setShowSaveLeadModal(false);
+          setLeadSaveMessage('');
+        }, 2000);
+      } else {
+        setLeadSaveMessage(`❌ Error: ${data.error}`);
+      }
+    } catch (err) {
+      console.error('Failed to save lead:', err);
+      setLeadSaveMessage(`❌ Failed to save lead: ${err.message}`);
+    } finally {
+      setSavingLead(false);
+    }
+  };
+
   const runAudit = async () => {
     if (!url.trim()) {
       setError('Please enter a website URL');
@@ -88,6 +197,7 @@ export default function WebsiteAudit() {
     setError('');
     setLoading(true);
     setAuditResult(null);
+    setScrapedEmail(null);
 
     const stopMessages = startLoadingMessages();
 
@@ -121,6 +231,13 @@ export default function WebsiteAudit() {
         };
 
         setAuditResult(result);
+
+        // Auto-scrape email after audit
+        const domain = formattedUrl
+          .replace(/^https?:\/\//, '')
+          .replace(/\/.*$/, '')
+          .replace(/^www\./, '');
+        await scrapeEmailForDomain(domain);
 
         try {
           await fetch(`${API_BASE_URL}/api/audit/save`, {
@@ -173,12 +290,18 @@ export default function WebsiteAudit() {
         ? `\nSOCIAL MEDIA\nFound: ${Object.keys(auditResult.socialLinks).join(', ') || 'none'}\nMissing: ${auditResult.analysis.socialAnalysis?.missingPlatforms?.join(', ') || 'none'}`
         : '';
 
+      const emailSection = scrapedEmail?.email
+        ? `\nCONTACT EMAIL\n${scrapedEmail.email} (source: ${scrapedEmail.source}, confidence: ${scrapedEmail.confidence}%)`
+        : '\nCONTACT EMAIL\nNot found';
+
       const report = `
 Website Audit Report
 ====================
 URL: ${auditResult.url}
 Title: ${auditResult.title}
 Date: ${new Date(auditResult.timestamp).toLocaleString()}
+
+${emailSection}
 
 SUMMARY
 ${auditResult.analysis.summary}
@@ -310,6 +433,59 @@ ${auditResult.analysis.outreachMessage}
               </div>
             </div>
 
+            {/* Scraped Email Display */}
+            {(scrapedEmail?.email || scrapingEmail) && (
+              <div className='audit-email-card'>
+                <div className='audit-email-header'>
+                  <span className='audit-email-icon'>📧</span>
+                  <h3 className='audit-email-title'>Contact Email Found</h3>
+                </div>
+                {scrapingEmail ? (
+                  <div className='audit-email-loading'>
+                    <span className='spinner'></span> Scraping email...
+                  </div>
+                ) : (
+                  scrapedEmail?.email && (
+                    <div className='audit-email-content'>
+                      <div className='audit-email-address'>
+                        <strong>{scrapedEmail.email}</strong>
+                        <span className='audit-email-source'>
+                          (source: {scrapedEmail.source}, confidence:{' '}
+                          {scrapedEmail.confidence}%)
+                        </span>
+                      </div>
+                      {scrapedEmail.firstName && (
+                        <div className='audit-email-contact'>
+                          Contact: {scrapedEmail.firstName}{' '}
+                          {scrapedEmail.lastName || ''}
+                          {scrapedEmail.position &&
+                            ` - ${scrapedEmail.position}`}
+                        </div>
+                      )}
+                      <div className='audit-email-actions'>
+                        <button
+                          className='audit-save-lead-btn'
+                          onClick={() => setShowSaveLeadModal(true)}
+                        >
+                          💾 Save as Lead
+                        </button>
+                        <button
+                          className='audit-copy-email-btn'
+                          onClick={() =>
+                            copyToClipboard(scrapedEmail.email, 'email')
+                          }
+                        >
+                          {copyStatus === 'email'
+                            ? '✅ Copied!'
+                            : '📋 Copy Email'}
+                        </button>
+                      </div>
+                    </div>
+                  )
+                )}
+              </div>
+            )}
+
             <div className='audit-summary-card'>
               <div className='audit-summary-icon'>📊</div>
               <div className='audit-summary-content'>
@@ -427,7 +603,6 @@ ${auditResult.analysis.outreachMessage}
 
               {expandedSections.social && (
                 <div className='audit-section-content'>
-                  {/* Found Social Links */}
                   {getSocialEntries().length > 0 && (
                     <div className='social-found'>
                       {getSocialEntries().map(([platform, socialUrl]) => (
@@ -444,14 +619,12 @@ ${auditResult.analysis.outreachMessage}
                     </div>
                   )}
 
-                  {/* No Social Found */}
                   {getSocialEntries().length === 0 && (
                     <p className='social-missing-label'>
                       No social media profiles found on this website.
                     </p>
                   )}
 
-                  {/* Missing Platforms */}
                   {auditResult.analysis.socialAnalysis?.missingPlatforms
                     ?.length > 0 && (
                     <div className='social-missing'>
@@ -474,7 +647,6 @@ ${auditResult.analysis.outreachMessage}
                     </div>
                   )}
 
-                  {/* Recommendations */}
                   {auditResult.analysis.socialAnalysis?.recommendations
                     ?.length > 0 && (
                     <div className='social-recommendations'>
@@ -668,6 +840,67 @@ ${auditResult.analysis.outreachMessage}
           </div>
         )}
       </div>
+
+      {/* Save Lead Modal */}
+      {showSaveLeadModal && (
+        <div
+          className='modal-overlay'
+          onClick={() => setShowSaveLeadModal(false)}
+        >
+          <div className='modal-container' onClick={(e) => e.stopPropagation()}>
+            <div className='modal-header'>
+              <h2>Save as Lead</h2>
+              <button
+                className='modal-close'
+                onClick={() => setShowSaveLeadModal(false)}
+              >
+                ×
+              </button>
+            </div>
+            <div className='modal-body'>
+              <p>Save this business as a lead in your database?</p>
+
+              <div className='lead-preview'>
+                <strong>Business:</strong> {auditResult?.title || 'Unknown'}
+                <br />
+                <strong>Website:</strong> {auditResult?.url}
+                <br />
+                {scrapedEmail?.email && (
+                  <>
+                    <strong>Email:</strong> {scrapedEmail.email}
+                    <br />
+                    <strong>Source:</strong> {scrapedEmail.source} (confidence:{' '}
+                    {scrapedEmail.confidence}%)
+                  </>
+                )}
+              </div>
+
+              {leadSaveMessage && (
+                <div
+                  className={`save-lead-message ${leadSaveMessage.includes('✅') ? 'success' : 'error'}`}
+                >
+                  {leadSaveMessage}
+                </div>
+              )}
+            </div>
+            <div className='modal-actions'>
+              <button
+                className='btn-secondary'
+                onClick={() => setShowSaveLeadModal(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className='btn-primary'
+                onClick={saveLeadFromAudit}
+                disabled={savingLead}
+              >
+                {savingLead ? 'Saving...' : 'Save Lead'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
