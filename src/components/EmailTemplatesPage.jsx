@@ -48,6 +48,7 @@ export default function EmailTemplatesPage() {
     { label: "Lead's Category", value: '[lead.category]' },
     { label: "Lead's Location", value: '[lead.location]' },
     { label: 'Opportunity Score', value: '[lead.score]' },
+    { label: 'AI Outreach Message', value: '[lead.outreachMessage]' },
   ];
 
   // R2 Logo URL

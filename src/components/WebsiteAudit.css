@@ -1010,7 +1010,7 @@
   border-top: 1px solid rgba(14, 154, 167, 0.2);
 }
 
-.btn-secondary {
+.audit-page .btn-secondary {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(14, 154, 167, 0.3);
   border-radius: 30px;
@@ -1023,13 +1023,13 @@
   transition: all 0.2s;
 }
 
-.btn-secondary:hover {
+.audit-page .btn-secondary:hover {
   background: rgba(255, 255, 255, 0.1);
   border-color: #0e9aa7;
   color: #17c3d4;
 }
 
-.btn-primary {
+.audit-page .btn-primary {
   background: #0e9aa7;
   border: none;
   border-radius: 30px;
@@ -1042,13 +1042,13 @@
   transition: all 0.2s;
 }
 
-.btn-primary:hover:not(:disabled) {
+.audit-page .btn-primary:hover:not(:disabled) {
   background: #17c3d4;
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(14, 154, 167, 0.3);
 }
 
-.btn-primary:disabled {
+.audit-page .btn-primary:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
@@ -1091,8 +1091,8 @@
     flex-direction: column;
   }
 
-  .btn-secondary,
-  .btn-primary {
+  .audit-page .btn-secondary,
+  .audit-page .btn-primary {
     width: 100%;
     text-align: center;
   }

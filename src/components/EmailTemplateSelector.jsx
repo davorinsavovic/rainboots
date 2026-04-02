@@ -32,6 +32,9 @@ export const EmailTemplateSelector = () => {
   });
   const [includeReport, setIncludeReport] = useState(true);
   const [reportFormat, setReportFormat] = useState('inline');
+  const [selectedLeadForPreview, setSelectedLeadForPreview] = useState(null);
+  const [personalizedPreviewHtml, setPersonalizedPreviewHtml] = useState('');
+  const [showPersonalizedPreview, setShowPersonalizedPreview] = useState(false);
 
   // Email styling function
   const addEmailStyles = (html) => {
@@ -605,6 +608,56 @@ export const EmailTemplateSelector = () => {
     return classes[status] || 'status-new';
   };
 
+  const generatePersonalizedPreview = (lead) => {
+    if (!selectedTemplate || !lead) return;
+
+    let personalizedContent = selectedTemplate.content;
+
+    // Replace all variables with lead data
+    personalizedContent = personalizedContent.replace(
+      /\[lead\.businessName\]/g,
+      lead.businessName || '',
+    );
+    personalizedContent = personalizedContent.replace(
+      /\[lead\.contactName\]/g,
+      lead.contactName || '',
+    );
+    personalizedContent = personalizedContent.replace(
+      /\[lead\.contactEmail\]/g,
+      lead.contactEmail || '',
+    );
+    personalizedContent = personalizedContent.replace(
+      /\[lead\.website\]/g,
+      lead.website || '',
+    );
+    personalizedContent = personalizedContent.replace(
+      /\[lead\.category\]/g,
+      lead.category || '',
+    );
+    personalizedContent = personalizedContent.replace(
+      /\[lead\.location\]/g,
+      lead.location || '',
+    );
+    personalizedContent = personalizedContent.replace(
+      /\[lead\.score\]/g,
+      lead.score || '',
+    );
+    personalizedContent = personalizedContent.replace(
+      /\[lead\.outreachMessage\]/g,
+      lead.analysis?.outreachMessage || '',
+    );
+
+    const completeHtml = getCompleteEmailHTML(
+      personalizedContent,
+      selectedTemplate.includeSignature,
+      selectedTemplate.signatureConfig,
+    );
+
+    setPersonalizedPreviewHtml(completeHtml);
+    setSelectedLeadForPreview(lead);
+    setShowPersonalizedPreview(true);
+  };
+
   const isLoading = loading.templates;
 
   if (isLoading) {
@@ -679,20 +732,83 @@ export const EmailTemplateSelector = () => {
 
                 {showPreview && (
                   <div className='preview-container'>
+                    {/* Optional: Add a selector to choose which lead to preview */}
+                    <div
+                      className='preview-lead-selector'
+                      style={{ marginBottom: '15px' }}
+                    >
+                      <label style={{ marginRight: '10px', color: '#9aa8b8' }}>
+                        Preview for lead:
+                      </label>
+                      <select
+                        value={selectedLeadForPreview?._id || ''}
+                        onChange={(e) => {
+                          const lead = leads.find(
+                            (l) => l._id === e.target.value,
+                          );
+                          if (lead) {
+                            setSelectedLeadForPreview(lead);
+                            // Generate personalized content here
+                            let personalizedContent = selectedTemplate.content;
+                            personalizedContent = personalizedContent.replace(
+                              /\[lead\.businessName\]/g,
+                              lead.businessName || '',
+                            );
+                            personalizedContent = personalizedContent.replace(
+                              /\[lead\.contactName\]/g,
+                              lead.contactName || '',
+                            );
+                            personalizedContent = personalizedContent.replace(
+                              /\[lead\.outreachMessage\]/g,
+                              lead.analysis?.outreachMessage || '',
+                            );
+                            // ... add other replacements as needed
+                            setPersonalizedPreviewHtml(
+                              getCompleteEmailHTML(
+                                personalizedContent,
+                                selectedTemplate.includeSignature,
+                                selectedTemplate.signatureConfig,
+                              ),
+                            );
+                          }
+                        }}
+                        className='lead-preview-select'
+                        style={{
+                          padding: '6px 12px',
+                          background: '#1e2a3a',
+                          border: '1px solid #0e9aa7',
+                          borderRadius: '6px',
+                          color: '#f5f0e8',
+                        }}
+                      >
+                        <option value=''>-- Select a lead to preview --</option>
+                        {leads.map((lead) => (
+                          <option key={lead._id} value={lead._id}>
+                            {lead.businessName}{' '}
+                            {lead.contactName ? `(${lead.contactName})` : ''}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
                     <div className='email-preview'>
                       <iframe
                         title='Email Preview'
-                        srcDoc={getCompleteEmailHTML(
-                          selectedTemplate.content,
-                          selectedTemplate.includeSignature,
-                          selectedTemplate.signatureConfig,
-                        )}
+                        srcDoc={
+                          personalizedPreviewHtml ||
+                          getCompleteEmailHTML(
+                            selectedTemplate.content,
+                            selectedTemplate.includeSignature,
+                            selectedTemplate.signatureConfig,
+                          )
+                        }
                         className='preview-iframe'
                       />
                     </div>
                     <div className='preview-note'>
                       <span className='info-icon'>ℹ️</span>
-                      This is how the email will look when sent
+                      Select a lead above to see a personalized preview with
+                      their data.
                     </div>
                   </div>
                 )}
@@ -714,6 +830,74 @@ export const EmailTemplateSelector = () => {
                   </div>
                 )}
               </div>
+
+              {selectedTemplate && leads.length > 0 && (
+                <div className='personalized-preview-section'>
+                  <div className='preview-header'>
+                    <h5>🔍 Preview for Specific Lead</h5>
+                    <select
+                      className='lead-preview-select'
+                      value={selectedLeadForPreview?._id || ''}
+                      onChange={(e) => {
+                        const lead = leads.find(
+                          (l) => l._id === e.target.value,
+                        );
+                        if (lead) generatePersonalizedPreview(lead);
+                      }}
+                    >
+                      <option value=''>
+                        Select a lead to preview personalized email...
+                      </option>
+                      {leads.map((lead) => (
+                        <option key={lead._id} value={lead._id}>
+                          {lead.businessName}{' '}
+                          {lead.contactName ? `(${lead.contactName})` : ''}
+                        </option>
+                      ))}
+                    </select>
+                    {selectedLeadForPreview && (
+                      <button
+                        className='close-preview-btn'
+                        onClick={() => setShowPersonalizedPreview(false)}
+                      >
+                        ×
+                      </button>
+                    )}
+                  </div>
+
+                  {showPersonalizedPreview && personalizedPreviewHtml && (
+                    <div className='preview-container'>
+                      <div className='personalized-preview-info'>
+                        <div className='lead-info-badge'>
+                          <strong>Previewing for:</strong>{' '}
+                          {selectedLeadForPreview?.businessName}
+                          {selectedLeadForPreview?.contactName &&
+                            ` - Contact: ${selectedLeadForPreview.contactName}`}
+                        </div>
+                        {selectedLeadForPreview?.analysis?.outreachMessage && (
+                          <div className='outreach-message-preview'>
+                            <strong>📝 AI Outreach Message:</strong>
+                            <div className='outreach-message-content'>
+                              {selectedLeadForPreview.analysis.outreachMessage}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                      <div className='email-preview'>
+                        <iframe
+                          title='Personalized Email Preview'
+                          srcDoc={personalizedPreviewHtml}
+                          className='preview-iframe'
+                        />
+                      </div>
+                      <div className='preview-note'>
+                        <span className='info-icon'>ℹ️</span>
+                        This is how the email will look when sent to this lead
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
 
               {/* Filters Section */}
               <div className='filters-section'>
