@@ -84,7 +84,18 @@ const leadSchema = new mongoose.Schema({
   // How the contactEmail was found
   emailSource: {
     type: String,
-    enum: ['manual', 'hunter', 'scraped', 'csv', 'auto', 'unknown'],
+    enum: [
+      'manual',
+      'hunter',
+      'scraped',
+      'csv',
+      'auto',
+      'unknown',
+      'guessed',
+      'whois',
+      'clearbit',
+      'abstract',
+    ],
     default: 'auto',
   },
   emailVerified: {
@@ -113,7 +124,7 @@ const leadSchema = new mongoose.Schema({
   // How this lead entered the system
   source: {
     type: String,
-    enum: ['auto', 'manual', 'csv', 'scrape', 'other'],
+    enum: ['auto', 'manual', 'csv', 'scrape', 'other', 'website_audit'],
     default: 'auto',
   },
 
