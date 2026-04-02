@@ -8,15 +8,6 @@ const EmailCampaigns = () => {
 
   return (
     <div className='email-campaigns-container'>
-      <div className='email-campaigns-header'>
-        <div className='header-content'>
-          <h2 className='campaigns-title'>Email Campaigns</h2>
-          <p className='campaigns-description'>
-            Create, manage, and send targeted email campaigns to your leads
-          </p>
-        </div>
-      </div>
-
       <div className='campaigns-tabs'>
         <NavLink
           to='/dashboard/email-campaigns/templates'

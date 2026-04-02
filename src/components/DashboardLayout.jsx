@@ -36,7 +36,8 @@ const NAV_ITEMS = [
     label: 'Email Campaigns',
     icon: '📧',
     path: '/dashboard/email-campaigns',
-    description: 'Manage email marketing campaigns',
+    description:
+      'Create, manage, and send targeted email campaigns to your leads',
     color: '#3b82f6',
     isParent: true,
     children: [

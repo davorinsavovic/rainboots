@@ -31,7 +31,7 @@ export const EmailTemplateSelector = () => {
   const [selectAllMode, setSelectAllMode] = useState(false); // Track if "Select All" is active
 
   const API_BASE_URL =
-    import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001';
+    import.meta.env.VITE_API_BASE_URL || 'https://api.rainbootsmarketing.com';
 
   // Email styling function
   const addEmailStyles = (html) => {
