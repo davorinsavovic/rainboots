@@ -410,12 +410,10 @@ router.post('/leads', async (req, res) => {
     res.status(201).json({ success: true, data: lead });
   } catch (err) {
     if (err.code === 11000) {
-      return res
-        .status(409)
-        .json({
-          success: false,
-          error: 'A lead with this email already exists',
-        });
+      return res.status(409).json({
+        success: false,
+        error: 'A lead with this email already exists',
+      });
     }
     res.status(500).json({ success: false, error: err.message });
   }
@@ -729,6 +727,268 @@ router.post('/leads/collect', async (req, res) => {
         message: `❌ Error: ${err.message}`,
       });
     });
+});
+
+// Refresh a single lead's data (rescrape website, update analysis, find email)
+router.post('/leads/:id/refresh', async (req, res) => {
+  try {
+    const lead = await Lead.findById(req.params.id);
+    if (!lead) {
+      return res.status(404).json({ success: false, error: 'Lead not found' });
+    }
+
+    console.log(`\n🔄 Refreshing lead: ${lead.businessName} (${lead.website})`);
+
+    // Import required services
+    const { scrapeWebsite } = require('../services/scraper');
+    const { analyzeWebsite } = require('../services/analyzer');
+    const { checkEmailReputation } = require('../services/emailReputation');
+    const { findContactEmail } = require('../services/emailScraper');
+
+    // 1. Scrape website
+    const scraped = await scrapeWebsite(lead.website);
+    if (!scraped) {
+      return res
+        .status(500)
+        .json({ success: false, error: 'Failed to scrape website' });
+    }
+
+    // 2. Check email reputation
+    const emailReputation = await checkEmailReputation(lead.website);
+
+    // 3. Analyze with Claude AI
+    const analysis = await analyzeWebsite(
+      scraped.textContent,
+      lead.website,
+      scraped.socialLinks || {},
+      emailReputation,
+    );
+
+    // 4. Scrape contact email
+    const domain = lead.website
+      .replace(/^https?:\/\//, '')
+      .replace(/\/.*$/, '')
+      .replace(/^www\./, '');
+    const contactEmail = await findContactEmail(domain, { includeGuess: true });
+
+    // 5. Update lead with new data
+    const updates = {
+      title: scraped.title,
+      socialLinks: scraped.socialLinks || {},
+      emailReputation: emailReputation,
+      analysis: {
+        summary: analysis.summary,
+        issues: analysis.issues || [],
+        opportunities: analysis.opportunities || [],
+        quickWins: analysis.quickWins || [],
+        outreachMessage: analysis.outreachMessage,
+        score: analysis.score,
+        socialAnalysis: analysis.socialAnalysis || {},
+        emailAnalysis: analysis.emailAnalysis || {},
+      },
+      score: analysis.score || lead.score,
+    };
+
+    // Update contact email if found
+    if (contactEmail?.email) {
+      updates.contactEmail = contactEmail.email;
+      updates.emailSource = contactEmail.source;
+      updates.emailVerified = contactEmail.confidence >= 70;
+      if (contactEmail.firstName || contactEmail.lastName) {
+        updates.contactName = [contactEmail.firstName, contactEmail.lastName]
+          .filter(Boolean)
+          .join(' ');
+      }
+      if (contactEmail.position) updates.contactTitle = contactEmail.position;
+    }
+
+    // Add note about refresh
+    const refreshNote = `\n[Refreshed on ${new Date().toLocaleString()}]\n- Social links: ${Object.keys(scraped.socialLinks || {}).join(', ') || 'none'}\n- Email found: ${contactEmail?.email || 'none'}\n- Score: ${analysis.score}`;
+    updates.notes = lead.notes ? lead.notes + refreshNote : refreshNote;
+
+    const updatedLead = await Lead.findByIdAndUpdate(req.params.id, updates, {
+      new: true,
+      runValidators: true,
+    });
+
+    console.log(`  ✅ Lead refreshed successfully`);
+    console.log(
+      `  📱 Social: ${Object.keys(scraped.socialLinks || {}).join(', ') || 'none'}`,
+    );
+    console.log(`  📧 Email: ${contactEmail?.email || 'none'}`);
+    console.log(`  📊 Score: ${analysis.score}`);
+
+    res.json({ success: true, lead: updatedLead });
+  } catch (err) {
+    console.error('Error refreshing lead:', err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// ── POST /api/leads/refresh-missing ──────────────────────────────────────────
+// Refresh all leads missing social links, emails, or analysis
+router.post('/refresh-missing', async (req, res) => {
+  console.log('\n🔄 ========== REFRESHING MISSING LEAD DATA ==========');
+
+  // Find leads missing critical data
+  const leads = await Lead.find({
+    $or: [
+      { socialLinks: { $eq: {} } },
+      { socialLinks: { $exists: false } },
+      { contactEmail: { $exists: false } },
+      { contactEmail: null },
+      { contactEmail: '' },
+      { 'analysis.summary': { $exists: false } },
+      { 'analysis.summary': null },
+      { score: { $lt: 10 } },
+    ],
+  });
+
+  console.log(`📊 Found ${leads.length} leads missing data\n`);
+
+  res.json({
+    success: true,
+    message: 'Refresh started',
+    totalLeads: leads.length,
+  });
+
+  // Emit progress events
+  const progressEmitter = require('../services/progressEmitter');
+  const { scrapeWebsite } = require('../services/scraper');
+  const { analyzeWebsite } = require('../services/analyzer');
+  const { checkEmailReputation } = require('../services/emailReputation');
+  const { findContactEmail } = require('../services/emailScraper');
+
+  let current = 0;
+  let updated = 0;
+  let failed = 0;
+  const total = leads.length;
+
+  progressEmitter.emit('progress', {
+    type: 'start',
+    message: `Starting refresh of ${total} leads...`,
+    total: total,
+    current: 0,
+    updated: 0,
+    failed: 0,
+    percent: 0,
+  });
+
+  for (const lead of leads) {
+    current++;
+    const percent = Math.round((current / total) * 100);
+
+    progressEmitter.emit('progress', {
+      type: 'processing',
+      message: `Processing ${current}/${total}: ${lead.businessName}`,
+      current: current,
+      total: total,
+      updated: updated,
+      failed: failed,
+      percent: percent,
+    });
+
+    try {
+      console.log(`\n🔄 Refreshing: ${lead.businessName}`);
+
+      // 1. Scrape website
+      const scraped = await scrapeWebsite(lead.website);
+      if (!scraped) {
+        throw new Error('Failed to scrape website');
+      }
+
+      // 2. Check email reputation
+      const emailReputation = await checkEmailReputation(lead.website);
+
+      // 3. Analyze with Claude AI
+      const analysis = await analyzeWebsite(
+        scraped.textContent,
+        lead.website,
+        scraped.socialLinks || {},
+        emailReputation,
+      );
+
+      // 4. Scrape contact email
+      const domain = lead.website
+        .replace(/^https?:\/\//, '')
+        .replace(/\/.*$/, '')
+        .replace(/^www\./, '');
+      const contactEmail = await findContactEmail(domain, {
+        includeGuess: true,
+      });
+
+      // 5. Update lead
+      const updates = {
+        title: scraped.title,
+        socialLinks: scraped.socialLinks || {},
+        emailReputation: emailReputation,
+        analysis: {
+          summary: analysis.summary,
+          issues: analysis.issues || [],
+          opportunities: analysis.opportunities || [],
+          quickWins: analysis.quickWins || [],
+          outreachMessage: analysis.outreachMessage,
+          score: analysis.score,
+          socialAnalysis: analysis.socialAnalysis || {},
+          emailAnalysis: analysis.emailAnalysis || {},
+        },
+        score: analysis.score,
+      };
+
+      if (contactEmail?.email) {
+        updates.contactEmail = contactEmail.email;
+        updates.emailSource = contactEmail.source;
+        updates.emailVerified = contactEmail.confidence >= 70;
+        if (contactEmail.firstName || contactEmail.lastName) {
+          updates.contactName = [contactEmail.firstName, contactEmail.lastName]
+            .filter(Boolean)
+            .join(' ');
+        }
+        if (contactEmail.position) updates.contactTitle = contactEmail.position;
+      }
+
+      await Lead.findByIdAndUpdate(lead._id, updates);
+      updated++;
+
+      progressEmitter.emit('progress', {
+        type: 'updated',
+        message: `✅ Updated ${lead.businessName} (Score: ${analysis.score})${contactEmail?.email ? ` - Email: ${contactEmail.email}` : ''}`,
+        current: current,
+        total: total,
+        updated: updated,
+        failed: failed,
+        percent: percent,
+      });
+
+      console.log(`  ✅ Updated: ${lead.businessName}`);
+    } catch (err) {
+      failed++;
+      console.error(`  ❌ Failed: ${lead.businessName} - ${err.message}`);
+      progressEmitter.emit('progress', {
+        type: 'failed',
+        message: `❌ Failed to update ${lead.businessName}: ${err.message}`,
+        current: current,
+        total: total,
+        updated: updated,
+        failed: failed,
+        percent: percent,
+      });
+    }
+
+    // Delay to be respectful
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+  }
+
+  const finalMessage = `✅ Refresh complete! Updated: ${updated}, Failed: ${failed}`;
+  console.log(`\n${finalMessage}\n`);
+
+  progressEmitter.emit('progress', {
+    type: 'complete',
+    message: finalMessage,
+    updated: updated,
+    failed: failed,
+    total: total,
+  });
 });
 
 module.exports = router;

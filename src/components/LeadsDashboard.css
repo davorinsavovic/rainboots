@@ -903,6 +903,62 @@
   font-family: monospace;
 }
 
+.action-buttons-group {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.refresh-btn {
+  background: rgba(14, 154, 167, 0.15);
+  border: 1px solid rgba(14, 154, 167, 0.3);
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #17c3d4;
+}
+
+.refresh-btn:hover:not(:disabled) {
+  background: rgba(14, 154, 167, 0.3);
+  transform: rotate(180deg);
+}
+
+.refresh-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.refresh-missing-btn {
+  background: rgba(245, 158, 11, 0.2);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: 30px;
+  padding: 8px 20px;
+  font-family: 'Syne', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #f59e0b;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.refresh-missing-btn:hover:not(:disabled) {
+  background: rgba(245, 158, 11, 0.3);
+  transform: translateY(-2px);
+}
+
+.refresh-missing-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .collection-progress-panel {
   background: rgba(13, 27, 42, 0.9);
   border: 1px solid rgba(14, 154, 167, 0.3);

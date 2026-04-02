@@ -52,6 +52,8 @@ export default function LeadsDashboard() {
   const [collecting, setCollecting] = useState(false);
   const [progressLog, setProgressLog] = useState([]);
   const [progressStats, setProgressStats] = useState(null);
+  const [refreshingLeadId, setRefreshingLeadId] = useState(null);
+  const [refreshingMissing, setRefreshingMissing] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -333,6 +335,110 @@ export default function LeadsDashboard() {
 
   const handleLocationSave = (locations) => setSelectedLocations(locations);
 
+  const refreshLeadData = async (leadId) => {
+    setRefreshingLeadId(leadId);
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/api/leads/${leadId}/refresh`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+        },
+      );
+
+      const data = await response.json();
+
+      if (data.success) {
+        // Refresh the leads list to show updated data
+        await fetchLeads();
+        await fetchStats();
+        setSuccessMessage(
+          `Lead "${data.lead.businessName}" refreshed successfully!`,
+        );
+        setTimeout(() => setSuccessMessage(''), 3000);
+      } else {
+        setError(data.error || 'Failed to refresh lead');
+      }
+    } catch (err) {
+      console.error('Error refreshing lead:', err);
+      setError('Failed to refresh lead data');
+    } finally {
+      setRefreshingLeadId(null);
+    }
+  };
+
+  const refreshAllMissingData = async () => {
+    if (
+      !confirm(
+        'This will rescrape all leads that are missing social links, emails, or analysis. This may take a while. Continue?',
+      )
+    ) {
+      return;
+    }
+
+    setRefreshingMissing(true);
+    setProgressLog([]);
+    setProgressStats(null);
+    setCollecting(true);
+
+    try {
+      // Open SSE connection for real-time progress
+      const es = new EventSource(
+        `${API_BASE_URL}/api/leads/refresh-missing/progress`,
+      );
+      eventSourceRef.current = es;
+
+      es.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data);
+          setProgressLog((prev) => [...prev.slice(-100), data]);
+
+          if (data.total !== undefined) {
+            setProgressStats({
+              current: data.current || 0,
+              total: data.total,
+              updated: data.updated || 0,
+              failed: data.failed || 0,
+              percent: data.percent || 0,
+            });
+          }
+
+          if (data.type === 'complete' || data.type === 'error') {
+            es.close();
+            setCollecting(false);
+            setRefreshingMissing(false);
+            fetchLeads();
+            fetchStats();
+          }
+        } catch (e) {
+          console.error('SSE parse error:', e);
+        }
+      };
+
+      es.onerror = () => {
+        es.close();
+        setCollecting(false);
+        setRefreshingMissing(false);
+      };
+
+      // Trigger the refresh
+      const res = await fetch(`${API_BASE_URL}/api/leads/refresh-missing`, {
+        method: 'POST',
+      });
+
+      if (!res.ok) {
+        es.close();
+        setCollecting(false);
+        setRefreshingMissing(false);
+        setError('Failed to start refresh');
+      }
+    } catch (err) {
+      setCollecting(false);
+      setRefreshingMissing(false);
+      setError('Failed to start refresh.');
+    }
+  };
+
   return (
     <div className='leads-page' data-header-theme='dark'>
       <div className='leads-rain-container'>
@@ -435,7 +541,7 @@ export default function LeadsDashboard() {
               </div>
             </div>
 
-            <div className='filter-group '>
+            <div className='filter-group'>
               <span className='filter-label'>Sort By</span>
               <select
                 className='sort-select'
@@ -460,12 +566,23 @@ export default function LeadsDashboard() {
               onSave={handleLocationSave}
               initialLocations={selectedLocations}
             />
+          </div>
+          <div className='filter-group'>
             <button
               className='collect-btn'
               onClick={triggerCollection}
               disabled={collecting}
             >
               {collecting ? '⏳ Collecting...' : '🔄 Collect New Leads'}
+            </button>
+            <button
+              className='refresh-missing-btn'
+              onClick={refreshAllMissingData}
+              disabled={refreshingMissing || collecting}
+            >
+              {refreshingMissing
+                ? '⏳ Refreshing...'
+                : '🔄 Refresh Missing Data'}
             </button>
           </div>
         </div>
@@ -594,13 +711,23 @@ export default function LeadsDashboard() {
                           <option value='closed'>✅ Closed</option>
                         </select>
                       </td>
-                      <td>
-                        <button
-                          className='view-btn'
-                          onClick={() => setSelectedLead(lead)}
-                        >
-                          View Report →
-                        </button>
+                      <td className='actions-cell'>
+                        <div className='action-buttons-group'>
+                          <button
+                            className='view-btn'
+                            onClick={() => setSelectedLead(lead)}
+                          >
+                            View Report →
+                          </button>
+                          <button
+                            className='refresh-btn'
+                            onClick={() => refreshLeadData(lead._id)}
+                            disabled={refreshingLeadId === lead._id}
+                            title='Rescrape and update lead data'
+                          >
+                            {refreshingLeadId === lead._id ? '⟳' : '🔄'}
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}
