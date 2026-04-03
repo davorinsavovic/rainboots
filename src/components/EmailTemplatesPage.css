@@ -502,11 +502,11 @@
 }
 
 /* Form Styles */
-.form-group {
+.email-templates-page .email-templates-page .form-group {
   margin-bottom: 20px;
 }
 
-.form-group label {
+.email-templates-page .form-group label {
   display: block;
   margin-bottom: 8px;
   font-family: 'Syne', sans-serif;
@@ -517,9 +517,9 @@
   color: #0e9aa7;
 }
 
-.form-group input,
-.form-group select,
-.form-group textarea {
+.email-templates-page .form-group input,
+.email-templates-page .form-group select,
+.email-templates-page .form-group textarea {
   width: 100%;
   padding: 12px 14px;
   background: rgba(255, 255, 255, 0.05);
@@ -531,16 +531,16 @@
   font-family: 'DM Sans', sans-serif;
 }
 
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
+.email-templates-page .form-group input:focus,
+.email-templates-page .form-group select:focus,
+.email-templates-page .form-group textarea:focus {
   outline: none;
   border-color: #0e9aa7;
   box-shadow: 0 0 0 3px rgba(14, 154, 167, 0.1);
 }
 
-.form-group input::placeholder,
-.form-group textarea::placeholder {
+.email-templates-page .form-group input::placeholder,
+.email-templates-page .form-group textarea::placeholder {
   color: #5a6b7a;
 }
 
