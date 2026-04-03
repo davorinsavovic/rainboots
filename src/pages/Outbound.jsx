@@ -1,9 +1,97 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+import { useState, useEffect, useCallback } from 'react';
 import './Outbound.css';
 
+// ─── Modal content lives HERE in the source, fully crawlable by search engines ───
+const channelDetails = {
+  'Email Marketing': {
+    icon: '/images/i_outbound.png',
+    headline: 'Email Marketing',
+    subheadline: 'Where real relationships are built.',
+    body: [
+      "Email isn't just another marketing channel—it's where real relationships are built.",
+      "We help you connect with your audience in a way that feels personal, not pushy. Instead of blasting generic messages, we craft emails that sound like they came from a real person—because that's what people respond to. Whether it's a welcome sequence, a follow-up after someone shows interest, or a re-engagement campaign, every message has a purpose.",
+      "We focus on timing, tone, and relevance—sending the right message to the right person at the right moment. That means your emails don't get ignored… they get opened, read, and acted on.",
+      'From thoughtful copywriting to smart automation, we turn email into a consistent, reliable way to nurture leads, build trust, and drive real results for your business.',
+    ],
+    highlights: [
+      { icon: '✉️', stat: '99%', label: 'of consumers check email daily' },
+      { icon: '💰', stat: '$42', label: 'avg. ROI per $1 spent' },
+      { icon: '🎯', stat: '3×', label: 'higher conversion vs social' },
+    ],
+  },
+  'SMS Marketing': {
+    icon: '/images/i_sms.png',
+    headline: 'SMS Marketing',
+    subheadline: 'Instant. Personal. Impossible to ignore.',
+    body: [
+      "SMS cuts through the noise like nothing else. With a 98% open rate, your message isn't competing with an inbox—it's arriving in the most personal space a customer has.",
+      'We craft concise, compelling text campaigns that feel human, not robotic. Flash sales, appointment reminders, exclusive offers, abandoned cart nudges—we match the message to the moment.',
+      'Our SMS strategies are compliant, consent-based, and built for conversion. We handle the technical setup so you can focus on results.',
+    ],
+    highlights: [
+      { icon: '📱', stat: '98%', label: 'SMS open rate' },
+      { icon: '⚡', stat: '3 min', label: 'avg. time to open' },
+      { icon: '📈', stat: '45%', label: 'avg. response rate' },
+    ],
+  },
+  'Push Notifications': {
+    icon: '/images/i_push.png',
+    headline: 'Push Notifications',
+    subheadline: 'Bring them back — at exactly the right moment.',
+    body: [
+      "Push notifications are one of the most underutilized channels in digital marketing. When done right, they re-engage users who've already shown interest in your brand—without requiring them to check an inbox.",
+      'We design web and mobile push campaigns that are timely, relevant, and never spammy. From breaking deals to personalized reminders, every notification is crafted to add value, not noise.',
+      'We set up segmentation and automation so the right users get the right message based on their behavior—not a one-size-fits-all blast.',
+    ],
+    highlights: [
+      { icon: '🔔', stat: '4×', label: 'higher engagement vs email' },
+      { icon: '👆', stat: '40%', label: 'opt-in rate (web)' },
+      { icon: '🔁', stat: '2×', label: 'return visit rate' },
+    ],
+  },
+  'Lead Generation': {
+    icon: '/images/i_leadGeneration.png',
+    headline: 'Lead Generation',
+    subheadline: 'Find your next customer before they find your competitor.',
+    body: [
+      'Every great customer relationship starts somewhere. We build multi-channel lead generation campaigns that identify, attract, and qualify the people most likely to buy from you.',
+      'We combine targeted outreach, compelling landing pages, and smart follow-up sequences to turn cold prospects into warm conversations. No bought lists, no spray-and-pray—just strategic campaigns that fill your pipeline with real opportunities.',
+      'We track every touchpoint so you know exactly where your best leads come from and how to get more of them.',
+    ],
+    highlights: [
+      { icon: '🎯', stat: '3×', label: 'more qualified leads' },
+      { icon: '📊', stat: '60%', label: 'lower cost per lead' },
+      { icon: '🤝', stat: '80%', label: 'of leads need 5+ touchpoints' },
+    ],
+  },
+};
+
 const Outbound = () => {
+  const [activeModal, setActiveModal] = useState(null);
+
+  const openModal = useCallback((title) => setActiveModal(title), []);
+  const closeModal = useCallback(() => setActiveModal(null), []);
+
+  // Close on Escape key
+  useEffect(() => {
+    const handleKey = (e) => {
+      if (e.key === 'Escape') closeModal();
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [closeModal]);
+
+  // Prevent body scroll when modal is open
+  useEffect(() => {
+    document.body.style.overflow = activeModal ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [activeModal]);
+
   const channels = [
     {
       icon: '/images/i_outbound.png',
@@ -88,6 +176,8 @@ const Outbound = () => {
     },
   ];
 
+  const activeDetails = activeModal ? channelDetails[activeModal] : null;
+
   return (
     <div className='outbound-page'>
       <Helmet>
@@ -108,6 +198,29 @@ const Outbound = () => {
         />
         <link rel='canonical' href='https://rainbootsmarketing.com/outbound' />
       </Helmet>
+
+      {/* ─── SEO HIDDEN CONTENT ──────────────────────────────────────────────────
+          All modal text is rendered in the DOM at all times so search engines
+          can crawl and index it. It is visually hidden using a CSS class
+          (.seo-content-store) that uses clip/position tricks rather than
+          display:none or visibility:hidden, both of which Google may discount. */}
+      <div className='seo-content-store' aria-hidden='true'>
+        {Object.entries(channelDetails).map(([key, detail]) => (
+          <article key={key}>
+            <h2>{detail.headline}</h2>
+            <p>{detail.subheadline}</p>
+            {detail.body.map((para, i) => (
+              <p key={i}>{para}</p>
+            ))}
+            {detail.highlights.map((h, i) => (
+              <p key={i}>
+                {h.stat} — {h.label}
+              </p>
+            ))}
+          </article>
+        ))}
+      </div>
+
       {/* Hero Section */}
       <section className='outbound-hero' data-header-theme='light'>
         <motion.div
@@ -144,7 +257,6 @@ const Outbound = () => {
           </motion.div>
         </motion.div>
 
-        {/* Hero Image */}
         <motion.div
           className='outbound-hero-image'
           initial={{ opacity: 0, scale: 0.8 }}
@@ -198,18 +310,30 @@ const Outbound = () => {
           {channels.map((channel, index) => (
             <motion.div
               key={index}
-              className='channel-card'
+              className='channel-card channel-card--clickable'
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
               whileHover={{ y: -10 }}
+              onClick={() => openModal(channel.title)}
+              role='button'
+              tabIndex={0}
+              aria-haspopup='dialog'
+              aria-label={`Learn more about ${channel.title}`}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ')
+                  openModal(channel.title);
+              }}
             >
               <div className='channel-icon'>
                 <img src={channel.icon} alt={channel.title} />
               </div>
               <h3>{channel.title}</h3>
               <p>{channel.description}</p>
+              <span className='channel-card-cta'>
+                Learn more <span className='channel-card-arrow'>→</span>
+              </span>
             </motion.div>
           ))}
         </div>
@@ -251,18 +375,6 @@ const Outbound = () => {
               ))}
             </div>
           </motion.div>
-
-          {/* <motion.div
-            className='benefits-image'
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-          >
-            <img
-              src='/images/outbound-benefits.png'
-              alt='Outbound Marketing Benefits'
-            />
-          </motion.div> */}
         </div>
       </section>
 
@@ -321,6 +433,87 @@ const Outbound = () => {
           </Link>
         </motion.div>
       </section>
+
+      {/* ─── Channel Detail Modal ─────────────────────────────────────────────── */}
+      <AnimatePresence>
+        {activeModal && activeDetails && (
+          <motion.div
+            className='modal-backdrop'
+            key='backdrop'
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            onClick={closeModal}
+            aria-hidden='true'
+          >
+            {/* Stop clicks on the panel from bubbling up to the backdrop */}
+            <motion.div
+              key='modal'
+              className='channel-modal'
+              role='dialog'
+              aria-modal='true'
+              aria-labelledby='modal-heading'
+              initial={{ opacity: 0, y: 24, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 16, scale: 0.97 }}
+              transition={{ type: 'spring', stiffness: 320, damping: 30 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close button */}
+              <button
+                className='modal-close'
+                onClick={closeModal}
+                aria-label='Close modal'
+              >
+                ✕
+              </button>
+
+              {/* Header */}
+              <div className='modal-header'>
+                <div>
+                  <h2 id='modal-heading'>{activeDetails.headline}</h2>
+                  <p className='modal-subheadline'>
+                    {activeDetails.subheadline}
+                  </p>
+                </div>
+                <div className='modal-icon'>
+                  <img src={activeDetails.icon} alt={activeDetails.headline} />
+                </div>
+              </div>
+
+              {/* Highlights strip */}
+              <div className='modal-highlights'>
+                {activeDetails.highlights.map((h, i) => (
+                  <div key={i} className='modal-highlight-item'>
+                    <span className='modal-highlight-emoji'>{h.icon}</span>
+                    <strong>{h.stat}</strong>
+                    <span>{h.label}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Body paragraphs */}
+              <div className='modal-body'>
+                {activeDetails.body.map((para, i) => (
+                  <p key={i}>{para}</p>
+                ))}
+              </div>
+
+              {/* CTA */}
+              <div className='modal-footer'>
+                <Link
+                  to='/contact'
+                  className='btn-primary'
+                  onClick={closeModal}
+                >
+                  Start Your {activeDetails.headline} Campaign
+                </Link>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
