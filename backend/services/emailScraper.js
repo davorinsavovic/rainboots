@@ -1,22 +1,18 @@
 /**
- * emailScraper.js - Enhanced with contact form detection and submission
- * Save to: backend/services/emailScraper.js
+ * emailScraper.js
+ * backend/services/emailScraper.js
  */
 
 const axios = require('axios');
 const cheerio = require('cheerio');
+const dns = require('dns').promises;
 
 const EMAIL_REGEX = /[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}/g;
 
-// Emails we never want
 const BLOCKED_PATTERNS =
-  /noreply|no-reply|donotreply|bounce|mailer-daemon|postmaster|webmaster|abuse|spam|example|test@|sentry|@sentry|wixpress|squarespace|wordpress|godaddy|namecheap|cloudflare|privacy|domains@|registrar|whoisguard|contact@whois|hostmaster/i;
+  /noreply|no-reply|donotreply|bounce|mailer-daemon|postmaster|webmaster|abuse|spam|example|test@|sentry|@sentry|wixpress|squarespace|wordpress|godaddy|namecheap|cloudflare|privacy|domains@|registrar|whoisguard|contact@whois|hostmaster|info@example|admin@example/i;
 
-// Preferred local parts
-const PREFERRED_LOCAL =
-  /^(info|contact|hello|hi|hey|mail|email|sales|marketing|admin|support|press|media|office|team|inquir|enquir|business|owner|general|reach|connect|talk|ask|get|start|help|service|quote|consult)/i;
-
-// Score an email address
+// ── Score a real found email (not a guess) ─────────────────────────────────
 const scoreEmail = (email, domain) => {
   if (!email || !email.includes('@')) return -100;
   const [local, emailDomain] = email.toLowerCase().split('@');
@@ -25,6 +21,8 @@ const scoreEmail = (email, domain) => {
 
   const cleanDomain = domain.replace(/^www\./, '');
   const cleanEmailDomain = emailDomain?.replace(/^www\./, '');
+
+  // Domain mismatch — deprioritise but don't discard
   if (
     cleanEmailDomain &&
     !cleanEmailDomain.includes(cleanDomain) &&
@@ -34,15 +32,27 @@ const scoreEmail = (email, domain) => {
   }
 
   let score = 0;
-  if (PREFERRED_LOCAL.test(local)) score += 20;
-  if (local === 'info' || local === 'contact' || local === 'hello') score += 10;
-  if (/^[a-z]+\.[a-z]+$/.test(local)) score += 5;
+
+  // Preferred contact-type prefixes
+  if (
+    /^(info|contact|hello|hi|hey|mail|email|sales|marketing|admin|support|press|media|office|team|inquir|enquir|business|owner|general|reach|connect|services|service|work|jobs|careers|partners|partnership)/i.test(
+      local,
+    )
+  )
+    score += 15;
+
+  // firstname.lastname pattern — likely a real person
+  if (/^[a-z]+\.[a-z]+$/.test(local)) score += 10;
+
+  // Single word — could go either way
+  if (/^[a-z]+$/.test(local) && local.length > 3) score += 5;
+
+  // Numbers suggest automated/system addresses
   if (/\d{4,}/.test(local)) score -= 10;
 
   return score;
 };
 
-// Pick best email
 const pickBestEmail = (emails, domain) => {
   if (!emails || emails.length === 0) return null;
   const unique = [...new Set(emails.map((e) => e.toLowerCase().trim()))].filter(
@@ -50,326 +60,197 @@ const pickBestEmail = (emails, domain) => {
   );
   const scored = unique
     .map((email) => ({ email, score: scoreEmail(email, domain) }))
-    .filter((e) => e.score >= 0)
+    .filter((e) => e.score > -50)
     .sort((a, b) => b.score - a.score);
   return scored.length > 0 ? scored[0] : null;
 };
 
-// ── NEW: Detect Contact Forms and Extract Form Actions ────────────────────────
-const detectContactForms = async (url, $) => {
-  const forms = [];
+// ── Verify an email address exists via SMTP (no message sent) ─────────────────
+// Uses RCPT TO handshake — tells us if the mailbox exists without sending anything
+const verifySMTP = async (email, domain) => {
+  const net = require('net');
 
-  // Find all forms
-  $('form').each((i, form) => {
-    const action = $(form).attr('action') || '';
-    const method = $(form).attr('method') || 'get';
-    const inputs = [];
+  try {
+    // Get MX records
+    const mxRecords = await dns.resolveMx(domain);
+    if (!mxRecords || mxRecords.length === 0) return false;
 
-    // Look for email-like inputs
-    $(form)
-      .find('input, textarea')
-      .each((j, input) => {
-        const type = $(input).attr('type') || '';
-        const name = $(input).attr('name') || '';
-        const id = $(input).attr('id') || '';
-        const placeholder = $(input).attr('placeholder') || '';
-        const className = $(input).attr('class') || '';
+    // Sort by priority (lowest = highest priority)
+    mxRecords.sort((a, b) => a.priority - b.priority);
+    const mxHost = mxRecords[0].exchange;
 
-        const isEmailField =
-          type === 'email' ||
-          name.toLowerCase().includes('email') ||
-          id.toLowerCase().includes('email') ||
-          placeholder.toLowerCase().includes('email') ||
-          className.toLowerCase().includes('email');
+    return await new Promise((resolve) => {
+      const timeout = setTimeout(() => {
+        socket.destroy();
+        resolve(false);
+      }, 8000);
 
-        if (isEmailField) {
-          inputs.push({ type, name, id, placeholder });
+      const socket = net.createConnection(25, mxHost);
+      let step = 0;
+      let buffer = '';
+
+      socket.on('data', (data) => {
+        buffer += data.toString();
+        const lines = buffer.split('\r\n');
+        buffer = lines.pop();
+
+        for (const line of lines) {
+          if (!line) continue;
+          const code = parseInt(line.substring(0, 3));
+
+          if (step === 0 && code === 220) {
+            socket.write(`EHLO rainbootsmarketing.com\r\n`);
+            step = 1;
+          } else if (step === 1 && (code === 250 || code === 220)) {
+            socket.write(`MAIL FROM:<verify@rainbootsmarketing.com>\r\n`);
+            step = 2;
+          } else if (step === 2 && code === 250) {
+            socket.write(`RCPT TO:<${email}>\r\n`);
+            step = 3;
+          } else if (step === 3) {
+            socket.write(`QUIT\r\n`);
+            clearTimeout(timeout);
+            socket.destroy();
+            // 250 or 251 = exists, 550/551/553 = doesn't exist
+            resolve(code >= 200 && code < 300);
+          }
         }
       });
 
-    if (
-      inputs.length > 0 ||
-      (action && (action.includes('contact') || action.includes('email')))
-    ) {
-      forms.push({
-        action,
-        method,
-        inputs,
-        fullAction: new URL(action, url).href,
+      socket.on('error', () => {
+        clearTimeout(timeout);
+        resolve(null); // null = couldn't verify (not a failure)
       });
-    }
-  });
 
-  return forms;
+      socket.on('close', () => {
+        clearTimeout(timeout);
+      });
+    });
+  } catch (err) {
+    return null; // MX lookup failed — can't verify
+  }
 };
 
-// ── NEW: Check for JavaScript-Encoded Emails ──────────────────────────────────
-const decodeEncodedEmail = (text) => {
-  // ROT13 decoding
-  const rot13 = (str) => {
-    return str.replace(/[a-zA-Z]/g, (c) => {
-      const base = c <= 'Z' ? 65 : 97;
-      return String.fromCharCode(((c.charCodeAt(0) - base + 13) % 26) + base);
-    });
-  };
+// ── Try common email patterns and verify which one actually exists ────────────
+// This is the key improvement: instead of guessing info@, we test multiple
+// common patterns against the actual mail server
+const tryCommonPatterns = async (domain) => {
+  const cleanDomain = domain.replace(/^www\./, '');
 
-  // Check for common encoding patterns
-  if (text.includes('&#') || text.includes('&#')) {
-    // HTML entity decoding
-    const decoded = text.replace(/&#(\d+);/g, (match, dec) =>
-      String.fromCharCode(dec),
-    );
-    if (EMAIL_REGEX.test(decoded)) return decoded;
-  }
+  // Ordered by likelihood for a small business
+  const patterns = [
+    `info@${cleanDomain}`,
+    `contact@${cleanDomain}`,
+    `hello@${cleanDomain}`,
+    `services@${cleanDomain}`,
+    `service@${cleanDomain}`,
+    `sales@${cleanDomain}`,
+    `marketing@${cleanDomain}`,
+    `admin@${cleanDomain}`,
+    `support@${cleanDomain}`,
+    `office@${cleanDomain}`,
+    `team@${cleanDomain}`,
+    `work@${cleanDomain}`,
+    `hi@${cleanDomain}`,
+    `mail@${cleanDomain}`,
+    `email@${cleanDomain}`,
+    `business@${cleanDomain}`,
+    `enquiries@${cleanDomain}`,
+    `inquiries@${cleanDomain}`,
+  ];
 
-  // Check for ROT13 patterns
-  if (text.match(/[a-zA-Z]{5,}@[a-zA-Z]{3,}\.[a-zA-Z]{2,}/)) {
-    const decoded = rot13(text);
-    if (EMAIL_REGEX.test(decoded)) return decoded;
-  }
+  console.log(
+    `  Testing ${patterns.length} common email patterns for ${cleanDomain}...`,
+  );
 
-  // Check for reversed text
-  if (text.includes('moc.')) {
-    const reversed = text.split('').reverse().join('');
-    if (EMAIL_REGEX.test(reversed)) return reversed;
+  for (const email of patterns) {
+    try {
+      const exists = await verifySMTP(email, cleanDomain);
+      if (exists === true) {
+        console.log(`  ✅ SMTP verified: ${email}`);
+        return { email, source: 'smtp_verified', confidence: 85 };
+      } else if (exists === null) {
+        // Server blocked verification — can't trust any result, stop trying
+        console.log(
+          `  ⚠️ SMTP verification blocked by server — stopping pattern check`,
+        );
+        break;
+      }
+      // exists === false means mailbox doesn't exist, try next
+    } catch (_) {
+      break;
+    }
   }
 
   return null;
 };
 
-// ── NEW: Check Contact Page for Hidden Emails in Scripts ──────────────────────
-const extractEmailsFromScripts = ($) => {
-  const emails = [];
-  $('script').each((i, script) => {
-    const content = $(script).html() || '';
-    if (content.includes('@') && content.includes('.')) {
-      const found = content.match(EMAIL_REGEX);
-      if (found) emails.push(...found);
+// ── Extract emails from page HTML ──────────────────────────────────────────
+const extractEmailsFromPage = ($, domain) => {
+  const found = new Set();
+
+  // 1. mailto: links — most reliable
+  $('a[href^="mailto:"]').each((_, el) => {
+    const href = $(el).attr('href') || '';
+    const email = href
+      .replace('mailto:', '')
+      .split('?')[0]
+      .trim()
+      .toLowerCase();
+    if (email && email.includes('@') && !BLOCKED_PATTERNS.test(email)) {
+      found.add(email);
     }
   });
-  return emails;
-};
 
-// ── NEW: Extract from JSON-LD structured data ─────────────────────────────────
-const extractFromJSONLD = ($) => {
-  const emails = [];
-  $('script[type="application/ld+json"]').each((i, script) => {
+  // 2. JSON-LD structured data
+  $('script[type="application/ld+json"]').each((_, script) => {
     try {
       const data = JSON.parse($(script).html() || '{}');
-      const emailFields = ['email', 'contactPoint', 'sameAs'];
-
       const extract = (obj) => {
         if (!obj) return;
-        if (typeof obj === 'string' && EMAIL_REGEX.test(obj)) {
-          emails.push(obj);
-        } else if (Array.isArray(obj)) {
-          obj.forEach(extract);
-        } else if (typeof obj === 'object') {
-          Object.values(obj).forEach(extract);
-        }
+        if (
+          typeof obj === 'string' &&
+          obj.includes('@') &&
+          EMAIL_REGEX.test(obj)
+        ) {
+          if (!BLOCKED_PATTERNS.test(obj)) found.add(obj.toLowerCase());
+        } else if (Array.isArray(obj)) obj.forEach(extract);
+        else if (typeof obj === 'object') Object.values(obj).forEach(extract);
       };
-
       extract(data);
-    } catch (e) {
-      // Invalid JSON, skip
+    } catch (_) {}
+  });
+
+  // 3. Data attributes
+  $('[data-email],[data-mail],[data-contact]').each((_, el) => {
+    const e = $(el).attr('data-email') || $(el).attr('data-mail') || '';
+    if (e && EMAIL_REGEX.test(e) && !BLOCKED_PATTERNS.test(e))
+      found.add(e.toLowerCase());
+  });
+
+  // 4. Script tags (encoded emails)
+  $('script:not([src])').each((_, script) => {
+    const content = $(script).html() || '';
+    if (content.includes('@')) {
+      const matches = content.match(EMAIL_REGEX) || [];
+      matches.forEach((e) => {
+        if (!BLOCKED_PATTERNS.test(e) && !e.includes('example'))
+          found.add(e.toLowerCase());
+      });
     }
   });
-  return emails;
+
+  // 5. Plain text — last resort, noisy
+  const bodyText = $('body').text();
+  const textMatches = bodyText.match(EMAIL_REGEX) || [];
+  textMatches.forEach((e) => {
+    if (!BLOCKED_PATTERNS.test(e)) found.add(e.toLowerCase());
+  });
+
+  return Array.from(found);
 };
 
-// ── Enhanced Website Scraper with Form Detection ─────────────────────────────
-const scrapeWebsite = async (domain) => {
-  const cleanDomain = domain
-    .replace(/^https?:\/\//, '')
-    .replace(/\/.*$/, '')
-    .replace(/^www\./, '');
-  const variants = [`https://www.${cleanDomain}`, `https://${cleanDomain}`];
-
-  const foundEmails = [];
-  let contactForms = [];
-
-  for (const baseUrl of variants) {
-    for (const path of CONTACT_PATHS) {
-      try {
-        const { data, request } = await axios.get(`${baseUrl}${path}`, {
-          timeout: 10000,
-          maxRedirects: 3,
-          headers: {
-            'User-Agent':
-              'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
-            Accept: 'text/html,application/xhtml+xml',
-          },
-        });
-
-        const $ = cheerio.load(data);
-
-        // 1. Extract mailto: links
-        $('a[href^="mailto:"]').each((_, el) => {
-          const href = $(el).attr('href') || '';
-          const email = href
-            .replace('mailto:', '')
-            .split('?')[0]
-            .trim()
-            .toLowerCase();
-          if (email && email.includes('@') && !BLOCKED_PATTERNS.test(email)) {
-            foundEmails.push(email);
-          }
-        });
-
-        // 2. Extract from page text
-        const bodyText = $('body').text();
-        const textMatches = bodyText.match(EMAIL_REGEX) || [];
-        textMatches.forEach((e) => {
-          if (!BLOCKED_PATTERNS.test(e)) foundEmails.push(e.toLowerCase());
-        });
-
-        // 3. Extract from scripts (often have encoded emails)
-        const scriptEmails = extractEmailsFromScripts($);
-        scriptEmails.forEach((e) => {
-          const decoded = decodeEncodedEmail(e);
-          if (decoded && !BLOCKED_PATTERNS.test(decoded)) {
-            foundEmails.push(decoded.toLowerCase());
-          } else if (!BLOCKED_PATTERNS.test(e)) {
-            foundEmails.push(e.toLowerCase());
-          }
-        });
-
-        // 4. Extract from JSON-LD structured data
-        const jsonldEmails = extractFromJSONLD($);
-        jsonldEmails.forEach((e) => {
-          if (!BLOCKED_PATTERNS.test(e)) foundEmails.push(e.toLowerCase());
-        });
-
-        // 5. Detect contact forms
-        const forms = await detectContactForms(`${baseUrl}${path}`, $);
-        if (forms.length > 0) {
-          contactForms.push(...forms);
-        }
-
-        // 6. Look for hidden email in data attributes
-        $('[data-email], [data-mail], [data-contact]').each((_, el) => {
-          const dataEmail = $(el).attr('data-email') || $(el).attr('data-mail');
-          if (dataEmail && EMAIL_REGEX.test(dataEmail)) {
-            foundEmails.push(dataEmail.toLowerCase());
-          }
-        });
-
-        if (
-          foundEmails.length > 0 &&
-          (path.includes('contact') || path.includes('about'))
-        ) {
-          break;
-        }
-      } catch (_) {
-        // Continue to next path
-      }
-    }
-    if (foundEmails.length > 0) break;
-  }
-
-  // Try to extract from contact form actions (might contain email endpoints)
-  for (const form of contactForms) {
-    if (form.action && form.action.includes('@')) {
-      const emailMatch = form.action.match(EMAIL_REGEX);
-      if (emailMatch) foundEmails.push(emailMatch[0]);
-    }
-  }
-
-  const best = pickBestEmail(foundEmails, cleanDomain);
-  if (!best) return null;
-
-  return {
-    email: best.email,
-    source: 'scraped',
-    confidence: 50,
-    contactFormsFound: contactForms.length,
-    additionalEmails: foundEmails.slice(0, 5), // Return some additional candidates
-  };
-};
-
-// ── NEW: Try to find email via contact form submission endpoint ───────────────
-const tryFormEndpointExtraction = async (domain) => {
-  try {
-    const cleanDomain = domain
-      .replace(/^https?:\/\//, '')
-      .replace(/\/.*$/, '')
-      .replace(/^www\./, '');
-    const baseUrl = `https://${cleanDomain}`;
-
-    // Common contact form submission endpoints that might leak emails
-    const formEndpoints = [
-      '/wp-admin/admin-ajax.php',
-      '/wp-json/contact-form-7/v1/contact-forms',
-      '/api/contact',
-      '/contact/send',
-      '/form/submit',
-      '/email/send',
-    ];
-
-    for (const endpoint of formEndpoints) {
-      try {
-        const response = await axios.get(`${baseUrl}${endpoint}`, {
-          timeout: 5000,
-          headers: { 'X-Requested-With': 'XMLHttpRequest' },
-        });
-
-        const data = JSON.stringify(response.data);
-        const emails = data.match(EMAIL_REGEX);
-        if (emails && emails.length > 0) {
-          const best = pickBestEmail(emails, cleanDomain);
-          if (best) {
-            return {
-              email: best.email,
-              source: 'form_endpoint',
-              confidence: 35,
-            };
-          }
-        }
-      } catch (e) {
-        // Endpoint might not exist or require POST
-      }
-    }
-    return null;
-  } catch (err) {
-    return null;
-  }
-};
-
-// ── NEW: Extract from sitemap.xml (often contains contact info) ───────────────
-const trySitemapExtraction = async (domain) => {
-  try {
-    const cleanDomain = domain
-      .replace(/^https?:\/\//, '')
-      .replace(/\/.*$/, '')
-      .replace(/^www\./, '');
-    const sitemapUrls = [
-      `https://${cleanDomain}/sitemap.xml`,
-      `https://${cleanDomain}/sitemap_index.xml`,
-      `https://${cleanDomain}/sitemap/sitemap.xml`,
-    ];
-
-    for (const sitemapUrl of sitemapUrls) {
-      try {
-        const response = await axios.get(sitemapUrl, { timeout: 5000 });
-        const text = response.data;
-        const emails = text.match(EMAIL_REGEX);
-        if (emails && emails.length > 0) {
-          const best = pickBestEmail(emails, cleanDomain);
-          if (best && best.score > 0) {
-            return { email: best.email, source: 'sitemap', confidence: 45 };
-          }
-        }
-      } catch (e) {
-        // Sitemap not found
-      }
-    }
-    return null;
-  } catch (err) {
-    return null;
-  }
-};
-
-// Contact page paths to check
+// ── Scrape the website itself ─────────────────────────────────────────────────
 const CONTACT_PATHS = [
   '/contact',
   '/contact-us',
@@ -386,11 +267,49 @@ const CONTACT_PATHS = [
   '/connect',
   '/hello',
   '/support',
-  '/help',
   '/',
 ];
 
-// ── Source 1: Hunter.io ───────────────────────────────────────────────────────
+const scrapeWebsite = async (domain) => {
+  const cleanDomain = domain.replace(/^www\./, '');
+  const variants = [`https://www.${cleanDomain}`, `https://${cleanDomain}`];
+  const foundEmails = [];
+
+  for (const baseUrl of variants) {
+    for (const path of CONTACT_PATHS) {
+      try {
+        const { data } = await axios.get(`${baseUrl}${path}`, {
+          timeout: 10000,
+          maxRedirects: 3,
+          headers: {
+            'User-Agent':
+              'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            Accept: 'text/html,application/xhtml+xml',
+          },
+        });
+
+        const $ = cheerio.load(data);
+        const emails = extractEmailsFromPage($, cleanDomain);
+        foundEmails.push(...emails);
+
+        // If we found something on a contact/about page, stop there
+        if (
+          foundEmails.length > 0 &&
+          (path.includes('contact') || path.includes('about'))
+        )
+          break;
+      } catch (_) {}
+    }
+    if (foundEmails.length > 0) break;
+  }
+
+  const best = pickBestEmail(foundEmails, cleanDomain);
+  if (!best) return null;
+
+  return { email: best.email, source: 'scraped', confidence: 60 };
+};
+
+// ── Hunter.io ─────────────────────────────────────────────────────────────────
 const tryHunter = async (domain) => {
   if (!process.env.HUNTER_API_KEY) return null;
   try {
@@ -406,7 +325,6 @@ const tryHunter = async (domain) => {
       .sort((a, b) => (b.confidence || 0) - (a.confidence || 0))[0];
 
     if (!best) return null;
-
     return {
       email: best.value,
       source: 'hunter',
@@ -416,25 +334,18 @@ const tryHunter = async (domain) => {
       position: best.position,
     };
   } catch (err) {
-    console.log(`Hunter.io failed for ${domain}:`, err.message);
     return null;
   }
 };
 
-// ── Source 2: WHOIS lookup ────────────────────────────────────────────────────
+// ── WHOIS ─────────────────────────────────────────────────────────────────────
 const tryWhois = async (domain) => {
   try {
-    const cleanDomain = domain
-      .replace(/^https?:\/\//, '')
-      .replace(/\/.*$/, '')
-      .replace(/^www\./, '');
+    const cleanDomain = domain.replace(/^www\./, '');
     const { data } = await axios.get(
       `https://whoisjson.com/api/v1/whois?domain=${cleanDomain}`,
-      {
-        timeout: 6000,
-      },
+      { timeout: 6000 },
     );
-
     const candidates = [
       data?.registrant_email,
       data?.admin_email,
@@ -442,23 +353,40 @@ const tryWhois = async (domain) => {
       data?.contact?.email,
       data?.registrant?.email,
     ].filter(Boolean);
-
     const best = pickBestEmail(candidates, cleanDomain);
     if (!best || best.score < 0) return null;
-
     if (/whoisguard|privacy|protected|registrar|proxy/i.test(best.email))
       return null;
-
     return { email: best.email, source: 'whois', confidence: 40 };
   } catch (_) {
     return null;
   }
 };
 
-// ── Main export ───────────────────────────────────────────────────────────────
-const findContactEmail = async (domain, options = {}) => {
-  const { includeGuess = false, includeAdvanced = true } = options;
+// ── Sitemap ───────────────────────────────────────────────────────────────────
+const trySitemap = async (domain) => {
+  const cleanDomain = domain.replace(/^www\./, '');
+  const urls = [
+    `https://${cleanDomain}/sitemap.xml`,
+    `https://www.${cleanDomain}/sitemap.xml`,
+  ];
+  for (const url of urls) {
+    try {
+      const { data } = await axios.get(url, { timeout: 5000 });
+      const emails = (data.match(EMAIL_REGEX) || []).filter(
+        (e) => !BLOCKED_PATTERNS.test(e),
+      );
+      const best = pickBestEmail(emails, cleanDomain);
+      if (best && best.score > 0)
+        return { email: best.email, source: 'sitemap', confidence: 45 };
+    } catch (_) {}
+  }
+  return null;
+};
 
+// ── Main: findContactEmail ────────────────────────────────────────────────────
+const findContactEmail = async (domain, options = {}) => {
+  const { includeGuess = false } = options;
   if (!domain) return null;
 
   const cleanDomain = domain
@@ -470,6 +398,7 @@ const findContactEmail = async (domain, options = {}) => {
 
   console.log(`\n🔍 Finding email for: ${cleanDomain}`);
 
+  // Sources tried in order — stops at first confident result
   const sources = [
     { name: 'Hunter.io', fn: () => tryHunter(cleanDomain), minConfidence: 50 },
     {
@@ -477,24 +406,15 @@ const findContactEmail = async (domain, options = {}) => {
       fn: () => scrapeWebsite(cleanDomain),
       minConfidence: 40,
     },
+    { name: 'WHOIS', fn: () => tryWhois(cleanDomain), minConfidence: 30 },
+    { name: 'Sitemap', fn: () => trySitemap(cleanDomain), minConfidence: 35 },
+    // SMTP pattern verification — tests real mailboxes, most reliable fallback
+    {
+      name: 'SMTP verify',
+      fn: () => tryCommonPatterns(cleanDomain),
+      minConfidence: 80,
+    },
   ];
-
-  // Advanced sources (can be disabled for speed)
-  if (includeAdvanced) {
-    sources.push(
-      { name: 'WHOIS', fn: () => tryWhois(cleanDomain), minConfidence: 30 },
-      {
-        name: 'Sitemap',
-        fn: () => trySitemapExtraction(cleanDomain),
-        minConfidence: 35,
-      },
-      {
-        name: 'Form endpoints',
-        fn: () => tryFormEndpointExtraction(cleanDomain),
-        minConfidence: 30,
-      },
-    );
-  }
 
   for (const source of sources) {
     try {
@@ -515,17 +435,24 @@ const findContactEmail = async (domain, options = {}) => {
     }
   }
 
+  // Only guess if explicitly requested — avoids wrong info@ assumptions
   if (includeGuess) {
-    console.log(`  ⚠️ No email found — returning guessed pattern`);
-    return { email: `info@${cleanDomain}`, source: 'guessed', confidence: 15 };
+    console.log(`  ⚠️ Falling back to pattern guess`);
+    return {
+      email: `info@${cleanDomain}`,
+      source: 'guessed',
+      confidence: 10,
+      note: 'Unverified guess — may not be correct',
+    };
   }
 
   console.log(`  ❌ No email found for ${cleanDomain}`);
   return null;
 };
 
+// ── Batch processing ──────────────────────────────────────────────────────────
 const findContactEmails = async (domains, options = {}) => {
-  const BATCH_SIZE = 5;
+  const BATCH_SIZE = 3; // Reduced from 5 — SMTP checks are slower
   const results = [];
 
   for (let i = 0; i < domains.length; i += BATCH_SIZE) {
@@ -541,16 +468,13 @@ const findContactEmails = async (domains, options = {}) => {
         };
       }),
     );
-
     results.push(
       ...batchResults.map((r) =>
         r.status === 'fulfilled' ? r.value : { error: r.reason?.message },
       ),
     );
-
-    if (i + BATCH_SIZE < domains.length) {
-      await new Promise((r) => setTimeout(r, 1000));
-    }
+    if (i + BATCH_SIZE < domains.length)
+      await new Promise((r) => setTimeout(r, 1500));
   }
 
   return results;
