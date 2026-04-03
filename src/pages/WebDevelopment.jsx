@@ -460,11 +460,11 @@ const WebDevelopment = () => {
             <motion.div
               key={index}
               className='tech-item'
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.05 }}
-              whileHover={{ y: -5 }}
+              // initial={{ opacity: 0, scale: 0.8 }}
+              // whileInView={{ opacity: 1, scale: 1 }}
+              // viewport={{ once: true }}
+              // transition={{ delay: index * 0.05 }}
+              // whileHover={{ y: -5 }}
             >
               <img src={tech.icon} alt={tech.name} />
               <p>{tech.name}</p>

@@ -223,11 +223,11 @@
   border: 2px solid transparent;
 }
 
-.brand-process .process-step:hover {
+/* .brand-process .process-step:hover {
   border-color: var(--primary);
   transform: translateY(-5px);
   box-shadow: 0 15px 30px rgba(43, 92, 230, 0.1);
-}
+} */
 
 .step-number {
   font-family: 'Manrope', sans-serif;
@@ -358,14 +358,14 @@
   border-radius: 20px;
   transition: all 0.3s ease;
   border: 2px solid transparent;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0);
 }
 
-.brand-benefits .benefit-card:hover {
+/* .brand-benefits .benefit-card:hover {
   border-color: var(--primary);
   transform: translateY(-5px);
   box-shadow: 0 15px 30px rgba(43, 92, 230, 0.1);
-}
+} */
 
 .brand-benefits .benefit-card h3 {
   font-size: 1.3rem;

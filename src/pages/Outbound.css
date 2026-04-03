@@ -276,11 +276,11 @@
   transition: all 0.3s ease;
 }
 
-.process-card:hover {
+/* .process-card:hover {
   border-color: var(--primary);
   transform: translateY(-5px);
   box-shadow: 0 15px 30px rgba(43, 92, 230, 0.1);
-}
+} */
 
 .process-step {
   font-family: 'Manrope', sans-serif;

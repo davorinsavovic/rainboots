@@ -223,13 +223,13 @@
   text-align: center;
   transition: all 0.3s ease;
   border: 2px solid transparent;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+  /* box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05); */
 }
 
-.platform-item:hover {
+/* .platform-item:hover {
   border-color: var(--primary);
   box-shadow: 0 10px 30px rgba(43, 92, 230, 0.1);
-}
+} */
 
 .platform-item img {
   width: 60px;
@@ -304,11 +304,11 @@
   border: 2px solid transparent;
 }
 
-.acquisition-process .process-step:hover {
+/* .acquisition-process .process-step:hover {
   border-color: var(--primary);
   transform: translateY(-5px);
   box-shadow: 0 15px 30px rgba(43, 92, 230, 0.1);
-}
+} */
 
 .step-number {
   font-family: 'Manrope', sans-serif;

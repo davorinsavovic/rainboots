@@ -497,11 +497,11 @@
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 }
 
-.benefit-card:hover {
+/* .benefit-card:hover {
   border-color: var(--primary);
   transform: translateY(-5px);
   box-shadow: 0 15px 30px rgba(43, 92, 230, 0.1);
-}
+} */
 
 .benefit-card h3 {
   font-size: 1.2rem;
@@ -576,11 +576,11 @@
   border: 2px solid transparent;
 }
 
-.social-process .process-step:hover {
+/* .social-process .process-step:hover {
   border-color: var(--primary);
   transform: translateY(-5px);
   box-shadow: 0 15px 30px rgba(43, 92, 230, 0.1);
-}
+} */
 
 .step-number {
   font-family: 'Manrope', sans-serif;

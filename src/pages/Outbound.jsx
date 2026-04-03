@@ -457,10 +457,10 @@ const Outbound = () => {
             <motion.div
               key={index}
               className='process-card'
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
+              // initial={{ opacity: 0, y: 40 }}
+              // whileInView={{ opacity: 1, y: 0 }}
+              // viewport={{ once: true }}
+              // transition={{ delay: index * 0.1 }}
             >
               <div className='process-step'>{item.step}</div>
               <h3>{item.title}</h3>
