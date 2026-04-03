@@ -393,6 +393,42 @@ const personaliseForLead = (html, lead) => {
   return out;
 };
 
+/**
+ * Personalise subject line for a specific lead
+ */
+const personaliseSubject = (subject, lead) => {
+  if (!subject) return subject;
+
+  let out = subject;
+
+  // Basic replacements
+  out = out.replace(
+    /\[lead\.businessName\]/g,
+    lead.businessName || 'your business',
+  );
+  out = out.replace(/\[lead\.contactName\]/g, lead.contactName || 'there');
+  out = out.replace(/\[lead\.score\]/g, lead.score || '0');
+  out = out.replace(/\[lead\.website\]/g, lead.website || lead.domain || '');
+  out = out.replace(/\[lead\.domain\]/g, lead.domain || '');
+  out = out.replace(/\[lead\.category\]/g, lead.category || '');
+  out = out.replace(/\[lead\.location\]/g, lead.location || '');
+
+  // Also support analysis fields in subject if needed
+  out = out.replace(
+    /\[lead\.outreachMessage\]/g,
+    lead.analysis?.outreachMessage || '',
+  );
+  out = out.replace(
+    /\[lead\.analysis\.summary\]/g,
+    lead.analysis?.summary || '',
+  );
+
+  // Clean up any remaining variables
+  out = out.replace(/\[lead\.[^\]]+\]/g, '');
+
+  return out;
+};
+
 // ── Attachments ───────────────────────────────────────────────────────────────
 const buildAttachments = async (templateAttachments = []) => {
   const result = [];
@@ -594,6 +630,12 @@ router.post(
           let html = personaliseForLead(baseHtml, lead);
           let reportAttachments = [...attachments];
 
+          // Personalize the subject line
+          const personalizedSubject = personaliseSubject(
+            template.subject,
+            lead,
+          );
+
           if (includeReport && lead.analysis) {
             const reportHtml = generateReportHTML(lead, {
               includeSocial: true,
@@ -629,7 +671,7 @@ router.post(
 
           const result = await sendOne({
             to: lead.contactEmail,
-            subject: template.subject,
+            subject: personalizedSubject,
             html,
             attachments: reportAttachments,
           });
@@ -703,10 +745,12 @@ router.post(
           .json({ success: false, error: 'Template not found' });
 
       let html = template.completeContent || template.getCompleteEmailHTML();
+      let subject = template.subject;
 
-      // If leadData is provided, personalize the email
+      // If leadData is provided, personalize both HTML and subject
       if (leadData) {
         html = personaliseForLead(html, leadData);
+        subject = personaliseSubject(subject, leadData);
       }
 
       const attachments = await buildAttachments(template.attachments);
@@ -715,7 +759,7 @@ router.post(
         emails.map(async (email) => {
           const result = await sendOne({
             to: email,
-            subject: template.subject,
+            subject: subject, // Use personalized subject
             html,
             attachments,
           });
