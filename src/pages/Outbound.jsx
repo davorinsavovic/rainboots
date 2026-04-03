@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { useState, useEffect, useCallback } from 'react';
 import './Outbound.css';
+import PaperPlane from './PaperPlane';
 
 // ─── Modal content lives HERE in the source, fully crawlable by search engines ───
 const channelDetails = {
@@ -375,6 +376,18 @@ const Outbound = () => {
               ))}
             </div>
           </motion.div>
+
+          <motion.div
+            className='features-image'
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+          >
+            <img
+              src='/images/outboundMarketing.png'
+              alt='Drive Real Results with Outbound Marketing'
+            />
+          </motion.div>
         </div>
       </section>
 
@@ -414,6 +427,9 @@ const Outbound = () => {
           ))}
         </div>
       </section>
+
+      {/* Paper Plane Animation */}
+      <PaperPlane />
 
       {/* CTA Section */}
       <section className='outbound-cta'>
@@ -471,14 +487,14 @@ const Outbound = () => {
 
               {/* Header */}
               <div className='modal-header'>
+                <div className='modal-icon'>
+                  <img src={activeDetails.icon} alt={activeDetails.headline} />
+                </div>
                 <div>
                   <h2 id='modal-heading'>{activeDetails.headline}</h2>
                   <p className='modal-subheadline'>
                     {activeDetails.subheadline}
                   </p>
-                </div>
-                <div className='modal-icon'>
-                  <img src={activeDetails.icon} alt={activeDetails.headline} />
                 </div>
               </div>
 

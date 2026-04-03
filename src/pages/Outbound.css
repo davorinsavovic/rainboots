@@ -252,7 +252,7 @@
 
 /* ===== PROCESS SECTION ===== */
 .process-section {
-  padding: 6rem 5%;
+  padding: 6rem 5% 0;
   background: var(--light);
   position: relative;
   z-index: 10;
@@ -1186,6 +1186,20 @@
 .modal-footer .btn-primary:hover {
   transform: translateY(-2px);
   box-shadow: 0 12px 32px rgba(43, 92, 230, 0.4);
+}
+
+.plane-animation-section {
+  background: var(--light);
+  overflow: hidden;
+  padding: 0;
+  line-height: 0; /* removes gap under SVG */
+}
+
+.outbound-page .features-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0);
 }
 
 /* =============================================================================
