@@ -208,7 +208,12 @@ const getScoreColor = (score) => {
 const personaliseForLead = (html, lead) => {
   let out = html;
 
-  // ── Scalar fields ──────────────────────────────────────────────────────────
+  console.log('🔧 Personalizing email for lead:', lead.businessName);
+  console.log('📊 Lead has analysis:', !!lead.analysis);
+  console.log('📋 Issues count:', lead.analysis?.issues?.length || 0);
+  console.log('⚡ Quick wins count:', lead.analysis?.quickWins?.length || 0);
+
+  // 1. Basic scalar fields
   out = out.replace(
     /\[lead\.businessName\]/g,
     lead.businessName || 'your business',
@@ -222,9 +227,8 @@ const personaliseForLead = (html, lead) => {
   out = out.replace(/\[lead\.industry\]/g, lead.industry || '');
   out = out.replace(/\[lead\.phone\]/g, lead.phone || '');
   out = out.replace(/\[lead\.score\]/g, lead.score || '0');
-  out = out.replace(/\[lead\.score\.color\]/g, getScoreColor(lead.score || 0));
 
-  // ── Analysis scalar fields ─────────────────────────────────────────────────
+  // 2. Analysis fields
   out = out.replace(
     /\[lead\.analysis\.summary\]/g,
     lead.analysis?.summary || '',
@@ -238,123 +242,154 @@ const personaliseForLead = (html, lead) => {
     lead.analysis?.outreachMessage || '',
   );
 
-  // ── Analysis arrays — individual indexed items ─────────────────────────────
-  // e.g. [lead.analysis.issues.0], [lead.analysis.quickWins.2]
+  // 3. Issues array - [lead.analysis.issues.0], [lead.analysis.issues.1], etc.
   const issues = lead.analysis?.issues || [];
+  for (let i = 0; i < issues.length; i++) {
+    const regex = new RegExp(`\\[lead\\.analysis\\.issues\\.${i}\\]`, 'g');
+    out = out.replace(regex, issues[i] || '');
+  }
+  // Clean up any remaining issue placeholders that don't have data
+  out = out.replace(/\[lead\.analysis\.issues\.\d+\]/g, 'No issue identified');
+
+  // 4. Quick Wins array - [lead.analysis.quickWins.0], etc.
   const quickWins = lead.analysis?.quickWins || [];
+  for (let i = 0; i < quickWins.length; i++) {
+    const regex = new RegExp(`\\[lead\\.analysis\\.quickWins\\.${i}\\]`, 'g');
+    out = out.replace(regex, quickWins[i] || '');
+  }
+  out = out.replace(
+    /\[lead\.analysis\.quickWins\.\d+\]/g,
+    'No quick win identified',
+  );
+
+  // 5. Opportunities array - [lead.analysis.opportunities.0], etc.
   const opportunities = lead.analysis?.opportunities || [];
+  for (let i = 0; i < opportunities.length; i++) {
+    const regex = new RegExp(
+      `\\[lead\\.analysis\\.opportunities\\.${i}\\]`,
+      'g',
+    );
+    out = out.replace(regex, opportunities[i] || '');
+  }
+  out = out.replace(
+    /\[lead\.analysis\.opportunities\.\d+\]/g,
+    'No opportunity identified',
+  );
 
-  issues.forEach((item, i) => {
-    out = out.replace(
-      new RegExp(`\\[lead\\.analysis\\.issues\\.${i}\\]`, 'g'),
-      item,
-    );
-  });
-  quickWins.forEach((item, i) => {
-    out = out.replace(
-      new RegExp(`\\[lead\\.analysis\\.quickWins\\.${i}\\]`, 'g'),
-      item,
-    );
-  });
-  opportunities.forEach((item, i) => {
-    out = out.replace(
-      new RegExp(`\\[lead\\.analysis\\.opportunities\\.${i}\\]`, 'g'),
-      item,
-    );
-  });
-
-  // ── Analysis arrays — rendered HTML blocks ─────────────────────────────────
-  // Use [lead.issues.list] anywhere in your template to get a full styled list
-  out = out.replace(/\[lead\.issues\.list\]/g, renderIssuesList(issues));
-  out = out.replace(/\[lead\.quickWins\.list\]/g, renderWinsList(quickWins));
+  // 6. List versions (HTML formatted for email)
+  out = out.replace(
+    /\[lead\.issues\.list\]/g,
+    issues.map((i) => `<li style="margin-bottom: 8px;">${i}</li>`).join('') ||
+      '<li>No issues identified</li>',
+  );
+  out = out.replace(
+    /\[lead\.quickWins\.list\]/g,
+    quickWins
+      .map((w) => `<li style="margin-bottom: 8px;">${w}</li>`)
+      .join('') || '<li>No quick wins identified</li>',
+  );
   out = out.replace(
     /\[lead\.opportunities\.list\]/g,
-    renderList(opportunities),
+    opportunities
+      .map((o) => `<li style="margin-bottom: 8px;">${o}</li>`)
+      .join('') || '<li>No opportunities identified</li>',
   );
 
-  // ── Email reputation ───────────────────────────────────────────────────────
+  // 7. Social links badges
+  const socialLinks = lead.socialLinks;
+  if (socialLinks) {
+    const entries =
+      socialLinks instanceof Map
+        ? [...socialLinks.entries()]
+        : Object.entries(socialLinks || {});
+    out = out.replace(
+      /\[lead\.socialLinks\.badges\]/g,
+      entries
+        .map(
+          ([platform, url]) =>
+            `<a href="${url}" style="display:inline-block;margin:4px;padding:4px 12px;background:#f0f0f0;border-radius:20px;text-decoration:none;color:#333;font-size:12px;">${platform}</a>`,
+        )
+        .join('') || 'No social links found',
+    );
+  } else {
+    out = out.replace(
+      /\[lead\.socialLinks\.badges\]/g,
+      'No social links found',
+    );
+  }
+
+  // 8. Email reputation
   const rep = lead.emailReputation;
-  out = out.replace(/\[lead\.emailReputation\.score\]/g, rep?.score || '0');
-  out = out.replace(/\[lead\.emailReputation\.domain\]/g, rep?.domain || '');
-  out = out.replace(
-    /\[lead\.emailReputation\.mx\.exists\]/g,
-    rep?.mx?.exists ? 'Yes' : 'No',
-  );
-  out = out.replace(
-    /\[lead\.emailReputation\.mx\.provider\]/g,
-    rep?.mx?.provider || '',
-  );
-  out = out.replace(
-    /\[lead\.emailReputation\.spf\.exists\]/g,
-    rep?.spf?.exists ? 'Yes' : 'No',
-  );
-  out = out.replace(
-    /\[lead\.emailReputation\.dkim\.exists\]/g,
-    rep?.dkim?.exists ? 'Yes' : 'No',
-  );
-  out = out.replace(
-    /\[lead\.emailReputation\.dkim\.selector\]/g,
-    rep?.dkim?.selector || '',
-  );
-  out = out.replace(
-    /\[lead\.emailReputation\.dmarc\.exists\]/g,
-    rep?.dmarc?.exists ? 'Yes' : 'No',
-  );
-  out = out.replace(
-    /\[lead\.emailReputation\.dmarc\.policy\]/g,
-    rep?.dmarc?.policy || '',
-  );
-
-  // Full styled email health table — use [lead.emailHealth.table] in template
-  out = out.replace(
-    /\[lead\.emailHealth\.table\]/g,
-    renderEmailHealthTable(rep),
-  );
-
-  // ── Social analysis ────────────────────────────────────────────────────────
-  const social = lead.analysis?.socialAnalysis;
-  out = out.replace(/\[lead\.social\.score\]/g, social?.score || '0');
-  out = out.replace(/\[lead\.social\.summary\]/g, social?.summary || '');
-
-  const missingPlatforms = social?.missingPlatforms || [];
-  missingPlatforms.forEach((p, i) => {
+  if (rep) {
+    out = out.replace(/\[lead\.emailReputation\.score\]/g, rep.score || '0');
     out = out.replace(
-      new RegExp(`\\[lead\\.social\\.missingPlatforms\\.${i}\\]`, 'g'),
-      p,
+      /\[lead\.emailReputation\.mx\.exists\]/g,
+      rep.mx?.exists ? 'Yes' : 'No',
     );
-  });
-  out = out.replace(
-    /\[lead\.social\.missingPlatforms\.list\]/g,
-    missingPlatforms.length > 0
-      ? missingPlatforms
-          .map((p) => `<li style="margin-bottom:6px;">${p}</li>`)
-          .join('')
-      : '<li>None</li>',
-  );
+    out = out.replace(
+      /\[lead\.emailReputation\.mx\.provider\]/g,
+      rep.mx?.provider || '',
+    );
+    out = out.replace(
+      /\[lead\.emailReputation\.spf\.exists\]/g,
+      rep.spf?.exists ? 'Yes' : 'No',
+    );
+    out = out.replace(
+      /\[lead\.emailReputation\.dkim\.exists\]/g,
+      rep.dkim?.exists ? 'Yes' : 'No',
+    );
+    out = out.replace(
+      /\[lead\.emailReputation\.dkim\.selector\]/g,
+      rep.dkim?.selector || '',
+    );
+    out = out.replace(
+      /\[lead\.emailReputation\.dmarc\.exists\]/g,
+      rep.dmarc?.exists ? 'Yes' : 'No',
+    );
+    out = out.replace(
+      /\[lead\.emailReputation\.dmarc\.policy\]/g,
+      rep.dmarc?.policy || '',
+    );
+  }
 
-  // Social links badges
-  out = out.replace(
-    /\[lead\.socialLinks\.badges\]/g,
-    renderSocialLinks(lead.socialLinks),
-  );
+  // 9. Social analysis
+  const socialAnalysis = lead.analysis?.socialAnalysis;
+  if (socialAnalysis) {
+    out = out.replace(/\[lead\.social\.score\]/g, socialAnalysis.score || '0');
+    out = out.replace(
+      /\[lead\.social\.summary\]/g,
+      socialAnalysis.summary || '',
+    );
+    const missingPlatforms = socialAnalysis.missingPlatforms || [];
+    out = out.replace(
+      /\[lead\.social\.missingPlatforms\.list\]/g,
+      missingPlatforms
+        .map((p) => `<li style="margin-bottom: 6px;">${p}</li>`)
+        .join('') || '<li>None</li>',
+    );
+  }
 
-  // ── Email analysis ─────────────────────────────────────────────────────────
+  // 10. Email analysis
   const emailAnalysis = lead.analysis?.emailAnalysis;
-  out = out.replace(
-    /\[lead\.emailAnalysis\.summary\]/g,
-    emailAnalysis?.summary || '',
-  );
-  (emailAnalysis?.issues || []).forEach((item, i) => {
+  if (emailAnalysis) {
     out = out.replace(
-      new RegExp(`\\[lead\\.emailAnalysis\\.issues\\.${i}\\]`, 'g'),
-      item,
+      /\[lead\.emailAnalysis\.summary\]/g,
+      emailAnalysis.summary || '',
     );
-  });
+    const emailIssues = emailAnalysis.issues || [];
+    for (let i = 0; i < emailIssues.length; i++) {
+      const regex = new RegExp(
+        `\\[lead\\.emailAnalysis\\.issues\\.${i}\\]`,
+        'g',
+      );
+      out = out.replace(regex, emailIssues[i] || '');
+    }
+  }
 
-  // ── Clean up any remaining unfilled variables ─────────────────────────────
-  // Prevents broken [lead.xxx] showing in sent emails
+  // 11. Clean up any remaining unfilled variables
   out = out.replace(/\[lead\.[^\]]+\]/g, '');
 
+  console.log('✅ Personalization complete');
   return out;
 };
 
@@ -658,7 +693,7 @@ router.post(
     if (!errors.isEmpty())
       return res.status(400).json({ success: false, errors: errors.array() });
 
-    const { templateId, emails } = req.body;
+    const { templateId, emails, leadData } = req.body;
 
     try {
       const template = await EmailTemplate.findById(templateId);
@@ -667,7 +702,13 @@ router.post(
           .status(404)
           .json({ success: false, error: 'Template not found' });
 
-      const html = template.completeContent || template.getCompleteEmailHTML();
+      let html = template.completeContent || template.getCompleteEmailHTML();
+
+      // If leadData is provided, personalize the email
+      if (leadData) {
+        html = personaliseForLead(html, leadData);
+      }
+
       const attachments = await buildAttachments(template.attachments);
 
       const results = await Promise.allSettled(
@@ -696,6 +737,7 @@ router.post(
         results: formatted,
       });
     } catch (err) {
+      console.error('Manual email send error:', err);
       res.status(500).json({ success: false, error: err.message });
     }
   },

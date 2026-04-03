@@ -295,70 +295,79 @@ export const EmailTemplateSelector = () => {
 
     let personalized = content;
 
-    // Basic fields
-    personalized = personalized.replace(
-      /\[lead\.businessName\]/g,
-      lead.businessName || '',
-    );
-    personalized = personalized.replace(
-      /\[lead\.contactName\]/g,
-      lead.contactName || '',
-    );
-    personalized = personalized.replace(
-      /\[lead\.contactEmail\]/g,
-      lead.contactEmail || '',
-    );
-    personalized = personalized.replace(
-      /\[lead\.website\]/g,
-      lead.website || '',
-    );
-    personalized = personalized.replace(/\[lead\.domain\]/g, lead.domain || '');
-    personalized = personalized.replace(
-      /\[lead\.category\]/g,
-      lead.category || '',
-    );
-    personalized = personalized.replace(
-      /\[lead\.location\]/g,
-      lead.location || '',
-    );
-    personalized = personalized.replace(/\[lead\.score\]/g, lead.score || '0');
-    personalized = personalized.replace(
-      /\[lead\.outreachMessage\]/g,
-      lead.analysis?.outreachMessage || '',
-    );
-    personalized = personalized.replace(
-      /\[lead\.analysis\.summary\]/g,
-      lead.analysis?.summary || '',
-    );
+    console.log('🔧 Personalizing content for lead:', lead.businessName);
+    console.log('📊 Lead analysis:', lead.analysis);
 
-    // Issues array - [lead.analysis.issues.0], [lead.analysis.issues.1], etc.
+    // 1. Basic scalar fields
+    const replacements = {
+      '[lead.businessName]': lead.businessName || '',
+      '[lead.contactName]': lead.contactName || '',
+      '[lead.contactEmail]': lead.contactEmail || '',
+      '[lead.website]': lead.website || '',
+      '[lead.domain]':
+        lead.domain ||
+        lead.website?.replace(/^https?:\/\//, '').replace(/\/.*$/, '') ||
+        '',
+      '[lead.category]': lead.category || '',
+      '[lead.location]': lead.location || '',
+      '[lead.score]': lead.score || '0',
+      '[lead.outreachMessage]': lead.analysis?.outreachMessage || '',
+      '[lead.analysis.summary]': lead.analysis?.summary || '',
+    };
+
+    for (const [token, value] of Object.entries(replacements)) {
+      personalized = personalized.replace(
+        new RegExp(token.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'),
+        value,
+      );
+    }
+
+    // 2. Issues array - [lead.analysis.issues.0], [lead.analysis.issues.1], etc.
     const issues = lead.analysis?.issues || [];
-    issues.forEach((issue, index) => {
+    console.log('📋 Issues found:', issues.length);
+    for (let i = 0; i < issues.length; i++) {
+      const token = `[lead.analysis.issues.${i}]`;
       personalized = personalized.replace(
-        new RegExp(`\\[lead\\.analysis\\.issues\\.${index}\\]`, 'g'),
-        issue,
+        new RegExp(token.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'),
+        issues[i] || '',
       );
-    });
+    }
+    // Also handle any remaining [lead.analysis.issues.X] that don't have data
+    personalized = personalized.replace(
+      /\[lead\.analysis\.issues\.\d+\]/g,
+      'No issue identified',
+    );
 
-    // Quick Wins array - [lead.analysis.quickWins.0], etc.
+    // 3. Quick Wins array - [lead.analysis.quickWins.0], etc.
     const quickWins = lead.analysis?.quickWins || [];
-    quickWins.forEach((win, index) => {
+    console.log('⚡ Quick wins found:', quickWins.length);
+    for (let i = 0; i < quickWins.length; i++) {
+      const token = `[lead.analysis.quickWins.${i}]`;
       personalized = personalized.replace(
-        new RegExp(`\\[lead\\.analysis\\.quickWins\\.${index}\\]`, 'g'),
-        win,
+        new RegExp(token.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'),
+        quickWins[i] || '',
       );
-    });
+    }
+    personalized = personalized.replace(
+      /\[lead\.analysis\.quickWins\.\d+\]/g,
+      'No quick win identified',
+    );
 
-    // Opportunities array - [lead.analysis.opportunities.0], etc.
+    // 4. Opportunities array - [lead.analysis.opportunities.0], etc.
     const opportunities = lead.analysis?.opportunities || [];
-    opportunities.forEach((opp, index) => {
+    for (let i = 0; i < opportunities.length; i++) {
+      const token = `[lead.analysis.opportunities.${i}]`;
       personalized = personalized.replace(
-        new RegExp(`\\[lead\\.analysis\\.opportunities\\.${index}\\]`, 'g'),
-        opp,
+        new RegExp(token.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'),
+        opportunities[i] || '',
       );
-    });
+    }
+    personalized = personalized.replace(
+      /\[lead\.analysis\.opportunities\.\d+\]/g,
+      'No opportunity identified',
+    );
 
-    // List versions
+    // 5. List versions (HTML formatted)
     personalized = personalized.replace(
       /\[lead\.issues\.list\]/g,
       issues.map((i) => `<li style="margin-bottom: 8px;">${i}</li>`).join('') ||
@@ -377,9 +386,88 @@ export const EmailTemplateSelector = () => {
         .join('') || '<li>No opportunities identified</li>',
     );
 
-    // Clean up any remaining unfilled variables
+    // 6. Social media
+    if (lead.socialLinks) {
+      const socialLinks =
+        lead.socialLinks instanceof Map
+          ? Array.from(lead.socialLinks.entries())
+          : Object.entries(lead.socialLinks || {});
+      personalized = personalized.replace(
+        /\[lead\.socialLinks\.badges\]/g,
+        socialLinks
+          .map(
+            ([platform, url]) =>
+              `<a href="${url}" style="display:inline-block;margin:4px;padding:4px 12px;background:#f0f0f0;border-radius:20px;text-decoration:none;color:#333;font-size:12px;">${platform}</a>`,
+          )
+          .join('') || 'No social links found',
+      );
+    }
+
+    // 7. Email reputation
+    const rep = lead.emailReputation;
+    if (rep) {
+      personalized = personalized.replace(
+        /\[lead\.emailReputation\.score\]/g,
+        rep.score || '0',
+      );
+      personalized = personalized.replace(
+        /\[lead\.emailReputation\.mx\.exists\]/g,
+        rep.mx?.exists ? 'Yes' : 'No',
+      );
+      personalized = personalized.replace(
+        /\[lead\.emailReputation\.mx\.provider\]/g,
+        rep.mx?.provider || '',
+      );
+      personalized = personalized.replace(
+        /\[lead\.emailReputation\.spf\.exists\]/g,
+        rep.spf?.exists ? 'Yes' : 'No',
+      );
+      personalized = personalized.replace(
+        /\[lead\.emailReputation\.dkim\.exists\]/g,
+        rep.dkim?.exists ? 'Yes' : 'No',
+      );
+      personalized = personalized.replace(
+        /\[lead\.emailReputation\.dmarc\.exists\]/g,
+        rep.dmarc?.exists ? 'Yes' : 'No',
+      );
+      personalized = personalized.replace(
+        /\[lead\.emailReputation\.dmarc\.policy\]/g,
+        rep.dmarc?.policy || '',
+      );
+    }
+
+    // 8. Social analysis
+    const socialAnalysis = lead.analysis?.socialAnalysis;
+    if (socialAnalysis) {
+      personalized = personalized.replace(
+        /\[lead\.social\.score\]/g,
+        socialAnalysis.score || '0',
+      );
+      personalized = personalized.replace(
+        /\[lead\.social\.summary\]/g,
+        socialAnalysis.summary || '',
+      );
+      const missingPlatforms = socialAnalysis.missingPlatforms || [];
+      personalized = personalized.replace(
+        /\[lead\.social\.missingPlatforms\.list\]/g,
+        missingPlatforms.map((p) => `<li>${p}</li>`).join('') ||
+          '<li>None</li>',
+      );
+    }
+
+    // 9. Email analysis
+    const emailAnalysis = lead.analysis?.emailAnalysis;
+    if (emailAnalysis) {
+      personalized = personalized.replace(
+        /\[lead\.emailAnalysis\.summary\]/g,
+        emailAnalysis.summary || '',
+      );
+    }
+
+    // 10. Clean up any remaining unfilled variables
     personalized = personalized.replace(/\[lead\.[^\]]+\]/g, '');
 
+    console.log('✅ Personalization complete');
     return personalized;
   };
 
@@ -594,17 +682,22 @@ export const EmailTemplateSelector = () => {
       alert('Please select an email template');
       return;
     }
-    const testEmail = prompt('Enter test email address:', 'test@example.com');
+
+    if (!selectedLeadForPreview) {
+      alert('Please select a lead from the preview dropdown first');
+      return;
+    }
+
+    const testEmail = prompt('Enter test email address:', 'davorins@gmail.com');
     if (!testEmail) return;
+
     setSendingStatus('sending');
     setSendProgress({ total: 1, sent: 0, failed: 0 });
+
     try {
       const token = localStorage.getItem('token');
-      const completeHtml = getCompleteEmailHTML(
-        selectedTemplate.content,
-        selectedTemplate.includeSignature,
-        selectedTemplate.signatureConfig,
-      );
+
+      // Send the lead data to backend for personalization
       const response = await fetch(`${API_BASE_URL}/api/email/send-manual`, {
         method: 'POST',
         headers: {
@@ -614,13 +707,18 @@ export const EmailTemplateSelector = () => {
         body: JSON.stringify({
           templateId: selectedTemplate._id,
           emails: [testEmail],
-          htmlContent: completeHtml,
+          leadData: selectedLeadForPreview,
         }),
       });
+
       if (!response.ok) throw new Error('Failed to send test email');
+
       setSendingStatus('success');
       setSendProgress({ total: 1, sent: 1, failed: 0 });
-      setSuccessMessage(`Test email sent to ${testEmail}!`);
+      setSuccessMessage(
+        `Test email sent to ${testEmail} with data from "${selectedLeadForPreview.businessName}"!`,
+      );
+
       setTimeout(() => setSuccessMessage(null), 3000);
     } catch (error) {
       console.error('Test email send error:', error);
@@ -758,6 +856,10 @@ export const EmailTemplateSelector = () => {
                             const personalizedContent = personalizeContent(
                               selectedTemplate.content,
                               lead,
+                            );
+                            console.log(
+                              '🎯 Preview personalized content:',
+                              personalizedContent,
                             );
                             setPersonalizedPreviewHtml(
                               getCompleteEmailHTML(
