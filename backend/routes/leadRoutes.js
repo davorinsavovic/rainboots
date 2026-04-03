@@ -344,6 +344,7 @@ router.get('/leads', async (req, res) => {
       minScore,
       search,
       tag,
+      source,
     } = req.query;
 
     const filter = {};
@@ -357,6 +358,7 @@ router.get('/leads', async (req, res) => {
       };
     if (tag) filter.tags = tag;
     if (search) filter.$text = { $search: search };
+    if (source) filter.source = source;
 
     const pageNum = parseInt(page);
     const limitNum = parseInt(limit);

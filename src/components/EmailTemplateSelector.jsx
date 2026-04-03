@@ -33,7 +33,15 @@ export const EmailTemplateSelector = () => {
   const [reportFormat, setReportFormat] = useState('inline');
   const [selectedLeadForPreview, setSelectedLeadForPreview] = useState(null);
   const [personalizedPreviewHtml, setPersonalizedPreviewHtml] = useState('');
-  const [showPersonalizedPreview, setShowPersonalizedPreview] = useState(false);
+  const [sourceFilter, setSourceFilter] = useState('all');
+
+  const SOURCE_FILTERS = [
+    { value: 'all', label: 'All Sources' },
+    { value: 'website_audit', label: 'Website Audit' },
+    { value: 'auto', label: 'Auto Collected' },
+    { value: 'manual', label: 'Manual Entry' },
+    { value: 'csv', label: 'CSV Import' },
+  ];
 
   // Email styling function
   const addEmailStyles = (html) => {
@@ -198,21 +206,50 @@ export const EmailTemplateSelector = () => {
     loadTemplates();
   }, []);
 
-  // Load leads with pagination and filters
+  // Load leads/audits with pagination and filters
   const loadLeads = useCallback(async () => {
     setLoading((prev) => ({ ...prev, leads: true }));
     try {
       const token = localStorage.getItem('token');
-      let url = `${API_BASE_URL}/api/leads?page=${leadsPagination.currentPage}&limit=20&sort=-score`;
-      if (statusFilter !== 'all') url += `&status=${statusFilter}`;
-      if (minScore > 0) url += `&minScore=${minScore}`;
-      if (searchTerm) url += `&search=${encodeURIComponent(searchTerm)}`;
+      let url;
+
+      // Use different endpoints based on source filter
+      if (sourceFilter === 'website_audit') {
+        // Fetch from audits collection - NOTE THE CORRECT PATH
+        url = `${API_BASE_URL}/api/audit-list`;
+        if (searchTerm) {
+          url += `&search=${encodeURIComponent(searchTerm)}`;
+        }
+      } else {
+        // Fetch from leads collection
+        url = `${API_BASE_URL}/api/leads?page=${leadsPagination.currentPage}&limit=20&sort=-score`;
+
+        if (statusFilter !== 'all') {
+          url += `&status=${statusFilter}`;
+        }
+        if (minScore > 0) {
+          url += `&minScore=${minScore}`;
+        }
+        if (searchTerm) {
+          url += `&search=${encodeURIComponent(searchTerm)}`;
+        }
+        if (sourceFilter !== 'all') {
+          url += `&source=${sourceFilter}`;
+        }
+      }
+
+      console.log('🔍 Fetching URL:', url);
 
       const response = await fetch(url, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      if (!response.ok) throw new Error('Failed to load leads');
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+
       const data = await response.json();
+
       setLeads(data.leads || []);
       setLeadsPagination(
         data.pagination || { currentPage: 1, totalPages: 1, totalLeads: 0 },
@@ -223,7 +260,13 @@ export const EmailTemplateSelector = () => {
     } finally {
       setLoading((prev) => ({ ...prev, leads: false }));
     }
-  }, [leadsPagination.currentPage, statusFilter, minScore, searchTerm]);
+  }, [
+    leadsPagination.currentPage,
+    statusFilter,
+    minScore,
+    searchTerm,
+    sourceFilter,
+  ]);
 
   useEffect(() => {
     if (selectedTemplate) loadLeads();
@@ -234,6 +277,7 @@ export const EmailTemplateSelector = () => {
     statusFilter,
     minScore,
     searchTerm,
+    sourceFilter,
   ]);
 
   const handleTemplateSelect = (templateId) => {
@@ -362,6 +406,17 @@ export const EmailTemplateSelector = () => {
 
   // Select all leads with email across all pages
   const selectAllWithEmailAcrossAllPages = async () => {
+    // For website_audit: just use whatever is currently loaded in leads state
+    if (sourceFilter === 'website_audit') {
+      const newMap = {};
+      leads.forEach((lead) => {
+        if (lead.contactEmail) newMap[lead._id] = true;
+      });
+      setSelectedLeadsMap(newMap);
+      return;
+    }
+
+    // For regular leads: fetch all pages
     setLoading((prev) => ({ ...prev, leads: true }));
     try {
       const token = localStorage.getItem('token');
@@ -369,18 +424,17 @@ export const EmailTemplateSelector = () => {
       if (statusFilter !== 'all') url += `&status=${statusFilter}`;
       if (minScore > 0) url += `&minScore=${minScore}`;
       if (searchTerm) url += `&search=${encodeURIComponent(searchTerm)}`;
+      if (sourceFilter !== 'all') url += `&source=${sourceFilter}`;
       const response = await fetch(url, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await response.json();
-      const allLeads = data.leads || [];
       const newMap = {};
-      allLeads.forEach((lead) => {
+      (data.leads || []).forEach((lead) => {
         if (lead.contactEmail) newMap[lead._id] = true;
       });
       setSelectedLeadsMap(newMap);
     } catch (err) {
-      console.error('Error selecting all leads:', err);
       setError('Failed to select all leads');
     } finally {
       setLoading((prev) => ({ ...prev, leads: false }));
@@ -389,6 +443,15 @@ export const EmailTemplateSelector = () => {
 
   // Select high score leads (70+)
   const selectHighScoreLeadsAcrossAllPages = async () => {
+    if (sourceFilter === 'website_audit') {
+      const newMap = {};
+      leads.forEach((lead) => {
+        if ((lead.score || 0) >= 70) newMap[lead._id] = true;
+      });
+      setSelectedLeadsMap(newMap);
+      return;
+    }
+
     setLoading((prev) => ({ ...prev, leads: true }));
     try {
       const token = localStorage.getItem('token');
@@ -399,14 +462,12 @@ export const EmailTemplateSelector = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await response.json();
-      const allLeads = data.leads || [];
       const newMap = {};
-      allLeads.forEach((lead) => {
+      (data.leads || []).forEach((lead) => {
         newMap[lead._id] = true;
       });
       setSelectedLeadsMap(newMap);
     } catch (err) {
-      console.error('Error selecting high score leads:', err);
       setError('Failed to select high score leads');
     } finally {
       setLoading((prev) => ({ ...prev, leads: false }));
@@ -415,6 +476,15 @@ export const EmailTemplateSelector = () => {
 
   // Select leads by custom score threshold
   const selectLeadsByScoreAcrossAllPages = async (threshold) => {
+    if (sourceFilter === 'website_audit') {
+      const newMap = {};
+      leads.forEach((lead) => {
+        if ((lead.score || 0) >= threshold) newMap[lead._id] = true;
+      });
+      setSelectedLeadsMap(newMap);
+      return;
+    }
+
     setLoading((prev) => ({ ...prev, leads: true }));
     try {
       const token = localStorage.getItem('token');
@@ -425,14 +495,12 @@ export const EmailTemplateSelector = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await response.json();
-      const allLeads = data.leads || [];
       const newMap = {};
-      allLeads.forEach((lead) => {
+      (data.leads || []).forEach((lead) => {
         newMap[lead._id] = true;
       });
       setSelectedLeadsMap(newMap);
     } catch (err) {
-      console.error('Error selecting leads by score:', err);
       setError('Failed to select leads by score');
     } finally {
       setLoading((prev) => ({ ...prev, leads: false }));
@@ -630,11 +698,26 @@ export const EmailTemplateSelector = () => {
               value={selectedTemplate?._id || ''}
               onChange={(e) => handleTemplateSelect(e.target.value)}
               className='template-select'
+              style={{ marginBottom: '15px' }}
             >
               <option value=''>Choose a template...</option>
               {templates.map((template) => (
                 <option key={template._id} value={template._id}>
                   {template.title} ({template.category})
+                </option>
+              ))}
+            </select>
+            <label className='form-label' style={{ marginBottom: '10px' }}>
+              Source
+            </label>
+            <select
+              value={sourceFilter}
+              onChange={(e) => setSourceFilter(e.target.value)}
+              className='filter-select'
+            >
+              {SOURCE_FILTERS.map((filter) => (
+                <option key={filter.value} value={filter.value}>
+                  {filter.label}
                 </option>
               ))}
             </select>
@@ -825,7 +908,10 @@ export const EmailTemplateSelector = () => {
                   </div>
                 </div>
 
-                {(statusFilter !== 'all' || minScore > 0 || searchTerm) && (
+                {(statusFilter !== 'all' ||
+                  minScore > 0 ||
+                  searchTerm ||
+                  sourceFilter !== 'all') && (
                   <div className='active-filters'>
                     <span className='active-filters-label'>
                       Active filters:
@@ -863,11 +949,27 @@ export const EmailTemplateSelector = () => {
                         </button>
                       </span>
                     )}
+                    {sourceFilter !== 'all' && (
+                      <span className='filter-tag'>
+                        Source:{' '}
+                        {
+                          SOURCE_FILTERS.find((f) => f.value === sourceFilter)
+                            ?.label
+                        }
+                        <button
+                          onClick={() => setSourceFilter('all')}
+                          className='remove-filter'
+                        >
+                          ×
+                        </button>
+                      </span>
+                    )}
                     <button
                       onClick={() => {
                         setStatusFilter('all');
                         setMinScore(0);
                         setSearchTerm('');
+                        setSourceFilter('all');
                       }}
                       className='clear-all-filters'
                     >
