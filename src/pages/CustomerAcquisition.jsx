@@ -1,9 +1,110 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import './CustomerAcquisition.css';
 import { Helmet } from 'react-helmet-async';
+import { useState, useEffect, useCallback } from 'react';
+import './CustomerAcquisition.css';
+
+// ─── Modal content — in DOM at all times for SEO crawlability ───
+const channelDetails = {
+  'Google Search Ads': {
+    icon: '/images/i_googleAds.png',
+    headline: 'Google Search Ads',
+    subheadline: 'Reach customers actively searching for what you offer.',
+    body: [
+      "When someone searches for what you offer, you want to be the first result they see. Google Search Ads put your business directly in front of people who are actively looking for your products or services — at the exact moment they're ready to buy.",
+      'We build and manage search campaigns that target high-intent keywords, optimize bids in real-time, and continuously refine ad copy to improve click-through rates. Our approach focuses on capturing demand efficiently while controlling costs.',
+      'From keyword research and negative keyword management to ad extensions and audience targeting, we handle every aspect of your search campaigns so you get maximum ROI from every dollar spent.',
+    ],
+    highlights: [
+      { icon: '🔍', stat: '46%', label: 'of all clicks go to top 3 ads' },
+      { icon: '💰', stat: '200%', label: 'avg. ROI for search ads' },
+      { icon: '🎯', stat: '65%', label: 'of high-intent clicks go to search' },
+    ],
+  },
+  'Social Media Ads': {
+    icon: '/images/i_socialAds.png',
+    headline: 'Social Media Ads',
+    subheadline: 'Meet your audience where they already spend their time.',
+    body: [
+      'Social media platforms have unparalleled data on user interests, behaviors, and demographics. We leverage that data to show your ads to the people most likely to become your customers — not just anyone with an internet connection.',
+      'We create targeted campaigns across Facebook, Instagram, LinkedIn, and TikTok, matching creative and messaging to each platform. From eye-catching video ads to carousel product showcases, we test formats and targeting to find what drives results for your business.',
+      'Our social advertising combines precise audience targeting with compelling creative to generate awareness, drive traffic, and convert users into customers — all while maintaining efficient cost-per-acquisition.',
+    ],
+    highlights: [
+      {
+        icon: '📱',
+        stat: '4.9B+',
+        label: 'active social media users worldwide',
+      },
+      {
+        icon: '🎯',
+        stat: '2.3×',
+        label: 'higher engagement with targeted ads',
+      },
+      { icon: '📈', stat: '35%', label: 'lower CPA with lookalike audiences' },
+    ],
+  },
+  'Retargeting Campaigns': {
+    icon: '/images/i_strategicInsights.png',
+    headline: 'Retargeting Campaigns',
+    subheadline: 'Turn window shoppers into buyers.',
+    body: [
+      "Most visitors won't convert on their first visit. Retargeting gives you a second chance — and a third, and a fourth — to bring them back and close the sale.",
+      "We set up strategic retargeting campaigns that show relevant ads to people who've already visited your site, viewed products, or abandoned carts. By staying top-of-mind as they browse elsewhere online, we increase the likelihood they'll return and complete their purchase.",
+      "Our retargeting approach respects frequency caps and uses smart segmentation so you're not annoying potential customers — just reminding them of what they left behind. The result is higher conversion rates and lower customer acquisition costs.",
+    ],
+    highlights: [
+      { icon: '🔄', stat: '200%', label: 'ROI increase with retargeting' },
+      { icon: '🛒', stat: '70%', label: 'of cart abandoners return' },
+      { icon: '💰', stat: '3×', label: 'higher CTR than standard display' },
+    ],
+  },
+  'Lead Generation': {
+    icon: '/images/i_leadGeneration.png',
+    headline: 'Lead Generation',
+    subheadline: 'Capture qualified leads at scale.',
+    body: [
+      'Not every customer is ready to buy immediately. Lead generation campaigns capture interest now so you can convert it into revenue later — building a pipeline of potential customers for your sales team.',
+      'We design multi-channel lead generation campaigns with compelling offers, optimized landing pages, and friction-free forms that capture quality leads, not just email addresses. Every campaign includes proper tracking and lead scoring so you know which channels deliver the best opportunities.',
+      'From B2B lead generation on LinkedIn to consumer lead gen on Facebook and Instagram, we build campaigns that fill your funnel with real prospects who are genuinely interested in what you offer.',
+    ],
+    highlights: [
+      {
+        icon: '📊',
+        stat: '50%',
+        label: 'lower cost per lead with optimization',
+      },
+      { icon: '🎯', stat: '3×', label: 'higher conversion with multi-channel' },
+      {
+        icon: '📝',
+        stat: '75%',
+        label: 'of leads require multiple touchpoints',
+      },
+    ],
+  },
+};
 
 const CustomerAcquisition = () => {
+  const [activeModal, setActiveModal] = useState(null);
+
+  const openModal = useCallback((title) => setActiveModal(title), []);
+  const closeModal = useCallback(() => setActiveModal(null), []);
+
+  useEffect(() => {
+    const handleKey = (e) => {
+      if (e.key === 'Escape') closeModal();
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [closeModal]);
+
+  useEffect(() => {
+    document.body.style.overflow = activeModal ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [activeModal]);
+
   const channels = [
     {
       icon: '/images/i_googleAds.png',
@@ -97,6 +198,8 @@ const CustomerAcquisition = () => {
     { name: 'Instagram', icon: '/images/i_instagram.png' },
   ];
 
+  const activeDetails = activeModal ? channelDetails[activeModal] : null;
+
   return (
     <div className='acquisition-page'>
       <Helmet>
@@ -120,6 +223,26 @@ const CustomerAcquisition = () => {
           href='https://rainbootsmarketing.com/acquisition'
         />
       </Helmet>
+
+      {/* ─── SEO hidden content store ─────────────────────────────────────────
+          Rendered in DOM always so crawlers index it. */}
+      <div className='seo-content-store' aria-hidden='true'>
+        {Object.entries(channelDetails).map(([key, detail]) => (
+          <article key={key}>
+            <h2>{detail.headline}</h2>
+            <p>{detail.subheadline}</p>
+            {detail.body.map((para, i) => (
+              <p key={i}>{para}</p>
+            ))}
+            {detail.highlights.map((h, i) => (
+              <p key={i}>
+                {h.stat} — {h.label}
+              </p>
+            ))}
+          </article>
+        ))}
+      </div>
+
       {/* Hero Section */}
       <section className='acquisition-hero' data-header-theme='light'>
         <motion.div
@@ -186,7 +309,7 @@ const CustomerAcquisition = () => {
         </div>
       </section>
 
-      {/* Channels Section */}
+      {/* Channels Section - NOW CLICKABLE */}
       <section className='acquisition-channels'>
         <div className='section-header'>
           <motion.h2
@@ -210,18 +333,30 @@ const CustomerAcquisition = () => {
           {channels.map((channel, index) => (
             <motion.div
               key={index}
-              className='channel-card'
+              className='channel-card channel-card--clickable'
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
               whileHover={{ y: -10 }}
+              onClick={() => openModal(channel.title)}
+              role='button'
+              tabIndex={0}
+              aria-haspopup='dialog'
+              aria-label={`Learn more about ${channel.title}`}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ')
+                  openModal(channel.title);
+              }}
             >
               <div className='channel-icon'>
                 <img src={channel.icon} alt={channel.title} />
               </div>
               <h3>{channel.title}</h3>
               <p>{channel.description}</p>
+              <span className='channel-card-cta'>
+                Learn more <span className='channel-card-arrow'>→</span>
+              </span>
             </motion.div>
           ))}
         </div>
@@ -303,18 +438,6 @@ const CustomerAcquisition = () => {
       {/* Strategies Section */}
       <section className='strategies-section'>
         <div className='strategies-container'>
-          {/* <motion.div
-            className='strategies-image'
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-          >
-            <img
-              src='/images/acquisition-strategies.png'
-              alt='Acquisition Strategies'
-            />
-          </motion.div> */}
-
           <motion.div
             className='strategies-content'
             initial={{ opacity: 0, x: 40 }}
@@ -372,6 +495,81 @@ const CustomerAcquisition = () => {
           </Link>
         </motion.div>
       </section>
+
+      {/* ─── Channel Detail Modal ─────────────────────────────────────────────── */}
+      <AnimatePresence>
+        {activeModal && activeDetails && (
+          <motion.div
+            className='modal-backdrop'
+            key='backdrop'
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            onClick={closeModal}
+            aria-hidden='true'
+          >
+            <motion.div
+              key='modal'
+              className='channel-modal'
+              role='dialog'
+              aria-modal='true'
+              aria-labelledby='modal-heading'
+              initial={{ opacity: 0, y: 24, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 16, scale: 0.97 }}
+              transition={{ type: 'spring', stiffness: 320, damping: 30 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                className='modal-close'
+                onClick={closeModal}
+                aria-label='Close modal'
+              >
+                ✕
+              </button>
+
+              <div className='modal-header'>
+                <div>
+                  <h2 id='modal-heading'>{activeDetails.headline}</h2>
+                  <p className='modal-subheadline'>
+                    {activeDetails.subheadline}
+                  </p>
+                </div>
+                <div className='modal-icon'>
+                  <img src={activeDetails.icon} alt={activeDetails.headline} />
+                </div>
+              </div>
+
+              <div className='modal-highlights'>
+                {activeDetails.highlights.map((h, i) => (
+                  <div key={i} className='modal-highlight-item'>
+                    <span className='modal-highlight-emoji'>{h.icon}</span>
+                    <strong>{h.stat}</strong>
+                    <span>{h.label}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className='modal-body'>
+                {activeDetails.body.map((para, i) => (
+                  <p key={i}>{para}</p>
+                ))}
+              </div>
+
+              <div className='modal-footer'>
+                <Link
+                  to='/contact'
+                  className='btn-primary'
+                  onClick={closeModal}
+                >
+                  Start Your {activeDetails.headline} Campaign
+                </Link>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

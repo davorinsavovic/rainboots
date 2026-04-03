@@ -529,14 +529,14 @@ const Outbound = () => {
 
               {/* Header */}
               <div className='modal-header'>
-                <div className='modal-icon'>
-                  <img src={activeDetails.icon} alt={activeDetails.headline} />
-                </div>
                 <div>
                   <h2 id='modal-heading'>{activeDetails.headline}</h2>
                   <p className='modal-subheadline'>
                     {activeDetails.subheadline}
                   </p>
+                </div>
+                <div className='modal-icon'>
+                  <img src={activeDetails.icon} alt={activeDetails.headline} />
                 </div>
               </div>
 
