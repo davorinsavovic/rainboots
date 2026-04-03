@@ -10,6 +10,233 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// ── Helper to generate rich SEO content for each route ─────────────────────
+const getRouteSeoContent = (route) => {
+  // Base content that all routes get
+  let additionalContent = '';
+
+  // Route-specific rich content from the React components
+  switch (route.path) {
+    case '/web-development':
+      additionalContent = `
+        <section>
+          <h2>Custom Web Design</h2>
+          <p>Your brand deserves more than a template.</p>
+          <p>We design every site from scratch, starting with your brand, your goals, and your audience. Every color, layout, and interaction is intentional — crafted to reflect who you are and guide visitors toward what you want them to do.</p>
+          <ul>
+            <li>75% of users judge credibility by design</li>
+            <li>2× higher conversions with custom design</li>
+            <li>0.05s for users to form an opinion</li>
+          </ul>
+        </section>
+        <section>
+          <h2>Responsive Development</h2>
+          <p>Every screen. Every device. Every time.</p>
+          <p>We build mobile-first, which means your site is designed for the smallest screen first and scaled up — not squeezed down from a desktop layout as an afterthought.</p>
+          <ul>
+            <li>58% of traffic comes from mobile</li>
+            <li>88% less likely to return after bad UX</li>
+            <li>3s max load time before users leave</li>
+          </ul>
+        </section>
+        <section>
+          <h2>E-Commerce Solutions</h2>
+          <p>A store that sells — even when you're not watching.</p>
+          <p>We build e-commerce experiences on Shopify, WooCommerce, and custom platforms, with clean product pages, fast checkout flows, secure payment processing, and inventory management that scales with your business.</p>
+          <ul>
+            <li>69% avg. cart abandonment rate</li>
+            <li>35% revenue increase with better UX</li>
+            <li>100% PCI-compliant payment setup</li>
+          </ul>
+        </section>
+        <section>
+          <h2>CMS Integration</h2>
+          <p>Your website, fully in your hands.</p>
+          <p>We set up and configure content management systems — WordPress, Contentful, Sanity, and others — tailored to how your team actually works.</p>
+          <ul>
+            <li>43% of the web runs on WordPress</li>
+            <li>5× faster content publishing</li>
+            <li>0 developer needed for updates</li>
+          </ul>
+        </section>
+        <section>
+          <h2>SEO Optimization</h2>
+          <p>Built to be found from the very first line of code.</p>
+          <p>We build every site with SEO fundamentals in place, including keyword-informed content structure, technical audits, and on-page optimization.</p>
+          <ul>
+            <li>68% of online experiences start with search</li>
+            <li>14× more traffic from organic vs paid</li>
+            <li>27% of clicks go to the #1 result</li>
+          </ul>
+        </section>
+        <section>
+          <h2>Performance Optimization</h2>
+          <p>Every second counts — and so does every millisecond.</p>
+          <p>We audit and optimize every layer of your site's performance: image compression, code minification, lazy loading, caching strategies, CDN configuration, and Core Web Vitals.</p>
+          <ul>
+            <li>0.1s faster load = 8% lower bounce rate</li>
+            <li>32% more conversions with fast sites</li>
+            <li>Top 3 Core Web Vitals = ranking boost</li>
+          </ul>
+        </section>
+        <section>
+          <h2>Our Web Development Process</h2>
+          <ul>
+            <li><strong>Discovery & Planning</strong> — We learn about your business, goals, and audience to create a strategic plan.</li>
+            <li><strong>Design & Prototyping</strong> — We create wireframes and visual designs that bring your brand to life.</li>
+            <li><strong>Development & Testing</strong> — Our developers build your site with clean, efficient code.</li>
+            <li><strong>Launch & Support</strong> — We deploy your site and provide ongoing support and optimization.</li>
+          </ul>
+        </section>
+        <section>
+          <h2>Technologies We Use</h2>
+          <ul>
+            <li>React</li>
+            <li>Vue.js</li>
+            <li>Node.js</li>
+            <li>WordPress</li>
+            <li>WooCommerce</li>
+            <li>Shopify</li>
+            <li>Figma</li>
+            <li>Adobe XD</li>
+          </ul>
+        </section>
+      `;
+      break;
+
+    case '/outbound':
+      additionalContent = `
+        <section>
+          <h2>Email Marketing</h2>
+          <p>Where real relationships are built.</p>
+          <p>We help you connect with your audience in a way that feels personal, not pushy. We craft emails that sound like they came from a real person — because that's what people respond to.</p>
+          <ul>
+            <li>99% of consumers check email daily</li>
+            <li>$42 avg. ROI per $1 spent</li>
+            <li>3× higher conversion vs social</li>
+          </ul>
+        </section>
+        <section>
+          <h2>SMS Marketing</h2>
+          <p>Instant. Personal. Impossible to ignore.</p>
+          <p>SMS cuts through the noise with a 98% open rate. We craft concise, compelling text campaigns that feel human, not robotic.</p>
+          <ul>
+            <li>98% SMS open rate</li>
+            <li>3 min avg. time to open</li>
+            <li>45% avg. response rate</li>
+          </ul>
+        </section>
+        <section>
+          <h2>Push Notifications</h2>
+          <p>Bring them back — at exactly the right moment.</p>
+          <p>We design web and mobile push campaigns that are timely, relevant, and never spammy, using segmentation and automation.</p>
+          <ul>
+            <li>4× higher engagement vs email</li>
+            <li>40% opt-in rate (web)</li>
+            <li>2× return visit rate</li>
+          </ul>
+        </section>
+        <section>
+          <h2>Lead Generation</h2>
+          <p>Find your next customer before they find your competitor.</p>
+          <p>We build multi-channel lead generation campaigns that identify, attract, and qualify the people most likely to buy from you.</p>
+          <ul>
+            <li>3× more qualified leads</li>
+            <li>60% lower cost per lead</li>
+            <li>80% of leads need 5+ touchpoints</li>
+          </ul>
+        </section>
+        <section>
+          <h2>Marketing Automation & Workflows</h2>
+          <p>Work smarter — let your marketing run while you sleep.</p>
+          <p>We build automated workflows that keep your audience moving through the funnel 24/7, triggered by real behavior.</p>
+          <ul>
+            <li>451% increase in qualified leads</li>
+            <li>14hrs saved per week on average</li>
+            <li>77% of companies see conversions rise</li>
+          </ul>
+        </section>
+        <section>
+          <h2>Deliverability & Sender Reputation</h2>
+          <p>Your message is only powerful if it actually arrives.</p>
+          <p>We audit your sending infrastructure, clean your lists, set up proper authentication (SPF, DKIM, DMARC), and monitor your sender reputation.</p>
+          <ul>
+            <li>97%+ inbox placement rate</li>
+            <li>100% SPF / DKIM / DMARC coverage</li>
+            <li>&lt;0.1% target spam complaint rate</li>
+          </ul>
+        </section>
+        <section>
+          <h2>Our Outbound Process</h2>
+          <ul>
+            <li><strong>Strategy Development</strong> — We analyze your audience, goals, and market to create a customized strategy.</li>
+            <li><strong>Campaign Creation</strong> — Our team crafts compelling messages and sets up campaign infrastructure.</li>
+            <li><strong>Launch & Monitor</strong> — We launch your campaign and monitor performance in real-time.</li>
+            <li><strong>Analyze & Optimize</strong> — Deep dive into analytics to optimize future campaigns.</li>
+          </ul>
+        </section>
+      `;
+      break;
+
+    case '/portfolio':
+      additionalContent = `
+        <section>
+          <h2>Case Studies</h2>
+          <ul>
+            <li><strong>Email Marketing</strong> — Rebuilt a dead email program from 12% to 38% open rates. +$420K incremental revenue for a national fashion retailer.</li>
+            <li><strong>Lifecycle Marketing</strong> — Reduced churn by 34% with a smarter onboarding sequence. 67% trial-to-paid rate for a B2B SaaS platform.</li>
+            <li><strong>Deliverability</strong> — Rescued a blacklisted domain, restored inbox placement from 22% to 96% in 8 weeks.</li>
+            <li><strong>SMS & Push</strong> — Built an SMS loyalty program driving $2.1M in attributable revenue.</li>
+            <li><strong>Branding</strong> — Complete rebrand that increased qualified lead volume by 58%.</li>
+            <li><strong>Customer Acquisition</strong> — Scaled Google + Meta spend from $10K to $85K/month while maintaining 2.4x ROAS.</li>
+            <li><strong>Web Development</strong> — New site drove 3x more demo requests in 30 days with 98/100 Core Web Vitals.</li>
+            <li><strong>Retention</strong> — Win-back campaign recovered 18% of churned subscribers at $340 average recovered LTV.</li>
+          </ul>
+        </section>
+        <section>
+          <h2>Our Results</h2>
+          <ul>
+            <li>500+ Campaigns Launched</li>
+            <li>$10M+ Revenue Generated</li>
+            <li>98% Client Retention Rate</li>
+            <li>25+ Years Combined Experience</li>
+          </ul>
+        </section>
+      `;
+      break;
+
+    case '/work':
+      additionalContent = `
+        <section>
+          <h2>Website Design & Development Projects</h2>
+          <ul>
+            <li><strong>Partizan Hoops</strong> — Full-stack youth basketball platform with custom CMS</li>
+            <li><strong>Bothell Select Basketball</strong> — React platform with tournament management</li>
+            <li><strong>Oregon Rule Co.</strong> — WooCommerce to Shopify migration with 2,000+ SKUs</li>
+            <li><strong>Nelson Cabinetry</strong> — WordPress WooCommerce with 150,000+ cabinets sold</li>
+            <li><strong>Classmates.com</strong> — UI/UX revamp for 40M+ active subscribers</li>
+            <li><strong>Intelius</strong> — UI/UX revamp for 40M+ subscribers</li>
+          </ul>
+        </section>
+        <section>
+          <h2>Logo Design Projects</h2>
+          <ul>
+            <li>Partizan Hoops — Bold orange sports identity</li>
+            <li>Vector RE Corp — Architectural mark for commercial real estate developer</li>
+            <li>Live Love Flow Studios — Brand for boutique hot yoga studio in Seattle</li>
+            <li>Seattle Platinum Limo — Premium identity for luxury transport service</li>
+          </ul>
+        </section>
+      `;
+      break;
+
+    default:
+      additionalContent = '';
+  }
+
+  return additionalContent;
+};
+
 // ── Route config ─────────────────────────────────────────────────────────────
 const ROUTES = [
   {
@@ -151,10 +378,12 @@ const ROUTES = [
       <section>
         <h2>Web Development Services</h2>
         <ul>
-          <li><strong>Custom Website Design</strong> — Unique designs tailored to your brand and business goals.</li>
+          <li><strong>Custom Web Design</strong> — Unique designs tailored to your brand and business goals.</li>
+          <li><strong>Responsive Development</strong> — Websites that work perfectly on all devices.</li>
+          <li><strong>E-Commerce Solutions</strong> — Online stores built to sell, scale, and convert.</li>
+          <li><strong>CMS Integration</strong> — Easy-to-use content management systems.</li>
           <li><strong>SEO Optimization</strong> — Built for search from the ground up.</li>
-          <li><strong>Conversion Rate Optimization</strong> — User flows designed to turn visitors into customers.</li>
-          <li><strong>E-commerce Development</strong> — Online stores built to sell, scale, and convert.</li>
+          <li><strong>Performance Optimization</strong> — Fast-loading, optimized code.</li>
         </ul>
       </section>
     `,
@@ -253,40 +482,7 @@ const ROUTES = [
     h1: 'Results that speak for themselves',
     intro:
       'Real campaigns. Real clients. Real numbers. No vanity metrics — just the outcomes that actually matter to your business.',
-    bodyContent: `
-      <section>
-        <h2>Case Studies</h2>
-        <ul>
-          <li><strong>Email Marketing</strong> — Rebuilt a dead email program from 12% to 38% open rates. +$420K incremental revenue for a national fashion retailer.</li>
-          <li><strong>Lifecycle Marketing</strong> — Reduced churn by 34% with a smarter onboarding sequence. 67% trial-to-paid rate for a B2B SaaS platform.</li>
-          <li><strong>Deliverability</strong> — Rescued a blacklisted domain, restored inbox placement from 22% to 96% in 8 weeks. 4 blacklists cleared.</li>
-          <li><strong>SMS & Push</strong> — Built an SMS loyalty program driving $2.1M in attributable revenue. 41K subscribers in 90 days at 8.4% CTR.</li>
-          <li><strong>Branding</strong> — Complete rebrand that increased qualified lead volume by 58% for a professional services firm.</li>
-          <li><strong>Customer Acquisition</strong> — Scaled Google + Meta spend from $10K to $85K/month while maintaining 2.4x ROAS. 62% lower CPA.</li>
-          <li><strong>Web Development</strong> — New site drove 3x more demo requests in 30 days. Core Web Vitals score 98/100 at 1.8s page load.</li>
-          <li><strong>Retention</strong> — Win-back campaign recovered 18% of churned subscribers at $340 average recovered LTV.</li>
-        </ul>
-      </section>
-      <section>
-        <h2>Our Results</h2>
-        <ul>
-          <li>500+ Campaigns Launched</li>
-          <li>$10M+ Revenue Generated</li>
-          <li>98% Client Retention Rate</li>
-          <li>25+ Years Combined Experience</li>
-        </ul>
-      </section>
-      <section>
-        <h2>How We Work</h2>
-        <ol>
-          <li><strong>Audit &amp; Diagnose</strong> — Understand exactly where you are, what's working, and what the biggest opportunities are.</li>
-          <li><strong>Strategy &amp; Planning</strong> — Custom plan with clear milestones, channel priorities, and measurable goals.</li>
-          <li><strong>Execute &amp; Test</strong> — Move fast, test everything, iterate based on real data.</li>
-          <li><strong>Measure &amp; Scale</strong> — Scale what works and report on the metrics that actually matter.</li>
-        </ol>
-      </section>
-    `,
-    clientOnly: true,
+    bodyContent: ``,
   },
   {
     path: '/work',
@@ -297,87 +493,7 @@ const ROUTES = [
     h1: 'Designed to make an impression',
     intro:
       'Websites, logos, brand identities, print collateral and email templates — built with intention and crafted for impact.',
-    bodyContent: `
-      <section>
-        <h2>Website Design &amp; Development</h2>
-        <p>Custom websites for businesses across the Pacific Northwest — React platforms, WordPress builds, Shopify migrations, and enterprise UI/UX at scale.</p>
-        <ul>
-          <li><strong>Partizan Hoops</strong> — Full-stack youth basketball platform with custom CMS, parent registration portal, and tournament management</li>
-          <li><strong>Bothell Select Basketball</strong> — React platform with tournament management, team registration, and event listings</li>
-          <li><strong>InvestWorkshop</strong> — Real estate investment education platform with Teachable integration, live events, and Zoom scheduling</li>
-          <li><strong>Oregon Rule Co.</strong> — WooCommerce to Shopify migration for a 40-year-old precision measurement manufacturer with 2,000+ SKUs. Clients include Boeing, Tesla, Nike, and GE Healthcare.</li>
-          <li><strong>Alchemy of Yoga</strong> — WordPress site for a Yoga Alliance RYS 200 school with 39 graduating classes and students from 25+ countries</li>
-          <li><strong>Nelson Cabinetry</strong> — WordPress WooCommerce platform with 150,000+ cabinets sold, 5 distribution centers, and retail partnerships with Wayfair and AllModern</li>
-          <li><strong>Cabinets.Deals</strong> — Custom e-commerce platform for a dealer-exclusive RTA cabinet company in Houston, TX</li>
-          <li><strong>Classmates.com</strong> — UI/UX revamp and A/B testing for a subscription platform with 40M+ active subscribers</li>
-          <li><strong>Intelius</strong> — UI/UX revamp, component system, and corporate blog for a people search platform with 40M+ subscribers</li>
-          <li><strong>TSI Inc.</strong> — WordPress site for an industrial machinery company (Lynnwood, WA) serving OSB and wood pellet manufacturers worldwide since 1992</li>
-          <li><strong>Schippers &amp; Crew</strong> — WordPress site for a 35+ year Seattle electronics manufacturer certified ISO 9001, AS9100, ISO 13485 &amp; ITAR</li>
-          <li><strong>Alpha Construction</strong> — WordPress site and branding for a Greater Seattle custom home builder. Commercial clients include Nike Town Seattle and Old Navy.</li>
-          <li><strong>Nova-Tech Engineering</strong> — WordPress site for a Lynnwood aerospace automation company building 787 assembly systems for Boeing and Northrop Grumman</li>
-          <li><strong>GraphiCode Inc.</strong> — Website for a Redmond, WA CAM software company with the GC-PowerPlatform suite for electronics manufacturing</li>
-          <li><strong>Dominis Stone</strong> — Website for Seattle's and Boise's countertop destination with Cambria brand integration and two locations</li>
-          <li><strong>Meraka</strong> — WordPress website for a Washington State real estate investment and property management company</li>
-          <li><strong>DCM Contractors</strong> — WordPress site for a specialty dental, medical, and commercial general contractor in Greater Seattle</li>
-          <li><strong>Seattle Platinum Limo</strong> — Panoramic horizontal-scroll WordPress site for Seattle's premier luxury limo service. Trusted by Microsoft, Boeing, Google, and Apple.</li>
-          <li><strong>Vector RE Corp</strong> — WordPress site for a Kirkland commercial real estate developer with 325,000+ sqft industrial logistics projects</li>
-          <li><strong>Simply Sweet</strong> — WordPress site for a beloved Snohomish artisan bakery, Snohomish Wedding Guild member</li>
-          <li><strong>Live Love Flow Studios</strong> — WordPress site with MindBody integration for a boutique hot yoga studio in Green Lake, Seattle</li>
-        </ul>
-      </section>
-      <section>
-        <h2>Logo Design</h2>
-        <p>Professional logo design for businesses across Seattle, Bellevue, Kirkland, Bothell, Snohomish, and the greater Pacific Northwest.</p>
-        <ul>
-          <li>Partizan Hoops — Bold orange sports identity for a K-12 AAU basketball program</li>
-          <li>Bothell Select Basketball — Professional mark for a Boys &amp; Girls grades 4–8 AAU program</li>
-          <li>Vector RE Corp — Architectural mark for a Kirkland commercial real estate developer</li>
-          <li>Live Love Flow Studios — White/blue mark for a boutique hot yoga studio in Green Lake, Seattle</li>
-          <li>Seattle Platinum Limo — Premium dark identity for a luxury chauffeured transport service</li>
-          <li>Muki Construction — Two-color roofline mark for a Seattle tile &amp; stone contractor</li>
-          <li>AM Ruyle LLC — Bold AM monogram on diamond-plate for a Seattle general contractor</li>
-          <li>DCM Contractors — Professional mark for a dental, medical, and commercial general contractor</li>
-          <li>Dominis Stone — Swirl calligraphic monogram for a premium natural stone company</li>
-          <li>Maurer Mechanical — Spiral S mark for a Heating &amp; Air Conditioning company</li>
-          <li>Puget Sound Painting Contractors — Illustrated paint roller mark in blue and red</li>
-          <li>Scout For Athletes — SA circle monogram for a social network for athletes</li>
-          <li>Rain Nightclub — Illustrated umbrella mark for a Seattle nightclub</li>
-          <li>Ariana's Closet — Script logotype with fashion silhouette for a women's boutique</li>
-          <li>Snohomish Learning Tree Preschool — Colorful illustrated alphabet tree logo</li>
-        </ul>
-      </section>
-      <section>
-        <h2>Brand Identity &amp; Collateral</h2>
-        <ul>
-          <li>Live Love Flow Studios — Event flyers, social media graphics, business cards, and indoor/outdoor signage</li>
-          <li>Partizan Hoops — Platform branding, tournament materials, jersey application, and coach collateral</li>
-          <li>Vector RE Corp — Property marketing flyers, project one-pagers, and investor-grade materials for 231,924+ sqft commercial projects</li>
-          <li>Asha Women's Spa &amp; Boutique — Logo, trifold brochure, service menu/rack card, and business cards</li>
-          <li>AM Ruyle LLC — Business cards for two principals (President and Project Superintendent), diamond-plate brand system</li>
-          <li>Muki Construction — Work van livery, business cards, and hanging display</li>
-          <li>Alpha Construction — Bold orange brand identity for a residential and commercial home builder</li>
-          <li>Ruby The Pet Nanny — Hand-sketched logo, yellow business cards, and full website brand application</li>
-        </ul>
-      </section>
-      <section>
-        <h2>Print Design</h2>
-        <ul>
-          <li>Dominis Stone — Premium trifold brochure with Pavers, Flooring, and Surrounds product grids</li>
-          <li>Schippers &amp; Crew — Three-panel retractable trade show banner suite for aerospace, medical, and industrial sectors</li>
-          <li>Northville Cabinetry — Rush trade show flyer and brochure delivered in 24 hours for BuildExpo Dallas (Booth B #808)</li>
-          <li>Sarajevo Lounge — Nightclub event flyer suite (Greek Nite, Balkan Night, Euro Saturdays) and full-scale poster</li>
-          <li>GraphiCode Inc. — Software box packaging, CD disc design, and GC-PowerPlatform product data sheets</li>
-        </ul>
-      </section>
-      <section>
-        <h2>Email Design</h2>
-        <ul>
-          <li>Classmates.com — Component-based HTML email template system for a 40M+ subscriber platform</li>
-          <li>Zulily — Mother's Day campaign series, mobile app UI concepts, and email newsletter template system</li>
-        </ul>
-      </section>
-    `,
-    clientOnly: true,
+    bodyContent: ``,
   },
   {
     path: '/privacy',
@@ -466,16 +582,17 @@ ROUTES.forEach((route) => {
     `<meta name="twitter:description" content="${route.description}" />`,
   );
 
+  // ── Get route-specific rich content ────────────────────────────────────────
+  const routeSpecificContent = getRouteSeoContent(route);
+
   // ── SEO content: inject OUTSIDE #root so React never touches it ────────────
   // Visually hidden from users, fully readable by crawlers.
-  // React mounts into #root cleanly — no hydration mismatch, no content flash.
-  // clientOnly flag no longer blocks injection — it only prevents #root injection
-  // (which we stopped doing entirely). All routes get the hidden crawler div.
   const crawlerContent = `
   <div aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;left:-9999px">
     <h1>${route.h1}</h1>
     <p>${route.intro}</p>
     ${route.bodyContent}
+    ${routeSpecificContent}
     <nav>
       <a href="/">Home</a>
       <a href="/services">Services</a>
@@ -483,6 +600,8 @@ ROUTES.forEach((route) => {
       <a href="/contact">Contact</a>
       <a href="/work">Work</a>
       <a href="/portfolio">Portfolio</a>
+      <a href="/outbound">Outbound</a>
+      <a href="/web-development">Web Development</a>
     </nav>
   </div>`;
 

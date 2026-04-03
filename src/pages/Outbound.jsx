@@ -68,6 +68,36 @@ const channelDetails = {
       { icon: '🤝', stat: '80%', label: 'of leads need 5+ touchpoints' },
     ],
   },
+  'Marketing Automation & Workflows': {
+    icon: '/images/i_automation.png',
+    headline: 'Marketing Automation & Workflows',
+    subheadline: 'Work smarter — let your marketing run while you sleep.',
+    body: [
+      "The best marketing doesn't stop when you log off. We build automated workflows that keep your audience moving through the funnel 24/7 — without you lifting a finger.",
+      'From welcome sequences and lead nurture flows to post-purchase follow-ups and re-engagement campaigns, we map out every touchpoint and automate it with precision. Each step is triggered by real behavior — a click, a visit, a form fill — so the right message always arrives at the right time.',
+      'We work with the tools you already use — or help you choose the right platform — and build workflows that are clean, logical, and easy for your team to manage and scale.',
+    ],
+    highlights: [
+      { icon: '⚙️', stat: '451%', label: 'increase in qualified leads' },
+      { icon: '🕐', stat: '14hrs', label: 'saved per week on average' },
+      { icon: '📈', stat: '77%', label: 'of companies see conversions rise' },
+    ],
+  },
+  'Deliverability & Sender Reputation': {
+    icon: '/images/i_senderReputation.png',
+    headline: 'Deliverability & Sender Reputation',
+    subheadline: 'Your message is only powerful if it actually arrives.',
+    body: [
+      "You can write the perfect email — but if it lands in spam, none of it matters. Deliverability is the foundation everything else is built on, and it's one of the most overlooked parts of outbound marketing.",
+      'We audit your sending infrastructure, clean your lists, set up proper authentication (SPF, DKIM, DMARC), and monitor your sender reputation so your emails consistently land in the inbox — not the junk folder.',
+      "Whether you're starting fresh or recovering from deliverability issues, we put the right technical foundations in place and keep a close eye on the metrics that matter: bounce rates, spam complaints, inbox placement, and domain health.",
+    ],
+    highlights: [
+      { icon: '📬', stat: '97%+', label: 'inbox placement rate' },
+      { icon: '🛡️', stat: '100%', label: 'SPF / DKIM / DMARC coverage' },
+      { icon: '📉', stat: '<0.1%', label: 'target spam complaint rate' },
+    ],
+  },
 };
 
 const Outbound = () => {
@@ -117,6 +147,18 @@ const Outbound = () => {
       title: 'Lead Generation',
       description:
         'Multi-channel lead generation campaigns that identify and qualify potential customers.',
+    },
+    {
+      icon: '/images/i_automation.png',
+      title: 'Marketing Automation & Workflows',
+      description:
+        'Smart automated workflows that nurture leads, trigger perfectly timed messages, and keep your funnel moving around the clock.',
+    },
+    {
+      icon: '/images/i_senderReputation.png',
+      title: 'Deliverability & Sender Reputation',
+      description:
+        'Technical foundations — authentication, list hygiene, and reputation monitoring — that ensure your emails actually reach the inbox.',
     },
   ];
 
@@ -377,7 +419,7 @@ const Outbound = () => {
             </div>
           </motion.div>
 
-          <motion.div
+          {/* <motion.div
             className='features-image'
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -387,7 +429,7 @@ const Outbound = () => {
               src='/images/outboundMarketing.png'
               alt='Drive Real Results with Outbound Marketing'
             />
-          </motion.div>
+          </motion.div> */}
         </div>
       </section>
 
