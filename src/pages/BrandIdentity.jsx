@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { useState, useEffect, useCallback } from 'react';
+import BrandProcessAnimation from './BrandProcessAnimation';
 import './BrandIdentity.css';
 
 // ─── Modal content for Services — in DOM at all times for SEO crawlability ───
@@ -486,6 +487,8 @@ const BrandIdentity = () => {
               </motion.div>
             ))}
           </div>
+
+          <BrandProcessAnimation />
         </div>
       </section>
 

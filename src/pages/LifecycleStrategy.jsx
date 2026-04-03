@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { useState, useEffect, useCallback } from 'react';
+import LifecycleProcessAnimation from './LifecycleProcessAnimation';
 import './LifecycleStrategy.css';
 
 // ─── Modal content — in DOM at all times for SEO crawlability ───
@@ -369,14 +370,7 @@ const LifecycleStrategy = () => {
           </motion.div>
         </motion.div>
 
-        <motion.div
-          className='lifecycle-hero-image'
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-        >
-          <img src='/images/i_lifecycle.png' alt='Lifecycle Strategy' />
-        </motion.div>
+        <LifecycleProcessAnimation />
       </section>
 
       {/* Stats Section */}
@@ -554,6 +548,8 @@ const LifecycleStrategy = () => {
               </motion.div>
             ))}
           </div>
+
+          {/* <LifecycleProcessAnimation /> */}
         </div>
       </section>
 
