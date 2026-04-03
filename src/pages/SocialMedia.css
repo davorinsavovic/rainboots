@@ -83,7 +83,7 @@
 /* ===== PLATFORMS SECTION ===== */
 .platforms-section-social {
   padding: 6rem 5%;
-  background: var(--light) !important;
+  background: var(--light);
   position: relative;
   z-index: 10;
 }
@@ -162,6 +162,220 @@
   font-size: 0.95rem;
 }
 
+/* ===== CLICKABLE CARD STYLES ===== */
+.platform-card--clickable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.platform-card--clickable:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 4px;
+}
+
+.platform-card-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--primary);
+  opacity: 0.6;
+  transition:
+    opacity 0.2s ease,
+    gap 0.2s ease;
+}
+
+.platform-card--clickable:hover .platform-card-cta {
+  opacity: 1;
+}
+
+.platform-card-arrow {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.platform-card--clickable:hover .platform-card-arrow {
+  transform: translateX(5px);
+}
+
+/* ===== SEO HIDDEN CONTENT STORE ===== */
+.seo-content-store {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* ===== MODAL STYLES ===== */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 1rem;
+}
+
+.channel-modal {
+  background: white;
+  border-radius: 24px;
+  max-width: 700px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  padding: 2rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* Custom scrollbar for modal */
+.channel-modal::-webkit-scrollbar {
+  width: 8px;
+}
+
+.channel-modal::-webkit-scrollbar-track {
+  background: var(--light);
+  border-radius: 4px;
+}
+
+.channel-modal::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 4px;
+}
+
+.channel-modal::-webkit-scrollbar-thumb:hover {
+  background: var(--splash);
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(0, 0, 0, 0.1);
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  color: var(--dark);
+  z-index: 10;
+}
+
+.modal-close:hover {
+  background: rgba(0, 0, 0, 0.2);
+  transform: scale(1.05);
+}
+
+.modal-header {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.modal-icon {
+  flex-shrink: 0;
+}
+
+.modal-icon img {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+}
+
+.modal-header h2 {
+  font-family: 'Manrope', sans-serif;
+  font-size: 1.8rem;
+  color: var(--dark);
+  margin-bottom: 0.5rem;
+}
+
+.modal-subheadline {
+  font-size: 1rem;
+  color: var(--primary);
+  font-weight: 500;
+}
+
+.modal-highlights {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  background: var(--light);
+  padding: 1.5rem;
+  border-radius: 16px;
+  margin: 1.5rem 0;
+}
+
+.modal-highlight-item {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.modal-highlight-emoji {
+  font-size: 2rem;
+}
+
+.modal-highlight-item strong {
+  font-size: 1.5rem;
+  color: var(--primary);
+}
+
+.modal-highlight-item span {
+  font-size: 0.8rem;
+  color: var(--text);
+}
+
+.modal-body {
+  margin: 1.5rem 0;
+}
+
+.modal-body p {
+  color: var(--text);
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+
+.modal-footer {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.modal-footer .btn-primary {
+  display: inline-block;
+  background: var(--primary);
+  color: white;
+  padding: 0.875rem 2rem;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.modal-footer .btn-primary:hover {
+  background: var(--splash);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
 /* ===== SERVICES SECTION ===== */
 .social-services {
   padding: 6rem 5%;
@@ -174,13 +388,13 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 2rem;
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
 .social-services .service-card {
   background: var(--light);
-  padding: 2.5rem 2rem;
+  padding: 2rem;
   border-radius: 20px;
   text-align: center;
   transition: all 0.3s ease;
@@ -190,43 +404,40 @@
 
 .social-services .service-card:hover {
   border-color: var(--primary);
-  box-shadow: 0 20px 40px rgba(43, 92, 230, 0.15);
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(43, 92, 230, 0.1);
 }
 
 .social-services .service-icon {
-  width: 80px;
-  height: 80px;
-  margin: 0 auto 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 1rem;
 }
 
 .social-services .service-icon img {
-  width: 80px;
-  height: 80px;
+  width: 70px;
+  height: 70px;
   object-fit: contain;
 }
 
 .social-services .service-card h3 {
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   color: var(--dark);
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
   font-weight: 600;
 }
 
 .social-services .service-card p {
   color: var(--text);
-  line-height: 1.7;
+  line-height: 1.6;
   font-weight: 300;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
 }
 
 /* ===== BENEFITS SECTION ===== */
 .benefits-section-social {
   padding: 6rem 5%;
-  background: var(--light) !important;
+  background: var(--light);
   position: relative;
   z-index: 10;
 }
@@ -238,7 +449,7 @@
 
 .benefits-content {
   text-align: center;
-  margin-bottom: 4rem;
+  margin-bottom: 3rem;
 }
 
 .benefits-content .section-tag {
@@ -248,7 +459,7 @@
   padding: 0.5rem 1.5rem;
   border-radius: 50px;
   font-weight: 600;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   font-size: 0.9rem;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -293,9 +504,9 @@
 }
 
 .benefit-card h3 {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   color: var(--dark);
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
   font-weight: 600;
 }
 
@@ -303,7 +514,7 @@
   color: var(--text);
   font-weight: 300;
   line-height: 1.6;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
 }
 
 /* ===== PROCESS SECTION ===== */
@@ -331,7 +542,7 @@
   padding: 0.5rem 1.5rem;
   border-radius: 50px;
   font-weight: 600;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   font-size: 0.9rem;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -354,13 +565,11 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
 }
 
 .social-process .process-step {
   background: var(--light);
-  padding: 2.5rem 2rem;
+  padding: 2rem;
   border-radius: 20px;
   text-align: center;
   transition: all 0.3s ease;
@@ -379,21 +588,21 @@
   font-weight: 700;
   color: var(--primary);
   opacity: 0.3;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .social-process .process-step h3 {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   color: var(--dark);
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
   font-weight: 600;
 }
 
 .social-process .process-step p {
   color: var(--text);
   font-weight: 300;
-  line-height: 1.7;
-  font-size: 0.95rem;
+  line-height: 1.6;
+  font-size: 0.9rem;
 }
 
 /* ===== CTA SECTION ===== */
@@ -483,9 +692,7 @@
     font-size: 1.1rem;
   }
 
-  .platforms-grid,
-  .social-services .services-grid,
-  .benefits-grid {
+  .platforms-grid {
     gap: 1.5rem;
   }
 }
@@ -552,16 +759,26 @@
   .social-cta h2 {
     font-size: 2.5rem;
   }
+
+  /* Modal tablet adjustments */
+  .channel-modal {
+    max-width: 90%;
+    padding: 1.75rem;
+  }
+
+  .modal-header h2 {
+    font-size: 1.6rem;
+  }
 }
 
-/* Mobile Breakpoint - Major improvements */
+/* Mobile Breakpoint */
 @media (max-width: 800px) {
   /* Push content down below fixed header */
   .social-page {
     padding-top: 70px;
   }
 
-  /* Hero Section - Mobile (hide image) */
+  /* Hero Section - Mobile */
   .social-hero {
     grid-template-columns: 1fr;
     text-align: center;
@@ -665,31 +882,11 @@
 
   .social-services .services-grid {
     grid-template-columns: 1fr !important;
-    gap: 1.2rem;
+    gap: 1rem;
   }
 
   .social-services .service-card {
     padding: 1.5rem;
-  }
-
-  .social-services .service-icon {
-    width: 60px;
-    height: 60px;
-    margin-bottom: 1rem;
-  }
-
-  .social-services .service-icon img {
-    width: 60px;
-    height: 60px;
-  }
-
-  .social-services .service-card h3 {
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .social-services .service-card p {
-    font-size: 0.9rem;
   }
 
   /* Benefits Section - Mobile */
@@ -699,10 +896,6 @@
 
   .benefits-content {
     margin-bottom: 2rem;
-  }
-
-  .benefits-content .section-tag {
-    margin-bottom: 1rem;
   }
 
   .benefits-content h2 {
@@ -719,16 +912,7 @@
   }
 
   .benefit-card {
-    padding: 1.5rem;
-  }
-
-  .benefit-card h3 {
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .benefit-card p {
-    font-size: 0.9rem;
+    padding: 1.25rem;
   }
 
   /* Process Section - Mobile */
@@ -738,10 +922,6 @@
 
   .process-header {
     margin-bottom: 2rem;
-  }
-
-  .process-header .section-tag {
-    margin-bottom: 1rem;
   }
 
   .process-header h2 {
@@ -763,16 +943,6 @@
 
   .step-number {
     font-size: 2rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .social-process .process-step h3 {
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .social-process .process-step p {
-    font-size: 0.9rem;
   }
 
   /* CTA Section - Mobile */
@@ -795,6 +965,39 @@
     padding: 1rem 2rem;
     font-size: 1rem;
   }
+
+  /* Modal mobile adjustments */
+  .channel-modal {
+    padding: 1.5rem;
+    max-height: 85vh;
+  }
+
+  .modal-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .modal-highlights {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .modal-highlight-item {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .modal-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .modal-icon img {
+    width: 55px;
+    height: 55px;
+  }
 }
 
 /* Extra Small Devices */
@@ -813,7 +1016,6 @@
 
   .social-hero p {
     font-size: 0.95rem !important;
-    padding: 0 0.25rem;
   }
 
   .social-stats {
@@ -822,10 +1024,6 @@
 
   .social-stats .stat-item h3 {
     font-size: 2.2rem !important;
-  }
-
-  .social-stats .stat-item p {
-    font-size: 0.9rem;
   }
 
   .platforms-section-social {
@@ -854,20 +1052,6 @@
     padding: 2rem 0.75rem !important;
   }
 
-  .social-services .service-card {
-    padding: 1.2rem;
-  }
-
-  .social-services .service-icon {
-    width: 50px;
-    height: 50px;
-  }
-
-  .social-services .service-icon img {
-    width: 50px;
-    height: 50px;
-  }
-
   .benefits-section-social {
     padding: 2rem 0.75rem !important;
   }
@@ -876,20 +1060,12 @@
     font-size: 1.8rem !important;
   }
 
-  .benefit-card {
-    padding: 1.2rem;
-  }
-
   .social-process {
     padding: 2rem 0.75rem !important;
   }
 
   .process-header h2 {
     font-size: 1.8rem !important;
-  }
-
-  .social-process .process-step {
-    padding: 1.2rem;
   }
 
   .social-cta {
@@ -925,10 +1101,6 @@
 
   .section-header h2 {
     font-size: 1.6rem !important;
-  }
-
-  .section-header p {
-    font-size: 0.9rem !important;
   }
 
   .benefits-content h2 {
@@ -977,20 +1149,6 @@
 
   .social-cta h2 {
     font-size: 1.5rem !important;
-  }
-
-  .platform-card h3,
-  .social-services .service-card h3,
-  .benefit-card h3,
-  .social-process .process-step h3 {
-    font-size: 1.1rem;
-  }
-
-  .platform-card p,
-  .social-services .service-card p,
-  .benefit-card p,
-  .social-process .process-step p {
-    font-size: 0.8rem;
   }
 }
 
@@ -1044,7 +1202,7 @@
   }
 
   .social-hero-image {
-    display: none; /* Keep hidden in landscape */
+    display: none;
   }
 
   .social-hero-content {
@@ -1080,12 +1238,5 @@
 @media (max-width: 700px) and (orientation: landscape) {
   .social-hero h1 {
     font-size: 1.8rem;
-  }
-
-  .platforms-grid,
-  .social-services .services-grid,
-  .benefits-grid,
-  .social-process .process-steps {
-    grid-template-columns: repeat(2, 1fr) !important;
   }
 }
