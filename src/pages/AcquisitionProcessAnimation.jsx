@@ -1,16 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
-import './LifecycleProcessAnimation.css';
+import './AcquisitionProcessAnimation.css';
 
-const LifecycleProcessAnimation = () => {
+const AcquisitionProcessAnimation = () => {
   const canvasRef = useRef(null);
   const animationRef = useRef(null);
   const particlesRef = useRef([]);
 
   const stages = [
-    { name: 'Audit & Analysis', icon: '🔍', step: '01' },
+    { name: 'Audience Research', icon: '🎯', step: '01' },
     { name: 'Strategy Development', icon: '📊', step: '02' },
-    { name: 'Implementation', icon: '⚙️', step: '03' },
-    { name: 'Optimization', icon: '📈', step: '04' },
+    { name: 'Campaign Launch', icon: '🚀', step: '03' },
+    { name: 'Monitor & Optimize', icon: '📈', step: '04' },
   ];
 
   useEffect(() => {
@@ -73,8 +73,8 @@ const LifecycleProcessAnimation = () => {
       ctx.stroke();
       ctx.setLineDash([]);
 
-      // Animated progress line (4 seconds per cycle)
-      const progress = (time % 4) / 4;
+      // Animated progress line
+      const progress = (time % 4) / 4; // 4 seconds per cycle
       const progressLength = progress * (positions.length - 1);
       const currentSegment = Math.floor(progressLength);
       const segmentProgress = progressLength - currentSegment;
@@ -159,10 +159,10 @@ const LifecycleProcessAnimation = () => {
   }, []);
 
   return (
-    <div className='lifecycle-process-animation'>
-      <canvas ref={canvasRef} className='lifecycle-canvas' />
+    <div className='acquisition-process-animation'>
+      <canvas ref={canvasRef} className='acquisition-canvas' />
     </div>
   );
 };
 
-export default LifecycleProcessAnimation;
+export default AcquisitionProcessAnimation;

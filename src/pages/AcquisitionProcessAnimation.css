@@ -1,10 +1,10 @@
-.lifecycle-process-animation {
+.acquisition-process-animation {
   width: 100%;
   border-radius: 24px;
   overflow: hidden;
 }
 
-.lifecycle-canvas {
+.acquisition-canvas {
   width: 100%;
   height: 200px;
   display: block;
@@ -12,19 +12,19 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-  .lifecycle-canvas {
+  .acquisition-canvas {
     height: 180px;
   }
 }
 
 @media (max-width: 600px) {
-  .lifecycle-canvas {
+  .acquisition-canvas {
     height: 160px;
   }
 }
 
 @media (max-width: 480px) {
-  .lifecycle-canvas {
+  .acquisition-canvas {
     height: 150px;
   }
 }

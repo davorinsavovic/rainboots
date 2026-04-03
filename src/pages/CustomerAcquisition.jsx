@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { useState, useEffect, useCallback } from 'react';
+import AcquisitionProcessAnimation from './AcquisitionProcessAnimation';
 import './CustomerAcquisition.css';
 
 // ─── Modal content — in DOM at all times for SEO crawlability ───
@@ -432,6 +433,7 @@ const CustomerAcquisition = () => {
               </motion.div>
             ))}
           </div>
+          {/* <AcquisitionProcessAnimation /> */}
         </div>
       </section>
 

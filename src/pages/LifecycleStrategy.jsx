@@ -370,7 +370,14 @@ const LifecycleStrategy = () => {
           </motion.div>
         </motion.div>
 
-        <LifecycleProcessAnimation />
+        <motion.div
+          className='lifecycle-hero-image'
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+        >
+          <img src='/images/i_lifecycle.png' alt='Lifecycle Strategy' />
+        </motion.div>
       </section>
 
       {/* Stats Section */}

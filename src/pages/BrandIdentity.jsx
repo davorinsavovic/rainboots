@@ -488,7 +488,7 @@ const BrandIdentity = () => {
             ))}
           </div>
 
-          <BrandProcessAnimation />
+          {/* <BrandProcessAnimation /> */}
         </div>
       </section>
 

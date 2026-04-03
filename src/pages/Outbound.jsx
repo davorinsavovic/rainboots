@@ -471,7 +471,7 @@ const Outbound = () => {
       </section>
 
       {/* Paper Plane Animation */}
-      <PaperPlane />
+      {/* <PaperPlane /> */}
 
       {/* CTA Section */}
       <section className='outbound-cta'>

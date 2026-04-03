@@ -252,7 +252,7 @@
 
 /* ===== PROCESS SECTION ===== */
 .process-section {
-  padding: 6rem 5% 0;
+  padding: 6rem 5%;
   background: var(--light);
   position: relative;
   z-index: 10;
